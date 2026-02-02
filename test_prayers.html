@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Cards Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div style="padding: 2rem; max-width: 1200px; margin: 0 auto;">
+        <h1 style="text-align: center; color: var(--primary-gold); margin-bottom: 2rem;">Prayer Cards Test</h1>
+        
+        <div class="prayer-controls" style="text-align: center; margin-bottom: 2rem;">
+            <button class="expand-all-btn" onclick="expandAllPrayers()">
+                <i class="fas fa-expand-alt"></i> Expand All
+            </button>
+            <button class="collapse-all-btn" onclick="collapseAllPrayers()">
+                <i class="fas fa-compress-alt"></i> Collapse All
+            </button>
+            <button class="btn btn-secondary" onclick="testPrayerCards()">
+                <i class="fas fa-bug"></i> Test Cards
+            </button>
+        </div>
+
+        <div class="card-grid">
+            <div class="card prayer-card">
+                <div class="prayer-header" onclick="togglePrayer(this)">
+                    <i class="fas fa-cross card-icon"></i>
+                    <h3>أبانا الذي في السماوات</h3>
+                    <p class="subtitle">The Lord's Prayer - Our Father</p>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="prayer-content">
+                    <p>الصلاة الربانية باللغة العربية</p>
+                    <p>The Lord's Prayer in Arabic</p>
+                    <div style="background: rgba(255,215,0,0.1); padding: 1rem; border-radius: 10px; margin: 1rem 0; border-right: 4px solid var(--primary-gold);">
+                        <p><strong>"أبانا الذي في السماوات، ليتقدس اسمك، ليأت ملكوتك، لتكن مشيئتك كما في السماء كذلك على الأرض. خبزنا كفاف يومنا أعطنا اليوم، واغفر لنا ذنوبنا كما نغفر نحن أيضاً للمذنبين إلينا، ولا تدخلنا في التجربة، لكن نجنا من الشرير. آمين."</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card prayer-card">
+                <div class="prayer-header" onclick="togglePrayer(this)">
+                    <i class="fas fa-heart card-icon"></i>
+                    <h3>صلاة القلب المقدس</h3>
+                    <p class="subtitle">Sacred Heart Prayer</p>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="prayer-content">
+                    <p>التكريس لقلب يسوع الأقدس</p>
+                    <p>Consecration to the Sacred Heart of Jesus</p>
+                    <div style="background: rgba(255,215,0,0.1); padding: 1rem; border-radius: 10px; margin: 1rem 0; border-right: 4px solid var(--primary-gold);">
+                        <p><strong>"يا قلب يسوع الأقدس، أؤمن بمحبتك لي. يا قلب يسوع الأقدس، أرجو فيك. يا قلب يسوع الأقدس، أحبك فوق كل شيء. يا قلب يسوع الأقدس، ارحمني أنا الخاطئ."</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card prayer-card">
+                <div class="prayer-header" onclick="togglePrayer(this)">
+                    <i class="fas fa-star card-icon"></i>
+                    <h3>السلام عليك يا مريم</h3>
+                    <p class="subtitle">Hail Mary - Ave Maria</p>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="prayer-content">
+                    <p>صلاة السلام الملائكي لسيدتنا مريم العذراء</p>
+                    <p>The Angelic Salutation to Our Lady</p>
+                    <div style="background: rgba(255,215,0,0.1); padding: 1rem; border-radius: 10px; margin: 1rem 0; border-right: 4px solid var(--primary-gold);">
+                        <p><strong>"السلام عليك يا مريم، يا ممتلئة نعمة، الرب معك، مباركة أنت في النساء، ومبارك ثمر بطنك يسوع. يا قديسة مريم والدة الله، صلي لأجلنا نحن الخطأة، الآن وفي ساعة موتنا. آمين."</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,215,0,0.1); border-radius: 10px;">
+            <h3>Test Instructions:</h3>
+            <ol>
+                <li>Click on any prayer header to expand/collapse</li>
+                <li>Use "Expand All" and "Collapse All" buttons</li>
+                <li>Click "Test Cards" to run diagnostics</li>
+                <li>Check browser console for debug information</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Additional test logging
+        console.log('🧪 Prayer Cards Test Page Loaded');
+        console.log('Available functions:', {
+            togglePrayer: typeof window.togglePrayer,
+            expandAllPrayers: typeof window.expandAllPrayers,
+            collapseAllPrayers: typeof window.collapseAllPrayers,
+            testPrayerCards: typeof window.testPrayerCards
+        });
+    </script>
+</body>
+</html>

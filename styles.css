@@ -1,0 +1,3426 @@
+/* PROFESSIONAL SOUL GUIDANCE WEBSITE STYLES */
+
+:root {
+    /* Color System */
+    --primary-gold: #FFD700;
+    --primary-gold-light: #FFF8DC;
+    --primary-gold-dark: #B8860B;
+    --primary-purple: #4B0082;
+    --primary-purple-deep: #2D1B4E;
+    --primary-blue: #191970;
+    --primary-white: #FFFFFF;
+    --primary-pearl: #FEFEFE;
+    --accent-cosmic: #7B68EE;
+    --accent-emerald: #50C878;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #4B0082 0%, #191970 25%, #2D1B4E 50%, #663399 75%, #4B0082 100%);
+    --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFF8DC 25%, #D4AF37 50%, #B8860B 75%, #FFD700 100%);
+    --gradient-divine: linear-gradient(135deg, #FFD700 0%, #FFFFFF 50%, #FFD700 100%);
+    
+    /* Shadows */
+    --shadow-enterprise: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    --shadow-professional: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
+    --shadow-glow: 0 0 40px rgba(255, 215, 0, 0.8);
+    --shadow-text: 2px 2px 6px rgba(0, 0, 0, 0.7);
+    
+    /* Responsive Spacing */
+    --space-xs: clamp(0.25rem, 1vw, 0.5rem);
+    --space-sm: clamp(0.5rem, 1.5vw, 1rem);
+    --space-md: clamp(0.75rem, 2vw, 1.5rem);
+    --space-lg: clamp(1rem, 2.5vw, 2rem);
+    --space-xl: clamp(1.5rem, 3vw, 3rem);
+    --space-2xl: clamp(2rem, 4vw, 4rem);
+    --space-3xl: clamp(2.5rem, 5vw, 5rem);
+    
+    /* Typography */
+    --text-xs: clamp(0.75rem, 1.5vw, 0.875rem);
+    --text-sm: clamp(0.875rem, 2vw, 1rem);
+    --text-base: clamp(1rem, 2.5vw, 1.125rem);
+    --text-lg: clamp(1.125rem, 3vw, 1.5rem);
+    --text-xl: clamp(1.5rem, 3.5vw, 2rem);
+    --text-2xl: clamp(1.75rem, 4vw, 2.5rem);
+    --text-3xl: clamp(2rem, 5vw, 3.5rem);
+    --text-4xl: clamp(2.5rem, 6vw, 4.5rem);
+    --text-5xl: clamp(3rem, 7vw, 6rem);
+}
+
+/* Reset and Base Styles */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Inter', 'Amiri', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.7;
+    background: var(--gradient-primary);
+    color: var(--primary-pearl);
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--primary-gold);
+    color: var(--primary-purple);
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 100000;
+    font-weight: bold;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+/* Navigation */
+.enterprise-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(75, 0, 130, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 3px solid var(--primary-gold);
+    padding: var(--space-sm) var(--space-md);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-professional);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--primary-gold);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    transition: all 0.3s ease;
+    text-shadow: var(--shadow-text);
+}
+
+.nav-logo:hover {
+    transform: scale(1.05);
+    text-shadow: var(--shadow-glow);
+}
+
+.nav-logo i {
+    font-size: var(--text-2xl);
+    animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+    0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.7); }
+    50% { text-shadow: 0 0 40px rgba(255, 215, 0, 1); }
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+    list-style: none;
+}
+
+.nav-link {
+    color: var(--primary-pearl);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-gold);
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.nav-link:hover::before {
+    left: 0;
+}
+
+.nav-link:hover {
+    color: var(--primary-purple);
+    transform: translateY(-2px);
+}
+
+.nav-toggle {
+    display: none;
+    background: var(--gradient-gold);
+    border: none;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: var(--text-lg);
+    color: var(--primary-purple);
+    transition: all 0.3s ease;
+}
+
+/* Hero Section */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-3xl) var(--space-md);
+    position: relative;
+    background: 
+        radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%),
+        linear-gradient(45deg, rgba(75, 0, 130, 0.1) 0%, rgba(25, 25, 112, 0.1) 100%);
+}
+
+.hero-content {
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.3);
+    border: 2px solid var(--primary-gold);
+    padding: var(--space-sm) var(--space-xl);
+    border-radius: 50px;
+    margin-bottom: var(--space-xl);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    animation: badgePulse 4s ease-in-out infinite;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-glow);
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(255, 215, 0, 0); }
+}
+
+.hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: var(--text-5xl);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: var(--space-xl);
+    animation: titleGlow 5s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.7));
+}
+
+.gradient-text {
+    background: var(--gradient-divine);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.gold-text {
+    color: var(--primary-gold);
+}
+
+@keyframes titleGlow {
+    0%, 100% { filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.7)); }
+    50% { filter: drop-shadow(0 0 60px rgba(255, 215, 0, 1)); }
+}
+
+.hero-subtitle {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-lg);
+    font-weight: 700;
+    text-shadow: var(--shadow-text);
+    font-family: 'Playfair Display', serif;
+}
+
+.hero-description {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2xl);
+    line-height: 1.8;
+    opacity: 0.95;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 500;
+}
+
+/* Buttons */
+.btn-group {
+    display: flex;
+    gap: var(--space-lg);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--space-xl);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg) var(--space-xl);
+    border: none;
+    border-radius: 50px;
+    font-size: var(--text-base);
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 200px;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: var(--gradient-gold);
+    color: var(--primary-purple);
+    box-shadow: var(--shadow-enterprise);
+    border: 2px solid var(--primary-gold-dark);
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: var(--shadow-glow);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--primary-pearl);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-4px) scale(1.05);
+    border-color: var(--primary-gold);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Sections */
+.section {
+    padding: var(--space-3xl) var(--space-md);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.section-badge {
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.2);
+    border: 2px solid var(--primary-gold);
+    padding: var(--space-xs) var(--space-lg);
+    border-radius: 30px;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    margin-bottom: var(--space-lg);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section-title {
+    font-family: 'Cinzel', serif;
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    margin-bottom: var(--space-lg);
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+}
+
+.section-description {
+    font-size: var(--text-lg);
+    opacity: 0.95;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-weight: 500;
+}
+
+/* Cards */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-2xl);
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: var(--space-xl);
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-gold);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.card:hover::before {
+    transform: scaleX(1);
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--primary-gold);
+    box-shadow: var(--shadow-glow);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.card-icon {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-md);
+    color: var(--primary-gold);
+    display: block;
+    transition: all 0.4s ease;
+}
+
+.card:hover .card-icon {
+    transform: scale(1.1) rotate(5deg);
+    text-shadow: var(--shadow-glow);
+}
+
+.card h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-sm);
+    color: var(--primary-gold);
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+}
+
+.card .subtitle {
+    font-size: var(--text-sm);
+    color: #93C5FD;
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+}
+
+.card p {
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    opacity: 0.95;
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+}
+
+/* Prayer Card Accordion Styles */
+.prayer-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: var(--space-md);
+    min-height: 80px; /* Ensure minimum height */
+}
+
+.prayer-header {
+    padding: var(--space-lg);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    user-select: none; /* Prevent text selection */
+}
+
+.prayer-header:hover {
+    background: rgba(255, 215, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.prayer-header:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.prayer-header .card-icon {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-sm);
+    color: var(--primary-gold);
+    transition: all 0.3s ease;
+    pointer-events: none; /* Prevent icon from blocking clicks */
+}
+
+.prayer-header h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-xs);
+    color: var(--primary-gold);
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    pointer-events: none; /* Prevent text from blocking clicks */
+}
+
+.prayer-header .subtitle {
+    font-size: var(--text-sm);
+    color: #93C5FD;
+    margin-bottom: 0;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+    pointer-events: none; /* Prevent text from blocking clicks */
+}
+
+.toggle-icon {
+    position: absolute;
+    top: 50%;
+    right: var(--space-lg);
+    transform: translateY(-50%);
+    font-size: var(--text-lg);
+    color: var(--primary-gold);
+    transition: transform 0.3s ease;
+    pointer-events: none; /* Prevent icon from blocking clicks */
+}
+
+.prayer-card.expanded .toggle-icon {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.prayer-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out, opacity 0.3s ease;
+    padding: 0 var(--space-lg);
+    opacity: 0;
+}
+
+.prayer-card.expanded .prayer-content {
+    max-height: 2000px;
+    padding: 0 var(--space-lg) var(--space-lg) var(--space-lg);
+    opacity: 1;
+}
+
+.prayer-content p {
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    opacity: 0.95;
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+}
+
+/* Enhanced hover effects for prayer cards */
+.prayer-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: var(--primary-gold);
+    box-shadow: var(--shadow-glow);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.prayer-card:hover .prayer-header .card-icon {
+    transform: scale(1.1);
+    text-shadow: var(--shadow-glow);
+}
+
+/* Debug styles - remove in production */
+/* Removed for better performance */
+
+.prayer-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out, opacity 0.3s ease;
+    padding: 0 var(--space-lg);
+    opacity: 0;
+}
+
+.prayer-card.expanded .prayer-content {
+    max-height: 2000px;
+    padding: 0 var(--space-lg) var(--space-lg) var(--space-lg);
+    opacity: 1;
+}
+
+.prayer-content p {
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    opacity: 0.95;
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+}
+
+/* Enhanced hover effects for prayer cards */
+.prayer-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: var(--primary-gold);
+    box-shadow: var(--shadow-glow);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.prayer-card:hover .prayer-header .card-icon {
+    transform: scale(1.1);
+    text-shadow: var(--shadow-glow);
+}
+
+/* Expand/Collapse All Button */
+.prayer-controls {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.expand-all-btn, .collapse-all-btn {
+    background: var(--gradient-gold);
+    color: var(--primary-purple);
+    border: none;
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 0 var(--space-sm);
+    transition: all 0.3s ease;
+    font-size: var(--text-sm);
+}
+
+.expand-all-btn:hover, .collapse-all-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Divine Mercy Book Styles */
+.book-attribution {
+    margin-bottom: var(--space-2xl);
+}
+
+.attribution-card {
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid var(--primary-gold);
+    border-radius: 20px;
+    padding: var(--space-xl);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.attribution-card i {
+    font-size: var(--text-4xl);
+    color: var(--primary-gold);
+    margin-bottom: var(--space-lg);
+}
+
+.attribution-card h3 {
+    color: var(--primary-gold);
+    margin-bottom: var(--space-lg);
+    font-family: 'Cinzel', serif;
+}
+
+.attribution-card p {
+    margin-bottom: var(--space-sm);
+    line-height: 1.6;
+}
+
+.book-pages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-2xl);
+}
+
+.book-page {
+    border-left: 4px solid var(--primary-gold);
+}
+
+.book-page .prayer-header {
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.book-cover {
+    text-align: center;
+    padding: var(--space-xl);
+    background: rgba(255, 215, 0, 0.05);
+    border-radius: 15px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.table-of-contents ul {
+    background: rgba(255, 255, 255, 0.05);
+    padding: var(--space-lg);
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-gold);
+}
+
+.book-content {
+    padding: var(--space-md);
+}
+
+.content-placeholder {
+    background: rgba(255, 255, 255, 0.05);
+    padding: var(--space-lg);
+    border-radius: 10px;
+    margin-top: var(--space-lg);
+    border-left: 4px solid #93C5FD;
+}
+
+.content-placeholder ul {
+    margin-top: var(--space-sm);
+    padding-left: var(--space-lg);
+}
+
+.content-placeholder li {
+    margin-bottom: var(--space-xs);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.book-footer {
+    text-align: center;
+}
+
+/* Book page numbering */
+.book-page::before {
+    content: "📖";
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    font-size: var(--text-lg);
+    opacity: 0.7;
+}
+
+/* Special styling for book headers */
+.book-page .prayer-header h3 {
+    font-size: var(--text-base);
+    line-height: 1.4;
+}
+
+.book-page .prayer-header .subtitle {
+    font-size: var(--text-xs);
+}
+
+/* Mobile responsiveness for book */
+@media (max-width: 768px) {
+    .book-pages-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .attribution-card {
+        padding: var(--space-lg);
+    }
+    
+    .book-cover {
+        padding: var(--space-lg);
+    }
+}
+@media (max-width: 768px) {
+    .prayer-header {
+        padding: var(--space-md);
+    }
+    
+    .toggle-icon {
+        right: var(--space-md);
+    }
+    
+    .prayer-content {
+        padding: 0 var(--space-md);
+    }
+    
+    .prayer-card.expanded .prayer-content {
+        padding: 0 var(--space-md) var(--space-md) var(--space-md);
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+}
+
+/* Testimonials */
+.testimonial-card {
+    text-align: left;
+    position: relative;
+    padding: var(--space-2xl);
+}
+
+.testimonial-stars {
+    color: var(--primary-gold);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-md);
+    text-align: center;
+}
+
+.testimonial-text {
+    font-size: var(--text-base);
+    line-height: 1.8;
+    font-style: italic;
+    margin-bottom: var(--space-lg);
+    position: relative;
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border-left: 4px solid var(--primary-gold);
+}
+
+.testimonial-text::before {
+    content: '"';
+    font-size: 4rem;
+    color: var(--primary-gold);
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-family: 'Cinzel', serif;
+    opacity: 0.3;
+}
+
+.testimonial-author {
+    text-align: center;
+    margin-top: var(--space-lg);
+}
+
+.testimonial-author strong {
+    color: var(--primary-gold);
+    font-size: var(--text-lg);
+    display: block;
+    margin-bottom: var(--space-xs);
+}
+
+.testimonial-author em {
+    color: #93C5FD;
+    font-size: var(--text-sm);
+    display: block;
+    margin-bottom: var(--space-xs);
+}
+
+.testimonial-location {
+    font-size: var(--text-xs);
+    opacity: 0.7;
+    margin: 0;
+}
+
+/* Contact Grid */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(25px);
+    padding: var(--space-xl);
+    border-radius: 30px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    transition: all 0.4s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: var(--primary-gold);
+    box-shadow: var(--shadow-glow);
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.contact-icon {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-lg);
+    color: var(--primary-gold);
+    display: block;
+}
+
+.contact-card h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-sm);
+    color: var(--primary-gold);
+    font-weight: 700;
+}
+
+.contact-details {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+    font-style: italic;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #663399 0%, #4B0082 50%, #2D1B4E 100%);
+    padding: var(--space-2xl);
+    border-radius: 30px;
+    max-width: 600px;
+    width: 95%;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 3px solid var(--primary-gold);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--shadow-glow);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--primary-gold);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.modal-close:hover {
+    color: var(--primary-white);
+    transform: scale(1.1) rotate(90deg);
+}
+
+.modal h2 {
+    color: var(--primary-gold);
+    margin-bottom: var(--space-lg);
+    font-family: 'Cinzel', serif;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.modal input,
+.modal textarea {
+    padding: var(--space-md);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--primary-white);
+    font-size: var(--text-base);
+    backdrop-filter: blur(10px);
+}
+
+.modal input:focus,
+.modal textarea:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.modal input::placeholder,
+.modal textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        background: rgba(75, 0, 130, 0.98);
+        flex-direction: column;
+        padding: var(--space-xl);
+        transition: left 0.3s ease;
+        box-shadow: var(--shadow-enterprise);
+        backdrop-filter: blur(20px);
+    }
+    
+    .nav-links.active {
+        left: 0;
+    }
+    
+    .nav-toggle {
+        display: block;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: var(--space-md);
+    }
+    
+    .card-grid,
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-title {
+        font-size: var(--text-3xl);
+    }
+    
+    .section-title {
+        font-size: var(--text-2xl);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (prefers-contrast: high) {
+    :root {
+        --primary-gold: #FFFF00;
+        --primary-purple: #000080;
+        --primary-white: #FFFFFF;
+    }
+}
+
+/* Button Feedback Effects */
+.button-clicked {
+    transform: scale(0.95) !important;
+    transition: transform 0.1s ease !important;
+}
+
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.professional-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.4);
+    transform: scale(0);
+    animation: professionalRipple 0.8s ease-out;
+    pointer-events: none;
+}
+
+@keyframes professionalRipple {
+    to {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+.focused {
+    outline: 3px solid var(--primary-gold);
+    outline-offset: 2px;
+}
+
+/* Button States */
+.btn:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.btn:focus {
+    outline: 3px solid var(--primary-gold);
+    outline-offset: 3px;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Notification System */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 10001;
+    max-width: 400px;
+    word-wrap: break-word;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.notification-success {
+    background: #10B981;
+    color: white;
+}
+
+.notification-error {
+    background: #EF4444;
+    color: white;
+}
+
+.notification-info {
+    background: #3B82F6;
+    color: white;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.notification-close:hover {
+    opacity: 1;
+}
+
+/* Enhanced Button Hover Effects */
+.btn:hover {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    animation: buttonHover 0.6s ease-out;
+}
+
+@keyframes buttonHover {
+    to {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+    }
+}
+
+/* Loading States */
+.btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Collapsible/Expandable Content System */
+.collapsible-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.collapsible-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+}
+
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-lg);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.collapsible-header:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--primary-gold);
+}
+
+.collapsible-header.active {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: var(--primary-gold);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.collapsible-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex: 1;
+}
+
+.collapsible-title h3 {
+    margin: 0;
+    font-size: var(--text-xl);
+    color: var(--primary-gold);
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+}
+
+.collapsible-title .subtitle {
+    font-size: var(--text-base);
+    color: #93C5FD;
+    margin: 0;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+}
+
+.collapsible-toggle {
+    background: none;
+    border: none;
+    color: var(--primary-gold);
+    font-size: var(--text-2xl);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: var(--space-xs);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapsible-toggle:hover {
+    background: rgba(255, 215, 0, 0.2);
+    transform: scale(1.1);
+}
+
+.collapsible-toggle.active {
+    transform: rotate(180deg);
+    background: rgba(255, 215, 0, 0.3);
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--primary-gold);
+    border-top: none;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    opacity: 0;
+}
+
+.collapsible-content.active {
+    max-height: 2000px;
+    opacity: 1;
+    padding: var(--space-xl);
+}
+
+.collapsible-content .prayer-text {
+    background: rgba(255,215,0,0.1);
+    padding: var(--space-lg);
+    border-radius: 15px;
+    margin: var(--space-md) 0;
+    border-right: 4px solid var(--primary-gold);
+    line-height: 1.8;
+}
+
+.collapsible-content .prayer-text.spiritual-warfare {
+    background: rgba(255,0,0,0.1);
+    border-right-color: #FF0000;
+}
+
+.collapsible-content p {
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    opacity: 0.95;
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+}
+
+.collapsible-content strong {
+    color: var(--primary-white);
+    font-weight: 700;
+}
+
+.collapsible-content em {
+    color: #93C5FD;
+    font-style: italic;
+}
+
+/* Section Collapsible */
+.section-collapsible {
+    margin-bottom: var(--space-xl);
+}
+
+.section-collapsible-header {
+    background: rgba(255, 215, 0, 0.2);
+    border: 2px solid var(--primary-gold);
+    padding: var(--space-xl);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    user-select: none;
+}
+
+.section-collapsible-header:hover {
+    background: rgba(255, 215, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.section-collapsible-header.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background: rgba(255, 215, 0, 0.4);
+}
+
+.section-collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--primary-gold);
+    border-top: none;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    opacity: 0;
+}
+
+.section-collapsible-content.active {
+    max-height: 10000px;
+    opacity: 1;
+    padding: var(--space-2xl);
+}
+
+/* Animation Effects */
+@keyframes expandContent {
+    from {
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        max-height: 2000px;
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes collapseContent {
+    from {
+        max-height: 2000px;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.collapsible-content.expanding {
+    animation: expandContent 0.4s ease forwards;
+}
+
+.collapsible-content.collapsing {
+    animation: collapseContent 0.4s ease forwards;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .collapsible-header {
+        padding: var(--space-md);
+    }
+    
+    .collapsible-title h3 {
+        font-size: var(--text-lg);
+    }
+    
+    .collapsible-content.active {
+        padding: var(--space-lg);
+    }
+    
+    .section-collapsible-header {
+        padding: var(--space-lg);
+    }
+    
+    .section-collapsible-content.active {
+        padding: var(--space-xl);
+    }
+}
+
+/* Accessibility */
+.collapsible-header:focus,
+.section-collapsible-header:focus {
+    outline: 3px solid var(--primary-gold);
+    outline-offset: 2px;
+}
+
+.collapsible-toggle:focus {
+    outline: 2px solid var(--primary-gold);
+    outline-offset: 2px;
+}
+
+/* Loading State */
+.collapsible-content.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+}
+
+.collapsible-content.loading::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(255, 215, 0, 0.3);
+    border-top: 3px solid var(--primary-gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Social Proof Elements */
+.social-proof-counter {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 25px;
+    padding: var(--space-xl);
+    margin: var(--space-xl) 0;
+    text-align: center;
+}
+
+.live-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.stat-item {
+    text-align: center;
+    padding: var(--space-lg);
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+    background: rgba(255, 215, 0, 0.2);
+}
+
+.stat-item .number {
+    display: block;
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    color: var(--primary-gold);
+    font-family: 'Cinzel', serif;
+    margin-bottom: var(--space-sm);
+    text-shadow: var(--shadow-text);
+}
+
+.stat-item .label {
+    font-size: var(--text-sm);
+    color: var(--primary-pearl);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.live-activity {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: var(--space-lg);
+    border-left: 4px solid var(--primary-gold);
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInUp 0.5s ease;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-icon {
+    font-size: var(--text-lg);
+    width: 30px;
+    text-align: center;
+}
+
+.activity-text {
+    flex: 1;
+    font-size: var(--text-sm);
+    color: var(--primary-pearl);
+}
+
+.activity-text strong {
+    color: var(--primary-gold);
+    font-weight: 700;
+}
+
+.activity-text em {
+    color: #93C5FD;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Counter Animation */
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stat-item .number.counting {
+    animation: countUp 0.8s ease;
+}
+
+/* Activity Feed Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Conversion Optimization Elements */
+.conversion-optimized-form {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 25px;
+    padding: var(--space-2xl);
+    margin: var(--space-xl) 0;
+}
+
+.form-step {
+    display: none;
+    text-align: center;
+    padding: var(--space-xl);
+}
+
+.form-step.active {
+    display: block;
+    animation: slideInRight 0.5s ease;
+}
+
+.form-step h3 {
+    color: var(--primary-gold);
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-lg);
+    font-family: 'Cinzel', serif;
+}
+
+.option-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-md);
+    margin: var(--space-lg) 0;
+}
+
+.option-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 15px;
+    padding: var(--space-lg);
+    color: var(--primary-pearl);
+    font-size: var(--text-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+}
+
+.option-btn:hover,
+.option-btn.selected {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: var(--primary-gold);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.urgency-selector {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin: var(--space-lg) 0;
+}
+
+.urgency-selector label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.urgency-selector label:hover {
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.urgency-selector input[type="radio"] {
+    margin-right: var(--space-sm);
+}
+
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-xl);
+    gap: var(--space-md);
+}
+
+.btn-prev,
+.btn-next,
+.btn-submit {
+    padding: var(--space-md) var(--space-xl);
+    border: none;
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: var(--text-base);
+}
+
+.btn-prev {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--primary-pearl);
+}
+
+.btn-next,
+.btn-submit {
+    background: var(--gradient-gold);
+    color: var(--primary-purple);
+}
+
+.btn-prev:hover,
+.btn-next:hover,
+.btn-submit:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Form Animations */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Mobile Responsiveness for Social Proof */
+@media (max-width: 768px) {
+    .live-stats {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .stat-item .number {
+        font-size: var(--text-2xl);
+    }
+    
+    .option-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-navigation {
+        flex-direction: column;
+    }
+    
+    .activity-item {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-xs);
+    }
+    
+    .social-proof-counter {
+        padding: var(--space-lg);
+    }
+}
+
+/* Print Styles */
+@media print {
+    .collapsible-content {
+        max-height: none !important;
+        opacity: 1 !important;
+        padding: var(--space-md) !important;
+    }
+    
+    .collapsible-toggle {
+        display: none;
+    }
+    
+    .social-proof-counter,
+    .live-activity {
+        display: none;
+    }
+}
+
+/* ADVANCED PRAYER FORM STYLES */
+.conversion-optimized-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-step {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.form-step.active {
+    display: block;
+}
+
+.option-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.option-btn {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(75, 0, 130, 0.1) 100%);
+    border: 2px solid var(--primary-gold);
+    border-radius: 15px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-purple);
+    position: relative;
+    overflow: hidden;
+}
+
+.option-btn:hover {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(75, 0, 130, 0.2) 100%);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-professional);
+    border-color: var(--primary-gold-dark);
+}
+
+.option-btn.selected {
+    background: var(--gradient-gold);
+    color: var(--primary-purple-deep);
+    border-color: var(--primary-gold-dark);
+    box-shadow: var(--shadow-glow);
+}
+
+.option-btn i {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-gold);
+}
+
+.urgency-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.urgency-option {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.urgency-option:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--primary-gold);
+}
+
+.urgency-option input[type="radio"] {
+    margin-right: 1rem;
+    transform: scale(1.2);
+}
+
+.urgency-option input[type="radio"]:checked + .urgency-content {
+    color: var(--primary-gold);
+}
+
+.urgency-option.urgent:hover {
+    border-color: #FF4444;
+    background: rgba(255, 68, 68, 0.1);
+}
+
+.urgency-option.soon:hover {
+    border-color: #FFA500;
+    background: rgba(255, 165, 0, 0.1);
+}
+
+.urgency-option.normal:hover {
+    border-color: var(--primary-gold);
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.urgency-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.urgency-content i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.urgency-content strong {
+    font-size: 1.1rem;
+}
+
+.urgency-content small {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.spiritual-warfare-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.warfare-option {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 0, 0, 0.1);
+    border: 2px solid #FF4444;
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.warfare-option:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: #FF0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+.warfare-option input[type="checkbox"] {
+    margin-right: 1rem;
+    transform: scale(1.2);
+}
+
+.warfare-option input[type="checkbox"]:checked + .warfare-content {
+    color: #FFD700;
+}
+
+.warfare-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.warfare-content i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    color: #FF4444;
+}
+
+.warfare-content strong {
+    font-size: 1.1rem;
+    color: #FFFFFF;
+}
+
+.warfare-content small {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.contact-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.contact-fields input,
+.contact-fields select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--primary-gold);
+    border-radius: 8px;
+    padding: 1rem;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.contact-fields input:focus,
+.contact-fields select:focus {
+    outline: none;
+    border-color: var(--primary-gold-dark);
+    background: rgba(255, 215, 0, 0.1);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.contact-fields input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.contact-fields select option {
+    background: var(--primary-purple-deep);
+    color: white;
+}
+
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0 1rem 0;
+    gap: 1rem;
+}
+
+.form-progress {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--gradient-gold);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    color: var(--primary-gold);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Enhanced Modal Styles */
+.modal-content {
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: var(--primary-gold);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.modal-content h3 {
+    color: var(--primary-gold);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+/* Responsive Design for Advanced Form */
+@media (max-width: 768px) {
+    .option-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .option-btn {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .option-btn i {
+        font-size: 1.5rem;
+    }
+    
+    .urgency-option,
+    .warfare-option {
+        padding: 0.75rem;
+    }
+    
+    .form-navigation {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .modal-content {
+        padding: 1rem;
+        margin: 1rem;
+    }
+}
+
+/* Animation for form transitions */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.form-step.active {
+    animation: slideIn 0.4s ease-out;
+}
+/* INTERACTIVE DIVINE MERCY BOOK STYLES */
+.divine-mercy-book {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(75, 0, 130, 0.1) 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-professional);
+}
+
+.book-cover {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--gradient-gold);
+    border-radius: 15px;
+    color: var(--primary-purple-deep);
+    box-shadow: var(--shadow-glow);
+}
+
+.book-cover-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: var(--primary-purple);
+}
+
+.book-cover h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+}
+
+.book-cover h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-purple);
+}
+
+.book-cover p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.open-book-btn {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+    background: var(--primary-purple);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-professional);
+}
+
+.open-book-btn:hover {
+    background: var(--primary-purple-deep);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-enterprise);
+}
+
+.book-content {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.book-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-gold);
+}
+
+.book-header h3 {
+    color: var(--primary-gold);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.close-book-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid var(--primary-gold);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-book-btn:hover {
+    background: var(--primary-gold);
+    color: var(--primary-purple);
+}
+
+.book-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.chapter-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid transparent;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.chapter-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: var(--primary-gold);
+}
+
+.chapter-btn.active {
+    background: var(--primary-gold);
+    color: var(--primary-purple);
+    border-color: var(--primary-gold);
+}
+
+.book-chapter {
+    display: none;
+    animation: fadeInBook 0.5s ease-in-out;
+}
+
+.book-chapter.active {
+    display: block;
+}
+
+.book-chapter h4 {
+    color: var(--primary-gold);
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.book-chapter h5 {
+    color: rgba(255, 215, 0, 0.8);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-style: italic;
+}
+
+.toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.toc-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.toc-item:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--primary-gold);
+    transform: translateX(10px);
+}
+
+.toc-item i {
+    font-size: 1.5rem;
+    color: var(--primary-gold);
+    min-width: 30px;
+}
+
+.toc-item span {
+    display: block;
+    color: white;
+    font-weight: 600;
+}
+
+.toc-arabic {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+.conversation-entry {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--primary-gold);
+}
+
+.conversation-date {
+    color: var(--primary-gold);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.jesus-words h6 {
+    color: var(--primary-gold);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.jesus-words blockquote {
+    background: rgba(255, 215, 0, 0.1);
+    border-left: 4px solid var(--primary-gold);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: white;
+    border-radius: 8px;
+}
+
+.arabic-translation {
+    background: rgba(75, 0, 130, 0.2);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border-right: 4px solid var(--primary-purple);
+}
+
+.arabic-translation p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+/* Responsive Design for Book */
+@media (max-width: 768px) {
+    .divine-mercy-book {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    
+    .book-cover {
+        padding: 2rem 1rem;
+    }
+    
+    .book-cover-icon {
+        font-size: 3rem;
+    }
+    
+    .book-cover h3 {
+        font-size: 1.5rem;
+    }
+    
+    .book-cover h4 {
+        font-size: 1.2rem;
+    }
+    
+    .book-navigation {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .chapter-btn {
+        width: 100%;
+        max-width: 250px;
+        text-align: center;
+    }
+    
+    .book-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .conversation-entry {
+        padding: 1.5rem;
+    }
+    
+    .toc-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+}
+
+@keyframes fadeInBook {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* SAINT ANTHONY BOOK STYLES */
+.anthony-book {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.1) 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-professional);
+}
+
+.anthony-book .book-cover {
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+    color: white;
+}
+
+.anthony-book .book-cover-icon {
+    color: #FFD700;
+}
+
+.anthony-book .book-content {
+    background: rgba(139, 69, 19, 0.1);
+    border: 1px solid rgba(139, 69, 19, 0.3);
+}
+
+.anthony-book .book-header {
+    border-bottom: 2px solid #8B4513;
+}
+
+.anthony-book .book-header h3 {
+    color: #8B4513;
+}
+
+.anthony-book .close-book-btn {
+    border-color: #8B4513;
+}
+
+.anthony-book .close-book-btn:hover {
+    background: #8B4513;
+    color: white;
+}
+
+.anthony-book .chapter-btn {
+    border-color: transparent;
+}
+
+.anthony-book .chapter-btn:hover {
+    background: rgba(139, 69, 19, 0.2);
+    border-color: #8B4513;
+}
+
+.anthony-book .chapter-btn.active {
+    background: #8B4513;
+    color: white;
+    border-color: #8B4513;
+}
+
+.anthony-book .book-chapter h4 {
+    color: #8B4513;
+}
+
+.anthony-book .book-chapter h5 {
+    color: rgba(139, 69, 19, 0.8);
+}
+
+.anthony-book .toc-item {
+    border-color: rgba(139, 69, 19, 0.3);
+}
+
+.anthony-book .toc-item:hover {
+    background: rgba(139, 69, 19, 0.1);
+    border-color: #8B4513;
+}
+
+.anthony-book .toc-item i {
+    color: #8B4513;
+}
+
+.saint-biography {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.biography-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    border-left: 4px solid #8B4513;
+}
+
+.biography-section h6 {
+    color: #8B4513;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.biography-section p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.biography-section .arabic-translation {
+    background: rgba(139, 69, 19, 0.2);
+    border-right: 4px solid #8B4513;
+    border-left: none;
+}
+
+.prayer-collection {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.prayer-entry {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    border-left: 4px solid #8B4513;
+}
+
+.prayer-entry h6 {
+    color: #8B4513;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.prayer-text {
+    background: rgba(139, 69, 19, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.prayer-text p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+
+.prayer-text strong {
+    color: #8B4513;
+    font-weight: 700;
+}
+
+.prayer-text blockquote {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid #8B4513;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: white;
+    border-radius: 8px;
+}
+
+.miracles-collection {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.miracle-entry {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    border-left: 4px solid #8B4513;
+}
+
+.miracle-entry h6 {
+    color: #8B4513;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.miracle-text {
+    background: rgba(139, 69, 19, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.miracle-text p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.miracle-text .arabic-translation {
+    background: rgba(139, 69, 19, 0.2);
+    border-right: 4px solid #8B4513;
+    border-left: none;
+    margin-top: 1rem;
+}
+
+/* Responsive Design for Anthony Book */
+@media (max-width: 768px) {
+    .anthony-book {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    
+    .biography-section,
+    .prayer-entry,
+    .miracle-entry {
+        padding: 1.5rem;
+    }
+    
+    .saint-biography,
+    .prayer-collection,
+    .miracles-collection {
+        gap: 1.5rem;
+    }
+}
+
+/* HOLY ROSARY BOOK STYLES */
+.rosary-book {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(0, 100, 200, 0.1) 0%, rgba(30, 144, 255, 0.1) 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-professional);
+}
+
+.rosary-book .book-cover {
+    background: linear-gradient(135deg, #0064C8 0%, #1E90FF 100%);
+    color: white;
+}
+
+.rosary-book .book-cover-icon {
+    color: #FFD700;
+}
+
+.rosary-book .book-content {
+    background: rgba(0, 100, 200, 0.1);
+    border: 1px solid rgba(0, 100, 200, 0.3);
+}
+
+.rosary-book .book-header {
+    border-bottom: 2px solid #0064C8;
+}
+
+.rosary-book .book-header h3 {
+    color: #0064C8;
+}
+
+.rosary-book .close-book-btn {
+    border-color: #0064C8;
+}
+
+.rosary-book .close-book-btn:hover {
+    background: #0064C8;
+    color: white;
+}
+
+.rosary-book .chapter-btn {
+    border-color: transparent;
+}
+
+.rosary-book .chapter-btn:hover {
+    background: rgba(0, 100, 200, 0.2);
+    border-color: #0064C8;
+}
+
+.rosary-book .chapter-btn.active {
+    background: #0064C8;
+    color: white;
+    border-color: #0064C8;
+}
+
+.rosary-book .book-chapter h4 {
+    color: #0064C8;
+}
+
+.rosary-book .book-chapter h5 {
+    color: rgba(0, 100, 200, 0.8);
+}
+
+.rosary-book .toc-item {
+    border-color: rgba(0, 100, 200, 0.3);
+}
+
+.rosary-book .toc-item:hover {
+    background: rgba(0, 100, 200, 0.1);
+    border-color: #0064C8;
+}
+
+.rosary-book .toc-item i {
+    color: #0064C8;
+}
+
+.rosary-instructions {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.instruction-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    border-left: 4px solid #0064C8;
+}
+
+.instruction-section h6 {
+    color: #0064C8;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.instruction-section .prayer-text {
+    background: rgba(0, 100, 200, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.instruction-section .prayer-text p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    color: white;
+}
+
+.instruction-section .prayer-text strong {
+    color: #0064C8;
+    font-weight: 700;
+}
+
+.mysteries-collection {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.mystery-entry {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    border-left: 4px solid #0064C8;
+}
+
+.mystery-entry h6 {
+    color: #0064C8;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mystery-subtitle {
+    color: rgba(0, 100, 200, 0.8);
+    font-size: 1rem;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+.chapter-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    font-style: italic;
+    background: rgba(0, 100, 200, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 100, 200, 0.3);
+}
+
+.mystery-content {
+    background: rgba(0, 100, 200, 0.05);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.scripture-reference {
+    background: rgba(255, 215, 0, 0.1);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--primary-gold);
+}
+
+.scripture-reference p {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary-gold);
+}
+
+.mystery-meditation {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border-left: 3px solid #0064C8;
+}
+
+.mystery-meditation p {
+    margin-bottom: 0.5rem;
+    line-height: 1.8;
+    color: white;
+}
+
+.mystery-meditation strong {
+    color: #0064C8;
+}
+
+.virtue-focus {
+    background: rgba(50, 205, 50, 0.1);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border-left: 3px solid #32CD32;
+}
+
+.virtue-focus p {
+    margin: 0;
+    font-weight: 600;
+    color: #32CD32;
+}
+
+.prayer-intention {
+    background: rgba(255, 20, 147, 0.1);
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 3px solid #FF1493;
+}
+
+.prayer-intention p {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #FF1493;
+}
+
+/* Responsive Design for Rosary Book */
+@media (max-width: 768px) {
+    .rosary-book {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    
+    .instruction-section,
+    .mystery-entry {
+        padding: 1.5rem;
+    }
+    
+    .rosary-instructions,
+    .mysteries-collection {
+        gap: 1.5rem;
+    }
+    
+    .mystery-content {
+        padding: 1rem;
+    }
+    
+    .chapter-intro {
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+}
+
+/* 3 O'Clock Prayer Styles */
+.three-oclock-prayers {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(139, 0, 0, 0.1) 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 2px solid rgba(139, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(139, 0, 0, 0.2);
+}
+
+.daily-prayers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.daily-prayer-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.daily-prayer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    border-color: var(--primary-gold);
+}
+
+.day-header {
+    padding: 1.5rem;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.day-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.day-header i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.day-header h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.day-header p {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.prayer-content {
+    padding: 2rem;
+    color: #333;
+}
+
+.prayer-content h5 {
+    color: #8B0000;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.prayer-content h5 i {
+    color: #FF0000;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.prayer-text blockquote {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%);
+    border-right: 4px solid #8B0000;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 10px;
+    font-style: italic;
+    line-height: 1.8;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(139, 0, 0, 0.1);
+}
+
+.prayer-text blockquote::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 3rem;
+    color: #8B0000;
+    opacity: 0.3;
+}
+
+.universal-prayer {
+    text-align: center;
+}
+
+.universal-prayer .prayer-card {
+    padding: 2rem;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.universal-prayer .prayer-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    animation: shimmer 4s infinite;
+}
+
+.universal-prayer h4 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.universal-prayer blockquote {
+    background: rgba(255, 255, 255, 0.9);
+    color: #8B0000;
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 1.5rem 0;
+    box-shadow: 0 10px 25px rgba(139, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+/* Responsive Design for 3 O'Clock Prayers */
+@media (max-width: 768px) {
+    .daily-prayers-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .daily-prayer-card {
+        margin: 0 1rem;
+    }
+    
+    .three-oclock-prayers {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .prayer-content {
+        padding: 1.5rem;
+    }
+    
+    .day-header {
+        padding: 1rem;
+    }
+    
+    .universal-prayer .prayer-card {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .daily-prayers-grid {
+        gap: 1rem;
+    }
+    
+    .prayer-text blockquote {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .day-header h4 {
+        font-size: 1.3rem;
+    }
+    
+    .prayer-content h5 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Clock Animation */
+@keyframes clockTick {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(6deg); }
+    75% { transform: rotate(-6deg); }
+}
+
+.prayer-content h5 i.fa-clock {
+    animation: clockTick 2s infinite;
+    transform-origin: center bottom;
+}
+
+/* Special styling for Friday (Passion Day) */
+.daily-prayer-card:nth-child(6) {
+    border: 3px solid #8B0000;
+    box-shadow: 0 10px 30px rgba(139, 0, 0, 0.3);
+}
+
+.daily-prayer-card:nth-child(6):hover {
+    box-shadow: 0 15px 40px rgba(139, 0, 0, 0.4);
+    transform: translateY(-8px);
+}
+
+/* Print Styles for 3 O'Clock Prayers */
+@media print {
+    .three-oclock-prayers {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        border: 2px solid #8B0000 !important;
+    }
+    
+    .daily-prayer-card {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        page-break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+    
+    .day-header {
+        background: #f0f0f0 !important;
+        color: black !important;
+    }
+    
+    .prayer-content {
+        color: black !important;
+    }
+    
+    .prayer-text blockquote {
+        background: #f9f9f9 !important;
+        color: black !important;
+        border-right: 4px solid #8B0000 !important;
+    }
+}
+/* DIVINE MERCY DAILY BOOK STYLES */
+.divine-mercy-book {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 25px;
+    padding: var(--space-xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.divine-mercy-book .book-cover {
+    background: linear-gradient(135deg, #DC143C 0%, #FF4500 100%);
+    color: white;
+}
+
+.divine-mercy-book .book-cover-icon {
+    font-size: var(--text-4xl);
+    color: #FFD700;
+}
+
+.divine-mercy-book .book-content {
+    background: rgba(220, 20, 60, 0.1);
+    border: 1px solid rgba(220, 20, 60, 0.3);
+}
+
+.divine-mercy-book .book-header {
+    border-bottom: 2px solid #DC143C;
+}
+
+.divine-mercy-book .book-header h3 {
+    color: #DC143C;
+}
+
+.divine-mercy-book .close-book-btn {
+    border-color: #DC143C;
+}
+
+.divine-mercy-book .close-book-btn:hover {
+    background: #DC143C;
+    color: white;
+}
+
+.divine-mercy-book .chapter-btn {
+    border-color: transparent;
+}
+
+.divine-mercy-book .chapter-btn:hover {
+    background: rgba(220, 20, 60, 0.2);
+    border-color: #DC143C;
+}
+
+.divine-mercy-book .chapter-btn.active {
+    background: #DC143C;
+    color: white;
+    border-color: #DC143C;
+}
+
+.divine-mercy-book .book-chapter h4 {
+    color: #DC143C;
+}
+
+.divine-mercy-book .book-chapter h5 {
+    color: rgba(220, 20, 60, 0.8);
+}
+
+.divine-mercy-book .toc-item {
+    border-color: rgba(220, 20, 60, 0.3);
+}
+
+.divine-mercy-book .toc-item:hover {
+    background: rgba(220, 20, 60, 0.1);
+    border-color: #DC143C;
+}
+
+.divine-mercy-book .toc-item i {
+    color: #DC143C;
+}
+
+/* Divine Mercy Specific Styles */
+.mercy-quote {
+    background: rgba(220, 20, 60, 0.1);
+    border-left: 4px solid #DC143C;
+    padding: var(--space-lg);
+    margin: var(--space-lg) 0;
+    border-radius: 10px;
+}
+
+.jesus-words {
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: #FFD700;
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
+}
+
+.jesus-words-arabic {
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: #FFD700;
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
+    direction: rtl;
+    text-align: right;
+}
+
+.diary-reference {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.7);
+    text-align: right;
+    font-weight: 500;
+}
+
+.mercy-explanation, .mercy-promise, .mercy-instruction {
+    background: rgba(255, 255, 255, 0.05);
+    padding: var(--space-lg);
+    border-radius: 10px;
+    margin: var(--space-lg) 0;
+    border-left: 4px solid #FFD700;
+}
+
+.three-oclock-prayers .prayer-section {
+    background: rgba(220, 20, 60, 0.05);
+    border: 1px solid rgba(220, 20, 60, 0.2);
+    border-radius: 15px;
+    padding: var(--space-lg);
+    margin: var(--space-lg) 0;
+}
+
+.three-oclock-prayers h7 {
+    color: #DC143C;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    display: block;
+    margin-bottom: var(--space-md);
+}
+
+.prayer-time {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid #DC143C;
+    padding: var(--space-lg);
+    margin: var(--space-lg) 0;
+    border-radius: 10px;
+}
+
+.prayer-time h7 {
+    color: #FFD700;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    display: block;
+    margin-bottom: var(--space-md);
+}
+
+.chaplet-instructions {
+    background: rgba(220, 20, 60, 0.1);
+    border: 2px solid rgba(220, 20, 60, 0.3);
+    border-radius: 15px;
+    padding: var(--space-xl);
+    margin: var(--space-lg) 0;
+}
+
+.chaplet-step {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid #FFD700;
+    padding: var(--space-lg);
+    margin: var(--space-lg) 0;
+    border-radius: 10px;
+}
+
+.chaplet-step h7 {
+    color: #DC143C;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    display: block;
+    margin-bottom: var(--space-md);
+}
+
+.novena-introduction {
+    background: rgba(220, 20, 60, 0.1);
+    border: 2px solid #DC143C;
+    border-radius: 15px;
+    padding: var(--space-xl);
+    margin: var(--space-lg) 0;
+}
+
+.novena-day {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    border-radius: 15px;
+    padding: var(--space-lg);
+    margin: var(--space-lg) 0;
+}
+
+.novena-day h7 {
+    color: #FFD700;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    display: block;
+    margin-bottom: var(--space-md);
+    border-bottom: 2px solid rgba(220, 20, 60, 0.3);
+    padding-bottom: var(--space-sm);
+}
+
+.novena-conclusion {
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid #FFD700;
+    border-radius: 15px;
+    padding: var(--space-xl);
+    margin: var(--space-lg) 0;
+    text-align: center;
+}
+
+/* Responsive Design for Divine Mercy Book */
+@media (max-width: 768px) {
+    .divine-mercy-book {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    
+    .mercy-quote,
+    .mercy-explanation,
+    .mercy-promise,
+    .mercy-instruction,
+    .three-oclock-prayers .prayer-section,
+    .prayer-time,
+    .chaplet-step,
+    .novena-day {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .chaplet-instructions,
+    .novena-introduction,
+    .novena-conclusion {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .jesus-words,
+    .jesus-words-arabic {
+        font-size: 1rem;
+    }
+}
