@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consolidated Prayer Book Demo - كتاب الصلاة الموحد</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Cinzel:wght@400;600;800&family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="prayer-book-styles.css">
+    
+    <style>
+        body {
+            padding-top: 2rem;
+        }
+        
+        .demo-header {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.2) 0%, rgba(25, 25, 112, 0.2) 100%);
+            border-radius: 25px;
+            margin-bottom: 3rem;
+            border: 3px solid var(--primary-gold);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-gold);
+        }
+        
+        .demo-header h1 {
+            color: var(--primary-gold);
+            font-family: 'Cinzel', serif;
+            font-size: var(--text-4xl);
+            margin-bottom: 1rem;
+            text-shadow: var(--shadow-text);
+        }
+        
+        .demo-header h2 {
+            color: #93C5FD;
+            font-family: 'Amiri', serif;
+            font-size: var(--text-2xl);
+            margin-bottom: 2rem;
+            direction: rtl;
+        }
+        
+        .demo-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: var(--text-lg);
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 1rem;
+        }
+        
+        .demo-features {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--primary-gold);
+        }
+        
+        .demo-features h3 {
+            color: var(--primary-gold);
+            font-family: 'Cinzel', serif;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .demo-features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .demo-features li {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .demo-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-gold);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 1rem;">
+        
+        <!-- Demo Header -->
+        <div class="demo-header">
+            <h1><i class="fas fa-book"></i> Consolidated Prayer Book</h1>
+            <h2>كتاب الصلاة الموحد المقدس</h2>
+            <p>
+                Experience the new consolidated Prayer Book system that replaces all individual prayer sections 
+                with ONE comprehensive book containing all prayers, devotions, and spiritual resources.
+            </p>
+            <p style="margin-top: 1rem;">
+                اختبر نظام كتاب الصلاة الموحد الجديد الذي يحل محل جميع أقسام الصلاة الفردية 
+                بكتاب شامل واحد يحتوي على جميع الصلوات والتكريسات والموارد الروحية.
+            </p>
+        </div>
+
+        <!-- Demo Features -->
+        <div class="demo-features">
+            <h3><i class="fas fa-star"></i> What's New in the Consolidated Design</h3>
+            <ul>
+                <li><strong>Single Navigation:</strong> One "Prayer Book" link instead of 5 separate sections</li>
+                <li><strong>Organized Content:</strong> All prayers categorized in one place with easy navigation</li>
+                <li><strong>Clean Design:</strong> Simplified menu and better user experience</li>
+                <li><strong>Interactive Sections:</strong> Click buttons to switch between prayer categories</li>
+                <li><strong>Complete Content:</strong> All original prayers preserved and organized</li>
+                <li><strong>Mobile Optimized:</strong> Better mobile experience with consolidated navigation</li>
+            </ul>
+        </div>
+
+        <!-- The Consolidated Prayer Book Section -->
+        <section class="section" id="prayer-book" style="background: linear-gradient(135deg, rgba(75, 0, 130, 0.1) 0%, rgba(25, 25, 112, 0.1) 100%);">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <div class="section-badge">COMPLETE PRAYER COLLECTION</div>
+                    <h2 class="section-title">كتاب الصلاة المقدس - SACRED PRAYER BOOK</h2>
+                    <p class="section-description">
+                        Complete collection of Christian prayers, devotions, and spiritual warfare tools. 
+                        Everything you need for a powerful prayer life in one comprehensive book.
+                    </p>
+                    <p class="section-description" style="margin-top: 1rem;">
+                        مجموعة كاملة من الصلوات المسيحية والتكريسات وأدوات الحرب الروحية. 
+                        كل ما تحتاجه لحياة صلاة قوية في كتاب شامل واحد.
+                    </p>
+                </div>
+
+                <!-- Prayer Book Navigation -->
+                <div class="prayer-book-nav" data-aos="fade-up">
+                    <div class="book-nav-header">
+                        <h3><i class="fas fa-book-open"></i> Prayer Book Contents</h3>
+                        <p>Click on any section to access prayers and devotions</p>
+                    </div>
+                    <div class="book-nav-grid">
+                        <button class="book-nav-btn active" onclick="showPrayerSection('divine-mercy')" data-section="divine-mercy">
+                            <i class="fas fa-heart"></i>
+                            <span>Divine Mercy<br>الرحمة الإلهية</span>
+                        </button>
+                        <button class="book-nav-btn" onclick="showPrayerSection('holy-rosary')" data-section="holy-rosary">
+                            <i class="fas fa-pray"></i>
+                            <span>Holy Rosary<br>المسبحة الوردية</span>
+                        </button>
+                        <button class="book-nav-btn" onclick="showPrayerSection('saint-anthony')" data-section="saint-anthony">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>St. Anthony<br>القديس أنطونيوس</span>
+                        </button>
+                        <button class="book-nav-btn" onclick="showPrayerSection('saint-faustina')" data-section="saint-faustina">
+                            <i class="fas fa-dove"></i>
+                            <span>St. Faustina<br>القديسة فوستينا</span>
+                        </button>
+                        <button class="book-nav-btn" onclick="showPrayerSection('spiritual-warfare')" data-section="spiritual-warfare">
+                            <i class="fas fa-sword"></i>
+                            <span>Spiritual Warfare<br>الحرب الروحية</span>
+                        </button>
+                        <button class="book-nav-btn" onclick="showPrayerSection('daily-prayers')" data-section="daily-prayers">
+                            <i class="fas fa-sun"></i>
+                            <span>Daily Prayers<br>الصلوات اليومية</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Prayer Content Sections -->
+                <div class="prayer-book-content">
+                    
+                    <!-- Divine Mercy Section -->
+                    <div class="prayer-section" id="divine-mercy-section" style="display: block;">
+                        <div class="section-header">
+                            <h3><i class="fas fa-heart"></i> Divine Mercy Collection</h3>
+                            <h4>مجموعة الرحمة الإلهية</h4>
+                        </div>
+                        
+                        <div class="prayer-cards-grid">
+                            <!-- Divine Mercy Prayer -->
+                            <div class="prayer-card">
+                                <div class="prayer-header">
+                                    <i class="fas fa-heart card-icon"></i>
+                                    <h5>Divine Mercy Prayer</h5>
+                                    <h6>صلاة الرحمة الإلهية</h6>
+                                </div>
+                                <div class="prayer-text">
+                                    <p><strong>English:</strong></p>
+                                    <p>"Jesus, I trust in You. O Blood and Water, which gushed forth from the Heart of Jesus as a fountain of Mercy for us, I trust in You!"</p>
+                                    <p><strong>Arabic - العربية:</strong></p>
+                                    <p>"يا يسوع، إني أثق بك. يا دم وماء، اللذان تدفقا من قلب يسوع كينبوع رحمة لنا، إني أثق بكما!"</p>
+                                </div>
+                            </div>
+
+                            <!-- 3 O'Clock Prayer -->
+                            <div class="prayer-card">
+                                <div class="prayer-header">
+                                    <i class="fas fa-clock card-icon"></i>
+                                    <h5>3 O'Clock Prayer</h5>
+                                    <h6>صلاة الساعة الثالثة</h6>
+                                </div>
+                                <div class="prayer-text">
+                                    <p><strong>English:</strong></p>
+                                    <p>"You expired, Jesus, but the source of life gushed forth for souls, and the ocean of mercy opened up for the whole world. O Fount of Life, unfathomable Divine Mercy, envelop the whole world and empty Yourself out upon us."</p>
+                                    <p><strong>Arabic - العربية:</strong></p>
+                                    <p>"لقد فارقت الحياة يا يسوع، لكن ينبوع الحياة تدفق للنفوس، ومحيط الرحمة انفتح للعالم كله. يا ينبوع الحياة، يا رحمة إلهية لا تُسبر، احتوي العالم كله وأفرغ ذاتك علينا."</p>
+                                </div>
+                            </div>
+
+                            <!-- Divine Mercy Chaplet -->
+                            <div class="prayer-card">
+                                <div class="prayer-header">
+                                    <i class="fas fa-rosary card-icon"></i>
+                                    <h5>Divine Mercy Chaplet</h5>
+                                    <h6>مسبحة الرحمة الإلهية</h6>
+                                </div>
+                                <div class="prayer-text">
+                                    <p><strong>How to pray:</strong></p>
+                                    <ol>
+                                        <li>Begin with the Sign of the Cross</li>
+                                        <li>Say one Our Father, one Hail Mary, and the Apostles' Creed</li>
+                                        <li>On the large beads: "Eternal Father, I offer You the Body and Blood, Soul and Divinity of Your dearly beloved Son, Our Lord Jesus Christ, in atonement for our sins and those of the whole world."</li>
+                                        <li>On the small beads: "For the sake of His sorrowful Passion, have mercy on us and on the whole world."</li>
+                                        <li>Conclude with: "Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world." (3 times)</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other sections hidden by default -->
+                    <div class="prayer-section" id="holy-rosary-section" style="display: none;">
+                        <div class="section-header">
+                            <h3><i class="fas fa-pray"></i> Holy Rosary</h3>
+                            <h4>المسبحة الوردية المقدسة</h4>
+                        </div>
+                        <p style="text-align: center; color: rgba(255,255,255,0.8); font-style: italic;">
+                            Complete Rosary content with all mysteries would be displayed here...
+                        </p>
+                    </div>
+
+                    <div class="prayer-section" id="saint-anthony-section" style="display: none;">
+                        <div class="section-header">
+                            <h3><i class="fas fa-shield-alt"></i> Saint Anthony the Great</h3>
+                            <h4>القديس أنطونيوس الكبير</h4>
+                        </div>
+                        <p style="text-align: center; color: rgba(255,255,255,0.8); font-style: italic;">
+                            Saint Anthony prayers and spiritual warfare content would be displayed here...
+                        </p>
+                    </div>
+
+                    <div class="prayer-section" id="saint-faustina-section" style="display: none;">
+                        <div class="section-header">
+                            <h3><i class="fas fa-dove"></i> Saint Faustina Collection</h3>
+                            <h4>مجموعة القديسة فوستينا</h4>
+                        </div>
+                        <p style="text-align: center; color: rgba(255,255,255,0.8); font-style: italic;">
+                            Saint Faustina's diary excerpts and revelations would be displayed here...
+                        </p>
+                    </div>
+
+                    <div class="prayer-section" id="spiritual-warfare-section" style="display: none;">
+                        <div class="section-header">
+                            <h3><i class="fas fa-sword"></i> Spiritual Warfare Arsenal</h3>
+                            <h4>ترسانة الحرب الروحية</h4>
+                        </div>
+                        <p style="text-align: center; color: rgba(255,255,255,0.8); font-style: italic;">
+                            Powerful spiritual warfare prayers and protection would be displayed here...
+                        </p>
+                    </div>
+
+                    <div class="prayer-section" id="daily-prayers-section" style="display: none;">
+                        <div class="section-header">
+                            <h3><i class="fas fa-sun"></i> Daily Prayer Companion</h3>
+                            <h4>رفيق الصلاة اليومية</h4>
+                        </div>
+                        <p style="text-align: center; color: rgba(255,255,255,0.8); font-style: italic;">
+                            Morning, noon, evening, and night prayers would be displayed here...
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Prayer Request Button -->
+                <div class="prayer-request-section" data-aos="fade-up">
+                    <div class="prayer-request-card">
+                        <h3><i class="fas fa-praying-hands"></i> Need Personal Prayer?</h3>
+                        <p>Submit your prayer intentions and our ministry team will pray for you</p>
+                        <button class="btn btn-primary" id="finalPrayerBtn">
+                            <i class="fas fa-paper-plane"></i> Submit Prayer Request
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="prayer-book-script.js"></script>
+    
+    <script>
+        // Initialize AOS
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-in-out',
+                    once: true
+                });
+            }
+            
+            console.log('✅ Consolidated Prayer Book Demo loaded successfully');
+        });
+    </script>
+</body>
+</html>

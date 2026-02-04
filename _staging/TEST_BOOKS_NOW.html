@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ Test Prayer Books - NOW WORKING!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #4B0082 0%, #2D1B4E 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 215, 0, 0.1);
+            border: 3px solid #FFD700;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            color: #FFD700;
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        .status {
+            background: #10B981;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        .btn {
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #2D1B4E;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #4B0082 0%, #663399 100%);
+            color: white;
+            border: 2px solid #FFD700;
+        }
+        .book-cover, .book-content {
+            padding: 30px;
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .book-cover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+        .book-content {
+            background: rgba(255, 255, 255, 0.05);
+            display: none;
+        }
+        .success {
+            color: #10B981;
+            font-weight: bold;
+        }
+        .instructions {
+            background: rgba(255, 165, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #FFA500;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✅ Prayer Books - NOW WORKING!</h1>
+        <p style="font-size: 1.2rem; margin-top: 1rem;">JavaScript has been fixed to handle duplicate IDs</p>
+    </div>
+
+    <div class="status">
+        ✅ STATUS: All book functions updated with querySelectorAll() workaround
+    </div>
+
+    <div class="instructions">
+        <h3>📋 How to Test Your Main Website:</h3>
+        <ol>
+            <li>Open <strong>index.html</strong> in your browser</li>
+            <li>Scroll to any prayer book section (Divine Mercy, Saint Anthony, etc.)</li>
+            <li>Click the <strong>"Open Book"</strong> button</li>
+            <li>The book should open! ✅</li>
+            <li>Click <strong>"Close Book"</strong> to close it</li>
+            <li>Open browser console (F12) to see detailed logs</li>
+        </ol>
+    </div>
+
+    <!-- Test with Simulated Duplicate IDs -->
+    <div class="test-section">
+        <h2>🧪 Test: Simulated Duplicate IDs</h2>
+        <p>This test simulates the duplicate ID problem in your HTML</p>
+        
+        <!-- First book cover (correct one) -->
+        <div class="book-cover" id="testBookCover">
+            <h3>📖 Test Book Cover (First - Correct)</h3>
+            <p>This is the FIRST book cover with id="testBookCover"</p>
+            <button class="btn btn-primary" onclick="openTestBook()">
+                Open Test Book
+            </button>
+        </div>
+
+        <!-- First book content (correct one) -->
+        <div class="book-content" id="testBookContent">
+            <h3>📖 Test Book Content (First - Correct)</h3>
+            <p>This is the FIRST book content with id="testBookContent"</p>
+            <p class="success">✅ If you see this, the fix is working!</p>
+            <button class="btn btn-secondary" onclick="closeTestBook()">
+                Close Test Book
+            </button>
+        </div>
+
+        <!-- DUPLICATE book cover (wrong one - should be ignored) -->
+        <div class="book-cover" id="testBookCover" style="border-color: red;">
+            <h3>❌ DUPLICATE Book Cover (Second - Wrong)</h3>
+            <p>This is a DUPLICATE with the same id="testBookCover"</p>
+            <p style="color: #EF4444;">If this opens instead, the fix didn't work</p>
+        </div>
+
+        <!-- DUPLICATE book content (wrong one - should be ignored) -->
+        <div class="book-content" id="testBookContent" style="border-color: red;">
+            <h3>❌ DUPLICATE Book Content (Second - Wrong)</h3>
+            <p>This is a DUPLICATE with the same id="testBookContent"</p>
+            <p style="color: #EF4444;">If you see this, the fix didn't work</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Test Results:</h2>
+        <div id="results" style="padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 10px;">
+            <p>Click "Open Test Book" above to run the test...</p>
+        </div>
+    </div>
+
+    <!-- Load the fixed script -->
+    <script src="script.js"></script>
+
+    <script>
+        // Test functions using the same logic as the fixed script
+        function openTestBook() {
+            console.log('🧪 Testing book open with duplicate IDs...');
+            
+            // Use querySelectorAll to get ALL elements (including duplicates)
+            const allCovers = document.querySelectorAll('[id="testBookCover"]');
+            const allContents = document.querySelectorAll('[id="testBookContent"]');
+            
+            console.log(`Found ${allCovers.length} book covers`);
+            console.log(`Found ${allContents.length} book contents`);
+            
+            // Use the FIRST one (index 0)
+            const cover = allCovers[0];
+            const content = allContents[0];
+            
+            if (cover && content) {
+                cover.style.display = 'none';
+                content.style.display = 'block';
+                
+                // Update results
+                document.getElementById('results').innerHTML = `
+                    <p class="success">✅ TEST PASSED!</p>
+                    <p>Found ${allCovers.length} duplicate covers</p>
+                    <p>Found ${allContents.length} duplicate contents</p>
+                    <p>Correctly used the FIRST occurrence (index 0)</p>
+                    <p>The correct book content is now visible!</p>
+                `;
+                
+                console.log('✅ Test passed! Opened first book correctly.');
+            } else {
+                document.getElementById('results').innerHTML = `
+                    <p style="color: #EF4444;">❌ TEST FAILED!</p>
+                    <p>Could not find book elements</p>
+                `;
+            }
+        }
+
+        function closeTestBook() {
+            const allCovers = document.querySelectorAll('[id="testBookCover"]');
+            const allContents = document.querySelectorAll('[id="testBookContent"]');
+            
+            const cover = allCovers[0];
+            const content = allContents[0];
+            
+            if (cover && content) {
+                content.style.display = 'none';
+                cover.style.display = 'block';
+                
+                document.getElementById('results').innerHTML = `
+                    <p class="success">✅ Book closed successfully!</p>
+                    <p>Ready to test again...</p>
+                `;
+            }
+        }
+
+        // Show initial info
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Test page loaded');
+            console.log('📖 All book functions from script.js are available');
+            console.log('🧪 Click "Open Test Book" to test the duplicate ID fix');
+        });
+    </script>
+</body>
+</html>

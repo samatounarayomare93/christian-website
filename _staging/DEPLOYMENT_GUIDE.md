@@ -175,14 +175,6 @@ soul-guidance-website/
 **Problem**: Arabic text not displaying correctly
 **Solution**: Ensure UTF-8 encoding, check font loading
 
-## 4. Post-Deployment Verification (PWA)
-1.  **Open the live URL on your phone.**
-2.  **Look for "Add to Home Screen":**
-    *   **iOS (Safari):** Tap the "Share" button -> "Add to Home Screen".
-    *   **Android (Chrome):** Tap the "Install App" banner or menu option.
-3.  **Verify Icon:** Ensure the "Christian Cross" icon appears on your home screen.
-4.  **Launch:** Open the app from the home screen. It should launch without the browser bar (FullScreen Mode).
-
 ## 📱 MOBILE OPTIMIZATION CHECKLIST
 
 ### Critical Mobile Checks:

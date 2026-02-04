@@ -1,0 +1,827 @@
+/* PRAYER LIBRARY STYLES - PROFESSIONAL SOUL GUIDANCE MINISTRY */
+
+/* Library Showcase */
+.library-showcase {
+    margin-bottom: var(--space-2xl);
+}
+
+.showcase-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    padding: var(--space-xl);
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 20px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.showcase-header h3 {
+    color: var(--primary-gold);
+    font-family: 'Cinzel', serif;
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+}
+
+.showcase-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--text-base);
+    font-style: italic;
+}
+
+/* Books Grid */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+/* Book Card */
+.book-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: var(--space-xl);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-gold), #FFF8DC, var(--primary-gold));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.book-card:hover::before {
+    transform: scaleX(1);
+}
+
+.book-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--primary-gold);
+    box-shadow: var(--shadow-glow);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Book Cover */
+.book-cover {
+    position: relative;
+    height: 120px;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 3px solid;
+    transition: all 0.4s ease;
+}
+
+.book-cover:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.book-icon {
+    font-size: 3rem;
+    transition: all 0.4s ease;
+}
+
+.book-card:hover .book-icon {
+    transform: scale(1.1) rotate(5deg);
+    text-shadow: 0 0 20px currentColor;
+}
+
+.book-spine {
+    position: absolute;
+    left: -3px;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    border-radius: 4px 0 0 4px;
+    opacity: 0.8;
+}
+
+/* Book Info */
+.book-info {
+    flex: 1;
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.book-title {
+    color: var(--primary-gold);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    font-family: 'Cinzel', serif;
+    line-height: 1.3;
+}
+
+.book-title-arabic {
+    color: #93C5FD;
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    font-family: 'Amiri', serif;
+    direction: rtl;
+}
+
+.book-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-xs);
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.book-subtitle-arabic {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--text-xs);
+    margin-bottom: var(--space-md);
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    line-height: 1.4;
+}
+
+.book-type-badge {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 15px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--space-md);
+}
+
+.book-type-badge.interactive {
+    background: rgba(255, 215, 0, 0.2);
+    color: var(--primary-gold);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+}
+
+.book-type-badge.prayer-book {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3B82F6;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+/* Book Actions */
+.book-actions {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+}
+
+.btn-book-primary,
+.btn-book-secondary {
+    padding: var(--space-sm) var(--space-md);
+    border: none;
+    border-radius: 20px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    text-decoration: none;
+    min-width: 80px;
+    justify-content: center;
+}
+
+.btn-book-primary {
+    background: var(--gradient-gold);
+    color: var(--primary-purple);
+    border: 2px solid var(--primary-gold-dark);
+}
+
+.btn-book-primary:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+}
+
+.btn-book-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--primary-white);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-book-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--primary-gold);
+    transform: translateY(-2px) scale(1.05);
+}
+
+/* Featured Book Display */
+.featured-book {
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.9) 0%, rgba(45, 27, 78, 0.9) 100%);
+    backdrop-filter: blur(25px);
+    border-radius: 30px;
+    border: 3px solid var(--primary-gold);
+    padding: var(--space-2xl);
+    margin: var(--space-2xl) 0;
+    position: relative;
+    box-shadow: var(--shadow-glow);
+    animation: featuredBookSlide 0.5s ease-out;
+}
+
+@keyframes featuredBookSlide {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.featured-book-content {
+    position: relative;
+}
+
+.close-book-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid var(--primary-gold);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-gold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: var(--text-lg);
+}
+
+.close-book-btn:hover {
+    background: var(--primary-gold);
+    color: var(--primary-purple);
+    transform: scale(1.1) rotate(90deg);
+}
+
+/* Book Header */
+.book-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.book-header .book-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--primary-gold);
+    flex-shrink: 0;
+    border: 3px solid rgba(255, 215, 0, 0.4);
+}
+
+.book-info h3 {
+    color: var(--primary-gold);
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    margin-bottom: var(--space-xs);
+    font-family: 'Cinzel', serif;
+}
+
+.book-info h4 {
+    color: #93C5FD;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    font-family: 'Amiri', serif;
+    direction: rtl;
+}
+
+.book-info p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--text-base);
+    margin-bottom: var(--space-xs);
+    line-height: 1.6;
+}
+
+/* Book Description */
+.book-description {
+    margin-bottom: var(--space-xl);
+}
+
+.book-description p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--text-base);
+    line-height: 1.8;
+    margin-bottom: var(--space-md);
+    text-align: justify;
+}
+
+/* Book Features */
+.book-features {
+    margin-bottom: var(--space-xl);
+}
+
+.book-features h5 {
+    color: var(--primary-gold);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-lg);
+    text-align: center;
+    font-family: 'Cinzel', serif;
+}
+
+.features-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+}
+
+.features-columns ul {
+    list-style: none;
+    padding: 0;
+}
+
+.features-columns li {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    margin-bottom: var(--space-sm);
+    padding-left: var(--space-lg);
+    position: relative;
+}
+
+.features-columns li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary-gold);
+    font-weight: bold;
+    font-size: var(--text-base);
+}
+
+.features-columns ul:last-child li {
+    direction: rtl;
+    padding-right: var(--space-lg);
+    padding-left: 0;
+    font-family: 'Amiri', serif;
+}
+
+.features-columns ul:last-child li::before {
+    right: 0;
+    left: auto;
+}
+
+/* Book Actions */
+.book-actions {
+    display: flex;
+    gap: var(--space-lg);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Book Content Display */
+.book-content-display {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    margin: var(--space-2xl) 0;
+    overflow: hidden;
+    animation: bookContentSlide 0.5s ease-out;
+}
+
+@keyframes bookContentSlide {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.book-content-header {
+    background: rgba(255, 215, 0, 0.1);
+    padding: var(--space-xl);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.back-to-library-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    padding: var(--space-sm) var(--space-lg);
+    color: var(--primary-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.back-to-library-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: var(--primary-gold);
+    transform: translateY(-2px);
+}
+
+.book-title-display h3 {
+    color: var(--primary-gold);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    font-family: 'Cinzel', serif;
+}
+
+.book-title-display p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--text-sm);
+    margin: 0;
+    font-style: italic;
+}
+
+.book-content-area {
+    padding: var(--space-2xl);
+}
+
+/* Book Content Styles */
+.book-content {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+}
+
+.book-chapter {
+    margin-bottom: var(--space-2xl);
+}
+
+.book-chapter h3 {
+    color: var(--primary-gold);
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    margin-bottom: var(--space-sm);
+    font-family: 'Cinzel', serif;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.book-chapter h4 {
+    color: #93C5FD;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    text-align: center;
+}
+
+.prayer-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: var(--space-xl);
+    margin-bottom: var(--space-xl);
+    border-left: 4px solid var(--primary-gold);
+}
+
+.prayer-section.urgent {
+    border-left-color: #DC143C;
+    background: rgba(220, 20, 60, 0.1);
+}
+
+.prayer-section h5 {
+    color: var(--primary-gold);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    font-family: 'Cinzel', serif;
+}
+
+.prayer-section h6 {
+    color: #93C5FD;
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    font-family: 'Amiri', serif;
+    direction: rtl;
+}
+
+.prayer-text {
+    background: rgba(255, 255, 255, 0.03);
+    padding: var(--space-lg);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.prayer-text p {
+    margin-bottom: var(--space-md);
+    line-height: 1.8;
+}
+
+.prayer-text p:last-child {
+    margin-bottom: 0;
+}
+
+.prayer-text strong {
+    color: var(--primary-gold);
+    font-weight: 700;
+}
+
+/* Rosary Mysteries */
+.rosary-mysteries {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: var(--space-xl);
+    margin-bottom: var(--space-lg);
+    border-left: 4px solid #4169E1;
+}
+
+.rosary-mysteries h5 {
+    color: #4169E1;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    font-family: 'Cinzel', serif;
+}
+
+.rosary-mysteries h6 {
+    color: #93C5FD;
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    font-family: 'Amiri', serif;
+    direction: rtl;
+}
+
+.rosary-mysteries ol {
+    padding-left: var(--space-lg);
+}
+
+.rosary-mysteries li {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--space-sm);
+    line-height: 1.6;
+}
+
+/* Chaplet Instructions */
+.chaplet-instructions {
+    background: rgba(255, 255, 255, 0.03);
+    padding: var(--space-lg);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chaplet-instructions ol {
+    padding-left: var(--space-lg);
+}
+
+.chaplet-instructions li {
+    margin-bottom: var(--space-md);
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Content Placeholder */
+.content-placeholder {
+    text-align: center;
+    padding: var(--space-2xl);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 2px dashed rgba(255, 215, 0, 0.3);
+}
+
+.content-placeholder h5 {
+    color: var(--primary-gold);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-lg);
+    font-family: 'Cinzel', serif;
+}
+
+.features-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    margin: var(--space-xl) 0;
+    text-align: left;
+}
+
+.features-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.features-column li {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--space-sm);
+    padding-left: var(--space-lg);
+    position: relative;
+    line-height: 1.6;
+}
+
+.features-column li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary-gold);
+    font-weight: bold;
+}
+
+.features-column:last-child li {
+    direction: rtl;
+    padding-right: var(--space-lg);
+    padding-left: 0;
+    font-family: 'Amiri', serif;
+}
+
+.features-column:last-child li::before {
+    right: 0;
+    left: auto;
+}
+
+.coming-soon {
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 15px;
+    padding: var(--space-xl);
+    margin-top: var(--space-xl);
+}
+
+.coming-soon h4 {
+    color: var(--primary-gold);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-md);
+    font-family: 'Cinzel', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+}
+
+.coming-soon p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--space-sm);
+    line-height: 1.6;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .book-card {
+        min-height: 350px;
+        padding: var(--space-lg);
+    }
+    
+    .book-cover {
+        height: 100px;
+    }
+    
+    .book-icon {
+        font-size: 2.5rem;
+    }
+    
+    .book-header {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-lg);
+    }
+    
+    .book-header .book-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    
+    .features-columns,
+    .features-list {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .book-content-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .book-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn-book-primary,
+    .btn-book-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .book-content-area {
+        padding: var(--space-lg);
+    }
+    
+    .prayer-section,
+    .rosary-mysteries {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .showcase-header {
+        padding: var(--space-lg);
+    }
+    
+    .showcase-header h3 {
+        font-size: var(--text-lg);
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+    
+    .book-card {
+        min-height: 300px;
+        padding: var(--space-md);
+    }
+    
+    .book-cover {
+        height: 80px;
+    }
+    
+    .book-icon {
+        font-size: 2rem;
+    }
+    
+    .featured-book {
+        padding: var(--space-lg);
+    }
+    
+    .book-content-area {
+        padding: var(--space-md);
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .book-card,
+    .featured-book,
+    .book-content-display {
+        border-width: 3px;
+        background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .prayer-section,
+    .rosary-mysteries {
+        border-left-width: 6px;
+        background: rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .book-card:hover,
+    .book-cover:hover,
+    .book-icon,
+    .btn-book-primary:hover,
+    .btn-book-secondary:hover,
+    .back-to-library-btn:hover {
+        transform: none;
+    }
+    
+    .featured-book,
+    .book-content-display {
+        animation: none;
+    }
+}

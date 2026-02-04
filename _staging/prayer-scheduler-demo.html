@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Scheduler Demo - جدول الصلاة التجريبي</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Cinzel:wght@400;600;800&family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="prayer-scheduler.css">
+    
+    <style>
+        body {
+            padding-top: 2rem;
+        }
+        
+        .demo-header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 2px solid var(--primary-gold);
+        }
+        
+        .demo-header h1 {
+            color: var(--primary-gold);
+            font-family: 'Cinzel', serif;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .demo-controls {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-btn {
+            background: var(--gradient-gold);
+            color: var(--primary-purple);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .demo-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary-gold);
+        }
+        
+        .demo-info h3 {
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+        
+        .demo-info ul {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+        
+        .demo-info li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+        
+        <!-- Demo Header -->
+        <div class="demo-header">
+            <h1><i class="fas fa-clock"></i> Prayer Scheduler Demo</h1>
+            <h2 style="color: #93C5FD; margin-bottom: 1rem;">جدول الصلاة التجريبي</h2>
+            <p>
+                Experience our intelligent prayer scheduling system that helps you maintain a consistent prayer life 
+                with personalized reminders, progress tracking, and spiritual guidance.
+            </p>
+            <p style="margin-top: 1rem;">
+                اختبر نظام جدولة الصلاة الذكي الذي يساعدك على الحفاظ على حياة صلاة ثابتة 
+                مع تذكيرات شخصية وتتبع التقدم والإرشاد الروحي.
+            </p>
+        </div>
+
+        <!-- Demo Controls -->
+        <div class="demo-controls">
+            <button class="demo-btn" onclick="testPrayerNotification()">
+                <i class="fas fa-bell"></i> Test Prayer Notification
+            </button>
+            <button class="demo-btn" onclick="testCurrentPrayer()">
+                <i class="fas fa-praying-hands"></i> Simulate Current Prayer
+            </button>
+            <button class="demo-btn" onclick="test3PMReminder()">
+                <i class="fas fa-heart"></i> Test 3 PM Reminder
+            </button>
+            <button class="demo-btn" onclick="resetProgress()">
+                <i class="fas fa-refresh"></i> Reset Progress
+            </button>
+        </div>
+
+        <!-- Demo Information -->
+        <div class="demo-info">
+            <h3><i class="fas fa-info-circle"></i> Prayer Scheduler Features</h3>
+            <ul>
+                <li><strong>Intelligent Scheduling:</strong> Automatically suggests prayer times based on traditional Christian prayer hours</li>
+                <li><strong>Smart Notifications:</strong> Browser notifications and visual alerts for prayer times</li>
+                <li><strong>Progress Tracking:</strong> Track your daily prayers and maintain prayer streaks</li>
+                <li><strong>Quick Prayers:</strong> Access to common prayers like Our Father, Hail Mary, and Divine Mercy</li>
+                <li><strong>Personalized Recommendations:</strong> AI-powered suggestions based on time, day, and prayer history</li>
+                <li><strong>Customizable Schedule:</strong> Adjust prayer times to fit your personal schedule</li>
+                <li><strong>Special Reminders:</strong> Enhanced notifications for important prayer times like 3 PM Divine Mercy</li>
+                <li><strong>Multilingual Support:</strong> Prayers available in both English and Arabic</li>
+                <li><strong>Offline Capability:</strong> Works even when internet connection is limited</li>
+                <li><strong>Mobile Responsive:</strong> Optimized for all devices and screen sizes</li>
+            </ul>
+        </div>
+
+        <!-- Prayer Scheduler will be inserted here -->
+        <div id="prayer-scheduler-container">
+            <!-- The prayer scheduler will automatically load here -->
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script src="prayer-scheduler.js"></script>
+    
+    <script>
+        // Demo functions
+        function testPrayerNotification() {
+            if (window.prayerScheduler) {
+                const prayer = {
+                    name: 'Test Prayer - صلاة تجريبية',
+                    description: 'This is a test notification to demonstrate the prayer reminder system.',
+                    key: 'test'
+                };
+                window.prayerScheduler.triggerPrayerNotification('test', prayer);
+            } else {
+                alert('Prayer Scheduler is still loading. Please wait a moment and try again.');
+            }
+        }
+        
+        function testCurrentPrayer() {
+            if (window.prayerScheduler) {
+                // Simulate current prayer time
+                const currentPrayerDiv = document.getElementById('current-prayer');
+                if (currentPrayerDiv) {
+                    currentPrayerDiv.style.display = 'block';
+                    document.getElementById('current-prayer-name').textContent = 'Test Prayer Time - وقت الصلاة التجريبي';
+                    document.getElementById('current-prayer-description').textContent = 'This demonstrates how the current prayer highlight works.';
+                    currentPrayerDiv.setAttribute('data-prayer', 'fajr');
+                }
+            } else {
+                alert('Prayer Scheduler is still loading. Please wait a moment and try again.');
+            }
+        }
+        
+        function test3PMReminder() {
+            if (window.prayerScheduler) {
+                window.prayerScheduler.showSpecialReminder('divine_mercy', 'Test: It\'s almost 3 PM - Time for the Divine Mercy Prayer!');
+            } else {
+                alert('Prayer Scheduler is still loading. Please wait a moment and try again.');
+            }
+        }
+        
+        function resetProgress() {
+            localStorage.removeItem('prayerHistory');
+            localStorage.removeItem('prayerPreferences');
+            if (window.prayerScheduler) {
+                window.prayerScheduler.updateProgress();
+                window.prayerScheduler.updatePrayerTimeline();
+                window.prayerScheduler.updateRecommendations();
+            }
+            alert('Prayer progress has been reset. Refresh the page to see the changes.');
+        }
+        
+        // Show notification function for demo
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                z-index: 10001;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                transform: translateX(0);
+                transition: transform 0.3s ease;
+                max-width: 400px;
+                word-wrap: break-word;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; cursor: pointer; padding: 0; margin-left: auto; opacity: 0.8;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+        
+        // Initialize demo
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Prayer Scheduler Demo loaded');
+            
+            // Show welcome message
+            setTimeout(() => {
+                showNotification('Prayer Scheduler Demo loaded successfully! Try the demo buttons above.', 'success');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
