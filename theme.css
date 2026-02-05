@@ -2,51 +2,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&family=Amiri:wght@400;700&family=Cinzel:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-    /* --- COLOR SYSTEM: CELESTIAL & ROYAL --- */
+    /* --- COLOR SYSTEM: CELESTIAL & ROYAL (ULTIMATE UPGRADE) --- */
     --primary-gold: #FFD700;
-    --primary-gold-dim: #C5A000;
+    --primary-gold-dim: #D4AF37;
     --primary-gold-light: #FFF8DC;
     --primary-gold-dark: #B8860B;
+    --primary-gold-glow: rgba(255, 215, 0, 0.6);
 
-    --primary-purple-void: #050010;
-    /* Deepest Void - More cosmic */
-    --primary-purple-deep: #1A0B2E;
-    /* Deep Royal */
+    /* Deep Cosmic Void - Richer and darker */
+    --primary-purple-void: #0a0118;
+    --primary-purple-deep: #1A052A;
     --primary-purple: #320056;
-    /* Rich Purpose */
-    --primary-purple-vivid: #7b2cbf;
-    /* Vivid Accent */
-    --primary-accent: #b28dff;
-    /* Soft Lavender Accent */
+    --primary-purple-vivid: #8A2BE2;
+
+    /* Accents */
+    --primary-accent: #E6E6FA;
+    /* Lavender */
+    --primary-emerald: #50C878;
+    /* Growth/Life */
+    --primary-ruby: #DC143C;
+    /* Sacrifice/Love */
 
     --text-white: #ffffff;
-    --text-off-white: #f8f9fa;
-    --text-silver: #e0e0e0;
+    --text-off-white: #f0f0f5;
+    --text-silver: #c0c0d0;
     --text-gold: #FFD700;
 
     /* --- GRADIENTS: DIVINE LIGHT --- */
-    --gradient-void: radial-gradient(circle at center, #240046 0%, #10002b 40%, #050010 100%);
-    --gradient-royal-gold: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
-    --gradient-luxury-dark: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%);
-    --gradient-glass-premium: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-    --gradient-glow-orb: radial-gradient(circle, rgba(255, 215, 0, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+    --gradient-void: radial-gradient(circle at 50% 50%, #2a0a40 0%, #0a0118 100%);
+    --gradient-royal-gold: linear-gradient(135deg, #CFB53B 0%, #FFD700 25%, #E6C200 50%, #FFD700 75%, #C5A000 100%);
+    --gradient-luxury-dark: linear-gradient(180deg, rgba(15, 5, 25, 0.95) 0%, rgba(5, 2, 10, 0.98) 100%);
+    --gradient-glass-premium: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
+    --gradient-card-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%);
 
-    /* --- SHADOWS: ETHEREAL --- */
-    --shadow-deep: 0 20px 50px -12px rgba(0, 0, 0, 0.9);
-    --shadow-glow-gold: 0 0 40px rgba(255, 215, 0, 0.3);
-    --shadow-glow-purple: 0 0 50px rgba(157, 78, 221, 0.25);
-    --text-glow-gold: 0 0 20px rgba(255, 215, 0, 0.7);
-    --text-glow-white: 0 0 15px rgba(255, 255, 255, 0.6);
+    /* --- SHADOWS: ETHEREAL 3D --- */
+    --shadow-deep: 0 20px 60px -15px rgba(0, 0, 0, 0.95);
+    --shadow-glow-gold: 0 0 50px rgba(255, 215, 0, 0.25);
+    --shadow-glow-purple: 0 0 60px rgba(138, 43, 226, 0.2);
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    --text-glow-gold: 0 0 15px rgba(255, 215, 0, 0.6);
+    --text-glow-white: 0 0 12px rgba(255, 255, 255, 0.5);
 
     /* --- BORDERS: CRYSTALLINE --- */
     --border-glass-thin: 1px solid rgba(255, 255, 255, 0.12);
-    --border-gold-subtle: 1px solid rgba(255, 215, 0, 0.4);
+    --border-gold-subtle: 1px solid rgba(255, 215, 0, 0.3);
+    --border-gold-glow: 1px solid rgba(255, 215, 0, 0.8);
 
     /* --- SPACING & SHAPE --- */
-    --radius-sm: 8px;
+    --radius-sm: 12px;
     --radius-md: 24px;
-    --radius-lg: 48px;
-    --radius-pill: 100px;
+    --radius-lg: 40px;
+    --radius-pill: 999px;
 }
 
 /* --- ANIMATIONS: ALIVE & BREATHING --- */
@@ -334,7 +341,9 @@ h6 {
 
 .track-slider {
     flex: 1;
+    appearance: none;
     -webkit-appearance: none;
+    -moz-appearance: none;
     height: 4px;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 2px;
@@ -1823,19 +1832,20 @@ body.focus-active .divine-verse-container {
 
 
 /* 4. Prayer Board Sidebar */
+/* Prayer Board Sidebar - Premium Upgrade */
 .prayer-board-sidebar {
     position: fixed;
     top: 0;
-    right: -350px;
+    right: -400px;
     width: 350px;
     height: 100vh;
     background: rgba(10, 5, 20, 0.95);
-    backdrop-filter: blur(20px);
     border-left: 1px solid var(--primary-gold);
+    box-shadow: -10px 0 50px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
     z-index: 10000;
-    padding: 2rem;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    padding: 2rem;
     overflow-y: auto;
 }
 
@@ -2088,4 +2098,129 @@ body.focus-active .divine-verse-container {
     font-family: 'Cinzel', serif;
     font-weight: bold;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* --- ULTIMATE GLASSMORPHISM UTILITIES --- */
+
+.glass-panel {
+    background: rgba(20, 10, 40, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    box-shadow: var(--shadow-deep);
+    border-radius: var(--radius-md);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.glass-panel:hover {
+    background: rgba(30, 15, 50, 0.7);
+    border-color: var(--primary-gold);
+    box-shadow: var(--shadow-glow-gold);
+    transform: translateY(-5px);
+}
+
+.glass-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.1), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.glass-card:hover::before {
+    opacity: 1;
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    transform: translateY(-3px);
+}
+
+/* --- TEXT ENHANCEMENTS --- */
+
+.text-gradient-gold {
+    background: var(--gradient-royal-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
+    font-weight: 800;
+}
+
+.text-glow {
+    color: var(--text-white);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+/* --- BUTTON UPGRADES --- */
+
+.btn-divine {
+    background: var(--gradient-royal-gold);
+    color: var(--primary-purple-void);
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: var(--radius-pill);
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+    z-index: 1;
+}
+
+.btn-divine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    z-index: -1;
+}
+
+.btn-divine:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+}
+
+.btn-divine:hover::before {
+    transform: translateX(100%);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius-pill);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.btn-glass:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--text-white);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }

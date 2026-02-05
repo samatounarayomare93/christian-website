@@ -1191,7 +1191,7 @@ class BurdenManager {
     }
 }
 
-class PilgrimageManager {
+
 class LabyrinthManager {
     constructor() {
         this.bead = document.getElementById('labyrinth-bead');
@@ -1411,6 +1411,10 @@ class AscensionManager {
             }
         });
     }
+    emit(element) {
+        // Implementation or placeholder
+    }
+}
 
 class VirtueManager {
     constructor() {
@@ -3221,3 +3225,80 @@ window.closeWarfareBook = closeWarfareBook;
 window.showWarfareChapter = showWarfareChapter;
 
 console.log('✅ All prayer book functions loaded successfully!');
+
+/* --- HOLY PARTICLE SYSTEM (SUPERINTELLIGENCE VISUAL) --- */
+class HolyParticleSystem {
+    constructor() {
+        this.particles = [];
+        this.container = document.body;
+        this.maxParticles = 50;
+        this.init();
+    }
+
+    init() {
+        // Create styling for particles dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            .holy-particle {
+                position: fixed;
+                width: 4px;
+                height: 4px;
+                background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                opacity: 0;
+                transform: translate(-50%, -50%);
+                animation: floatUp 3s ease-out forwards;
+                box-shadow: 0 0 10px #FFD700;
+            }
+            @keyframes floatUp {
+                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+                20% { opacity: 0.8; transform: translate(-50%, -50% - 20px) scale(1.2); }
+                100% { opacity: 0; transform: translate(-50%, -50% - 100px) scale(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Listen for mouse movement
+        document.addEventListener('mousemove', (e) => this.createParticle(e.clientX, e.clientY));
+
+        // Auto-generate ambient particles
+        setInterval(() => {
+            const x = Math.random() * window.innerWidth;
+            const y = window.innerHeight;
+            this.createParticle(x, y);
+        }, 500);
+    }
+
+    createParticle(x, y) {
+        // Throttle creation
+        if (this.particles.length > this.maxParticles) return;
+
+        const particle = document.createElement('div');
+        particle.className = 'holy-particle';
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+
+        // Randomize size slightly
+        const size = Math.random() * 5 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+
+        this.container.appendChild(particle);
+        this.particles.push(particle);
+
+        // Cleanup
+        setTimeout(() => {
+            particle.remove();
+            this.particles = this.particles.filter(p => p !== particle);
+        }, 3000);
+    }
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+    new HolyParticleSystem();
+    console.log('✨ Holy Particle System Activated');
+});
