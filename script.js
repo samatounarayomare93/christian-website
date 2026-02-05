@@ -1274,6 +1274,7 @@ class BreathGuide {
 
         this.timer = setTimeout(() => this.loop(), 10000);
     }
+}
 
 class ObservatoryManager {
     constructor() {
@@ -1494,6 +1495,7 @@ class SilenceManager {
             this.timerEl.style.color = "";
         }, 1000);
     }
+}
 
 class ScriptoriumManager {
     constructor() {
@@ -1669,101 +1671,108 @@ class CrownManager {
     }
 }
 
-init() {
-    this.setEnv(this.currentEnv, false);
-}
-
-setEnv(env, notify = true) {
-    document.body.classList.remove('env-desert', 'env-mountain', 'env-ocean');
-
-    if (env !== 'default') {
-        document.body.classList.add(`env-${env}`);
+class EnvironmentManager {
+    constructor() {
+        this.currentEnv = 'default';
+        this.init();
     }
 
-    this.currentEnv = env;
-    localStorage.setItem('soulGuidance_env', env);
-
-    if (notify) {
-        const names = { desert: "Desert Fathers", mountain: "Mountaintop", ocean: "Ocean of Mercy", default: "Cathedral" };
-        showNotification(`Welcome to the ${names[env]}`, 'info');
-    }
-}
-}
-constructor() {
-    this.container = document.getElementById('tree-canvas-container');
-    this.init();
-}
-
-init() {
-    if (!this.container) return;
-    this.growTree();
-}
-
-growTree() {
-    // Clear previous
-    this.container.innerHTML = '';
-
-    // Simple Fractal Tree Generation
-    // This is a simplified visual representation using div stacking
-    const trunk = this.createBranch(50, 0, 80, 0, 6);
-    this.container.appendChild(trunk);
-
-    // recursive growth logic based on stats
-    const visits = parseInt(localStorage.getItem('soulGuidance_visits') || 10);
-    const amens = Object.keys(JSON.parse(localStorage.getItem('soulGuidance_amens') || {})).length;
-
-    // Base recursion depth on visits (max 10 levels)
-    const depth = Math.min(Math.floor(visits / 3) + 3, 8);
-    this.branchOut(trunk, depth, 70, 0);
-
-    // Add flowers for Amens
-    for (let i = 0; i < amens; i++) {
-        this.addFlower();
-    }
-}
-
-createBranch(left, bottom, height, rot, width) {
-    const div = document.createElement('div');
-    div.className = 'tree-node';
-    div.style.left = left + '%';
-    div.style.bottom = bottom + 'px';
-    div.style.height = height + 'px';
-    div.style.transform = `rotate(${rot}deg)`;
-    div.style.width = width + 'px';
-    return div;
-}
-
-branchOut(parent, depth, height, angle) {
-    if (depth <= 0) {
-        // Add leaf at tips
-        const leaf = document.createElement('div');
-        leaf.className = 'leaf';
-        leaf.style.left = '50%';
-        leaf.style.bottom = '100%';
-        parent.appendChild(leaf);
-        return;
+    init() {
+        this.setEnv(this.currentEnv, false);
     }
 
-    const leftBranch = this.createBranch(50, 100, height * 0.8, -25, Math.max(1, depth));
-    const rightBranch = this.createBranch(50, 100, height * 0.8, 25, Math.max(1, depth));
+    setEnv(env, notify = true) {
+        document.body.classList.remove('env-desert', 'env-mountain', 'env-ocean');
 
-    parent.appendChild(leftBranch);
-    parent.appendChild(rightBranch);
+        if (env !== 'default') {
+            document.body.classList.add(`env-${env}`);
+        }
 
-    setTimeout(() => {
-        this.branchOut(leftBranch, depth - 1, height * 0.8, -25);
-        this.branchOut(rightBranch, depth - 1, height * 0.8, 25);
-    }, 100);
+        this.currentEnv = env;
+        localStorage.setItem('soulGuidance_env', env);
+
+        if (notify) {
+            const names = { desert: "Desert Fathers", mountain: "Mountaintop", ocean: "Ocean of Mercy", default: "Cathedral" };
+            showNotification(`Welcome to the ${names[env]}`, 'info');
+        }
+    }
 }
+class TreeManager {
+    constructor() {
+        this.container = document.getElementById('tree-canvas-container');
+        this.init();
+    }
 
-addFlower() {
-    const flowers = document.createElement('div');
-    flowers.className = 'flower';
-    // Random position within container roughly
-    flowers.style.left = (20 + Math.random() * 60) + '%';
-    flowers.style.bottom = (30 + Math.random() * 60) + '%';
-    this.container.appendChild(flowers);
-}
+    init() {
+        if (!this.container) return;
+        this.growTree();
+    }
+
+    growTree() {
+        // Clear previous
+        this.container.innerHTML = '';
+
+        // Simple Fractal Tree Generation
+        // This is a simplified visual representation using div stacking
+        const trunk = this.createBranch(50, 0, 80, 0, 6);
+        this.container.appendChild(trunk);
+
+        // recursive growth logic based on stats
+        const visits = parseInt(localStorage.getItem('soulGuidance_visits') || 10);
+        const amens = Object.keys(JSON.parse(localStorage.getItem('soulGuidance_amens') || {})).length;
+
+        // Base recursion depth on visits (max 10 levels)
+        const depth = Math.min(Math.floor(visits / 3) + 3, 8);
+        this.branchOut(trunk, depth, 70, 0);
+
+        // Add flowers for Amens
+        for (let i = 0; i < amens; i++) {
+            this.addFlower();
+        }
+    }
+
+    createBranch(left, bottom, height, rot, width) {
+        const div = document.createElement('div');
+        div.className = 'tree-node';
+        div.style.left = left + '%';
+        div.style.bottom = bottom + 'px';
+        div.style.height = height + 'px';
+        div.style.transform = `rotate(${rot}deg)`;
+        div.style.width = width + 'px';
+        return div;
+    }
+
+    branchOut(parent, depth, height, angle) {
+        if (depth <= 0) {
+            // Add leaf at tips
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            leaf.style.left = '50%';
+            leaf.style.bottom = '100%';
+            parent.appendChild(leaf);
+            return;
+        }
+
+        const leftBranch = this.createBranch(50, 100, height * 0.8, -25, Math.max(1, depth));
+        const rightBranch = this.createBranch(50, 100, height * 0.8, 25, Math.max(1, depth));
+
+        parent.appendChild(leftBranch);
+        parent.appendChild(rightBranch);
+
+        setTimeout(() => {
+            this.branchOut(leftBranch, depth - 1, height * 0.8, -25);
+            this.branchOut(rightBranch, depth - 1, height * 0.8, 25);
+        }, 100);
+    }
+
+    addFlower() {
+        const flowers = document.createElement('div');
+        flowers.className = 'flower';
+        // Random position within container roughly
+        flowers.style.left = (20 + Math.random() * 60) + '%';
+        flowers.style.bottom = (30 + Math.random() * 60) + '%';
+        this.container.appendChild(flowers);
+    }
 }
 
 class MemoryManager {
@@ -1825,154 +1834,156 @@ class MemoryManager {
         });
     }
 }
-constructor() {
-    this.settings = JSON.parse(localStorage.getItem('soulGuidance_access')) || {
-        fontSize: 0, // 0 = normal, 1 = large, 2 = extra
-        contrast: false,
-        dyslexic: false
-    };
-    this.init();
-}
-
-init() {
-    this.applySettings();
-
-    document.getElementById('access-font-up')?.addEventListener('click', () => this.adjustFont(1));
-    document.getElementById('access-font-down')?.addEventListener('click', () => this.adjustFont(-1));
-    document.getElementById('access-contrast')?.addEventListener('click', () => this.toggleContrast());
-    document.getElementById('access-dyslexic')?.addEventListener('click', () => this.toggleDyslexic());
-}
-
-adjustFont(dir) {
-    this.settings.fontSize = Math.max(0, Math.min(2, this.settings.fontSize + dir));
-    this.save();
-    this.applySettings();
-}
-
-toggleContrast() {
-    this.settings.contrast = !this.settings.contrast;
-    this.save();
-    this.applySettings();
-}
-
-toggleDyslexic() {
-    this.settings.dyslexic = !this.settings.dyslexic;
-    this.save();
-    this.applySettings();
-}
-
-applySettings() {
-    const html = document.documentElement;
-
-    // Font Size
-    if (this.settings.fontSize === 1) html.style.fontSize = "18px";
-    else if (this.settings.fontSize === 2) html.style.fontSize = "22px";
-    else html.style.fontSize = "";
-
-    // Contrast
-    html.classList.toggle('access-high-contrast', this.settings.contrast);
-
-    // Dyslexic
-    html.classList.toggle('access-dyslexic', this.settings.dyslexic);
-}
-
-save() {
-    localStorage.setItem('soulGuidance_access', JSON.stringify(this.settings));
-}
-}
-constructor() {
-    this.init();
-}
-
-init() {
-    this.updateDivinceOffice();
-    this.updateSoulStats();
-    this.trackVisit();
-}
-
-updateDivinceOffice() {
-    const titleEl = document.getElementById('office-title');
-    const descEl = document.getElementById('office-desc');
-    const iconEl = document.querySelector('#office-icon-container i');
-
-    if (!titleEl) return; // Not on homepage
-
-    const hour = new Date().getHours();
-    let office = { title: "", desc: "", icon: "" };
-
-    if (hour >= 5 && hour < 12) {
-        office.title = "Morning Prayer (Lauds)";
-        office.desc = "Newmercies every morning. Start your day with praise.";
-        office.icon = "fa-cloud-sun";
-    } else if (hour >= 12 && hour < 17) {
-        office.title = "Midday Prayer (Angelus)";
-        office.desc = "Pause in the heat of the day to remember the Incarnation.";
-        office.icon = "fa-sun";
-    } else if (hour >= 17 && hour < 21) {
-        office.title = "Evening Prayer (Vespers)";
-        office.desc = "As the light fades, we give thanks for the day.";
-        office.icon = "fa-moon";
-    } else {
-        office.title = "Night Prayer (Compline)";
-        office.desc = "Rest in God's protection. 'Into your hands, Lord...'";
-        office.icon = "fa-star";
-    }
-
-    titleEl.innerText = office.title;
-    descEl.innerText = office.desc;
-    iconEl.className = `fas ${office.icon} office-icon`;
-}
-
-updateSoulStats() {
-    // Amens
-    const amens = JSON.parse(localStorage.getItem('soulGuidance_amens')) || {};
-    const amenCount = Object.keys(amens).length;
-    this.setStat('stat-amens', amenCount);
-
-    // Candles
-    const candles = JSON.parse(localStorage.getItem('soulGuidance_litCandles')) || [];
-    this.setStat('stat-candles', candles.length);
-
-    // Saved Prayers
-    const saved = JSON.parse(localStorage.getItem('soulGuidance_savedPrayers')) || [];
-    this.setStat('stat-saved', saved.length);
-
-    // Visits (Handled in trackVisit)
-}
-
-setStat(id, val) {
-    const el = document.getElementById(id);
-    if (el) {
-        // Animate counter
-        let start = 0;
-        const duration = 2000;
-        const step = timestamp => {
-            if (!start) start = timestamp;
-            const progress = Math.min((timestamp - start) / duration, 1);
-            el.innerText = Math.floor(progress * val);
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            } else {
-                el.innerText = val;
-            }
+class AccessManager {
+    constructor() {
+        this.settings = JSON.parse(localStorage.getItem('soulGuidance_access')) || {
+            fontSize: 0, // 0 = normal, 1 = large, 2 = extra
+            contrast: false,
+            dyslexic: false
         };
-        window.requestAnimationFrame(step);
+        this.init();
+    }
+
+    init() {
+        this.applySettings();
+
+        document.getElementById('access-font-up')?.addEventListener('click', () => this.adjustFont(1));
+        document.getElementById('access-font-down')?.addEventListener('click', () => this.adjustFont(-1));
+        document.getElementById('access-contrast')?.addEventListener('click', () => this.toggleContrast());
+        document.getElementById('access-dyslexic')?.addEventListener('click', () => this.toggleDyslexic());
+    }
+
+    adjustFont(dir) {
+        this.settings.fontSize = Math.max(0, Math.min(2, this.settings.fontSize + dir));
+        this.save();
+        this.applySettings();
+    }
+
+    toggleContrast() {
+        this.settings.contrast = !this.settings.contrast;
+        this.save();
+        this.applySettings();
+    }
+
+    toggleDyslexic() {
+        this.settings.dyslexic = !this.settings.dyslexic;
+        this.save();
+        this.applySettings();
+    }
+
+    applySettings() {
+        const html = document.documentElement;
+
+        // Font Size
+        if (this.settings.fontSize === 1) html.style.fontSize = "18px";
+        else if (this.settings.fontSize === 2) html.style.fontSize = "22px";
+        else html.style.fontSize = "";
+
+        // Contrast
+        html.classList.toggle('access-high-contrast', this.settings.contrast);
+
+        // Dyslexic
+        html.classList.toggle('access-dyslexic', this.settings.dyslexic);
+    }
+
+    save() {
+        localStorage.setItem('soulGuidance_access', JSON.stringify(this.settings));
     }
 }
+class SoulManager {
+    constructor() {
+        this.init();
+    }
 
-trackVisit() {
-    const visits = parseInt(localStorage.getItem('soulGuidance_visits') || 0) + 1;
-    // Basic increment for now, could be smarter unique days
-    localStorage.setItem('soulGuidance_visits', visits);
+    init() {
+        this.updateDivineOffice();
+        this.updateSoulStats();
+        this.trackVisit();
+    }
 
-    const streakEl = document.getElementById('visit-streak');
-    const statVisits = document.getElementById('stat-visits');
+    updateDivineOffice() {
+        const titleEl = document.getElementById('office-title');
+        const descEl = document.getElementById('office-desc');
+        const iconEl = document.querySelector('#office-icon-container i');
 
-    if (statVisits) statVisits.innerText = visits;
+        if (!titleEl) return; // Not on homepage
 
-    // Simple streak simulator (Mock logic for demo)
-    if (streakEl) streakEl.innerHTML = `🔥 ${Math.min(visits, 999)} Visits`;
-}
+        const hour = new Date().getHours();
+        let office = { title: "", desc: "", icon: "" };
+
+        if (hour >= 5 && hour < 12) {
+            office.title = "Morning Prayer (Lauds)";
+            office.desc = "Newmercies every morning. Start your day with praise.";
+            office.icon = "fa-cloud-sun";
+        } else if (hour >= 12 && hour < 17) {
+            office.title = "Midday Prayer (Angelus)";
+            office.desc = "Pause in the heat of the day to remember the Incarnation.";
+            office.icon = "fa-sun";
+        } else if (hour >= 17 && hour < 21) {
+            office.title = "Evening Prayer (Vespers)";
+            office.desc = "As the light fades, we give thanks for the day.";
+            office.icon = "fa-moon";
+        } else {
+            office.title = "Night Prayer (Compline)";
+            office.desc = "Rest in God's protection. 'Into your hands, Lord...'";
+            office.icon = "fa-star";
+        }
+
+        titleEl.innerText = office.title;
+        descEl.innerText = office.desc;
+        iconEl.className = `fas ${office.icon} office-icon`;
+    }
+
+    updateSoulStats() {
+        // Amens
+        const amens = JSON.parse(localStorage.getItem('soulGuidance_amens')) || {};
+        const amenCount = Object.keys(amens).length;
+        this.setStat('stat-amens', amenCount);
+
+        // Candles
+        const candles = JSON.parse(localStorage.getItem('soulGuidance_litCandles')) || [];
+        this.setStat('stat-candles', candles.length);
+
+        // Saved Prayers
+        const saved = JSON.parse(localStorage.getItem('soulGuidance_savedPrayers')) || [];
+        this.setStat('stat-saved', saved.length);
+
+        // Visits (Handled in trackVisit)
+    }
+
+    setStat(id, val) {
+        const el = document.getElementById(id);
+        if (el) {
+            // Animate counter
+            let start = 0;
+            const duration = 2000;
+            const step = timestamp => {
+                if (!start) start = timestamp;
+                const progress = Math.min((timestamp - start) / duration, 1);
+                el.innerText = Math.floor(progress * val);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    el.innerText = val;
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+    }
+
+    trackVisit() {
+        const visits = parseInt(localStorage.getItem('soulGuidance_visits') || 0) + 1;
+        // Basic increment for now, could be smarter unique days
+        localStorage.setItem('soulGuidance_visits', visits);
+
+        const streakEl = document.getElementById('visit-streak');
+        const statVisits = document.getElementById('stat-visits');
+
+        if (statVisits) statVisits.innerText = visits;
+
+        // Simple streak simulator (Mock logic for demo)
+        if (streakEl) streakEl.innerHTML = `🔥 ${Math.min(visits, 999)} Visits`;
+    }
 }
 
 class FellowshipManager {
@@ -3227,78 +3238,416 @@ window.showWarfareChapter = showWarfareChapter;
 console.log('✅ All prayer book functions loaded successfully!');
 
 /* --- HOLY PARTICLE SYSTEM (SUPERINTELLIGENCE VISUAL) --- */
-class HolyParticleSystem {
+/* --- CONSTELLATION ENGINE (THE FIRMAMENT) --- */
+class ConstellationEngine {
     constructor() {
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
         this.particles = [];
-        this.container = document.body;
-        this.maxParticles = 50;
+        this.maxParticles = 80;
+        this.connectionDistance = 150;
+
+        this.initCanvas();
+        this.initParticles();
+        this.animate();
+
+        window.addEventListener('resize', () => this.resize());
+        // Mouse interaction
+        window.addEventListener('mousemove', (e) => {
+            // Add momentary particle at mouse pos
+            if (Math.random() > 0.5) this.addParticle(e.clientX, e.clientY, true);
+        });
+    }
+
+    initCanvas() {
+        this.canvas.id = 'firmament-canvas';
+        this.canvas.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+        `;
+        document.body.prepend(this.canvas);
+        this.resize();
+    }
+
+    resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+
+    addParticle(x, y, isTemporary = false) {
+        this.particles.push({
+            x: x || Math.random() * this.canvas.width,
+            y: y || Math.random() * this.canvas.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            size: Math.random() * 2 + 1,
+            life: isTemporary ? 100 : Infinity, // Mouse trail fades
+            maxLife: 100
+        });
+
+        // Cap limit
+        if (this.particles.length > this.maxParticles + 20) {
+            this.particles.shift();
+        }
+    }
+
+    initParticles() {
+        for (let i = 0; i < this.maxParticles; i++) {
+            this.addParticle();
+        }
+    }
+
+    animate() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Update & Draw Particles
+        for (let i = 0; i < this.particles.length; i++) {
+            let p = this.particles[i];
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Boundary wrap
+            if (p.x < 0) p.x = this.canvas.width;
+            if (p.x > this.canvas.width) p.x = 0;
+            if (p.y < 0) p.y = this.canvas.height;
+            if (p.y > this.canvas.height) p.y = 0;
+
+            // Draw Star
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            this.ctx.fillStyle = `rgba(255, 215, 0, ${p.life === Infinity ? 0.5 : (p.life / p.maxLife)})`;
+            this.ctx.fill();
+
+            // Decay temp and remove
+            if (p.life !== Infinity) {
+                p.life--;
+                if (p.life <= 0) {
+                    this.particles.splice(i, 1);
+                    i--;
+                    continue;
+                }
+            }
+
+            // Draw Connections (Constellations)
+            for (let j = i + 1; j < this.particles.length; j++) {
+                let p2 = this.particles[j];
+                let dx = p.x - p2.x;
+                let dy = p.y - p2.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < this.connectionDistance) {
+                    this.ctx.beginPath();
+                    this.ctx.strokeStyle = `rgba(255, 215, 0, ${0.15 - (dist / this.connectionDistance) * 0.15})`;
+                    this.ctx.lineWidth = 0.5;
+                    this.ctx.moveTo(p.x, p.y);
+                    this.ctx.lineTo(p2.x, p2.y);
+                    this.ctx.stroke();
+                }
+            }
+        }
+
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// Liturgical Time Cycle (Dynamic Theme)
+class LiturgicalTime {
+    constructor() {
+        this.init();
+        setInterval(() => this.init(), 60000); // Check every minute
+    }
+
+    init() {
+        const hour = new Date().getHours();
+        const root = document.documentElement;
+        let timeName = "";
+
+        if (hour >= 5 && hour < 10) {
+            // DAWN (Lauds) - Soft Gold/Pink
+            root.style.setProperty('--primary-purple-void', '#2a1a35');
+            root.style.setProperty('--primary-gold', '#FFD700');
+            timeName = "Lauds (Dawn)";
+        } else if (hour >= 10 && hour < 17) {
+            // DAY (Sext/None) - Bright, Energetic
+            root.style.setProperty('--primary-purple-void', '#1a052a');
+            root.style.setProperty('--primary-gold', '#F0E68C');
+            timeName = "Day (Light)";
+        } else if (hour >= 17 && hour < 20) {
+            // DUSK (Vespers) - Deep Purple/Orange
+            root.style.setProperty('--primary-purple-void', '#150520');
+            root.style.setProperty('--primary-gold', '#FFA500');
+            timeName = "Vespers (Dusk)";
+        } else {
+            // NIGHT (Compline) - Deepest Void
+            root.style.setProperty('--primary-purple-void', '#050208');
+            root.style.setProperty('--primary-gold', '#D4AF37');
+            timeName = "Compline (Night)";
+        }
+
+        console.log(`🕰️ Liturgical Time: ${timeName}`);
+    }
+}
+
+// Initialize Systems
+document.addEventListener('DOMContentLoaded', () => {
+    new ConstellationEngine();
+    new LiturgicalTime();
+    console.log('🌌 Firmament & Time Cycle Activated');
+});
+
+
+
+
+
+
+
+
+
+/* --- DIVINE SCROLL INDICATOR --- */
+class DivineScroll {
+    constructor() {
+        this.createProgressBar();
+        window.addEventListener('scroll', () => this.updateProgress());
+    }
+
+    createProgressBar() {
+        const bar = document.createElement('div');
+        bar.id = 'divine-progress-bar';
+        bar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, #4B0082, #FFD700);
+            z-index: 10001;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            transition: width 0.1s ease-out;
+        `;
+        document.body.appendChild(bar);
+        this.bar = bar;
+    }
+
+    updateProgress() {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        this.bar.style.width = scrolled + "%";
+
+        // Dynamic glow based on progress
+        if (scrolled > 99) {
+            this.bar.style.boxShadow = "0 0 20px #FFD700";
+        } else {
+            this.bar.style.boxShadow = "0 0 10px rgba(255, 215, 0, 0.5)";
+        }
+    }
+}
+
+// Initialize Scroll Indicator
+document.addEventListener('DOMContentLoaded', () => {
+    new DivineScroll();
+});
+
+// Preloader Removal
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.body.classList.add('loaded');
+        setTimeout(() => {
+            const preloader = document.getElementById('divine-preloader');
+            if (preloader) preloader.remove();
+        }, 1000);
+    }, 2000); // Minimum 2s divine entrance
+});
+
+/* --- PROCEDURAL HOLY AUDIO ENGINE (WEB AUDIO API) --- */
+class ProceduralAudioEngine {
+    constructor() {
+        this.ctx = null;
+        this.masterGain = null;
+        this.oscillators = [];
+        this.enabled = false;
+
+        // Expose to global scope for chimes
+        window.soulGuidanceAudio = this;
+
+        this.initUI();
+    }
+
+    initUI() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        btn.className = 'ambient-toggle-btn';
+        btn.title = "Toggle Heavenly Ambience";
+        btn.style.cssText = `
+position: fixed;
+bottom: 20px;
+right: 80px;
+background: rgba(75, 0, 130, 0.9);
+color: #FFD700;
+border: 2px solid #FFD700;
+border - radius: 50 %;
+width: 50px;
+height: 50px;
+cursor: pointer;
+z - index: 10002;
+transition: all 0.3s ease;
+box - shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+display: flex;
+align - items: center;
+justify - content: center;
+font - size: 1.2rem;
+`;
+
+        btn.onclick = () => this.toggle();
+        document.body.appendChild(btn);
+        this.btn = btn;
+    }
+
+    initAudio() {
+        if (this.ctx) return;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new AudioContext();
+        this.masterGain = this.ctx.createGain();
+        this.masterGain.gain.setValueAtTime(0, this.ctx.currentTime);
+        this.masterGain.connect(this.ctx.destination);
+    }
+
+    playDrone() {
+        this.initAudio();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        // 432Hz Healing Frequencies (E Major Add9)
+        const freqs = [82.41, 123.47, 164.81, 185.00, 207.65];
+
+        this.oscillators = freqs.map((f, i) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+
+            osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+            osc.frequency.setValueAtTime(f, this.ctx.currentTime);
+            osc.detune.setValueAtTime((Math.random() - 0.5) * 10, this.ctx.currentTime);
+
+            // Breath LFO
+            const lfo = this.ctx.createOscillator();
+            lfo.frequency.value = 0.1 + (Math.random() * 0.2);
+            const lfoGain = this.ctx.createGain();
+            lfoGain.gain.value = 0.1;
+
+            lfo.connect(lfoGain);
+            lfoGain.connect(gain.gain);
+
+            osc.connect(gain);
+            gain.connect(this.masterGain);
+
+            osc.start();
+            lfo.start();
+
+            gain.gain.setValueAtTime(0.05, this.ctx.currentTime); // Low baseline volume
+
+            return { osc, gain, lfo };
+        });
+
+        this.masterGain.gain.setTargetAtTime(0.5, this.ctx.currentTime, 3);
+    }
+
+    stopDrone() {
+        if (!this.ctx) return;
+        this.masterGain.gain.setTargetAtTime(0, this.ctx.currentTime, 1);
+        setTimeout(() => {
+            this.oscillators.forEach(o => { o.osc.stop(); o.lfo.stop(); });
+            this.oscillators = [];
+        }, 1500);
+    }
+
+    playChime(freq = 600, duration = 0.5) {
+        this.initAudio();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+        osc.type = 'sine';
+
+        gain.gain.setValueAtTime(0, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.3, this.ctx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + duration);
+    }
+
+    toggle() {
+        this.enabled = !this.enabled;
+
+        if (this.enabled) {
+            this.playDrone();
+            this.btn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            this.btn.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.8), inset 0 0 10px #FFD700';
+            showNotification("Atmosphere Stabilized.", "success");
+        } else {
+            this.stopDrone();
+            this.btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            this.btn.style.boxShadow = '0 0 15px rgba(255, 215, 0, 0.3)';
+        }
+    }
+}
+
+// Initialize Sound Manager
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => new ProceduralAudioEngine(), 1000);
+});
+
+/* --- 3D TILT EFFECT (PREMIUM PHYSICS) --- */
+class TiltEffect {
+    constructor() {
+        this.cards = document.querySelectorAll('.card, .hero-badge, .prayer-card');
         this.init();
     }
 
     init() {
-        // Create styling for particles dynamically
-        const style = document.createElement('style');
-        style.textContent = `
-            .holy-particle {
-                position: fixed;
-                width: 4px;
-                height: 4px;
-                background: radial-gradient(circle, #FFD700 0%, transparent 70%);
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 9999;
-                opacity: 0;
-                transform: translate(-50%, -50%);
-                animation: floatUp 3s ease-out forwards;
-                box-shadow: 0 0 10px #FFD700;
-            }
-            @keyframes floatUp {
-                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-                20% { opacity: 0.8; transform: translate(-50%, -50% - 20px) scale(1.2); }
-                100% { opacity: 0; transform: translate(-50%, -50% - 100px) scale(0); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Listen for mouse movement
-        document.addEventListener('mousemove', (e) => this.createParticle(e.clientX, e.clientY));
-
-        // Auto-generate ambient particles
-        setInterval(() => {
-            const x = Math.random() * window.innerWidth;
-            const y = window.innerHeight;
-            this.createParticle(x, y);
-        }, 500);
+        this.cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => this.handleMove(e, card));
+            card.addEventListener('mouseleave', () => this.handleLeave(card));
+        });
     }
 
-    createParticle(x, y) {
-        // Throttle creation
-        if (this.particles.length > this.maxParticles) return;
+    handleMove(e, card) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-        const particle = document.createElement('div');
-        particle.className = 'holy-particle';
-        particle.style.left = x + 'px';
-        particle.style.top = y + 'px';
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
-        // Randomize size slightly
-        const size = Math.random() * 5 + 2;
-        particle.style.width = size + 'px';
-        particle.style.height = size + 'px';
-        particle.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+        const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg rotation
+        const rotateY = ((x - centerX) / centerX) * 10;
 
-        this.container.appendChild(particle);
-        this.particles.push(particle);
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        card.style.transition = 'transform 0.1s ease';
+    }
 
-        // Cleanup
-        setTimeout(() => {
-            particle.remove();
-            this.particles = this.particles.filter(p => p !== particle);
-        }, 3000);
+    handleLeave(card) {
+        card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+        card.style.transition = 'transform 0.5s ease';
     }
 }
 
-// Initialize on load
+// Initialize Tilt
 document.addEventListener('DOMContentLoaded', () => {
-    new HolyParticleSystem();
-    console.log('✨ Holy Particle System Activated');
+    // Wait for other elements to render
+    setTimeout(() => {
+        new TiltEffect();
+        console.log('🌌 3D Tilt Physics Enabled');
+    }, 1000);
 });
