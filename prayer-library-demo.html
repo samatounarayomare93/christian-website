@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prayer Library Demo - مكتبة الصلاة التجريبية</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Cinzel:wght@400;600;800&family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Cinzel:wght@400;600;800&family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <!-- AOS Animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="prayer-scheduler.css">
     <link rel="stylesheet" href="prayer-library.css">
-    
+
     <style>
         body {
             padding-top: 2rem;
         }
-        
+
         .demo-header {
             text-align: center;
             padding: 3rem 2rem;
@@ -36,7 +40,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .demo-header::before {
             content: '';
             position: absolute;
@@ -46,15 +50,18 @@
             height: 4px;
             background: var(--gradient-gold);
         }
-        
+
         .demo-header h1 {
-            color: var(--primary-gold);
+            background: var(--gradient-royal-gold);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-family: 'Cinzel', serif;
             font-size: var(--text-4xl);
             margin-bottom: 1rem;
-            text-shadow: var(--shadow-text);
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
         }
-        
+
         .demo-header h2 {
             color: #93C5FD;
             font-family: 'Amiri', serif;
@@ -62,7 +69,7 @@
             margin-bottom: 2rem;
             direction: rtl;
         }
-        
+
         .demo-header p {
             color: rgba(255, 255, 255, 0.9);
             font-size: var(--text-lg);
@@ -70,7 +77,7 @@
             max-width: 800px;
             margin: 0 auto 1rem;
         }
-        
+
         .demo-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -81,11 +88,11 @@
             border-radius: 20px;
             border: 2px solid rgba(255, 215, 0, 0.3);
         }
-        
+
         .demo-stat {
             text-align: center;
         }
-        
+
         .demo-stat-number {
             font-size: 3rem;
             font-weight: 800;
@@ -94,14 +101,14 @@
             display: block;
             margin-bottom: 0.5rem;
         }
-        
+
         .demo-stat-label {
             color: rgba(255, 255, 255, 0.8);
             font-size: var(--text-sm);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
+
         .demo-features {
             background: rgba(255, 255, 255, 0.08);
             padding: 2rem;
@@ -109,7 +116,7 @@
             margin-bottom: 3rem;
             border-left: 4px solid var(--primary-gold);
         }
-        
+
         .demo-features h3 {
             color: var(--primary-gold);
             font-family: 'Cinzel', serif;
@@ -118,13 +125,13 @@
             align-items: center;
             gap: 0.75rem;
         }
-        
+
         .demo-features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
-        
+
         .demo-feature {
             background: rgba(255, 255, 255, 0.05);
             padding: 1.5rem;
@@ -132,38 +139,38 @@
             border: 1px solid rgba(255, 215, 0, 0.2);
             transition: all 0.3s ease;
         }
-        
+
         .demo-feature:hover {
             border-color: var(--primary-gold);
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
         }
-        
+
         .demo-feature-icon {
             font-size: 2rem;
             color: var(--primary-gold);
             margin-bottom: 1rem;
         }
-        
+
         .demo-feature h4 {
             color: var(--primary-white);
             font-size: var(--text-base);
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
-        
+
         .demo-feature p {
             color: rgba(255, 255, 255, 0.8);
             font-size: var(--text-sm);
             line-height: 1.6;
             margin: 0;
         }
-        
+
         .demo-navigation {
             text-align: center;
             margin-bottom: 3rem;
         }
-        
+
         .demo-nav-btn {
             background: var(--gradient-gold);
             color: var(--primary-purple);
@@ -180,39 +187,70 @@
             gap: 0.75rem;
             text-decoration: none;
         }
-        
+
         .demo-nav-btn:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: var(--shadow-glow);
         }
-        
+
         .demo-nav-btn.secondary {
             background: rgba(255, 255, 255, 0.2);
             color: var(--primary-white);
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
-        
+
         .demo-nav-btn.secondary:hover {
             background: rgba(255, 255, 255, 0.3);
             border-color: var(--primary-gold);
         }
     </style>
 </head>
+
 <body>
-    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 1rem;">
-        
+    <!-- Navigation -->
+    <nav class="enterprise-nav" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" aria-label="Soul Guidance Home">
+                <i class="fas fa-cross"></i>
+                <span>إرشاد الروح</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link" aria-label="Home"><i class="fas fa-home"></i> الرئيسية</a>
+                </li>
+                <li><a href="index.html#about" class="nav-link" aria-label="About"><i class="fas fa-heart"></i>
+                        رسالتنا</a></li>
+                <li><a href="index.html#monastic" class="nav-link" aria-label="Monastic Life"><i
+                            class="fas fa-cross"></i> الحياة
+                        الرهبانية</a></li>
+                <li><a href="index.html#prayer" class="nav-link" aria-label="Prayers"><i
+                            class="fas fa-praying-hands"></i>
+                        الصلوات</a></li>
+                <li><a href="#" class="nav-link" aria-label="Prayer Book"><i class="fas fa-book"></i> كتاب
+                        الصلوات</a></li>
+                <li><a href="index.html#contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i>
+                        تواصل
+                        معنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 1rem; padding-top: 100px;">
+
         <!-- Demo Header -->
         <div class="demo-header">
             <h1><i class="fas fa-book-open"></i> Prayer Library Demo</h1>
             <h2>مكتبة الصلاة المقدسة التجريبية</h2>
             <p>
-                Experience our comprehensive Prayer Library system with 8 professional prayer books, 
-                interactive scheduler, and complete spiritual guidance resources. Each book contains 
+                Experience our comprehensive Prayer Library system with 8 professional prayer books,
+                interactive scheduler, and complete spiritual guidance resources. Each book contains
                 carefully curated prayers, devotions, and spiritual tools for your journey with Christ.
             </p>
             <p style="margin-top: 1rem;">
-                اختبر نظام مكتبة الصلاة الشامل مع 8 كتب صلاة مهنية وجدولة تفاعلية 
-                وموارد إرشاد روحي كاملة. كل كتاب يحتوي على صلوات وتكريسات وأدوات روحية 
+                اختبر نظام مكتبة الصلاة الشامل مع 8 كتب صلاة مهنية وجدولة تفاعلية
+                وموارد إرشاد روحي كاملة. كل كتاب يحتوي على صلوات وتكريسات وأدوات روحية
                 مختارة بعناية لرحلتك مع المسيح.
             </p>
         </div>
@@ -305,7 +343,7 @@
     <script src="script.js"></script>
     <script src="prayer-scheduler.js"></script>
     <script src="prayer-library.js"></script>
-    
+
     <script>
         // Demo functions
         function scrollToScheduler() {
@@ -313,35 +351,41 @@
             if (window.prayerLibrary) {
                 window.prayerLibrary.openBook('prayer-scheduler');
             }
-            
+
             // Then scroll to scheduler section if it exists
             setTimeout(() => {
                 const schedulerSection = document.getElementById('prayer-scheduler');
                 if (schedulerSection) {
                     schedulerSection.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    showNotification('Prayer Scheduler is loading... Please wait a moment.', 'info');
+                    if (window.showNotification) {
+                        showNotification('Prayer Scheduler is loading... Please wait a moment.', 'info');
+                    }
                 }
             }, 1000);
         }
-        
+
         function openRandomBook() {
             if (window.prayerLibrary) {
                 const bookIds = Object.keys(window.prayerLibrary.books);
                 const randomBook = bookIds[Math.floor(Math.random() * bookIds.length)];
                 window.prayerLibrary.previewBook(randomBook);
-                showNotification(`Opening random book: ${window.prayerLibrary.books[randomBook].title}`, 'success');
+                if (window.showNotification) {
+                    showNotification(`Opening random book: ${window.prayerLibrary.books[randomBook].title}`, 'success');
+                }
             } else {
-                showNotification('Prayer Library is still loading. Please wait a moment.', 'info');
+                if (window.showNotification) {
+                    showNotification('Prayer Library is still loading. Please wait a moment.', 'info');
+                }
             }
         }
-        
+
         function showLibraryStats() {
             if (window.prayerLibrary) {
                 const books = Object.values(window.prayerLibrary.books);
                 const interactiveBooks = books.filter(book => book.type === 'interactive').length;
                 const prayerBooks = books.filter(book => book.type === 'prayer-book').length;
-                
+
                 const statsMessage = `
                     📚 Library Statistics:
                     • Total Books: ${books.length}
@@ -350,75 +394,30 @@
                     • Languages: 2 (English & Arabic)
                     • Features: 200+ prayers and devotions
                 `;
-                
+
                 alert(statsMessage);
             } else {
-                showNotification('Prayer Library is still loading. Please wait a moment.', 'info');
-            }
-        }
-        
-        // Show notification function
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                z-index: 10001;
-                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 10px;
-                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-                transform: translateX(0);
-                transition: transform 0.3s ease;
-                max-width: 400px;
-                word-wrap: break-word;
-            `;
-            
-            notification.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-                    <span>${message}</span>
-                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; cursor: pointer; padding: 0; margin-left: auto; opacity: 0.8;">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // Auto-remove after 5 seconds
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
+                if (window.showNotification) {
+                    showNotification('Prayer Library is still loading. Please wait a moment.', 'info');
                 }
-            }, 5000);
-        }
-        
-        // Initialize demo
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Prayer Library Demo loaded');
-            
-            // Initialize AOS
-            if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 800,
-                    easing: 'ease-in-out',
-                    once: true
-                });
             }
-            
+        }
+
+        // Initialize demo
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Prayer Library Demo loaded');
+
             // Show welcome message
             setTimeout(() => {
-                showNotification('Prayer Library Demo loaded successfully! Explore the books below. 📚', 'success');
+                if (window.showNotification) {
+                    showNotification('Prayer Library Demo loaded successfully! Explore the books below. 📚', 'success');
+                }
             }, 3000);
-            
+
             // Add smooth scrolling to library link
             const libraryLink = document.querySelector('a[href="#prayer-library"]');
             if (libraryLink) {
-                libraryLink.addEventListener('click', function(e) {
+                libraryLink.addEventListener('click', function (e) {
                     e.preventDefault();
                     setTimeout(() => {
                         const librarySection = document.getElementById('prayer-library');
@@ -431,4 +430,5 @@
         });
     </script>
 </body>
+
 </html>

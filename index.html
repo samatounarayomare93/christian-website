@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
@@ -186,7 +186,8 @@
                         الرهبانية</a></li>
                 <li><a href="#prayer" class="nav-link" aria-label="Prayers"><i class="fas fa-praying-hands"></i>
                         الصلوات</a></li>
-                <li><a href="#prayer-book" class="nav-link" aria-label="Prayer Book"><i class="fas fa-book"></i> كتاب
+                <li><a href="consolidated-prayer-book.html" class="nav-link" aria-label="Prayer Book"><i
+                            class="fas fa-book"></i> كتاب
                         الصلوات</a></li>
                 <li><a href="#contact" class="nav-link" aria-label="Contact"><i class="fas fa-envelope"></i> تواصل
                         معنا</a></li>
@@ -197,8 +198,8 @@
     <!-- Main Content -->
     <main id="main-content">
         <!-- Hero Section -->
-        <section class="hero-section" id="home">
-            <div class="hero-content">
+        <section class="hero-section divine-parallax" id="home" data-speed="0.2">
+            <div class="hero-content divine-parallax" data-speed="0.4">
                 <span class="hero-badge animate__animated animate__pulse animate__infinite"
                     style="animation-delay: 0.5s;">منارة الرجاء في قلب الظلمة</span>
                 <h1 class="hero-title" data-aos="fade-up" data-aos-delay="200">
@@ -212,16 +213,30 @@
                     نحن هنا لنرافقك في مسيرة الشفاء الداخلي والولادة الروحية الجديدة. بقوة الصلاة وعمق الإيمان، ستختبر
                     الحياة الأبدية التي وعد بها الرب. <span class="highlight">أنت مدعو اليوم لمجد أبناء الله.</span>
                 </p>
+                <div id="verse-container" class="divine-verse-container"></div>
+
+                <!-- CANDLE STAND SECTION -->
+                <div class="candle-section" id="candle-stand" data-aos="fade-up">
+                    <h3 style="font-family:'Cinzel', serif; color:var(--primary-gold); margin-bottom:1rem;">Virtual
+                        Candle Stand</h3>
+                    <p style="color:var(--text-silver); margin-bottom:2rem;">Light a candle for your intention. <span
+                            id="global-candle-count" style="color:var(--element-gold); font-weight:bold;">1,248</span>
+                        lit today.</p>
+                    <div class="candle-grid" id="candle-grid-container">
+                        <!-- JS creates candles here -->
+                    </div>
+                </div>
+
                 <div class="btn-group" data-aos="fade-up" data-aos-delay="800">
-                    <a href="mailto:soulguidances@hotmail.com?subject=URGENT%3A%20Life%20Transformation%20Request&body=Dear%20Soul%20Guidance%20Ministry%20Team%2C%0A%0AI%20am%20reaching%20out%20for%20immediate%20spiritual%20transformation%20and%20guidance.%20I%20am%20ready%20to%20experience%20the%20life-changing%20power%20of%20Jesus%20Christ.%0A%0APlease%20contact%20me%20as%20soon%20as%20possible%20to%20begin%20this%20journey.%0A%0AIn%20faith%2C%0A%5BYour%20Name%5D%0A%5BYour%20Phone%5D%0A%5BYour%20Email%5D"
+                    <a href="mailto:soulguidances@hotmail.com?subject=A%20Prayer%20Request%20for%20Guidance&body=Dear%20Soul%20Guidance%20Ministry%20Team%2C%0A%0AI%20am%20seeking%20spiritual%20guidance%20and%20prayer.%20I%20would%20appreciate%20your%20support%20in%20my%20journey%20of%20faith.%0A%0AIn%20Christ%2C%0A%5BYour%20Name%5D"
                         class="btn btn-primary animate__animated animate__pulse animate__infinite"
                         style="animation-delay: 1s;">
-                        <i class="fas fa-rocket"></i>
-                        ابدأ رحلة الخلاص
+                        <i class="fas fa-praying-hands"></i>
+                        اطلب صلاة الآن
                     </a>
                     <a href="tel:+1234567555" class="btn btn-secondary">
                         <i class="fas fa-phone-alt"></i>
-                        خط صلاة: <span dir="ltr">+961 70 123 456</span>
+                        خط صلاة مباشر
                     </a>
                     <a href="#contact" class="btn btn-secondary">
                         <i class="fas fa-envelope"></i>
@@ -1489,1440 +1504,319 @@
                             </div>
 
                             <!-- Chapter 4: Daily Protection Prayers -->
-                            <div class="book-chapter" id="daily-protection">
-                                <h4> الفصل الرابع: صلوات الحماية اليومية</h4>
+                            <!-- Saint Anthony Section -->
 
-                                <div class="prayer-collection">
-                                    <div class="prayer-entry">
-
+                            <div class="prayer-section" id="saint-anthony-section" style="display: none;">
+                                <div class="section-header">
+                                    <h3><i class="fas fa-shield-alt"></i> Saint Anthony the Great</h3>
+                                    <h4>القديس أنطونيوس الكبير</h4>
+                                </div>
+                                <div class="card-grid">
+                                    <!-- Saint Anthony Prayer -->
+                                    <div class="prayer-card">
+                                        <div class="prayer-header">
+                                            <i class="fas fa-shield-alt card-icon"></i>
+                                            <h5>Prayer to Saint Anthony</h5>
+                                            <h6>صلاة للقديس أنطونيوس</h6>
+                                        </div>
                                         <div class="prayer-text">
-
-
-                                            <blockquote>
-                                                "يا قديس أنطونيوس البادواني، مع بداية هذا اليوم الجديد، أضع نفسي وعائلتي
-                                                تحت
-                                                حمايتك. احرسنا من كل الأخطار، المنظورة وغير المنظورة. احمِ خروجنا
-                                                ودخولنا.
-                                                كن درعاً لنا من الحوادث، والأمراض، والأذى. أرشد قراراتنا وأفعالنا.
-                                                ليمتليء
-                                                هذا اليوم ببركات الله ورعايتك الساهرة. آمين."
-                                            </blockquote>
+                                            <p><strong>English:</strong></p>
+                                            <p>"Saint Anthony the Great, father of monks and warrior against demons, you
+                                                who
+                                                conquered Satan in the desert, intercede for us with the Lord. Teach us
+                                                how to fight
+                                                temptations and resist evil. Protect us from the snares of the devil and
+                                                his
+                                                helpers. Amen."</p>
+                                            <p><strong>Arabic - العربية:</strong></p>
+                                            <p>"يا قديس أنطونيوس الكبير، أبا الرهبان ومحارب الشياطين، يا من انتصرت على
+                                                إبليس في
+                                                البرية، اشفع لنا عند الرب. علمنا كيف نحارب التجارب ونقاوم الشر. احمنا من
+                                                مكائد
+                                                الشيطان وأعوانه. آمين."</p>
                                         </div>
                                     </div>
-
-                                    <div class="prayer-entry">
-
-                                        <div class="prayer-text">
-
-
-                                            <blockquote>
-                                                "يا قديس أنطونيوس، مع نهاية هذا اليوم، أشكرك على حمايتك ورعايتك. اسهر
-                                                علينا
-                                                خلال الليل. احمِ منازلنا من المتطفلين والأخطار. احرس نومنا وامنحنا راحة
-                                                هادئة. احمنا من الكوابيس والتأثيرات الشريرة. لتطوق ملائكتك أسرتنا
-                                                وتحفظنا
-                                                سالمين حتى الصباح. آمين."
-                                            </blockquote>
+                                    <!-- Desert Fathers Wisdom -->
+                                    <div class="prayer-card">
+                                        <div class="prayer-header">
+                                            <i class="fas fa-mountain card-icon"></i>
+                                            <h5>Desert Fathers Wisdom</h5>
+                                            <h6>حكمة آباء البرية</h6>
                                         </div>
-                                    </div>
-
-                                    <div class="prayer-entry">
-
                                         <div class="prayer-text">
-
-
-                                            <blockquote>
-                                                "يا قديس أنطونيوس، حامي العائلات، بارك واحمي منزلنا. احفظ عائلتنا متحدة
-                                                في
-                                                المحبة والإيمان. احمِ أطفالنا من كل أذى وأرشدهم في البر. بارك والدينا
-                                                بالحكمة والقوة. حصن منزلنا من التأثيرات الشريرة، والاقتحام، والكوارث.
-                                                ليملأ
-                                                السلام والفرح وحضور الله منزلنا دائماً. آمين."
-                                            </blockquote>
+                                            <p><strong>Spiritual Guidance:</strong></p>
+                                            <p>"A time is coming when men will go mad, and when they see someone who is
+                                                not mad,
+                                                they will attack him, saying, 'You are mad; you are not like us.'" -
+                                                Saint Anthony
+                                            </p>
+                                            <p><strong>الإرشاد الروحي:</strong></p>
+                                            <p>"سيأتي زمان يجن فيه الناس، وعندما يرون شخصاً لم يجن، سيهاجمونه قائلين:
+                                                'أنت مجنون؛
+                                                لست مثلنا.'" - القديس أنطونيوس</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Chapter 5: Saint Anthony's Miracles -->
-                            <div class="book-chapter" id="miracles">
-                                <h4> الفصل الخامس: معجزات القديس أنطونيوس</h4>
+                            <!-- Spiritual Warfare Section -->
+                            <!-- Saint Faustina Section -->
+                            <div class="prayer-section" id="saint-faustina-section" style="display: none;">
+                                <div class="section-header">
+                                    <h3><i class="fas fa-dove"></i> Saint Faustina Collection</h3>
+                                    <h4>مجموعة القديسة فوستينا</h4>
+                                </div>
 
-                                <div class="miracles-collection">
-                                    <div class="miracle-entry">
-
-                                        <div class="miracle-text">
-
-                                            <div class="arabic-translation">
-                                                <p><strong>Arabic - عربي:</strong> عندما تحداه الهراطقة حول الحضور
-                                                    الحقيقي
-                                                    في القربان المقدس، استدعى القديس أنطونيوس بغلاً جائعاً. البغل، ورغم
-                                                    تجويعه لمدة ثلاثة أيام، تجاهل التبن الموضوع أمامه وركع بدلاً من ذلك
-                                                    أمام
-                                                    القربان المقدس الذي كان يحمله القديس أنطونيوس، معترفاً بربه.</p>
-                                            </div>
+                                <div class="card-grid">
+                                    <!-- Jesus' Words to Saint Faustina -->
+                                    <div class="prayer-card">
+                                        <div class="prayer-header">
+                                            <i class="fas fa-dove card-icon"></i>
+                                            <h5>Jesus' Words to Saint Faustina</h5>
+                                            <h6>كلمات يسوع للقديسة فوستينا</h6>
+                                        </div>
+                                        <div class="prayer-text">
+                                            <p><strong>Jesus said:</strong></p>
+                                            <p>"I desire that you know more profoundly the love that burns in My Heart
+                                                for souls,
+                                                and you will understand this when you meditate upon My Passion. Call
+                                                upon My mercy
+                                                for sinners; I desire their salvation."</p>
+                                            <p><strong>قال يسوع:</strong></p>
+                                            <p>"أريد أن تعرفي بعمق أكبر المحبة التي تحترق في قلبي للنفوس، وستفهمين هذا
+                                                عندما تتأملين في آلامي. ادعي رحمتي للخطأة؛ أريد خلاصهم."</p>
                                         </div>
                                     </div>
 
-                                    <div class="miracle-entry">
-
-                                        <div class="miracle-text">
-
-                                            <div class="arabic-translation">
-                                                <p><strong>Arabic - عربي:</strong> عندما رفض أهل ريميني الاستماع إلى
-                                                    وعظه،
-                                                    ذهب القديس أنطونيوس إلى شاطئ البحر ووعظ الأسماك. تجمعت الأسماك
-                                                    بأعداد
-                                                    كبيرة، رافعة رؤوسها فوق الماء للاستماع، مظهرة أن الخليقة نفسها تعرف
-                                                    حقيقة الله.</p>
-                                            </div>
+                                    <!-- Saint Faustina's Personal Prayer -->
+                                    <div class="prayer-card">
+                                        <div class="prayer-header">
+                                            <i class="fas fa-heart card-icon"></i>
+                                            <h5>Saint Faustina's Prayer</h5>
+                                            <h6>صلاة القديسة فوستينا</h6>
                                         </div>
-                                    </div>
-
-                                    <div class="miracle-entry">
-
-                                        <div class="miracle-text">
-
-                                            <div class="arabic-translation">
-                                                <p><strong>Arabic - عربي:</strong> طوال حياته، اجترح القديس أنطونيوس
-                                                    معجزات
-                                                    لا تحصى لحماية الأطفال من الخطر. الأطفال الذين فُقدوا وُجدوا، والذين
-                                                    كانوا في خطر أُنقذوا، وكثيرون شُفوا بشفاعته. لهذا السبب يُطلب بشكل
-                                                    خاص
-                                                    لحماية الشباب.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="miracle-entry">
-
-                                        <div class="miracle-text">
-
-                                            <div class="arabic-translation">
-                                                <p><strong>Arabic - عربي:</strong> يشتهر القديس أنطونيوس بمساعدة الناس
-                                                    في
-                                                    العثور على الأشياء المفقودة. بدأ هذا عندما سُرق كتاب صلواته الخاص
-                                                    وأُعيد
-                                                    بعد صلاته. منذ ذلك الحين، وجد عدد لا يحصى من الناس أشياء مفقودة
-                                                    بشفاعته،
-                                                    مما أدى إلى الصلاة الشعبية: "يا قديس أنطونيوس، يا قديس أنطونيوس،
-                                                    تعال
-                                                    وانظر، شيء ما ضاع ولا يمكن إيجاده."</p>
-                                                </p>
-                                            </div>
+                                        <div class="prayer-text">
+                                            <p><strong>English:</strong></p>
+                                            <p>"Most Merciful Jesus, whose very name is a refuge for us, You are the
+                                                source of all
+                                                mercy, fall upon us and enter our hearts. In You we trust and to You we
+                                                turn in all
+                                                our needs. Be our peace and our strength. Amen."</p>
+                                            <p><strong>Arabic - العربية:</strong></p>
+                                            <p>"يا يسوع الرحوم، يا من اسمك ملجأ لنا، أنت مصدر كل رحمة، انزل علينا وادخل
+                                                قلوبنا. بك نثق وإليك نلتجئ في جميع احتياجاتنا. كن سلامنا وقوتنا. آمين."
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="prayer-section" id="spiritual-warfare-section" style="display: none;">
+                                <div class="section-header">
+                                    <h3><i class="fas fa-sword"></i> Spiritual Warfare Arsenal</h3>
+                                    <h4>ترسانة الحرب الروحية</h4>
+                                </div>
+                                <div class="card-grid">
+                                    <!-- Saint Michael Prayer -->
+                                    <div class="prayer-card urgent">
+                                        <div class="prayer-header">
+                                            <i class="fas fa-angel card-icon"></i>
+                                            <h5>Saint Michael the Archangel</h5>
+                                            <h6>القديس ميخائيل رئيس الملائكة</h6>
+                                        </div>
+                                        <div class="prayer-text">
+                                            <p><strong>English:</strong></p>
+                                            <p>"Saint Michael the Archangel, defend us in battle. Be our protection
+                                                against the
+                                                wickedness and snares of the devil. May God rebuke him, we humbly pray.
+                                                And do thou,
+                                                O Prince of the heavenly host, by the power of God, cast into hell Satan
+                                                and all the
+                                                evil spirits who prowl about the world seeking the ruin of souls. Amen."
+                                            </p>
+                                            <p><strong>Arabic - العربية:</strong></p>
+                                            <p>"القديس ميخائيل رئيس الملائكة، دافع عنا في المعركة، وكن عوناً لنا ضد شر
+                                                ومكائد إبليس.
+                                                ليأمره الله، نتوسل إليك بتواضع. وأنت يا أمير الجند السماوي، اطرح الشيطان
+                                                والأرواح
+                                                الشريرة الأخرى التي تجول في العالم لإهلاك النفوس، اطرحها إلى جهنم بقوة
+                                                الله. آمين."
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Protection Prayer -->
+                                    <div class="prayer-card urgent">
+                                        <div class="prayer-header">
+                                            <i class="fas fa-shield card-icon"></i>
+                                            <h5>Comprehensive Protection</h5>
+                                            <h6>الحماية الشاملة</h6>
+                                        </div>
+                                        <div class="prayer-text">
+                                            <p><strong>English:</strong></p>
+                                            <p>"I cover myself and my family with the precious Blood of Jesus Christ. I
+                                                place the
+                                                Cross of Christ between me and all evil. I reject every curse, spell,
+                                                and evil eye.
+                                                I cast out every evil spirit in the name of Jesus. I call upon Michael
+                                                the Archangel
+                                                to surround me with the army of heaven. Amen."</p>
+                                            <p><strong>Arabic - العربية:</strong></p>
+                                            <p>"أغطي نفسي وعائلتي بدم يسوع المسيح الكريم. أضع صليب المسيح بيني وبين كل
+                                                شر. أرفض كل
+                                                لعنة وسحر وعين حاسدة. أطرد كل روح شرير باسم يسوع. أدعو ميخائيل رئيس
+                                                الملائكة ليحيط
+                                                بي بجيش السماء. آمين."</p>
+                                        </div>
+                                    </div>
+                                    <!-- Deliverance Prayer -->
+                                    <div class="prayer-card urgent">
+                                        <div class="prayer-header">
+                                            <i class="fas fa-cross card-icon"></i>
+                                            <h5>Deliverance from Evil</h5>
+                                            <h6>التحرر من الشر</h6>
+                                        </div>
+                                        <div class="prayer-text">
+                                            <p><strong>English:</strong></p>
+                                            <p>"In the name of Jesus Christ, I break every curse and demonic work
+                                                directed against
+                                                me or my family. By the precious Blood of Christ, I break every demonic
+                                                bond and
+                                                binding. Lord Jesus, You are the Victor and Conqueror, protect me from
+                                                all evil and
+                                                harm. I cast out every evil spirit in the name of Holy Jesus. Satan has
+                                                no power
+                                                over me because I belong to Christ. Amen."</p>
+                                            <p><strong>Arabic - العربية:</strong></p>
+                                            <p>"باسم يسوع المسيح، أبطل كل سحر وعمل شيطاني موجه ضدي أو ضد عائلتي. بدم
+                                                المسيح الكريم،
+                                                أكسر كل قيد وربط شيطاني. يا رب يسوع، أنت الغالب والمنتصر، احمني من كل شر
+                                                ومكروه.
+                                                أطرد كل روح شرير باسم يسوع القدوس. لا سلطان للشيطان علي لأنني ملك
+                                                للمسيح. آمين."</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="prayer-section" id="daily-prayers-section" style="display: none;">
+                                <div class="section-header">
+                                    <h3><i class="fas fa-sun"></i> رفيق الصلاة اليومي</h3>
+                                </div>
 
-                                <div class="prayer-entry" style="margin-top: 2rem;">
-                                    <h6><i class="fas fa-praying-hands"></i> Prayer to Saint Anthony for
-                                        Miracles
-                                    </h6>
+                                <div class="card-grid">
+                                    <!-- صلاة الصباح -->
+                                    <div class="prayer-card">
+
+                                        <h6>تقدمة الصباح</h6>
+                                    </div>
                                     <div class="prayer-text">
 
-                                        "يا قديس أنطونيوس صانع المعجزات، أنت الذي صنعت عجائب كثيرة خلال حياتك على الأرض،
-                                        استمر في صنع المعجزات لنا اليوم. تشفع لنا في احتياجاتنا، واحمنا من كل الأخطار،
-                                        وساعدنا لنجد ما فقدناه - سواء كان أشياء مادية، أو صحة، أو سلاماً، أو طريقنا في
-                                        الحياة. لتجلب لنا شفاعتك المقتدرة المعجزات التي نحتاجها. آمين."
-                                        </blockquote>
+
+                                        <p>"يا يسوعي، أقدم لك اليوم كل صلواتي، وأعمالي، وأفراحي، وآلامي بالاتحاد مع قلبك
+                                            الأقدس. أقدمها
+                                            لكل نوايا قلبك: لخلاص النفوس، والتعويض عن الخطايا، ووحدة جميع المسيحيين.
+                                            آمين."</p>
                                     </div>
                                 </div>
+
+                                <!-- صلاة المساء -->
+                                <div class="prayer-card">
+
+                                    <h6>شكر المساء</h6>
+                                </div>
+                                <div class="prayer-text">
+
+
+                                    <p>"أشكرك يا إلهي، على كل النعم التي أعطيتني إياها اليوم. أنا آسف على كل خطاياي
+                                        وتقصيري. أضع نفسي
+                                        وكل أحبائي تحت حماية رحمتك الإلهية. باركنا واحفظنا آمنين خلال الليل. آمين."</p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="prayer-cards-grid" style="display: none;">
-                        <!-- Saint Anthony Prayer -->
-                        <div class="prayer-card">
+                            <!-- Before Sleep Prayer -->
+                            <div class="prayer-card">
 
+                                <h6>قبل النوم</h6>
+                            </div>
                             <div class="prayer-text">
 
 
-                                <p>"يا قديس أنطونيوس الكبير، أب الرهبان ومحارب الشياطين، يا من قهرت الشيطان في الصحراء،
-                                    تشفع
-                                    لنا عند الرب. علمنا كيف نحارب التجارب ونقاوم الشر. احمنا من فخاخ الشيطان ومعاونيه.
-                                    آمين."</p>
+                                <p>"يا يسوع، أنا أثق بك. في يديك أستودع روحي. اسهر علي وأنا نائم وامنحني راحة سلام. لتكن
+                                    رحمتك الإلهية
+                                    علي وعلى عائلتي. آمين."</p>
                             </div>
-                        </div>
+                        </div> <!-- End daily-prayers-section -->
+                    </div> <!-- End prayer-content-store -->
 
-                        <!-- Desert Fathers Wisdom -->
-                        <div class="prayer-card">
 
-                            <div class="prayer-text">
 
-                                <p>"A time is coming when men will go mad, and when they see someone who is not
-                                    mad,
-                                    they will attack him, saying, 'You are mad; you are not like us.'" - Saint
-                                    Anthony</p>
-
-                                <p>"سيأتي وقت يجن فيه الناس، وعندما يرون شخصاً ليس مجنوناً، سيهاجمونه قائلين: 'أنت
-                                    مجنون؛
-                                    لأنك لست مثلنا.'" - القديس أنطونيوس</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Saint Faustina Section -->
-                <div class="prayer-section" id="saint-faustina-section" style="display: none;">
-                    <div class="section-header">
-                        <h3><i class="fas fa-dove"></i> ورحمة الله الإلهية</h3>
-                    </div>
-
-                    <div class="prayer-cards-grid">
-                        <!-- Jesus' Words to Saint Faustina -->
-                        <div class="prayer-card">
-
-                            <h6>كلمات يسوع للقديسة فوستينا</h6>
-                        </div>
-                        <div class="prayer-text">
-
-                            <p>"I desire that you know more profoundly the love that burns in My Heart for
-                                souls, and you will understand this when you meditate upon My Passion. Call
-                                upon
-                                My mercy for sinners; I desire their salvation."</p>
-                            <p><strong>عربي:</strong></p>
-                            <p>"يا ابنتي، تكلمي إلى العالم أجمع عن رحمتي التي لا تدرك. أنا أرغب في أن تكون الرحمة مهرباً
-                                وملجأً لكل النفوس، وخصوصاً للخطاة المساكين."</p>
-                        </div>
-                    </div>
-
-                    <!-- Saint Faustina's Personal Prayer -->
-                    <div class="prayer-card">
-
-                        <h6>صلاة القديسة فوستينا</h6>
-                    </div>
-                    <div class="prayer-text">
-
-
-                        <p>"يا يسوع، يا من قلبك مفعم بالحب والرحمة، يا من أنت الحياة والنور، أنا أثق بك. ساعدني لأكون
-                            رحيماً
-                            مثلك."</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Spiritual Warfare Section -->
-        <section class="section" id="spiritual-warfare-book"
-            style="background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(220, 20, 60, 0.1) 100%);">
-            <div class="container">
-                <div class="section-header" data-aos="fade-up">
-                    <div class="section-badge">أقوى كتاب للحرب الروحية</div>
-                    <h2 class="section-title">كتاب الحرب الروحية</h2>
-                    <p class="section-description">
-                        أقوى مجموعة من صلوات الحرب الروحية لكسر السحر، الشعوذة، اللعنات، المس الشيطاني، وكل أشكال
-                        الشر. هذه هي أقوى الصلوات من التقاليد الكاثوليكية والأرثوذكسية والكتابية للحماية الروحية
-                        الكاملة والتحرر.
-                    </p>
-                    <p class="section-description" style="color: #FF6B6B; font-weight: bold;">
-                        تحذير هام: هذه الصلوات قوية جداً ويجب استخدامها بإيمان وخشوع واستعداد روحي لائق.
-                    </p>
-                </div>
-
-                <!-- Interactive Book Interface -->
-                <div class="warfare-book" data-aos="fade-up">
-                    <div class="book-cover" id="warfareBookCover">
-                        <div class="book-cover-content">
-                            <i class="fas fa-sword book-cover-icon" style="color: #DC143C;"></i>
-                            <h3>كتاب الحرب الروحية</h3>
-                            <p>لتحطيم كل أعمال السحر واللعنات والمس الشيطاني</p>
-                            <button class="btn btn-primary btn-warfare btn-pulse open-book-btn"
-                                onclick="openWarfareBook()">
-                                <i class="fas fa-book-reader"></i>
-                                افتح الكتاب
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Book Content (Hidden initially) -->
-                    <div class="book-content" id="warfareBookContent" style="display: none;">
-                        <div class="book-header">
-                            <h3>كتاب الحرب الروحية - أقوى الصلوات</h3>
-                            <button class="btn btn-secondary close-book-btn" onclick="closeWarfareBook()">
-                                <i class="fas fa-times"></i> أغلق الكتاب
-                            </button>
-                        </div>
-
-                        <!-- Table of Contents -->
-                        <div class="book-chapter active" id="warfare-toc">
-                            <h4>جدول المحتويات</h4>
-                            <div class="toc-grid">
-                                <div class="toc-item" onclick="showWarfareChapter('exorcism-prayers')">
-                                    <i class="fas fa-cross"></i>
-                                    <div>
-                                        <p>الفصل 1: صلوات طرد الأرواح الشريرة</p>
-                                    </div>
-                                </div>
-                                <div class="toc-item" onclick="showWarfareChapter('breaking-curses')">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <div>
-                                        <p>الفصل 2: تحطيم السحر واللعنات</p>
-                                    </div>
-                                </div>
-                                <div class="toc-item" onclick="showWarfareChapter('protection-prayers')">
-                                    <i class="fas fa-fire"></i>
-                                    <div>
-                                        <p>الفصل 3: صلوات الحماية القصوى</p>
-                                    </div>
-                                </div>
-                                <div class="toc-item" onclick="showWarfareChapter('angelic-warfare')">
-                                    <i class="fas fa-angel"></i>
-                                    <div>
-                                        <p>الفصل 4: صلوات الحرب الملائكية</p>
-                                    </div>
-                                </div>
-                                <div class="toc-item" onclick="showWarfareChapter('blood-of-jesus')">
-                                    <i class="fas fa-heart"></i>
-                                    <div>
-                                        <p>الفصل 5: صلوات دم يسوع</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="chapter-navigation">
-                                <button class="btn btn-primary chapter-btn"
-                                    onclick="showWarfareChapter('exorcism-prayers')">
-                                    <i class="fas fa-cross"></i> الفصل 1
-                                </button>
-                                <button class="btn btn-primary chapter-btn"
-                                    onclick="showWarfareChapter('breaking-curses')">
-                                    <i class="fas fa-shield-alt"></i> الفصل 2
-                                </button>
-                                <button class="btn btn-primary chapter-btn"
-                                    onclick="showWarfareChapter('protection-prayers')">
-                                    <i class="fas fa-fire"></i> الفصل 3
-                                </button>
-                                <button class="btn btn-primary chapter-btn"
-                                    onclick="showWarfareChapter('angelic-warfare')">
-                                    <i class="fas fa-angel"></i> الفصل 4
-                                </button>
-                                <button class="btn btn-primary chapter-btn"
-                                    onclick="showWarfareChapter('blood-of-jesus')">
-                                    <i class="fas fa-heart"></i> الفصل 5
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Chapter 1: Exorcism & Deliverance Prayers -->
-                        <div class="book-chapter" id="exorcism-prayers">
-                            <h4>الفصل 1: صلوات طرد الأرواح الشريرة</h4>
-                            <p class="chapter-intro" style="color: #FF6B6B; font-weight: bold;">
-                                هذه هي أقوى صلوات طرد الأرواح الشريرة من تراث الكنيسة. استخدمها بإيمان عظيم وخشوع.
-                            </p>
-
-                            <div class="warfare-prayers-collection">
-                                <div class="warfare-prayer-entry">
-                                    <h6><i class="fas fa-cross"></i> صلاة طرد الأرواح العظمى</h6>
-                                    <div class="prayer-content-warfare">
-                                        <div class="prayer-text-warfare">
-                                            <p><strong>باسم يسوع المسيح، آمرك أيها الروح النجس أن تخرج!</strong></p>
-
-                                            <p>"أنا أطردك، أيها الروح النجس! يا عدو الجنس البشري! باسم يسوع المسيح
-                                                إلهنا وربنا، وبقوة الروح القدس، آمرك: أخبرني باسمك!"</p>
-
-                                            <p><strong>أمر المغادرة:</strong></p>
-                                            <p>"بقوة المسيح، أطرحك في النار الأبدية المعدة لك ولملائكتك! اخرج يا
-                                                شيطان! أخلِ المكان للروح القدس! باسم الآب والابن والروح القدس.
-                                                آمين!"</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="warfare-prayer-entry">
-                                    <h6><i class="fas fa-fire"></i> صلاة التحرر من المس الشيطاني</h6>
-                                    <div class="prayer-content-warfare">
-                                        <div class="prayer-text-warfare">
-
-                                            <p><strong>صلاة تحرير عاجلة:</strong></p>
-
-                                            <p>"يا ربي يسوع المسيح، ابن الله الحي، يا من جئت لتحطم أعمال إبليس، أدعو
-                                                اسمك القدوس لتحرير هذه النفس من كل مس شيطاني وتأثير شرير."</p>
-
-                                            <p><strong>بدم يسوع المسيح:</strong></p>
-                                            <p>"أنا أغطي هذا الشخص بدم يسوع المسيح الثمين. كل شيطان يجب أن يهرب! كل
-                                                روح شرير يجب أن يغادر! لا سلاح يصور ضد هذه النفس ينجح!"</p>
-
-                                            <p><strong>الأمر النهائي:</strong></p>
-                                            <p>"يا شيطان، أنا أقيدك وكل شياطينك باسم يسوع! ليس لك سلطان هنا! هذه
-                                                النفس ملك للمسيح! اخرج الآن!"</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="warfare-prayer-entry">
-                                    <h6><i class="fas fa-shield-alt"></i> صلاة طرد الأرواح للقديس ميخائيل</h6>
-                                    <div class="prayer-content-warfare">
-                                        <div class="prayer-text-warfare">
-
-                                            <p><strong>أقوى طرد أرواح ملائكي:</strong></p>
-
-                                            <p>"يا قديس ميخائيل رئيس الملائكة، دافع عنا في المعركة! كن حمايتنا ضد
-                                                شرور ومكايد الشيطان! لينتهره الله، نسأله بتضرع!"</p>
-
-                                            <p><strong>أمر للشياطين:</strong></p>
-                                            <p>"وأنت يا قائد الجند السماوي، بقوة الله، اطرح في الجحيم الشيطان وكل
-                                                الأرواح الشريرة التي تجول في العالم لهلاك النفوس!"</p>
-
-                                            <p><strong>صلاة التقييد:</strong></p>
-                                            <p>"أنا أقيد كل شيطان، كل روح شرير، كل روح نجس باسم يسوع المسيح! أنتم
-                                                مقيدون بسلاسل القديس ميخائيل! لا تستطيعون إيذاء أبناء الله!"</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Chapter 2: Breaking Black Magic & Curses -->
-                        <div class="book-chapter" id="breaking-curses">
-                            <h4>الفصل 2: تحطيم السحر واللعنات</h4>
-                            <p class="chapter-intro" style="color: #FF6B6B; font-weight: bold;">
-                                هذه الصلوات تدمر جميع أشكال السحر، الشعوذة، اللعنات، والتعاويذ الشريرة الموجهة ضدك
-                                أو ضد عائلتك.
-                            </p>
-
-                            <div class="warfare-prayers-collection">
-                                <div class="warfare-prayer-entry">
-                                    <h6><i class="fas fa-fire"></i> صلاة تحطيم كل أعمال السحر الأسود</h6>
-                                    <div class="prayer-content-warfare">
-                                        <div class="prayer-text-warfare">
-
-                                            <p><strong>أقصى قوة ضد السحر الأسود:</strong></p>
-
-                                            <p>"باسم يسوع المسيح القدير، أنا أحطم وأدمر كل عمل من أعمال السحر
-                                                الأسود، والشعوذة، والسحر، والتعاويذ الشريرة الموجهة ضدي، وضد عائلتي،
-                                                ومنزلي، وممتلكاتي!"</p>
-
-                                            <p><strong>إعلان التحطيم:</strong></p>
-                                            <p>"كل لعنة قد تحطمت! كل سحر قد تدمر! كل تعويذة شريرة ترتد على فاعلها
-                                                سبعة أضعاف! بدم يسوع، أنا محمي! لن ينجح أي سلاح من الظلام ضدي!"</p>
-
-                                            <p><strong> :</strong></p>
-                                            <p><strong>صلاة العكس:</strong></p>
-                                            <p>"يا رب يسوع، أنا أرد كل عمل شرير إلى مصدره. ليحصد كل ساحر ومشعود ما
-                                                زرعه. احمني بدمك الثمين!"</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="warfare-prayer-entry">
-                                    <h6><i class="fas fa-shield-alt"></i> صلاة تحطيم كل اللعنات</h6>
-                                    <p>"يا ربي يسوع المسيح، أنا أضع نفسي وعائلتي تحت حمايتك الإلهية من كل عين
-                                        شريرة، وحسد، ونوايا خبيثة موجهة ضدنا."</p>
-
-
-
-                                    <p><strong>تحطيم العين الشريرة:</strong></p>
-                                    <p>"كل عين شريرة موجهة ضدي تنكسر! كل نظرة حسد تعود إلى مصدرها! كل فكر حاسد
-                                        ضدي يفشل! أنا مغطى بدم يسوع!"</p>
-
-                                    <p><strong>صلاة البركة:</strong></p>
-                                    <p>"بدلاً من اللعنات، أنا أقبل البركات! بدلاً من الشر، أنا أقبل الخير! بدلاً
-                                        من الأذى، أنا أقبل الشفاء! شكراً يا يسوع على حمايتك!"</p>
-
-
-                                    <h6><i class="fas fa-shield-alt"></i> Prayer to Destroy All Curses - صلاة
-                                        تحطيم كل اللعنات</h6>
-
-                                    <p><strong>تحطيم اللعنات الكامل:</strong></p>
-                                    <p>"أنا أعظم من منتصر بالمسيح! كل لعنة هي بلا قوة! كل كلمة شريرة قيلت ضدي
-                                        تسقط إلى الأرض! أنا أسير في الرضا والبركة الإلهية!"</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <p>"بالسلطان المعطى لي كابن لله، أنا أحطم كل لعنة متوارثة، كل لعنة عائلية، كل لعنة منطوقة، وكل لعنة
-                    مكتوبة ضدي وضد نسلي!"</p>
-
-
-
-                <div class="warfare-prayers-collection">
-                    <div class="warfare-prayer-entry">
-                        <p><strong>تطهير خط العائلة:</strong></p>
-                        <p>"أنا أطهر خط عائلتي بدم يسوع! كل لعنة تتوقف عندي! أطفالي وأطفالهم مباركون، لا ملعونون!
-                            العدو ليس له حق قانوني في عائلتي!"</p>
-
-
-
-                        <p>"يا رب يسوع، أنا ألبس درع الله الكامل لأقف ضد مكايد إبليس. ألبس منطقة الحق، ودرع البر،
-                            وحذاء إنجيل السلام."</p>
-                        <p><strong>إعلان النصر:</strong></p>
-                        <p>"أنا أعظم من منتصر بالمسيح! كل لعنة هي بلا قوة! كل كلمة شريرة قيلت ضدي تسقط إلى الأرض!
-                            أنا أسير في الرضا والبركة الإلهية!"</p>
-
-
-                        <h5>الفصل 3: صلوات الحماية القصوى</h5>
-                        <p>"أحمل ترس الإيمان لأطفئ جميع سهام الشرير الملتهبة. ألبس خوذة الخلاص وأحمل سيف الروح، الذي
-                            هو كلمة الله!"</p>
-
-
-
-                        <h6><i class="fas fa-shield-alt"></i> صلاة درع الله</h6>
-                    </div>
-                    <p><strong>ارتداء الدرع:</strong></p>
-                </div>
-
-                <div class="warfare-prayer-entry">
-                    <h6><i class="fas fa-fire"></i> حماية دم يسوع</h6>
-                    </h6>
-                    <div class="prayer-content-warfare">
-                        <div class="prayer-text-warfare">
-
-                            <p>"يا رب يسوع، أنا ألبس درع الله الكامل لأقف ضد مكايد إبليس. ألبس منطقة الحق، ودرع
-                                البر، وحذاء إنجيل السلام."</p>
-
-
-                            <p>"أنا أغطي نفسي، وعائلتي، ومنزلي، وعملي، وكل ممتلكاتي بدم يسوع المسيح الثمين. هذا الدم
-                                هو حمايتي، ونصري، وقوتي!"</p>
-                            <p><strong>حماية كاملة:</strong></p>
-                            <p>"أحمل ترس الإيمان لأطفئ جميع سهام الشرير الملتهبة. ألبس خوذة الخلاص وأحمل سيف الروح،
-                                الذي هو كلمة الله!"</p>
-
-
-
-                            <p><strong>إعلان النصر:</strong></p>
-                            <p>"أنا محمي بالكامل! لا سلاح يصور ضدي ينجح! أنا مختبئ في المسيح! العدو لا يستطيع لمسي!"
-                            </p>
-
-
-                            <h6><i class="fas fa-fire"></i> Blood of Jesus Protection - حماية دم يسوع</h6>
-
-                            <p>"بدمه، أنا أنتصر! بدمه، أنا أطهر! بدمه، أنا أحمى! بدمه، لي النصر على كل شر!"</p>
-                            <p><strong>التغطية بالدم الثمين:</strong></p>
-                        </div>
-                    </div>
-
-                    <div class="warfare-prayer-entry">
-                        <h6><i class="fas fa-home"></i> صلاة حماية المنزل</h6>
-                        <div class="prayer-content-warfare">
-                            <div class="prayer-text-warfare">
-
-                                <p>"أنا أغطي نفسي، وعائلتي، ومنزلي، وعملي، وكل ممتلكاتي بدم يسوع المسيح الثمين. هذا
-                                    الدم هو حمايتي، ونصري، وقوتي!"</p>
-                                every
-                                room, every
-                                corner, every entrance to Your glory. Let Your presence
-                                fill
-                                this home
-                                and drive out all darkness!"</p>
-
-                                <p>"يا رب يسوع، أكرس هذا البيت لك. أخصص كل غرفة، كل زاوية، كل مدخل لمجدك. ليملأ
-                                    حضورك هذا المنزل ويطرد كل ظلمة!"</p>
-                                <p><strong>حاجز الدم:</strong></p>
-                                <p>"أضع حاجزاً من دم يسوع حولي. لا شر يستطيع عبور هذا الحاجز! لا شيطان يستطيع اختراق
-                                    هذه الحماية! أنا آمن في دم الحمل!"</p>
-                                must
-                                leave! Every demonic presence must depart! This is holy
-                                ground,
-                                consecrated to the Lord!"</p>
-
-
-                                <p>"أطهر هذا البيت بدم يسوع! كل روح شرير يجب أن يغادر! كل حضور شيطاني يجب أن يرحل!
-                                    هذه أرض مقدسة، مكرسة للرب!"</p>
-                                <p><strong>النصر بالدم:</strong></p>
-                                <p>"بدمه، أنا أنتصر! بدمه، أنا أطهر! بدمه، أنا أحمى! بدمه، لي النصر على كل شر!"</p>
-                                <p>"I ask You, Lord, to station Your angels around this
-                                    house. Let
-                                    them
-                                    guard every entrance, protect every family member, and
-                                    keep all
-                                <h6><i class="fas fa-home"></i> House Protection Prayer - صلاة حماية المنزل</h6>
-
-
-                                <p>"أسألك يا رب أن تضع ملائكتك حول هذا البيت. ليحرسوا كل مدخل، ويحموا كل فرد من
-                                    العائلة، ويبعدوا كل شر عن منزلنا!"</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chapter 4: Angelic Warfare Prayers -->
-            <div class="book-chapter" id="angelic-warfare">
-                <div class="warfare-instruction">
-                    <p>"يا رب يسوع، أكرس هذا البيت لك. أخصص كل غرفة، كل زاوية، كل مدخل لمجدك. ليملأ حضورك هذا المنزل
-                        ويطرد كل ظلمة!"</p>
-                    <p>اطلب من القديس ميخائيل وكل الملائكة القديسين خوض معاركك الروحية وتدمير أعدائك.</p>
-                </div>
-
-                <div class="warfare-prayers-collection">
-                    <div class="warfare-prayer-entry">
-                        <h6><i class="fas fa-angel"></i> صلاة معركة القديس ميخائيل
-                        </h6>
-                        <p><strong>تطهير روحي:</strong></p>
-                        <p>"أطهر هذا البيت بدم يسوع! كل روح شرير يجب أن يغادر! كل حضور شيطاني يجب أن يرحل! هذه أرض
-                            مقدسة، مكرسة للرب!"</p>
-
-                        <p>"يا قديس ميخائيل رئيس الملائكة، محارب الله القدير، أدعوك لتقاتل معاركي! تعال بسيفك
-                            الملتهب ودمر كل عدو يقوم ضدي!"</p>
-
-                        <p><strong>حماية ملائكية:</strong></p>
-                        <p>"أسألك يا رب أن تضع ملائكتك حول هذا البيت. ليحرسوا كل مدخل، ويحموا كل فرد من العائلة،
-                            ويبعدوا كل شر عن منزلنا!"</p>
-
-                        <p>"يا قديس ميخائيل، أحضر جيشك الملائكي! حطني بملائكة محاربين! لقاتلوا ضد كل شيطان، كل روح
-                            شرير، كل قوة ظلمة تهاجمني!"</p>
-
-                        <h5>الفصل 4: صلوات الحرب الملائكية</h5>
-                        <p>"يا قديس ميخائيل، أحضر جيشك الملائكي! حطني بملائكة محاربين! لقاتلوا ضد كل شيطان، كل روح
-                            شرير، كل قوة ظلمة تهاجمني!"</p>
-
-
-                        <p>"By the power of God, Saint Michael, cast all my enemies
-                            into the
-                            abyss!
-                        <h6><i class="fas fa-angel"></i> صلاة معركة القديس ميخائيل (تكملة)</h6>
-
-                        <p><strong>نداء لرئيس الملائكة:</strong></p>
-                        <p>"بقوة الله، يا قديس ميخائيل، اطرح كل أعدائي في الهاوية! لا تدع أي شر ينتصر علي! أنا تحت
-                            حمايتك، أيها الملاك القوي!"</p>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="warfare-prayer-entry">
-                <p>"يا قديس ميخائيل رئيس الملائكة، محارب الله القدير، أدعوك لتقاتل معاركي! تعال بسيفك الملتهب ودمر
-                    كل عدو يقوم ضدي!"</p>
-                <div class="prayer-text-warfare">
-
-
-
-                    <p>"Holy Angels of God, I call upon you all! Gabriel,
-                        Raphael,
-                        Uriel, and
-                        all the warrior angels of heaven! Come to my aid in this
-                        spiritual
-                        battle!"</p>
-                    <p><strong>الجيش الملائكي:</strong></p>
-                    <p>"يا قديس ميخائيل، أحضر جيشك الملائكي! حطني بملائكة محاربين! لقاتلوا ضد كل شيطان، كل روح شرير،
-                        كل قوة ظلمة تهاجمني!"</p>
-
-                    <p>"حوطوني بأجنحة حمايتكم! قاتلوا عني بسيوفكم النارية! دمروا كل خطة شريرة ضدي! احرسوني ليلاً
-                        ونهاراً!"</p>
-
-                    <p><strong>أمر النصر:</strong></p>
-                    <p>"بقوة الله، يا قديس ميخائيل، اطرح كل أعدائي في الهاوية! لا تدع أي شر ينتصر علي! أنا تحت
-                        حمايتك، أيها الملاك القوي!"</p>
-
-
-
-                    <h6><i class="fas fa-fire"></i> صلاة لكل الملائكة المحاربين</h6>
-
-
-                    <p>"حوطوني بأجنحة حمايتكم! قاتلوا عني بسيوفكم النارية! دمروا كل خطة شريرة ضدي! احرسوني ليلاً
-                        ونهاراً!"</p>
-                </div>
-            </div>
-            </div>
-
-            <div class="warfare-prayer-entry">
-                <h6><i class="fas fa-crown"></i> صلاة لملكة الملائكة</h6>
-                <p>"يا ملائكة الله القديسين، أدعوكم جميعاً! جبرائيل، رافائيل، أورييل، وكل ملائكة السماء المحاربين!
-                    تعالوا لمعونتي في هذه المعركة الروحية!"</p>
-
-
-                <p>"يا مريم القديسة، ملكة الملائكة، أم الله، أضع نفسي تحت حمايتك! مري ملائكتك أن يقاتلوا عني! اسحقي
-                    رأس الحية!"</p>
-
-                <p><strong>حماية ملائكية:</strong></p>
-                <p>"حوطوني بأجنحة حمايتكم! قاتلوا عني بسيوفكم النارية! دمروا كل خطة شريرة ضدي! احرسوني ليلاً
-                    ونهاراً!"</p>
-
-                <p>"غطيني برداء حمايتك، أيتها الأم المقدسة! لا تدعي أي شر يمسني! ملائكتك تحيط بي! ابنك يحميني! أنا
-                    آمن في رعايتك!"</p>
-
-
-                <p><strong>نصر سماوي:</strong></p>
-                <p>"مع ملائكة الله يقاتلون عني، لا يمكن أن أخسر! السماء في صفي! كل عدو مهزوم! كل خطة شريرة مدمرة!"
-                </p>
-
-                <p>"Through Mary, all demons flee! Through Mary, all evil is
-                    conquered!
-                    Through Mary, I have victory! Blessed Mother, pray for
-                    me!"</p>
-
-
-                <p>"يا مريم القديسة، ملكة الملائكة، أم الله، أضع نفسي تحت حمايتك! مري ملائكتك أن يقاتلوا عني! اسحقي
-                    رأس الحية!"</p>
-            </div>
-            <p><strong>يا مريم، ملكة الملائكة:</strong></p>
-            </div>
-            </div>
-            </div>
-
-            <!-- Chapter 5: Blood of Jesus Prayers -->
-            <div class="book-chapter" id="blood-of-jesus">
-                <h4>الفصل 5: صلوات دم يسوع</h4>
-                <p class="chapter-intro" style="color: #FF6B6B; font-weight: bold;">
-                <p>"يا مريم القديسة، ملكة الملائكة، أم الله، أضع نفسي تحت حمايتك! مري ملائكتك أن يقاتلوا عني! اسحقي
-                    رأس الحية!"</p>
-                maximum power of Christ's precious Blood.
-                </p>
-
-                <div class="warfare-prayers-collection">
-                    <div class="warfare-prayer-entry">
-                        <h6><i class="fas fa-heart"></i> قوة الدم الثمين</h6>
-                        <div class="prayer-content-warfare">
-                            <div class="prayer-text-warfare">
-                                <p><strong>حماية أمومية:</strong></p>
-                                <p><strong>دعوة الدم الثمين:</strong></p>
-
-                                <p>"Precious Blood of Jesus Christ, I invoke Your power! You
-                                    are my
-                                    victory
-                                    over sin, death, and Satan! You are my protection, my
-                                    strength,
-                                    my
-                                    salvation!"</p>
-
-                                <p>"يا دم يسوع المسيح الثمين، أدعو قوتك! أنت نصري على الخطيئة والموت والشيطان! أنت
-                                    حمايتي، وقوتي، وخلاصي!"</p>
-
-
-                                <p>"I plead the Blood of Jesus over my life! I plead the
-                                    Blood of
-                                    Jesus over
-                                    my family! I plead the Blood of Jesus over my home! I
-                                    plead the
-                                    Blood of
-                                    Jesus over everything that belongs to me!"</p>
-
-                                <p><strong>تغطية الدم:</strong></p>
-                                <p>"أنا أناشد دم يسوع على حياتي! أناشد دم يسوع على عائلتي! أناشد دم يسوع على منزلي!
-                                    أناشد دم يسوع على كل ما يخصني!"</p>
-
-
-                                <p>"By the Blood of Jesus, I overcome! By the Blood of
-                                    Jesus, I am
-                                    more than
-                                    a conqueror! By the Blood of Jesus, every enemy is
-                                    defeated!"
+                    <section class="section" id="contact">
+                        <div class="container">
+                            <div class="section-header" data-aos="fade-up">
+                                <div class="section-badge">تواصل معنا</div>
+                                <h2 class="section-title">اتصل بنا اليوم</h2>
+                                <p class="section-description">
+                                    مستعد للتغيير؟ اتصل بنا الآن للحصول على إرشاد روحي ودعم فوري.
                                 </p>
-
-                                <p><strong>نصر الدم:</strong></p>
-                                <p>"بدم يسوع، أنا أنتصر! بدم يسوع، أنا أعظم من منتصر! بدم يسوع، يهزم كل عدو!"</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="warfare-prayer-entry">
-                        <h6><i class="fas fa-cross"></i> الدم ضد كل شر</h6>
-                        <div class="prayer-content-warfare">
-                            <div class="prayer-text-warfare">
-
-                                <p><strong>قوة الدم القصوى:</strong></p>
-
-                                <p>"Blood of Jesus, destroy every work of darkness in my
-                                    life! Blood
-                                    of
-                                    Jesus, break every curse! Blood of Jesus, cast out every
-                                    demon!
-                                    Blood of
-                                    Jesus, heal every wound!"</p>
-
-                                <p>"يا دم يسوع، دمر كل عمل للظلمة في حياتي! يا دم يسوع، حطم كل لعنة! يا دم يسوع،
-                                    اطرد كل شيطان! يا دم يسوع، اشف كل جرح!"</p>
-
-
-                                <p>"Wash me in the Blood of the Lamb! Cleanse me from all
-                                    sin!
-                                    Purify me
-                                    from all evil! Make me white as snow through Your
-                                    precious
-                                    Blood!"</p>
-
-                                <p><strong>تطهير الدم:</strong></p>
-                                <p>"اغسلني في دم الحمل! طهرني من كل خطيئة! نقني من كل شر! اجعلني أبيض كالثلج من خلال
-                                    دمك الثمين!"</p>
-
-
-                                <p>"I am washed in the Blood! I am covered by the Blood! I
-                                    am
-                                    protected by
-                                    the Blood! I am victorious through the Blood!
-                                    Hallelujah!"</p>
-
-                                <p><strong>إعلان الدم:</strong></p>
-                                <p>"أنا مغسول بالدم! أنا مغطى بالدم! أنا محمي بالدم! أنا منتصر من خلال الدم!
-                                    هللويا!"</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="warfare-prayer-entry">
-                        <h6><i class="fas fa-fire"></i> صلاة النصر النهائي</h6>
-                        <div class="prayer-content-warfare">
-                            <div class="prayer-text-warfare">
-
-                                <p><strong>صلاة الحرب الروحية القصوى:</strong></p>
-
-                                <p>"In the mighty Name of Jesus Christ, by the power of His
-                                    precious
-                                    Blood,
-                                    through the intercession of Saint Michael and all the
-                                    angels, I
-                                    declare
-                                    total victory over all evil!"</p>
-
-                                <p>"باسم يسوع المسيح القدير، وبقوة دمه الثمين، وبشفاعة القديس ميخائيل وكل الملائكة،
-                                    أعلن النصر الكامل على كل شر!"</p>
-                                </p>
-
-
-                                <p>"Every demon is bound! Every curse is broken! Every evil
-                                    spell is
-                                    destroyed! Every black magic is powerless! I am free! I
-                                    am
-                                    victorious! I
-                                    am protected!"</p>
-
-                                <p><strong>نصر كامل:</strong></p>
-                                <p>"كل شيطان مقيد! كل لعنة محطمة! كل سحر مدمر! كل شعوذة بلا قوة! أنا حر! أنا منتصر!
-                                    أنا محمي!"</p>
-
-
-                                <p>"Satan, you are defeated! Evil, you have no power!
-                                    Darkness, you
-                                    must
-                                    flee! I belong to Jesus Christ! I am His child! I am
-                                    under His
-                                    protection! AMEN!"</p>
-
-                                <p><strong>الإعلان النهائي:</strong></p>
-                                <p>"يا شيطان، أنت مهزوم! يا شر، ليس لك قوة! يا ظلمة، يجب أن تهربي! أنا ملك ليسوع
-                                    المسيح! أنا ابنه! أنا تحت حمايته! آمين!"</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            </div>
-            </div>
-        </section>
-
-        <!-- Divine Mercy Daily Prayer Book Section -->
-        <section class="section" id="divine-mercy-daily-book"
-            style="background: linear-gradient(135deg, rgba(220, 20, 60, 0.1) 0%, rgba(255, 69, 0, 0.1) 100%);">
-            <div class="container">
-                <div class="section-header" data-aos="fade-up">
-                    <div class="section-header" data-aos="fade-up">
-                        <div class="section-badge">صلوات الرحمة الإلهية اليومية</div>
-                        <h2 class="section-title">كتاب الصلوات اليومية للرحمة الإلهية</h2>
-                        <p class="section-description">
-                            صلوات الرحمة الإلهية اليومية الكاملة كما أوحى بها يسوع للقديسة فوستينا، بما في ذلك صلاة
-                            الساعة الثالثة القوية.
-                        </p>
-                    </div>
-
-                    <!-- Interactive Book Interface -->
-                    <div class="divine-mercy-book" data-aos="fade-up">
-                        <div class="book-cover" id="divineMercyBookCover">
-                            <div class="book-cover-content">
-                                <i class="fas fa-heart book-cover-icon" style="color: #DC143C;"></i>
-                                <h3>كتاب الصلوات اليومية للرحمة الإلهية</h3>
-                                <p>طلبات يسوع للقديسة فوستينا للتكريس اليومي</p>
-                                <button class="btn btn-primary btn-mercy btn-pulse open-book-btn"
-                                    onclick="openDivineMercyBook()">
-                                    <i class="fas fa-book-reader"></i>
-                                    افتح الكتاب
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Book Content (Hidden initially) -->
-                        <div class="book-content" id="divineMercyBookContent" style="display: none;">
-                            <div class="book-header">
-                                <h3>كتاب الرحمة الإلهية</h3>
-                                <button class="btn btn-secondary close-book-btn" onclick="closeDivineMercyBook()">
-                                    <i class="fas fa-times"></i> أغلق الكتاب
-                                </button>
                             </div>
 
-                            <!-- Table of Contents -->
-                            <div class="table-of-contents">
-                                <h4>جدول المحتويات</h4>
-                                <div class="toc-grid">
-                                    <div class="toc-item" onclick="showDivineMercyChapter('introduction')">
-                                        <i class="fas fa-dove"></i>
-                                        <div>
-                                            <p>مقدمة</p>
-                                        </div>
-                                    </div>
-                                    <div class="toc-item" onclick="showDivineMercyChapter('three-oclock-prayer')">
-                                        <i class="fas fa-clock"></i>
-                                        <div>
-
-                                            <p>صلاة الساعة 3</p>
-                                        </div>
-                                    </div>
-                                    <div class="toc-item" onclick="showDivineMercyChapter('daily-prayers')">
-                                        <i class="fas fa-calendar-day"></i>
-                                        <div>
-                                            <h5>الصلوات اليومية</h5>
-                                            <p>صلوات يومية</p>
-                                        </div>
-                                    </div>
-                                    <div class="toc-item" onclick="showDivineMercyChapter('chaplet')">
-                                        <i class="fas fa-pray"></i>
-                                        <div>
-
-                                            <p>مسبحة الرحمة الإلهية</p>
-                                        </div>
-                                    </div>
-                                    <div class="toc-item" onclick="showDivineMercyChapter('novena')">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        <div>
-                                            <p>تساعية 9 أيام</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Chapter Navigation -->
-                            <div class="chapter-navigation">
-                                <button class="btn chapter-btn"
-                                    onclick="showDivineMercyChapter('introduction')">مقدمة</button>
-                                <button class="btn chapter-btn"
-                                    onclick="showDivineMercyChapter('three-oclock-prayer')">صلاة الساعة 3</button>
-                                <button class="btn chapter-btn"
-                                    onclick="showDivineMercyChapter('daily-prayers')">الصلوات اليومية</button>
-                                <button class="btn chapter-btn"
-                                    onclick="showDivineMercyChapter('chaplet')">المسبحة</button>
-                                <button class="btn chapter-btn"
-                                    onclick="showDivineMercyChapter('novena')">التساعية</button>
-                            </div>
-
-                            <!-- Chapter 1: Introduction -->
-                            <div class="book-chapter active" id="introduction">
-                                <h4>الفصل 1: مقدمة في الرحمة الإلهية</h4>
-
-                                <div class="chapter-content">
-                                    <div class="mercy-quote">
-                                        <h6><i class="fas fa-quote-left"></i> كلمات يسوع للقديسة فوستينا
-                                        </h6>
-                                        <p class="jesus-words-arabic">"يا ابنتي، تكلمي إلى العالم أجمع عن رحمتي التي
-                                            لا
-                                            تدرك. أنا أرغب في أن تكون الرحمة مهرباً وملجأً لكل النفوس، وخصوصاً
-                                            للخطاة
-                                            المساكين."</p>
-                                        <p class="diary-reference">- يوميات القديسة فوستينا، 186</p>
-                                    </div>
-
-                                    <div class="mercy-explanation">
-                                        <h6>ما هي الرحمة الإلهية؟</h6>
-                                        <p>الرحمة الإلهية هي حب الله في الفعل. إنه حب الله الذي يمتد إلينا في خطيتنا
-                                            وضعفنا. كشف يسوع للقديسة فوستينا أنه يرغب في أن تثق جميع النفوس في رحمته
-                                            وتدعوها خاصة للخطاة.</p>
-                                    </div>
-
-                                    <div class="mercy-promise">
-
-                                        <div class="mercy-promise">
-                                            <p class="jesus-words-arabic">"النفس التي تكرم هذه الصورة لن تهلك. أعد
-                                                أيضاً
-                                                بالنصر على الأعداء هنا على الأرض، وخصوصاً عند ساعة الموت."</p>
-                                            <p class="diary-reference">- يوميات 48</p>
-                                        </div>
-                                    </div>
+                            <div class="contact-grid">
+                                <div class="contact-card" data-aos="fade-up" data-aos-delay="100">
+                                    <i class="fas fa-envelope contact-icon"></i>
+                                    <h3>البريد الإلكتروني</h3>
+                                    <p><strong>soulguidances@hotmail.com</strong></p>
+                                    <p class="contact-details">نرد خلال 24 ساعة</p>
+                                    <a href="mailto:soulguidances@hotmail.com" class="btn btn-primary">أرسل بريداً
+                                        إلكترونياً</a>
                                 </div>
 
-                                <!-- Chapter 2: The 3 O'Clock Prayer -->
-                                <div class="book-chapter" id="three-oclock-prayer">
-                                    <h4>الفصل 2: صلاة الساعة الثالثة</h4>
-
-                                    <div class="chapter-content">
-                                        <div class="mercy-quote">
-                                            <h6><i class="fas fa-clock"></i> طلب يسوع لصلاة الساعة الثالثة
-                                            </h6>
-                                            <p class="jesus-words-arabic">"عند الساعة الثالثة، التمس رحمتي، ولا سيما
-                                                من أجل
-                                                الخطاة؛ وإذا كان ذلك للحظة وجيزة فقط، اغمر نفسك في آلامي، وخاصة في
-                                                تركي عند
-                                                لحظة النزاع. هذه هي ساعة الرحمة العظمى للعالم أجمع."</p>
-                                            </p>
-                                            <p class="diary-reference">- يوميات 1320</p>
-                                        </div>
-
-                                        <div class="three-oclock-prayers">
-                                            <h6><i class="fas fa-praying-hands"></i> صلوات الساعة 3 اليومية</h6>
-
-                                            <div class="prayer-section">
-                                                <h7>الصلاة 1: ساعة الرحمة</h7>
-                                                <div class="prayer-text">
-
-
-
-                                                    <p>"لقد أسلمت الروح يا يسوع، ولكن نبع الحياة تفجر للنفوس، وانفتح
-                                                        محيط
-                                                        الرحمة للعالم أجمع. يا نبع الحياة، يا رحمة الله التي لا
-                                                        تدرك، غلفي
-                                                        العالم أجمع وافرغي ذاتك علينا."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="prayer-section">
-                                                <h7>الصلاة 2: قدوس الله</h7>
-                                                <div class="prayer-text">
-
-
-
-                                                    <p>"الله القدوس، القوي القدوس، الذي لا يموت القدوس، ارحمنا وارحم
-                                                        العالم
-                                                        أجمع." (3 مرات)</p>
-                                                    3 &)</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="prayer-section">
-                                                <h7>الصلاة 3: يا يسوع أنا أثق بك</h7>
-                                                <div class="prayer-text">
-
-
-
-                                                    <p>"يا يسوع، أنا أثق بك. يا يسوع، أنا أثق بك. يا يسوع، أنا أثق
-                                                        بك."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="prayer-section">
-                                                <h7>الصلاة 4: من أجل الخطاة</h7>
-                                                <div class="prayer-text">
-
-
-
-                                                    <p>"أيها الآب الأزلي، إني أقدم لك جسد ودم ونفس ولاهوت ابنك
-                                                        الحبيب جداً،
-                                                        ربنا يسوع المسيح، تكفيراً عن خطايانا وخطايا العالم أجمع. بحق
-                                                        آلامه
-                                                        المقدسة، ارحمنا وارحم العالم أجمع."</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mercy-instruction">
-                                            <h6><i class="fas fa-info-circle"></i> كيف تصلي في الساعة 3</h6>
-
-                                            <ul style="direction: rtl; text-align: right;">
-                                                <li>توقف عن كل ما تفعله في الساعة 3 ظهراً</li>
-                                                <li>تذكر موت يسوع على الصليب في هذه الساعة</li>
-                                                <li>صل واحدة أو كل الصلوات أعلاه</li>
-                                                <li>اطلب الرحمة لنفسك ولكل الخطاة</li>
-                                                <li>ثق تماماً في رحمة يسوع</li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
+                                    <i class="fas fa-phone contact-icon"></i>
+                                    <h3>اتصل بالخدمة</h3>
+                                    <p><strong>+1 (234) 567-555</strong></p>
+                                    <p class="contact-details">متاح: الاثنين-الجمعة 9 ص - 6 م<br>خط الطوارئ: 24/7</p>
+                                    <a href="tel:+1234567555" class="btn btn-primary">اتصل الآن</a>
                                 </div>
 
-                                <!-- Chapter 3: Daily Prayers -->
-                                <div class="book-chapter" id="daily-prayers">
-                                    <h4>الفصل 3: صلوات الرحمة الإلهية اليومية</h4>
-
-                                    <div class="chapter-content">
-                                        <div class="daily-prayer-schedule">
-                                            <h6><i class="fas fa-calendar-day"></i> جدول الصلاة اليومي</h6>
-
-                                            <div class="prayer-time">
-                                                <h7>صلاة الصباح</h7>
-                                                <div class="prayer-text">
-
-
-
-                                                    <p>"يا يسوعي، أقدم لك اليوم كل صلواتي، وأعمالي، وأفراحي، وآلامي
-                                                        بالاتحاد
-                                                        مع قلبك الأقدس. أقدمها لكل نوايا قلبك: لخلاص النفوس،
-                                                        والتعويض عن
-                                                        الخطايا، ووحدة جميع المسيحيين. أقدمها بشكل خاص للنوايا التي
-                                                        أوصى بها
-                                                        هذا الشهر أبونا الأقدس. آمين."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="prayer-time">
-                                                <h7>صلاة الظهر</h7>
-                                                <div class="prayer-text">
-
-
-
-                                                    <p>"يا يسوع، أنت الرحمة ذاتها. أنا أثق في صلاحك وأرجو في شفقتك.
-                                                        حول قلبي
-                                                        ليكون مثل قلبك - ممتلئاً بالرحمة للآخرين."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="prayer-time">
-                                                <h7>صلاة الساعة 3</h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>See Chapter 2 for complete 3 O'Clock
-                                                            prayers</strong></p>
-                                                    <p><strong>انظر الفصل 2 لصلوات الساعة 3 الكاملة</strong></p>
-                                                </div>
-                                            </div>
-
-                                            <div class="prayer-time">
-                                                <h7>صلاة المساء - صلاة المساء</h7>
-                                                <div class="prayer-text">
-
-
-
-                                                    <p>"أشكرك يا إلهي، على كل النعم التي أعطيتني إياها اليوم. أنا
-                                                        آسف على كل
-                                                        خطاياي وتقصيري. أضع نفسي وكل أحبائي تحت حماية رحمتك الإلهية.
-                                                        باركنا
-                                                        واحفظنا آمنين خلال الليل. آمين."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="prayer-time">
-                                                <h7>Before Sleep - صلاة قبل النوم</h7>
-                                                <div class="prayer-text">
-
-
-
-                                                    <p>"يا يسوع، أنا أثق بك. في يديك أستودع روحي. اسهر علي وأنا نائم
-                                                        وامنحني
-                                                        راحة سلام. لتكن رحمتك الإلهية علي وعلى عائلتي. آمين."</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Chapter 4: Divine Mercy Chaplet -->
-                                <div class="book-chapter" id="chaplet">
-                                    <h4>الفصل 4: مسبحة الرحمة الإلهية</h4>
-
-                                    <div class="chapter-content">
-                                        <div class="chaplet-instructions">
-                                            <h6><i class="fas fa-pray"></i> How to Pray the Divine Mercy Chaplet
-                                            </h6>
-                                            <p>Pray using ordinary rosary beads - باستخدام مسبحة الوردية العادية</p>
-
-                                            <div class="chaplet-steps">
-                                                <div class="chaplet-step">
-                                                    <h7>1. Begin with the Sign of the Cross</h7>
-                                                    <p>"In the name of the Father, and of the Son, and of the
-                                                        Holy
-                                                        Spirit.
-                                                        Amen."</p>
-                                                    <p>"باسم الآب والابن والروح القدس. آمين."</p>
-                                                </div>
-
-                                                <div class="chaplet-step">
-                                                    <h7>2. Opening Prayer (on the first large bead)</h7>
-
-
-                                                    <p>"لقد أسلمت الروح يا يسوع، ولكن نبع الحياة تفجر للنفوس، وانفتح
-                                                        محيط
-                                                        الرحمة للعالم أجمع. يا نبع الحياة، يا رحمة الله التي لا
-                                                        تدرك، غلفي
-                                                        العالم أجمع وافرغي ذاتك علينا."</p>
-                                                </div>
-
-                                                <div class="chaplet-step">
-                                                    <h7>3. على الحبات الصغيرة الثلاث، صل:</h7>
-
-                                                    <p>"الله القدوس، القوي القدوس، الذي لا يموت القدوس، ارحمنا وارحم
-                                                        العالم
-                                                        أجمع." (3 مرات)</p>
-                                                </div>
-
-                                                <div class="chaplet-step">
-                                                    <h7>4. على الحبة الكبيرة قبل كل عقد:</h7>
-
-                                                    <p>"أيها الآب الأزلي، إني أقدم لك جسد ودم ونفس ولاهوت ابنك
-                                                        الحبيب جداً،
-                                                        ربنا يسوع المسيح، تكفيراً عن خطايانا وخطايا العالم أجمع."
-                                                    </p>
-                                                </div>
-
-                                                <div class="chaplet-step">
-                                                    <h7>5. على الحبات الصغيرة العشر في كل عقد:</h7>
-
-                                                    <p>"بحق آلامه المقدسة، ارحمنا وارحم العالم أجمع." (10 مرات)</p>
-                                                </div>
-
-                                                <div class="chaplet-step">
-                                                    <h7>6. اختم بـ (3 مرات):</h7>
-
-                                                    <p>"الله القدوس، القوي القدوس، الذي لا يموت القدوس، ارحمنا وارحم
-                                                        العالم
-                                                        أجمع."</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Chapter 5: Divine Mercy Novena -->
-                                <div class="book-chapter" id="novena">
-                                    <h4>الفصل 5: تساعية الرحمة الإلهية (9 أيام)</h4>
-
-                                    <div class="chapter-content">
-                                        <div class="novena-introduction">
-                                            <h6><i class="fas fa-calendar-alt"></i> طلب يسوع للتساعية</h6>
-                                            <p class="jesus-words-arabic">"أنا أرغب في أن تحضر النفوس خلال هذه
-                                                الأيام التسعة
-                                                إلى نبع رحمتي، لكي يستقوا منها القوة والانتعاش وكل نعمة يحتاجونها في
-                                                مصاعب
-                                                الحياة، وخصوصاً عند ساعة الموت."</p>
-                                            <p class="diary-reference">- يوميات 1209</p>
-                                        </div>
-
-                                        <div class="novena-days">
-                                            <div class="novena-day">
-                                                <h7>اليوم الأول: البشرية جمعاء</h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>كلمات يسوع:</strong> "اليوم أحضر لي البشرية جمعاء،
-                                                        وخصوصاً كل
-                                                        الخطاة، واغمرهم في محيط رحمتي."</p>
-
-                                                    <p><strong>صلاة:</strong> "يا يسوع الكلي الرحمة، الذي من طبيعته
-                                                        أن يشفق
-                                                        علينا ويغفر لنا، لا تنظر إلى خطايانا، بل إلى ثقتنا التي
-                                                        نضعها في
-                                                        صلاحك اللامتناهي. اقبلنا جميعاً في مسكن قلبك الكلي الشفقة،
-                                                        ولا تدعنا
-                                                        نخرج منه أبداً."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="novena-day">
-                                                <h7>اليوم الثاني: الكهنة والرهبان
-                                                </h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>كلمات يسوع:</strong> "اليوم أحضر لي نفوس الكهنة
-                                                        والرهبان،
-                                                        واغمرهم في رحمتي التي لا تدرك."</p>
-
-                                                    <p><strong>صلاة:</strong> "يا يسوع، الكاهن الأزلي، احفظ كهنتك في
-                                                        حماية
-                                                        قلبك الأقدس، حيث لا يستطيع أحد أن يمسهم. احفظ أياديهم
-                                                        الممسوحة، التي
-                                                        تلمس جسدك المقدس كل يوم، بلا دنس. احفظ شفاههم، المصبوغة بدمك
-                                                        الثمين،
-                                                        نقية."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="novena-day">
-                                                <h7>اليوم الثالث: النفوس التقية والمؤمنة</h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>كلمات يسوع:</strong> "اليوم أحضر لي كل النفوس التقية
-                                                        والمؤمنة، واغمرهم في محيط رحمتي."</p>
-
-                                                    <p><strong>صلاة:</strong> "يا يسوع الكلي الرحمة، من كنز رحمتك،
-                                                        أنت تمنح
-                                                        نعمك بغزارة كبيرة لكل واحد وللجميع. اقبلنا في مسكن قلبك
-                                                        الكلي الشفقة
-                                                        ولا تدعنا نخرج منه أبداً."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="novena-day">
-                                                <h7>اليوم الرابع: الوثنيون والذين لا يعرفون يسوع بعد</h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>كلمات يسوع:</strong> "اليوم أحضر لي الوثنيين والذين
-                                                        لا
-                                                        يعرفونني بعد. لقد كنت أفكر فيهم أيضاً خلال آلامي المرة،
-                                                        وحماستهم
-                                                        المستقبلية عزت قلبي."</p>
-
-                                                    <p><strong>صلاة:</strong> "يا يسوع الكلي الشفقة، أنت نور العالم
-                                                        أجمع.
-                                                        اقبل في مسكن قلبك الكلي الشفقة نفوس الوثنيين الذين لا
-                                                        يعرفونك بعد.
-                                                        لتنير أشعة نعمتك بصيرتهم لكي يمجدوا معك أيضاً رحمتك
-                                                        العجيبة."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="novena-day">
-                                                <h7>اليوم الخامس: الهراطقة والمنشقون</h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>كلمات يسوع:</strong> "اليوم أحضر لي نفوس الهراطقة
-                                                        والمنشقين،
-                                                        واغمرهم في محيط رحمتي."</p>
-
-                                                    <p><strong>صلاة:</strong> "يا يسوع الكلي الرحمة، أنت الصلاح
-                                                        ذاته، وأنت
-                                                        لا ترفض النور للذين يطلبونه منك. اقبل في مسكن قلبك الكلي
-                                                        الشفقة نفوس
-                                                        الهراطقة والمنشقين. اجذبهم بنورك إلى وحدة الكنيسة."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="novena-day">
-                                                <h7>اليوم السادس: النفوس الوديعة والمتواضعة والأطفال الصغار</h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>كلمات يسوع:</strong> "اليوم أحضر لي النفوس الوديعة
-                                                        والمتواضعة
-                                                        ونفوس الأطفال الصغار، واغمرهم في رحمتي."</p>
-
-                                                    <p><strong>صلاة:</strong> "يا يسوع الكلي الرحمة، أنت نفسك قلت:
-                                                        'تعلموا
-                                                        مني لأني وديع ومتواضع القلب'. اقبل في مسكن قلبك الكلي الشفقة
-                                                        كل
-                                                        النفوس الوديعة والمتواضعة ونفوس الأطفال الصغار."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="novena-day">
-                                                <h7>اليوم السابع: النفوس التي تكرم وتمجد رحمتي بشكل خاص</h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>كلمات يسوع:</strong> "اليوم أحضر لي النفوس التي تكرم
-                                                        وتمجد
-                                                        رحمتي بشكل خاص، واغمرهم في رحمتي."</p>
-
-                                                    <p><strong>صلاة:</strong> "يا يسوع الكلي الرحمة، الذي قلبه هو
-                                                        الحب ذاته،
-                                                        اقبل في مسكن قلبك الكلي الشفقة نفوس هؤلاء الذين يمجدون
-                                                        ويكرمون عظمة
-                                                        رحمتك بشكل خاص."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="novena-day">
-                                                <h7>اليوم الثامن: النفوس في المطهر</h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>كلمات يسوع:</strong> "اليوم أحضر لي النفوس التي في
-                                                        سجن
-                                                        المطهر، واغمرهم في لجج رحمتي."</p>
-
-                                                    <p><strong>صلاة:</strong> "يا يسوع الكلي الرحمة، أنت نفسك قلت
-                                                        أنك ترغب
-                                                        في الرحمة؛ لذلك أحضر إلى مسكن قلبك الكلي الشفقة النفوس التي
-                                                        في
-                                                        المطهر، نفوس عزيزة جداً على قلبك."</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="novena-day">
-                                                <h7>اليوم التاسع: النفوس الفاترة</h7>
-                                                <div class="prayer-text">
-                                                    <p><strong>كلمات يسوع:</strong> "اليوم أحضر لي النفوس الفاترة،
-                                                        واغمرهم
-                                                        في لجج رحمتي."</p>
-
-                                                    <p><strong>صلاة:</strong> "يا يسوع الكلي الشفقة، أنت الشفقة
-                                                        ذاتها. أحضر
-                                                        النفوس الفاترة إلى مسكن قلبك الكلي الشفقة. في نار حبك النقي،
-                                                        دع هذه
-                                                        النفوس الفاترة، التي مثل الجثث ملأتك اشمئزازاً، تشتعل مرة
-                                                        أخرى بنار
-                                                        حبك."</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="novena-conclusion">
-
-                                            <p>في كل يوم، بعد الصلاة المحددة أعلاه، صل مسبحة الرحمة الإلهية (انظر
-                                                الفصل 4)
-                                            </p>
-                                            <p>في كل يوم، بعد الصلاة المحددة أعلاه، صل مسبحة الرحمة الإلهية (انظر
-                                                الفصل 4)
-                                            </p>
-                                        </div>
-                                    </div>
+                                <div class="contact-card" data-aos="fade-up" data-aos-delay="300">
+                                    <i class="fas fa-praying-hands contact-icon"></i>
+                                    <h3>طلب صلاة</h3>
+                                    <p><strong>أرسل نوايا صلاتك</strong></p>
+                                    <p class="contact-details">نصلي من أجلك في القداسات اليومية<br>صلوات شرقية تقليدية
+                                    </p>
+                                    <button class="btn btn-primary" id="finalPrayerBtn">أرسل طلب صلاة</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-        </section>
-        <div class="prayer-section" id="daily-prayers-section" style="display: none;">
-            <div class="section-header">
-                <h3><i class="fas fa-sun"></i> رفيق الصلاة اليومي</h3>
-            </div>
-
-            <div class="prayer-cards-grid">
-                <!-- صلاة الصباح -->
-                <div class="prayer-card">
-
-                    <h6>تقدمة الصباح</h6>
-                </div>
-                <div class="prayer-text">
-
-
-                    <p>"يا يسوعي، أقدم لك اليوم كل صلواتي، وأعمالي، وأفراحي، وآلامي بالاتحاد مع قلبك الأقدس. أقدمها
-                        لكل نوايا قلبك: لخلاص النفوس، والتعويض عن الخطايا، ووحدة جميع المسيحيين. آمين."</p>
-                </div>
-            </div>
-
-            <!-- صلاة المساء -->
-            <div class="prayer-card">
-
-                <h6>شكر المساء</h6>
-            </div>
-            <div class="prayer-text">
-
-
-                <p>"أشكرك يا إلهي، على كل النعم التي أعطيتني إياها اليوم. أنا آسف على كل خطاياي وتقصيري. أضع نفسي
-                    وكل أحبائي تحت حماية رحمتك الإلهية. باركنا واحفظنا آمنين خلال الليل. آمين."</p>
-            </div>
-        </div>
-
-        <!-- Before Sleep Prayer -->
-        <div class="prayer-card">
-
-            <h6>قبل النوم</h6>
-        </div>
-        <div class="prayer-text">
-
-
-            <p>"يا يسوع، أنا أثق بك. في يديك أستودع روحي. اسهر علي وأنا نائم وامنحني راحة سلام. لتكن رحمتك الإلهية
-                علي وعلى عائلتي. آمين."</p>
-        </div>
-        </div> <!-- End daily-prayers-section -->
-        </div> <!-- End prayer-content-store -->
-
-
-
-        <section class="section" id="contact">
-            <div class="container">
-                <div class="section-header" data-aos="fade-up">
-                    <div class="section-badge">تواصل معنا</div>
-                    <h2 class="section-title">اتصل بنا اليوم</h2>
-                    <p class="section-description">
-                        مستعد للتغيير؟ اتصل بنا الآن للحصول على إرشاد روحي ودعم فوري.
-                    </p>
-                </div>
-
-                <div class="contact-grid">
-                    <div class="contact-card" data-aos="fade-up" data-aos-delay="100">
-                        <i class="fas fa-envelope contact-icon"></i>
-                        <h3>البريد الإلكتروني</h3>
-                        <p><strong>soulguidances@hotmail.com</strong></p>
-                        <p class="contact-details">نرد خلال 24 ساعة</p>
-                        <a href="mailto:soulguidances@hotmail.com" class="btn btn-primary">أرسل بريداً إلكترونياً</a>
-                    </div>
-
-                    <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
-                        <i class="fas fa-phone contact-icon"></i>
-                        <h3>اتصل بالخدمة</h3>
-                        <p><strong>+1 (234) 567-555</strong></p>
-                        <p class="contact-details">متاح: الاثنين-الجمعة 9 ص - 6 م<br>خط الطوارئ: 24/7</p>
-                        <a href="tel:+1234567555" class="btn btn-primary">اتصل الآن</a>
-                    </div>
-
-                    <div class="contact-card" data-aos="fade-up" data-aos-delay="300">
-                        <i class="fas fa-praying-hands contact-icon"></i>
-                        <h3>طلب صلاة</h3>
-                        <p><strong>أرسل نوايا صلاتك</strong></p>
-                        <p class="contact-details">نصلي من أجلك في القداسات اليومية<br>صلوات شرقية تقليدية</p>
-                        <button class="btn btn-primary" id="finalPrayerBtn">أرسل طلب صلاة</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        </section>
+                    </section>
+                    </section>
     </main>
+
+    <!-- ACCESS TOOLBAR -->
+    <div id="access-toolbar">
+        <button class="access-btn" id="access-font-up" title="Increase Font Size"><i class="fas fa-plus"></i></button>
+        <button class="access-btn" id="access-font-down" title="Decrease Font Size"><i
+                class="fas fa-minus"></i></button>
+        <button class="access-btn" id="access-contrast" title="High Contrast Mode"><i
+                class="fas fa-adjust"></i></button>
+        <button class="access-btn" id="access-dyslexic" title="Dyslexia Friendly Font"><i
+                class="fas fa-font"></i></button>
+    </div>
 
     <!-- JavaScript -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- LECTIO DIVINA OVERLAY -->
+    <div id="lectio-overlay">
+        <button class="lectio-close" id="lectio-close-btn">End Meditation / إنهاء التأمل</button>
+        <div class="lectio-content">
+            <div id="lectio-text-display" class="lectio-text breathing">
+                "Be still, and know that I am God."
+            </div>
+            <p class="lectio-guide">
+                Breathe in slowly... Hold... Breathe out.<br>
+                Let the Word of God dwell in you richly. (Col 3:16)
+            </p>
+        </div>
+    </div>
+
     <script src="script.js"></script>
     <script src="prayer-scheduler.js"></script>
     <script src="prayer-library.js"></script>

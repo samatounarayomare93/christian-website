@@ -1,23 +1,23 @@
-/* SUPERINTELLIGENCE DYNAMIC DESIGN THEME - PREMIUM V4 (ULTIMATE GOD MODE) */
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&family=Cinzel:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+/* SUPERINTELLIGENCE DYNAMIC DESIGN THEME - PREMIUM V5 (ULTIMATE GOD MODE) */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&family=Amiri:wght@400;700&family=Cinzel:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
     /* --- COLOR SYSTEM: CELESTIAL & ROYAL --- */
     --primary-gold: #FFD700;
     --primary-gold-dim: #C5A000;
-    --primary-gold-light: #FFE570;
+    --primary-gold-light: #FFF8DC;
     --primary-gold-dark: #B8860B;
 
-    --primary-purple-void: #030005;
-    /* Deepest Void */
-    --primary-purple-deep: #0f001e;
+    --primary-purple-void: #050010;
+    /* Deepest Void - More cosmic */
+    --primary-purple-deep: #1A0B2E;
     /* Deep Royal */
-    --primary-purple: #240046;
-    /* Base Purple */
+    --primary-purple: #320056;
+    /* Rich Purpose */
     --primary-purple-vivid: #7b2cbf;
     /* Vivid Accent */
-    --primary-accent: #9d4edd;
-    /* Light Accent */
+    --primary-accent: #b28dff;
+    /* Soft Lavender Accent */
 
     --text-white: #ffffff;
     --text-off-white: #f8f9fa;
@@ -25,27 +25,27 @@
     --text-gold: #FFD700;
 
     /* --- GRADIENTS: DIVINE LIGHT --- */
-    --gradient-void: radial-gradient(circle at center, #240046 0%, #10002b 40%, #030005 100%);
+    --gradient-void: radial-gradient(circle at center, #240046 0%, #10002b 40%, #050010 100%);
     --gradient-royal-gold: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
-    --gradient-luxury-dark: linear-gradient(180deg, rgba(20, 20, 20, 0.9) 0%, rgba(10, 10, 20, 0.95) 100%);
-    --gradient-glass-premium: linear-gradient(145deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 100%);
-    --gradient-glow-orb: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+    --gradient-luxury-dark: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%);
+    --gradient-glass-premium: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    --gradient-glow-orb: radial-gradient(circle, rgba(255, 215, 0, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
 
     /* --- SHADOWS: ETHEREAL --- */
     --shadow-deep: 0 20px 50px -12px rgba(0, 0, 0, 0.9);
-    --shadow-glow-gold: 0 0 40px rgba(255, 215, 0, 0.25);
-    --shadow-glow-purple: 0 0 50px rgba(157, 78, 221, 0.2);
-    --text-glow-gold: 0 0 20px rgba(255, 215, 0, 0.6);
-    --text-glow-white: 0 0 15px rgba(255, 255, 255, 0.5);
+    --shadow-glow-gold: 0 0 40px rgba(255, 215, 0, 0.3);
+    --shadow-glow-purple: 0 0 50px rgba(157, 78, 221, 0.25);
+    --text-glow-gold: 0 0 20px rgba(255, 215, 0, 0.7);
+    --text-glow-white: 0 0 15px rgba(255, 255, 255, 0.6);
 
     /* --- BORDERS: CRYSTALLINE --- */
-    --border-glass-thin: 1px solid rgba(255, 255, 255, 0.08);
-    --border-gold-subtle: 1px solid rgba(255, 215, 0, 0.3);
+    --border-glass-thin: 1px solid rgba(255, 255, 255, 0.12);
+    --border-gold-subtle: 1px solid rgba(255, 215, 0, 0.4);
 
     /* --- SPACING & SHAPE --- */
     --radius-sm: 8px;
-    --radius-md: 20px;
-    --radius-lg: 40px;
+    --radius-md: 24px;
+    --radius-lg: 48px;
     --radius-pill: 100px;
 }
 
@@ -75,18 +75,6 @@
 
     100% {
         box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
-    }
-}
-
-@keyframes float-eternal {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-15px);
     }
 }
 
@@ -129,11 +117,12 @@ html {
 }
 
 body {
-    font-family: 'Tajawal', 'Cairo', sans-serif;
+    font-family: 'Cairo', sans-serif;
+    /* Primary Arabic Font */
     background-color: var(--primary-purple-void);
     background-image:
-        radial-gradient(circle at 15% 50%, rgba(123, 44, 191, 0.08), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.05), transparent 25%);
+        radial-gradient(circle at 15% 50%, rgba(123, 44, 191, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.08), transparent 25%);
     color: var(--text-off-white);
     line-height: 1.8;
     overflow-x: hidden;
@@ -168,13 +157,13 @@ h6 {
 }
 
 .hero-title {
-    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 900;
     background: var(--gradient-royal-gold);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.4));
+    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
     animation: title-reveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     letter-spacing: -1px;
     margin-bottom: 1.5rem;
@@ -186,9 +175,11 @@ h6 {
     font-weight: 300;
     max-width: 800px;
     margin: 0 auto 2.5rem;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
     animation: title-reveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.3s;
     opacity: 0;
+    font-family: 'Amiri', serif;
+    /* Elegant for subtitles */
 }
 
 .section-title {
@@ -214,7 +205,8 @@ h6 {
 
 .section-badge {
     color: var(--primary-gold);
-    background: rgba(255, 215, 0, 0.05);
+    background: rgba(255, 215, 0, 0.08);
+    /* Slightly more visible */
     border: 1px solid var(--primary-gold);
     padding: 0.5rem 1.5rem;
     border-radius: 50px;
@@ -224,25 +216,25 @@ h6 {
     letter-spacing: 2px;
     display: inline-block;
     margin-bottom: 1.5rem;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
 }
 
 .highlight {
     color: var(--primary-gold);
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
     font-weight: 700;
 }
 
 /* --- COMPONENTS: ARTIFACTS OF POWER --- */
 
-/* Glass Cards Ultimate */
+/* Ultra Glass Cards */
 .card,
 .prayer-card,
 .testimonial-card,
 .contact-card {
-    background: rgba(20, 20, 35, 0.4);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(20, 20, 35, 0.45);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border: var(--border-glass-thin);
     border-radius: var(--radius-md);
     padding: 3rem 2rem;
@@ -253,30 +245,29 @@ h6 {
     z-index: 1;
 }
 
-/* Subtle border gradient using pseudo-element */
+/* Subtle inner glow and border gradient */
 .card::before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: var(--radius-md);
     padding: 1px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 215, 0, 0.1), rgba(255, 255, 255, 0.05));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 215, 0, 0.2), rgba(255, 255, 255, 0.05));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     pointer-events: none;
 }
 
 .card:hover {
     transform: translateY(-12px) scale(1.02);
-    background: rgba(30, 30, 50, 0.5);
+    background: rgba(30, 30, 50, 0.6);
     box-shadow: var(--shadow-glow-purple), var(--shadow-deep);
-    border-color: rgba(255, 215, 0, 0.3);
+    border-color: rgba(255, 215, 0, 0.4);
 }
 
-.card:hover::before {
-    background: linear-gradient(135deg, var(--primary-gold), transparent);
-}
+
 
 .card-icon {
     font-size: 4rem;
@@ -292,7 +283,7 @@ h6 {
 
 .card:hover .card-icon {
     transform: scale(1.15) rotate(8deg);
-    filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.6));
+    filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.7));
 }
 
 .card h3 {
@@ -311,10 +302,10 @@ h6 {
     color: var(--primary-accent);
     font-weight: 600;
     margin-bottom: 1.5rem;
-    font-family: 'Tajawal', sans-serif;
+    font-family: 'Amiri', serif;
 }
 
-/* --- BUTTONS: ACTIONS OF MAJESTY --- */
+/* --- BUTTONS: MAJESTIC ACTIONS --- */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -347,7 +338,7 @@ h6 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
     transform: skewX(-20deg) translateX(-150%);
     transition: transform 0.6s;
     z-index: -1;
@@ -359,11 +350,11 @@ h6 {
 
 .btn-primary:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 50px rgba(255, 215, 0, 0.5);
+    box-shadow: 0 20px 50px rgba(255, 215, 0, 0.6);
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.08);
     color: var(--primary-gold);
     border: 1px solid var(--primary-gold);
     backdrop-filter: blur(10px);
@@ -372,7 +363,7 @@ h6 {
 .btn-secondary:hover {
     background: var(--primary-gold);
     color: #1a0b2e;
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
     transform: translateY(-3px);
 }
 
@@ -382,10 +373,10 @@ h6 {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(3, 0, 5, 0.85);
+    background: rgba(3, 0, 5, 0.9);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 1.2rem 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1rem 2rem;
     z-index: 1000;
     transition: all 0.3s;
 }
@@ -407,32 +398,33 @@ h6 {
     font-weight: 800;
     color: var(--primary-gold);
     text-decoration: none;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
 }
 
 .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: 2rem;
     list-style: none;
 }
 
 .nav-link {
     color: var(--text-white);
     text-decoration: none;
-    font-size: 1.05rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    font-weight: 600;
     position: relative;
     padding: 0.5rem 0;
     transition: color 0.3s;
+    font-family: 'Cairo', sans-serif;
 }
 
 .nav-link::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -5px;
     left: 0;
     width: 0;
-    height: 2px;
+    height: 3px;
     background: var(--primary-gold);
     box-shadow: 0 0 10px var(--primary-gold);
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -440,7 +432,7 @@ h6 {
 
 .nav-link:hover {
     color: var(--primary-gold);
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }
 
 .nav-link:hover::after {
@@ -459,10 +451,10 @@ h6 {
 /* --- SECTIONS: REALMS --- */
 .hero-section {
     position: relative;
-    padding: 220px 20px 140px;
+    padding: 240px 20px 160px;
     text-align: center;
-    background: url('https://images.unsplash.com/photo-1533240332313-0db49b459ad6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat fixed;
-    /* Overlay handled by ::before for better blending */
+    background: url('https://images.unsplash.com/photo-1543165365-072d24497e16?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat fixed;
+    /* More majestic stary background */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -474,7 +466,7 @@ h6 {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(5, 0, 10, 0.8), rgba(5, 0, 10, 0.95), var(--primary-purple-void));
+    background: linear-gradient(to bottom, rgba(5, 0, 10, 0.85), rgba(5, 0, 10, 0.95), var(--primary-purple-void));
     z-index: 1;
 }
 
@@ -496,23 +488,25 @@ h6 {
 
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3rem;
     margin-top: 4rem;
 }
 
 /* --- PRAYER QUOTE BOX --- */
 .prayer-quote-box {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 215, 0, 0.15);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.2);
     border-right: 4px solid var(--primary-gold);
-    padding: 1.5rem;
+    padding: 2rem;
     border-radius: var(--radius-sm);
     margin: 1.5rem 0;
-    font-style: italic;
-    font-family: 'Tajawal', serif;
-    font-size: 1.1rem;
-    color: var(--text-off-white);
+    font-style: normal;
+    font-family: 'Amiri', serif;
+    /* Classic Arabic */
+    font-size: 1.25rem;
+    color: var(--text-white);
+    line-height: 2;
 }
 
 .prayer-quote-box strong {
@@ -552,8 +546,9 @@ h6 {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
+    /* Larger icons */
     background: var(--primary-purple-deep);
     border: 2px solid var(--primary-gold);
     border-radius: 50%;
@@ -561,9 +556,9 @@ h6 {
     align-items: center;
     justify-content: center;
     color: var(--primary-gold);
-    font-size: 1.8rem;
+    font-size: 2rem;
     z-index: 10;
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
     transition: all 0.4s;
 }
 
@@ -571,13 +566,13 @@ h6 {
     background: var(--primary-gold);
     color: var(--primary-purple-deep);
     transform: translateX(-50%) scale(1.2);
-    box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+    box-shadow: 0 0 60px rgba(255, 215, 0, 0.9);
 }
 
 .timeline-content {
     width: 45%;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 3rem;
     border-radius: var(--radius-md);
     border: var(--border-glass-thin);
     position: relative;
@@ -585,14 +580,14 @@ h6 {
 }
 
 .timeline-content:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
     border-color: var(--primary-gold);
     box-shadow: var(--shadow-deep), var(--shadow-glow-gold);
 }
 
 /* --- SOCIAL PROOF: THE LEGION --- */
 .social-proof-counter {
-    background: rgba(10, 5, 20, 0.6);
+    background: rgba(10, 5, 20, 0.7);
     border: var(--border-gold-subtle);
     border-radius: var(--radius-lg);
     padding: 4rem 2rem;
@@ -609,15 +604,15 @@ h6 {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.05), transparent 70%);
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.06), transparent 70%);
     animation: cosmic-drift 20s infinite linear;
 }
 
 .stat-item .number {
-    font-size: 4rem;
+    font-size: 4.5rem;
     font-weight: 900;
     color: var(--primary-gold);
-    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    text-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
     display: block;
     margin-bottom: 0.5rem;
 }
@@ -646,7 +641,7 @@ h6 {
 
     .timeline-content {
         width: 100%;
-        margin-top: 1rem;
+        margin-top: 1.5rem;
     }
 
     .hero-title {
@@ -664,7 +659,7 @@ h6 {
         background: rgba(5, 0, 10, 0.98);
         flex-direction: column;
         padding: 2rem;
-        border-bottom: 1px solid var(--primary-gold);
+        border-bottom: 2px solid var(--primary-gold);
     }
 
     .nav-links.active {
@@ -675,7 +670,543 @@ h6 {
         display: block;
     }
 
+
     .stat-item .number {
         font-size: 3rem;
     }
+}
+
+/* --- GOD MODE PARTICLES --- */
+.god-mode-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, rgba(123, 44, 191, 0.2) 60%, transparent 100%);
+    transform: scale(0);
+    animation: god-ripple-anim 0.8s linear;
+    pointer-events: none;
+    z-index: 100;
+}
+
+@keyframes god-ripple-anim {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.gold-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--primary-gold);
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px var(--primary-gold);
+    animation: particle-fly 0.8s ease-out forwards;
+    z-index: 101;
+}
+
+@keyframes particle-fly {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+/* --- PHASE 3: DIVINE POLISH ENHANCEMENTS --- */
+
+/* 1. Divine Parallax Container */
+.divine-parallax {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    will-change: transform;
+}
+
+/* 2. Constellation Particle Canvas */
+.constellation-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    /* Behind everything but above void background */
+    opacity: 0.6;
+}
+
+/* 3. Holy Cursor */
+.holy-cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s, height 0.3s;
+    mix-blend-mode: exclusion;
+    box-shadow: 0 0 10px var(--primary-gold);
+}
+
+.holy-cursor.hovering {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--primary-accent);
+}
+
+.cursor-trail {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--primary-gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.6;
+    animation: fade-out 0.5s forwards;
+}
+
+@keyframes fade-out {
+    to {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+/* 4. Ultra Glass (Deep Refraction) */
+.glass-ultra {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(40px) brightness(1.1);
+    -webkit-backdrop-filter: blur(40px) brightness(1.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+
+/* --- PHASE 4: IMMERSIVE EXPANSION --- */
+
+/* 1. Holy Audio Player */
+.holy-player-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9990;
+    width: 90%;
+    max-width: 400px;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    /* Hidden state */
+}
+
+.holy-player-container.active {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: all;
+}
+
+.holy-player {
+    background: rgba(10, 5, 20, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--primary-gold-dim);
+    border-radius: 50px;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.1);
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.player-btn {
+    background: none;
+    border: none;
+    color: var(--primary-gold);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-btn:hover {
+    background: rgba(255, 215, 0, 0.1);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.player-track-info {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--text-white);
+    text-align: center;
+    margin: 0 1rem;
+}
+
+/* 2. Divine Verse Widget */
+.divine-verse-container {
+    margin: 2rem auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.divine-verse-card {
+    background: linear-gradient(135deg, rgba(20, 10, 40, 0.6), rgba(5, 5, 10, 0.8));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: var(--radius-md);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.divine-verse-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    color: rgba(255, 215, 0, 0.1);
+    line-height: 1;
+}
+
+.verse-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--text-white);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+    position: relative;
+    z-index: 2;
+}
+
+.verse-reference {
+    font-family: 'Cinzel', serif;
+    color: var(--primary-gold);
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* 3. Focus Mode */
+body.focus-active .enterprise-nav,
+body.focus-active .holy-player-container,
+/* Optional: hide player or keep small */
+body.focus-active footer,
+body.focus-active .hero-section {
+    opacity: 0.1;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+}
+
+body.focus-active .prayer-section,
+body.focus-active .divine-verse-container {
+    opacity: 1;
+    filter: drop-shadow(0 0 50px rgba(0, 0, 0, 0.8));
+}
+
+.focus-toggle-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9995;
+    background: var(--primary-purple-deep);
+    border: 1px solid var(--primary-gold);
+    color: var(--primary-gold);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s;
+}
+
+
+/* 4. Prayer Board Sidebar */
+.prayer-board-sidebar {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100vh;
+    background: rgba(10, 5, 20, 0.95);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid var(--primary-gold);
+    z-index: 10000;
+    padding: 2rem;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+}
+
+.prayer-board-sidebar.active {
+    right: 0;
+}
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--primary-gold-dim);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.board-title {
+    font-family: 'Cinzel', serif;
+    color: var(--primary-gold);
+    font-size: 1.5rem;
+}
+
+.close-board-btn {
+    background: none;
+    border: none;
+    color: var(--text-silver);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-board-btn:hover {
+    color: var(--text-white);
+}
+
+.saved-prayer-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.saved-prayer-card:hover {
+    border-color: var(--primary-gold);
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.delete-prayer-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: #ff6b6b;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.delete-prayer-btn:hover {
+    opacity: 1;
+}
+
+.prayer-board-toggle {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    background: var(--primary-gold);
+    color: var(--primary-purple-deep);
+    padding: 0.8rem 1rem 0.8rem 1.2rem;
+    border-radius: 50px 0 0 50px;
+    cursor: pointer;
+    z-index: 9990;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+    transform: translateX(10px);
+}
+
+.prayer-board-toggle:hover {
+    transform: translateX(0);
+}
+
+/* Save Button for Cards */
+.save-prayer-btn {
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px solid var(--primary-gold-dim);
+    color: var(--primary-gold-dim);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+
+/* 5. Virtual Rosary Tracker */
+.rosary-tracker-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 0, 10, 0.98);
+    backdrop-filter: blur(20px);
+    z-index: 11000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+}
+
+.rosary-tracker-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.rosary-content {
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    padding: 2rem;
+    border: 1px solid var(--primary-gold-dim);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: var(--shadow-deep);
+}
+
+.rosary-beads-display {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.bead {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-purple-vivid);
+    background: transparent;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bead.large {
+    width: 30px;
+    height: 30px;
+    border-color: var(--primary-gold);
+}
+
+.bead.active {
+    background: var(--primary-gold);
+    box-shadow: 0 0 20px var(--primary-gold);
+    transform: scale(1.5);
+}
+
+.bead.completed {
+    background: var(--primary-purple-vivid);
+    opacity: 0.5;
+}
+
+.rosary-text-primary {
+    font-size: 1.8rem;
+    color: var(--primary-gold);
+    margin-bottom: 1rem;
+    font-family: 'Cinzel', serif;
+}
+
+.rosary-text-secondary {
+    font-size: 1.4rem;
+    color: var(--text-white);
+    margin-bottom: 2rem;
+    font-family: 'Amiri', serif;
+    direction: rtl;
+}
+
+.rosary-controls {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.rosary-nav-btn {
+    background: transparent;
+    border: 1px solid var(--text-silver);
+    color: var(--text-white);
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+}
+
+.rosary-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text-white);
+}
+
+.rosary-nav-btn.main {
+    background: var(--gradient-royal-gold);
+    border: none;
+    color: #000;
+    font-weight: bold;
+    transform: scale(1.1);
+}
+
+.rosary-nav-btn.main:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+.close-rosary-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-silver);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.close-rosary-btn:hover {
+    color: #ff6b6b;
+    transform: rotate(90deg);
+}
+
+.current-mystery-badge {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-purple-deep);
+    border: 1px solid var(--primary-gold);
+    color: var(--primary-gold);
+    padding: 0.5rem 2rem;
+    border-radius: 20px;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }

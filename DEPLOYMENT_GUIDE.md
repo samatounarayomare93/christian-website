@@ -6,9 +6,11 @@
 ```
 soul-guidance-website/
 ├── index.html          (Main website file)
-├── styles.css          (All styling)
-├── script.js           (All functionality)
-├── TESTING_CHECKLIST.md
+├── consolidated-prayer-book.html (Prayer Book)
+├── theme.css           (Centralized Theme)
+├── styles.css          (Base Styling)
+├── script.js           (Core functionality)
+├── prayer-scheduler.js (Scheduler logic)
 ├── DEPLOYMENT_GUIDE.md
 └── README.md
 ```

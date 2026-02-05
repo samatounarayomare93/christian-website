@@ -41,6 +41,27 @@ document.addEventListener('DOMContentLoaded', function () {
         initButtonEffects();
         initAccessibility();
         initPrayerButtons();
+        new DivineInteractions();
+        new HolyAudioPlayer();
+        new DivineContent();
+        new DivineContent();
+        new FocusManager();
+        window.soulGuidancePrayerBoard = new PrayerBoardManager();
+        window.soulGuidanceRosary = new RosaryTracker();
+        new CandleManager();
+        new ThemeManager();
+
+        new CandleManager();
+        new ThemeManager();
+        new LiturgicalCalendar();
+        new DivineSearch();
+        new SaintOracle();
+        new ContactManager();
+        new LectioManager();
+        window.soulGuidanceFellowship = new FellowshipManager();
+        new SacredRhythms();
+        new VoiceManager();
+        new AccessibilityManager();
 
         // Mark as initialized
         window.soulGuidanceButtons.initialized = true;
@@ -136,7 +157,6 @@ function initSmoothScrolling() {
     });
 }
 
-// Form Handling
 // Form Handling
 function initFormHandling() {
     const prayerForm = document.getElementById('prayerForm');
@@ -295,13 +315,1461 @@ function initMultiStepForm() {
     updateUI();
 }
 
-// Button Effects
+// --- PHASE 4: IMMERSIVE EXPANSION CLASSES ---
+
+class HolyAudioPlayer {
+    constructor() {
+        this.isPlaying = false;
+        this.volume = 0.5;
+        this.track = 'https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3'; // Placeholder Gregorian/Ambient
+        this.audio = new Audio(this.track);
+        this.audio.loop = true;
+
+        // UI Elements
+        this.container = null;
+        this.playBtn = null;
+        this.muteBtn = null;
+
+        this.init();
+    }
+
+    init() {
+        console.log('🎵 Initializing Holy Audio Player...');
+        this.createPlayerUI();
+        this.setupListeners();
+    }
+
+    createPlayerUI() {
+        const div = document.createElement('div');
+        div.className = 'holy-player-container active';
+        div.innerHTML = `
+            <div class="holy-player">
+                <div class="player-controls">
+                    <button class="player-btn" id="playPauseBtn" aria-label="Play Ambient Music">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <span class="player-track-info">Gregorian Chant - Anima Christi</span>
+                    <button class="player-btn" id="muteBtn" aria-label="Mute">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(div);
+
+        this.container = div;
+        this.playBtn = div.querySelector('#playPauseBtn');
+        this.muteBtn = div.querySelector('#muteBtn');
+    }
+
+    setupListeners() {
+        this.playBtn.addEventListener('click', () => this.togglePlay());
+        this.muteBtn.addEventListener('click', () => this.toggleMute());
+    }
+
+    togglePlay() {
+        if (this.isPlaying) {
+            this.audio.pause();
+            this.playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            this.isPlaying = false;
+        } else {
+            this.audio.play().catch(e => console.log('Audio autoplay blocked:', e));
+            this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            this.isPlaying = true;
+        }
+    }
+
+    toggleMute() {
+        if (this.audio.muted) {
+            this.audio.muted = false;
+            this.muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        } else {
+            this.audio.muted = true;
+            this.muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        }
+    }
+}
+
+class DivineContent {
+    constructor() {
+        this.verses = [
+            { text: "I am the light of the world. Whoever follows me will not walk in darkness, but will have the light of life.", ref: "John 8:12" },
+            { text: "Be still, and know that I am God.", ref: "Psalm 46:10" },
+            { text: "The Lord is my shepherd; I shall not want.", ref: "Psalm 23:1" },
+            { text: "Come to me, all you who are weary and burdened, and I will give you rest.", ref: "Matthew 11:28" }
+        ];
+        this.init();
+    }
+
+    init() {
+        console.log('📖 Initializing Divine Content...');
+        this.displayDailyVerse();
+    }
+
+    displayDailyVerse() {
+        // Simple day-based rotation
+        const day = new Date().getDate();
+        const verse = this.verses[day % this.verses.length];
+
+        // Find container in DOM (we need to add this to index.html)
+        const container = document.getElementById('verse-container');
+        if (container) {
+            container.innerHTML = `
+                <div class="divine-verse-card" data-aos="fade-up">
+                    <p class="verse-text">${verse.text}</p>
+                    <p class="verse-reference">- ${verse.ref}</p>
+                </div>
+            `;
+        }
+    }
+}
+
+class FocusManager {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        this.createToggle();
+    }
+
+    createToggle() {
+        const btn = document.createElement('button');
+        btn.className = 'focus-toggle-btn';
+        btn.innerHTML = '<i class="fas fa-eye"></i>';
+        btn.title = "Toggle Focus Mode";
+        btn.onclick = () => this.toggleFocus();
+        document.body.appendChild(btn);
+    }
+
+    toggleFocus() {
+        this.active = !this.active;
+        document.body.classList.toggle('focus-active', this.active);
+
+        const btn = document.querySelector('.focus-toggle-btn');
+        if (btn) {
+            btn.innerHTML = this.active ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+            showNotification(this.active ? 'Focus Mode Active' : 'Focus Mode Disabled', 'info');
+        }
+    }
+}
+
+class PrayerBoardManager {
+    constructor() {
+        this.savedPrayers = JSON.parse(localStorage.getItem('soulGuidance_savedPrayers')) || [];
+        this.isOpen = false;
+        this.init();
+    }
+
+    init() {
+        this.createSidebar();
+        this.createToggle();
+        this.injectSaveButtons();
+        this.renderSavedPrayers();
+    }
+
+    createSidebar() {
+        const sidebar = document.createElement('div');
+        sidebar.className = 'prayer-board-sidebar';
+        sidebar.innerHTML = `
+            <div class="board-header">
+                <h3 class="board-title"><i class="fas fa-bookmark"></i> My Prayer Board</h3>
+                <button class="close-board-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="saved-prayers-list">
+                <!-- Prayers go here -->
+                <p style="color:var(--text-silver); text-align:center; margin-top:2rem;">No saved prayers yet.<br>Click "Save" on any prayer card.</p>
+            </div>
+        `;
+        document.body.appendChild(sidebar);
+
+        // Listeners
+        sidebar.querySelector('.close-board-btn').addEventListener('click', () => this.toggleBoard(false));
+    }
+
+    createToggle() {
+        const btn = document.createElement('button');
+        btn.className = 'prayer-board-toggle';
+        btn.innerHTML = '<i class="fas fa-heart"></i> Board';
+        btn.onclick = () => this.toggleBoard(true);
+        document.body.appendChild(btn);
+    }
+
+    toggleBoard(show) {
+        const sidebar = document.querySelector('.prayer-board-sidebar');
+        if (show) {
+            sidebar.classList.add('active');
+            this.renderSavedPrayers();
+        } else {
+            sidebar.classList.remove('active');
+        }
+    }
+
+    injectSaveButtons() {
+        // Find all prayer cards or sections that look like prayers
+        // This assumes structure from consolidated-prayer-book.html
+        document.querySelectorAll('.prayer-card, .card').forEach((card, index) => {
+            // Check if already has button
+            if (card.querySelector('.save-prayer-btn')) return;
+
+            const title = card.querySelector('h3, h4')?.innerText || `Prayer ${index + 1}`;
+            const btn = document.createElement('button');
+            btn.className = 'save-prayer-btn';
+            btn.innerHTML = '<i class="far fa-bookmark"></i> Save to Board';
+            btn.onclick = (e) => {
+                e.stopPropagation(); // Prevent card click effects if any
+                this.savePrayer(title, card.innerText.substring(0, 100) + '...');
+            };
+            card.appendChild(btn);
+        });
+    }
+
+    savePrayer(title, preview) {
+        // Avoid duplicates
+        if (this.savedPrayers.some(p => p.title === title)) {
+            showNotification('Prayer already saved!', 'info');
+            return;
+        }
+
+        this.savedPrayers.push({ id: Date.now(), title, preview, date: new Date().toLocaleDateString() });
+        this.persist();
+        showNotification('Prayer saved to your board', 'success');
+        this.toggleBoard(true); // Open board to show confirmation
+    }
+
+    deletePrayer(id) {
+        this.savedPrayers = this.savedPrayers.filter(p => p.id !== id);
+        this.persist();
+        this.renderSavedPrayers();
+    }
+
+    persist() {
+        localStorage.setItem('soulGuidance_savedPrayers', JSON.stringify(this.savedPrayers));
+    }
+
+    renderSavedPrayers() {
+        const list = document.getElementById('saved-prayers-list');
+        if (!list) return;
+
+        if (this.savedPrayers.length === 0) {
+            list.innerHTML = '<p style="color:var(--text-silver); text-align:center; margin-top:2rem;">Your board is empty.<br>Collect prayers to keep them close.</p>';
+            return;
+        }
+
+        list.innerHTML = this.savedPrayers.map(p => `
+            <div class="saved-prayer-card">
+                <h4 style="color:var(--primary-gold); margin-bottom:0.5rem; font-size:1.1rem;">${p.title}</h4>
+                <p style="font-size:0.9rem; color:var(--text-silver); margin-bottom:0.5rem;">${p.preview}</p>
+                <small style="color:var(--primary-gold-dark);">${p.date}</small>
+                <button class="delete-prayer-btn" onclick="window.soulGuidancePrayerBoard.deletePrayer(${p.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `).join('');
+    }
+}
+
+class RosaryTracker {
+    constructor() {
+        this.isOpen = false;
+        this.mysteries = {
+            joyful: [
+                { en: "The Annunciation", ar: "البشارة" },
+                { en: "The Visitation", ar: "الزيارة" },
+                { en: "The Nativity", ar: "الميلاد" },
+                { en: "The Presentation", ar: "التقدمة" },
+                { en: "Finding Jesus in the Temple", ar: "وجود يسوع في الهيكل" }
+            ],
+            // Add other mysteries as needed (Sorrowful, Glorious, Luminous)
+        };
+        this.currentMysteryType = 'joyful';
+        this.state = {
+            decadeIndex: 0, // 0-4
+            beadIndex: -1, // -1: Intro, 0: Our Father, 1-10: Hait Mary, 11: Glory Be
+            totalBeads: 10
+        };
+
+        this.init();
+    }
+
+    init() {
+        this.createOverlay();
+    }
+
+    createOverlay() {
+        const div = document.createElement('div');
+        div.className = 'rosary-tracker-overlay';
+        div.innerHTML = `
+            <div class="rosary-content">
+                <div class="current-mystery-badge">Joyful Mysteries - الأسرار الفرحة</div>
+                <button class="close-rosary-btn">&times;</button>
+                
+                <div class="rosary-beads-display" id="rosary-beads"></div>
+                
+                <div class="rosary-text-display">
+                    <h2 class="rosary-text-primary" id="rosary-en">Start the Rosary</h2>
+                    <h3 class="rosary-text-secondary" id="rosary-ar">ابدأ المسبحة</h3>
+                </div>
+
+                <div class="rosary-controls">
+                    <button class="rosary-nav-btn" id="rosary-prev">Prev</button>
+                    <button class="rosary-nav-btn main" id="rosary-next">Next Bead</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(div);
+
+        // Listeners
+        div.querySelector('.close-rosary-btn').addEventListener('click', () => this.toggle(false));
+        div.querySelector('#rosary-next').addEventListener('click', () => this.advance());
+        div.querySelector('#rosary-prev').addEventListener('click', () => this.retreat());
+    }
+
+    toggle(show, type = 'joyful') {
+        const overlay = document.querySelector('.rosary-tracker-overlay');
+        if (show) {
+            this.currentMysteryType = type;
+            this.state = { decadeIndex: 0, beadIndex: -1, totalBeads: 10 };
+            overlay.classList.add('active');
+            this.render();
+        } else {
+            overlay.classList.remove('active');
+        }
+    }
+
+    render() {
+        const enEl = document.getElementById('rosary-en');
+        const arEl = document.getElementById('rosary-ar');
+        const beadContainer = document.getElementById('rosary-beads');
+        const badge = document.querySelector('.current-mystery-badge');
+
+        // Logic to determine text
+        let enText = "", arText = "";
+        let beadHTML = "";
+
+        const mysteryName = this.mysteries[this.currentMysteryType][this.state.decadeIndex];
+        badge.innerText = `${mysteryName.en} - ${mysteryName.ar}`;
+
+        if (this.state.beadIndex === -1) {
+            // Intro to Decade
+            enText = `Introduction to ${mysteryName.en}`;
+            arText = mysteryName.ar;
+            // Draw Large Bead + 10 small
+            beadHTML = `<div class="bead large active"></div>`;
+            for (let i = 0; i < 10; i++) beadHTML += `<div class="bead"></div>`;
+        } else if (this.state.beadIndex === 0) {
+            // Our Father
+            enText = "Our Father";
+            arText = "أبانا الذي في السماوات";
+            beadHTML = `<div class="bead large completed"></div>`;
+            for (let i = 0; i < 10; i++) beadHTML += `<div class="bead"></div>`;
+        } else if (this.state.beadIndex >= 1 && this.state.beadIndex <= 10) {
+            // Hail Mary
+            enText = "Hail Mary";
+            arText = "السلام عليك يا مريم";
+            beadHTML = `<div class="bead large completed"></div>`;
+            for (let i = 1; i <= 10; i++) {
+                const status = i < this.state.beadIndex ? 'completed' : (i === this.state.beadIndex ? 'active' : '');
+                beadHTML += `<div class="bead ${status}"></div>`;
+            }
+        } else {
+            // Glory Be
+            enText = "Glory Be";
+            arText = "المجد للآب والابن والروح القدس";
+            beadHTML = `<div class="bead large completed"></div>`;
+            for (let i = 1; i <= 10; i++) beadHTML += `<div class="bead completed"></div>`;
+        }
+
+        enEl.innerText = enText;
+        arEl.innerText = arText;
+        beadContainer.innerHTML = beadHTML;
+    }
+
+    advance() {
+        if (this.state.beadIndex < 11) {
+            this.state.beadIndex++;
+            // Chime effect
+            if (window.soulGuidanceAudio) window.soulGuidanceAudio.playChime(600, 0.1);
+        } else {
+            // Next decade
+            if (this.state.decadeIndex < 4) {
+                this.state.decadeIndex++;
+                this.state.beadIndex = -1;
+            } else {
+                // Finish
+                showNotification("Rosary Completed!", "success");
+                this.toggle(false);
+                return;
+            }
+        }
+        this.render();
+    }
+
+    retreat() {
+        if (this.state.beadIndex > -1) {
+            this.state.beadIndex--;
+        } else if (this.state.decadeIndex > 0) {
+            this.state.decadeIndex--;
+            this.state.beadIndex = 11;
+        }
+        this.render();
+    }
+}
+
+class CandleManager {
+    constructor() {
+        this.litCandles = JSON.parse(localStorage.getItem('soulGuidance_litCandles')) || [];
+        this.init();
+    }
+
+    init() {
+        const container = document.getElementById('candle-grid-container');
+        if (!container) return; // Only on homepage
+
+        // Generate 3 candles
+        for (let i = 0; i < 3; i++) {
+            this.createCandle(container, i);
+        }
+
+        // Update simulated global count
+        this.updateGlobalCount();
+    }
+
+    createCandle(container, index) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'candle-container';
+        wrapper.innerHTML = `
+            <div class="candle" id="candle-${index}">
+                <div class="flame"></div>
+                <div class="candle-glow"></div>
+            </div>
+            <div class="intention-label" id="intention-${index}">For Peace</div>
+        `;
+
+        wrapper.addEventListener('click', () => this.lightCandle(index));
+        container.appendChild(wrapper);
+
+        // Check availability
+        if (this.litCandles.includes(index)) {
+            wrapper.querySelector('.candle').classList.add('lit');
+            wrapper.querySelector('.intention-label').innerText = "Your Light";
+        }
+    }
+
+    lightCandle(index) {
+        if (this.litCandles.includes(index)) return;
+
+        const candle = document.getElementById(`candle-${index}`);
+        candle.classList.add('lit');
+
+        const label = document.getElementById(`intention-${index}`);
+        label.innerText = "Your Light";
+
+        this.litCandles.push(index);
+        localStorage.setItem('soulGuidance_litCandles', JSON.stringify(this.litCandles));
+
+        // Audio effect
+        if (window.soulGuidanceAudio) window.soulGuidanceAudio.playChime(1000, 0.05); // High pitch sparkle
+
+        showNotification("Candle Lit successfully", "success");
+        this.updateGlobalCount(1);
+    }
+
+    updateGlobalCount(add = 0) {
+        const countEl = document.getElementById('global-candle-count');
+        if (!countEl) return;
+
+        // Simulated base count + user interaction
+        let count = parseInt(countEl.innerText.replace(',', '')) + add;
+        countEl.innerText = count.toLocaleString();
+    }
+}
+
+class ThemeManager {
+    constructor() {
+        this.currentTheme = localStorage.getItem('soulGuidance_theme') || 'dark';
+        this.init();
+    }
+
+    init() {
+        // Apply saved theme
+        document.documentElement.setAttribute('data-theme', this.currentTheme);
+
+        this.createToggle();
+    }
+
+    createToggle() {
+        const btn = document.createElement('button');
+        btn.className = 'theme-toggle-btn';
+        btn.innerHTML = this.currentTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        btn.title = "Toggle Light/Dark Mode";
+        btn.onclick = () => this.toggleTheme();
+        document.body.appendChild(btn);
+    }
+
+    toggleTheme() {
+        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', this.currentTheme);
+        localStorage.setItem('soulGuidance_theme', this.currentTheme);
+
+        const btn = document.querySelector('.theme-toggle-btn');
+        if (btn) {
+            btn.innerHTML = this.currentTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            // Animation reset for button
+            btn.animate([
+                { transform: 'rotate(0deg)' },
+                { transform: 'rotate(360deg)' }
+            ], { duration: 500 });
+        }
+
+        showNotification(`Theme set to ${this.currentTheme === 'light' ? 'Divine Dawn' : 'Midnight Vigil'}`, 'info');
+    }
+}
+
+class LiturgicalCalendar {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        const today = new Date();
+        const season = this.getSeason(today);
+
+        // Update UI
+        const badge = document.getElementById('season-text');
+        if (badge) badge.innerText = season.name;
+
+        // Set Theme Attribute
+        if (season.code !== 'ordinary') {
+            document.documentElement.setAttribute('data-season', season.code);
+            console.log(`📅 Liturgical Season: ${season.name}`);
+        }
+    }
+
+    getSeason(date) {
+        const year = date.getFullYear();
+        const easter = this.getEasterDate(year);
+        const ashWednesday = new Date(easter);
+        ashWednesday.setDate(easter.getDate() - 46);
+
+        const pentecost = new Date(easter);
+        pentecost.setDate(easter.getDate() + 49);
+
+        const adventStart = this.getAdventStart(year);
+        const christmas = new Date(year, 11, 25);
+
+        // Check ranges
+        if (date >= ashWednesday && date < easter) return { name: "Lent - زمن الصوم", code: "lent" };
+        if (date >= easter && date <= pentecost) return { name: "Eastertide - زمن القيامة", code: "easter" }; // Gold default
+        if (date >= adventStart && date < christmas) return { name: "Advent - زمن المجيء", code: "advent" };
+        if (date.getMonth() === 11 && date.getDate() >= 25) return { name: "Christmas Season - زمن الميلاد", code: "easter" }; // Gold
+
+        // Simple check for Fridays (Mini-Lent/Penance)
+        if (date.getDay() === 5) return { name: "Friday Penance - توبة الجمعة", code: "lent" };
+
+        return { name: "Ordinary Time - الزمن العادي", code: "ordinary" };
+    }
+
+    getEasterDate(year) {
+        // Algorithm to calculate Western Easter
+        const f = Math.floor,
+            G = year % 19,
+            C = f(year / 100),
+            H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30,
+            I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11)),
+            J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7,
+            L = I - J,
+            month = 3 + f((L + 40) / 44),
+            day = L + 28 - 31 * f(month / 4);
+
+        return new Date(year, month - 1, day);
+    }
+
+    getAdventStart(year) {
+        const date = new Date(year, 11, 25);
+        date.setDate(date.getDate() - date.getDay() - 22); // 4th Sunday before Christmas
+        return date;
+    }
+}
+
+class DivineSearch {
+    constructor() {
+        this.input = document.getElementById('divine-search-input');
+        this.init();
+    }
+
+    init() {
+        if (!this.input) return;
+
+        this.input.addEventListener('input', (e) => this.filter(e.target.value.toLowerCase()));
+    }
+
+    filter(term) {
+        const cards = document.querySelectorAll('.prayer-card');
+        let hasResults = false;
+
+        cards.forEach(card => {
+            const text = card.innerText.toLowerCase();
+            const section = card.closest('.prayer-section');
+
+            if (text.includes(term)) {
+                card.style.display = 'block';
+                card.classList.add('animate__animated', 'animate__fadeIn');
+                hasResults = true;
+                if (section) section.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Hide empty sections
+        document.querySelectorAll('.prayer-section').forEach(section => {
+            const visibleCards = section.querySelectorAll('.prayer-card[style="display: block;"]');
+            // If search is active, rely on visible cards. If empty, rely on original toggles
+            if (term.length > 0) {
+                section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+            } else {
+                // Reset: Show only if it was originally open? 
+                // For simplicity, showing all section HEADERS, but typically we want to revert state.
+                // Better approach: Just show accordion headers, hide content. 
+                // Assuming accordion logic handles display, so we just reset card visibility.
+            }
+        });
+
+        // Reset Logic if term is cleared
+        if (term === "") {
+            cards.forEach(c => c.style.display = ''); // Revert to CSS default
+            document.querySelectorAll('.prayer-section').forEach(s => s.style.display = ''); // Revert
+        }
+    }
+}
+
+class VoiceManager {
+    constructor() {
+        this.synth = window.speechSynthesis;
+        this.speaking = false;
+        this.currentUtterance = null;
+        this.init();
+    }
+
+    init() {
+        setTimeout(() => this.injectControls(), 2000);
+    }
+
+    injectControls() {
+        // Inject into cards that have Fellowship Toolbars (or just general cards)
+        const cards = document.querySelectorAll('.divine-office-card, .saved-prayer-card, .prayer-card, .verse-card');
+
+        cards.forEach((card, index) => {
+            if (card.querySelector('.lector-btn')) return;
+
+            const content = this.extractText(card);
+            if (!content || content.length < 10) return;
+
+            const btn = document.createElement('button');
+            btn.className = 'lector-btn';
+            btn.innerHTML = '<i class="fas fa-volume-up"></i> Listen';
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                this.toggleSpeak(content, btn);
+            };
+
+            // Append to footer or body of card
+            const footer = card.querySelector('.fellowship-toolbar') || card;
+            footer.appendChild(btn);
+        });
+    }
+
+    extractText(card) {
+        // Smart extraction avoiding button text
+        const clone = card.cloneNode(true);
+        const buttons = clone.querySelectorAll('button');
+        buttons.forEach(b => b.remove());
+        return clone.innerText.trim();
+    }
+
+    toggleSpeak(text, btn) {
+        if (this.synth.speaking) {
+            this.synth.cancel();
+            document.querySelectorAll('.lector-btn').forEach(b => {
+                b.classList.remove('speaking');
+                b.innerHTML = '<i class="fas fa-volume-up"></i> Listen';
+            });
+            this.speaking = false;
+
+            // If clicking same button, just stop. If different, start new.
+            if (btn === this.currentBtn) {
+                this.currentBtn = null;
+                return;
+            }
+        }
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+        utterance.pitch = 0.9; // Solemn tone
+
+        // Try to find a good voice
+        const voices = this.synth.getVoices();
+        const preferred = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Daniel'));
+        if (preferred) utterance.voice = preferred;
+
+        utterance.onend = () => {
+            btn.classList.remove('speaking');
+            btn.innerHTML = '<i class="fas fa-volume-up"></i> Listen';
+            this.speaking = false;
+        };
+
+        btn.classList.add('speaking');
+        btn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+        this.currentBtn = btn;
+        this.speaking = true;
+
+        this.synth.speak(utterance);
+    }
+}
+
+class AccessibilityManager {
+    constructor() {
+        this.settings = JSON.parse(localStorage.getItem('soulGuidance_access')) || {
+            fontSize: 0, // 0 = normal, 1 = large, 2 = extra
+            contrast: false,
+            dyslexic: false
+        };
+        this.init();
+    }
+
+    init() {
+        this.applySettings();
+
+        document.getElementById('access-font-up')?.addEventListener('click', () => this.adjustFont(1));
+        document.getElementById('access-font-down')?.addEventListener('click', () => this.adjustFont(-1));
+        document.getElementById('access-contrast')?.addEventListener('click', () => this.toggleContrast());
+        document.getElementById('access-dyslexic')?.addEventListener('click', () => this.toggleDyslexic());
+    }
+
+    adjustFont(dir) {
+        this.settings.fontSize = Math.max(0, Math.min(2, this.settings.fontSize + dir));
+        this.save();
+        this.applySettings();
+    }
+
+    toggleContrast() {
+        this.settings.contrast = !this.settings.contrast;
+        this.save();
+        this.applySettings();
+    }
+
+    toggleDyslexic() {
+        this.settings.dyslexic = !this.settings.dyslexic;
+        this.save();
+        this.applySettings();
+    }
+
+    applySettings() {
+        const html = document.documentElement;
+
+        // Font Size
+        if (this.settings.fontSize === 1) html.style.fontSize = "18px";
+        else if (this.settings.fontSize === 2) html.style.fontSize = "22px";
+        else html.style.fontSize = "";
+
+        // Contrast
+        html.classList.toggle('access-high-contrast', this.settings.contrast);
+
+        // Dyslexic
+        html.classList.toggle('access-dyslexic', this.settings.dyslexic);
+    }
+
+    save() {
+        localStorage.setItem('soulGuidance_access', JSON.stringify(this.settings));
+    }
+}
+constructor() {
+    this.init();
+}
+
+init() {
+    this.updateDivinceOffice();
+    this.updateSoulStats();
+    this.trackVisit();
+}
+
+updateDivinceOffice() {
+    const titleEl = document.getElementById('office-title');
+    const descEl = document.getElementById('office-desc');
+    const iconEl = document.querySelector('#office-icon-container i');
+
+    if (!titleEl) return; // Not on homepage
+
+    const hour = new Date().getHours();
+    let office = { title: "", desc: "", icon: "" };
+
+    if (hour >= 5 && hour < 12) {
+        office.title = "Morning Prayer (Lauds)";
+        office.desc = "Newmercies every morning. Start your day with praise.";
+        office.icon = "fa-cloud-sun";
+    } else if (hour >= 12 && hour < 17) {
+        office.title = "Midday Prayer (Angelus)";
+        office.desc = "Pause in the heat of the day to remember the Incarnation.";
+        office.icon = "fa-sun";
+    } else if (hour >= 17 && hour < 21) {
+        office.title = "Evening Prayer (Vespers)";
+        office.desc = "As the light fades, we give thanks for the day.";
+        office.icon = "fa-moon";
+    } else {
+        office.title = "Night Prayer (Compline)";
+        office.desc = "Rest in God's protection. 'Into your hands, Lord...'";
+        office.icon = "fa-star";
+    }
+
+    titleEl.innerText = office.title;
+    descEl.innerText = office.desc;
+    iconEl.className = `fas ${office.icon} office-icon`;
+}
+
+updateSoulStats() {
+    // Amens
+    const amens = JSON.parse(localStorage.getItem('soulGuidance_amens')) || {};
+    const amenCount = Object.keys(amens).length;
+    this.setStat('stat-amens', amenCount);
+
+    // Candles
+    const candles = JSON.parse(localStorage.getItem('soulGuidance_litCandles')) || [];
+    this.setStat('stat-candles', candles.length);
+
+    // Saved Prayers
+    const saved = JSON.parse(localStorage.getItem('soulGuidance_savedPrayers')) || [];
+    this.setStat('stat-saved', saved.length);
+
+    // Visits (Handled in trackVisit)
+}
+
+setStat(id, val) {
+    const el = document.getElementById(id);
+    if (el) {
+        // Animate counter
+        let start = 0;
+        const duration = 2000;
+        const step = timestamp => {
+            if (!start) start = timestamp;
+            const progress = Math.min((timestamp - start) / duration, 1);
+            el.innerText = Math.floor(progress * val);
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                el.innerText = val;
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+}
+
+trackVisit() {
+    const visits = parseInt(localStorage.getItem('soulGuidance_visits') || 0) + 1;
+    // Basic increment for now, could be smarter unique days
+    localStorage.setItem('soulGuidance_visits', visits);
+
+    const streakEl = document.getElementById('visit-streak');
+    const statVisits = document.getElementById('stat-visits');
+
+    if (statVisits) statVisits.innerText = visits;
+
+    // Simple streak simulator (Mock logic for demo)
+    if (streakEl) streakEl.innerHTML = `🔥 ${Math.min(visits, 999)} Visits`;
+}
+}
+
+class FellowshipManager {
+    constructor() {
+        this.amens = JSON.parse(localStorage.getItem('soulGuidance_amens')) || {};
+        this.init();
+    }
+
+    init() {
+        // Wait for content to likely be loaded
+        setTimeout(() => this.injectToolbars(), 1500);
+    }
+
+    injectToolbars() {
+        const cards = document.querySelectorAll('.prayer-card, .verse-card, .saved-prayer-card');
+
+        cards.forEach((card, index) => {
+            // Uniquely identify card based on title or content hash (fallback to index if needed)
+            const title = card.querySelector('h3, h4')?.innerText || `Prayer-${index}`;
+            const id = this.hashString(title); // Simple hash for ID
+
+            if (card.querySelector('.fellowship-toolbar')) return; // Already injected
+
+            const toolbar = document.createElement('div');
+            toolbar.className = 'fellowship-toolbar';
+
+            // Check if already Amen'd
+            const isAmen = this.amens[id];
+
+            toolbar.innerHTML = `
+                <button class="amen-btn ${isAmen ? 'active' : ''}" onclick="window.soulGuidanceFellowship.toggleAmen('${id}', this)">
+                    <i class="fas fa-praying-hands"></i> ${isAmen ? 'Amen!' : 'Amen'}
+                </button>
+                <div class="share-group">
+                    <button class="share-btn" onclick="window.soulGuidanceFellowship.sharePrayer('${id}', this)" title="Share Light">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+            `;
+
+            card.appendChild(toolbar);
+            card.dataset.fellowshipId = id; // Store ID on card for easy retrieval
+        });
+    }
+
+    toggleAmen(id, btn) {
+        if (this.amens[id]) {
+            // Already Amen'd - maybe un-amen? Or just keep it. Let's toggle off for now.
+            delete this.amens[id];
+            btn.classList.remove('active');
+            btn.innerHTML = '<i class="fas fa-praying-hands"></i> Amen';
+        } else {
+            this.amens[id] = true;
+            btn.classList.add('active');
+            btn.innerHTML = '<i class="fas fa-praying-hands"></i> Amen!';
+            this.showToast("Amen! Your prayer is heard.");
+
+            // Audio Chime
+            if (window.soulGuidanceAudio) window.soulGuidanceAudio.playChime(600, 0.05);
+        }
+        localStorage.setItem('soulGuidance_amens', JSON.stringify(this.amens));
+    }
+
+    sharePrayer(id, btn) {
+        const card = document.querySelector(`[data-fellowship-id="${id}"]`);
+        if (!card) return;
+
+        const title = card.querySelector('h3, h4')?.innerText || "A Prayer from Soul Guidance";
+        const text = card.innerText.replace('Amen', '').replace('Share', '').substring(0, 300) + '...';
+        const url = window.location.href;
+
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                text: `${title}\n\n${text}\n\nRead more at:`,
+                url: url
+            }).then(() => console.log('Shared successfully'))
+                .catch((error) => console.log('Error sharing', error));
+        } else {
+            // Fallback to clipboard
+            const shareText = `${title}\n\n${text}\n\n${url}`;
+            navigator.clipboard.writeText(shareText).then(() => {
+                this.showToast("Copied to clipboard! Spread the light.");
+            });
+        }
+    }
+
+    showToast(msg) {
+        const existing = document.querySelector('.share-toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'share-toast';
+        toast.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(() => toast.classList.add('show'));
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        }, 3000);
+    }
+
+    hashString(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = (hash << 5) - hash + char;
+            hash |= 0; // Convert to 32bit integer
+        }
+        return "id_" + Math.abs(hash);
+    }
+}
+
+class LectioManager {
+    constructor() {
+        this.overlay = document.getElementById('lectio-overlay');
+        this.closeBtn = document.getElementById('lectio-close-btn');
+        this.textDisplay = document.getElementById('lectio-text-display');
+        this.init();
+    }
+
+    init() {
+        if (!this.overlay) return;
+
+        // Inject Meditate Button near Verse Container
+        // We wait a moment for DivineContent to populate (or check periodically)
+        setTimeout(() => this.injectButton(), 1000);
+
+        this.closeBtn.addEventListener('click', () => this.stopSession());
+
+        // Escape key to exit
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.overlay.style.display === 'flex') this.stopSession();
+        });
+    }
+
+    injectButton() {
+        const verseContainer = document.getElementById('verse-container');
+        if (verseContainer && !document.getElementById('start-lectio-btn')) {
+            const btn = document.createElement('button');
+            btn.id = 'start-lectio-btn';
+            btn.className = 'btn btn-sm btn-outline-gold';
+            btn.style.marginTop = '1rem';
+            btn.innerHTML = '<i class="fas fa-spa"></i> Meditate on this Word / تأمل في الكلمة';
+            btn.onclick = () => this.startSession();
+
+            verseContainer.appendChild(document.createElement('br'));
+            verseContainer.appendChild(btn);
+        }
+    }
+
+    startSession() {
+        // Get current verse text
+        const currentVerse = document.querySelector('.verse-text')?.innerText || "Be still and know that I am God.";
+
+        this.textDisplay.innerText = currentVerse;
+        this.overlay.classList.add('active');
+
+        // Optional: Play soft ambient if available
+        if (window.soulGuidanceAudio && window.soulGuidanceAudio.isPlaying) {
+            // Already playing
+        } else if (window.soulGuidanceAudio) {
+            window.soulGuidanceAudio.toggleAudio(); // Start audio for meditation
+        }
+
+        showNotification("Entering Divine Reflection...", "info");
+    }
+
+    stopSession() {
+        this.overlay.classList.remove('active');
+    }
+}
+
+class PrayerBoardManager {
+    constructor() {
+        this.savedPrayers = JSON.parse(localStorage.getItem('soulGuidance_savedPrayers')) || [];
+        this.isOpen = false;
+        this.init();
+    }
+
+    init() {
+        this.createSidebar();
+        this.createToggle();
+        this.injectSaveButtons();
+        this.renderSavedPrayers();
+    }
+
+    createSidebar() {
+        const sidebar = document.createElement('div');
+        sidebar.className = 'prayer-board-sidebar';
+        sidebar.innerHTML = `
+            <div class="board-header">
+                <h3 class="board-title"><i class="fas fa-bookmark"></i> My Prayer Journal</h3>
+                <button class="close-board-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="saved-prayers-list">
+                <!-- Prayers go here -->
+                <p style="color:var(--text-silver); text-align:center; margin-top:2rem;">No saved prayers yet.<br>Click "Save" on any prayer card.</p>
+            </div>
+        `;
+        document.body.appendChild(sidebar);
+
+        // Listeners
+        sidebar.querySelector('.close-board-btn').addEventListener('click', () => this.toggleBoard(false));
+    }
+
+    createToggle() {
+        const btn = document.createElement('button');
+        btn.className = 'prayer-board-toggle';
+        btn.innerHTML = '<i class="fas fa-book-open"></i> Journal';
+        btn.onclick = () => this.toggleBoard(true);
+        document.body.appendChild(btn);
+    }
+
+    toggleBoard(show) {
+        const sidebar = document.querySelector('.prayer-board-sidebar');
+        if (show) {
+            sidebar.classList.add('active');
+            this.renderSavedPrayers();
+        } else {
+            sidebar.classList.remove('active');
+        }
+    }
+
+    injectSaveButtons() {
+        document.querySelectorAll('.prayer-card, .card').forEach((card, index) => {
+            if (card.querySelector('.save-prayer-btn')) return;
+
+            const title = card.querySelector('h3, h4')?.innerText || `Prayer ${index + 1}`;
+            const btn = document.createElement('button');
+            btn.className = 'save-prayer-btn';
+            btn.innerHTML = '<i class="far fa-bookmark"></i> Save';
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                this.savePrayer(title, card.innerText.substring(0, 100) + '...');
+            };
+            card.appendChild(btn);
+        });
+    }
+
+    savePrayer(title, preview) {
+        if (this.savedPrayers.some(p => p.title === title)) {
+            showNotification('Prayer already in journal!', 'info');
+            return;
+        }
+
+        this.savedPrayers.push({
+            id: Date.now(),
+            title,
+            preview,
+            date: new Date().toLocaleDateString(),
+            reflection: "" // New Journal Field
+        });
+        this.persist();
+        showNotification('Added to Prayer Journal', 'success');
+        this.toggleBoard(true);
+    }
+
+    deletePrayer(id) {
+        this.savedPrayers = this.savedPrayers.filter(p => p.id !== id);
+        this.persist();
+        this.renderSavedPrayers();
+    }
+
+    updateReflection(id, text) {
+        const prayer = this.savedPrayers.find(p => p.id === id);
+        if (prayer) {
+            prayer.reflection = text;
+            this.persist();
+        }
+    }
+
+    persist() {
+        localStorage.setItem('soulGuidance_savedPrayers', JSON.stringify(this.savedPrayers));
+    }
+
+    renderSavedPrayers() {
+        const list = document.getElementById('saved-prayers-list');
+        if (!list) return;
+
+        if (this.savedPrayers.length === 0) {
+            list.innerHTML = '<p style="color:var(--text-silver); text-align:center; margin-top:2rem;">Your journal is empty.<br>Save prayers to write reflections.</p>';
+            return;
+        }
+
+        list.innerHTML = this.savedPrayers.map(p => `
+            <div class="saved-prayer-card" id="p-card-${p.id}">
+                <h4 style="color:var(--primary-gold); margin-bottom:0.5rem; font-size:1.1rem;">${p.title}</h4>
+                <p style="font-size:0.9rem; color:var(--text-silver); margin-bottom:0.5rem;">${p.preview}</p>
+                
+                <!-- Journal Section -->
+                <div>
+                    <button class="journal-toggle-btn" onclick="document.getElementById('journal-${p.id}').style.display = document.getElementById('journal-${p.id}').style.display === 'block' ? 'none' : 'block'">
+                        <i class="fas fa-pen-nib"></i> Write Reflection
+                    </button>
+                    <textarea id="journal-${p.id}" class="journal-area" style="display:${p.reflection ? 'block' : 'none'}" placeholder="What is God saying to you through this prayer?..." 
+                    oninput="window.soulGuidancePrayerBoard.updateReflection(${p.id}, this.value)">${p.reflection || ''}</textarea>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
+                    <small style="color:var(--primary-gold-dark);">${p.date}</small>
+                    <button class="delete-prayer-btn" onclick="window.soulGuidancePrayerBoard.deletePrayer(${p.id})">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+class SaintOracle {
+    constructor() {
+        this.card = document.getElementById('wisdom-card');
+        this.text = document.getElementById('wisdom-text');
+        this.author = document.getElementById('wisdom-author');
+
+        this.quotes = [
+            { text: "Our hearts are restless, until they can find rest in you.", author: "St. Augustine of Hippo" },
+            { text: "تأخرت في حبك، أيها الجمال القديم الجديد، تأخرت في حبك.", author: "القديس أغوسطينوس" },
+            { text: "Prayer is the place of refuge for every worry, a foundation for cheerfulness.", author: "St. John Chrysostom" },
+            { text: "الصلاة هي ميناء الهدوء للنفوس المضطربة.", author: "الذهبي الفم" },
+            { text: "Spread love everywhere you go. Let no one ever come to you without leaving better and happier.", author: "Mother Teresa" },
+            { text: "انشر الحـب أينما ذهبت. لا تدع أحدًا يأتي إليك دون أن يغادر أفضل وأسعد.", author: "الأم تريزا" },
+            { text: "To love is to will the good of the other.", author: "St. Thomas Aquinas" },
+            { text: "Preach the Gospel at all times. Use words if necessary.", author: "St. Francis of Assisi" },
+            { text: "بشّروا بالإنجيل في كل حين. استخدموا الكلمات إذا لزم الأمر.", author: "القديس فرنسيس الأسيزي" }
+        ];
+
+        this.init();
+    }
+
+    init() {
+        if (!this.card) return;
+
+        this.card.addEventListener('click', () => {
+            if (this.card.classList.contains('flipped')) {
+                // Reset if already flipped (optional: separate reset button or toggle)
+                this.card.classList.remove('flipped');
+                setTimeout(() => this.setNewQuote(), 300); // Change while hiding
+            } else {
+                this.setNewQuote();
+                this.card.classList.add('flipped');
+            }
+        });
+    }
+
+    setNewQuote() {
+        const idx = Math.floor(Math.random() * this.quotes.length);
+        this.text.innerText = `"${this.quotes[idx].text}"`;
+        this.author.innerText = `- ${this.quotes[idx].author}`;
+    }
+}
+
+class ContactManager {
+    constructor() {
+        this.modal = document.getElementById('prayerRequestModal');
+        this.btn = document.getElementById('openRequestModalBtn');
+        this.closeBtn = document.getElementById('closeRequestModal');
+        this.form = document.getElementById('prayer-request-form');
+
+        this.init();
+    }
+
+    init() {
+        if (!this.modal || !this.btn) return;
+
+        this.btn.addEventListener('click', () => this.open());
+        this.closeBtn.addEventListener('click', () => this.close());
+
+        // Close on outside click
+        window.addEventListener('click', (e) => {
+            if (e.target === this.modal) this.close();
+        });
+
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    }
+
+    open() {
+        this.modal.style.display = 'block';
+    }
+
+    close() {
+        this.modal.style.display = 'none';
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('req-name').value || "Anonymous Soul";
+        const type = document.getElementById('req-type').value;
+        const msg = document.getElementById('req-message').value;
+
+        const subject = encodeURIComponent(`🙏 PRAYER REQUEST: ${type}`);
+        const body = encodeURIComponent(
+            `Dear Soul Guidance Ministry,
+
+I submit this prayer intention with faith.
+
+TYPE: ${type}
+FROM: ${name}
+
+MESSAGE:
+${msg}
+
+"Lord, hear my prayer."`
+        );
+
+        window.location.href = `mailto:soulguidances@hotmail.com?subject=${subject}&body=${body}`;
+
+        this.close();
+        showNotification("Prayer Request Prepared! Opening Email...", "success");
+    }
+}
+
+// --- PHASE 3: DIVINE INTERACTIONS CLASS ---
+class DivineInteractions {
+    constructor() {
+        this.parallaxElements = document.querySelectorAll('.divine-parallax');
+        this.cursor = null;
+        this.audioCtx = null;
+        this.init();
+    }
+
+    init() {
+        console.log('✨ Initializing Divine Interactions (Phase 3)...');
+        this.initParallax();
+        this.initConstellation();
+        this.initHolyCursor();
+        // Audio requires user interaction, initialized lazily
+        document.addEventListener('click', () => this.initAudio(), { once: true });
+    }
+
+    initParallax() {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            this.parallaxElements.forEach(el => {
+                const speed = el.dataset.speed || 0.5;
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    }
+
+    initConstellation() {
+        const canvas = document.createElement('canvas');
+        canvas.classList.add('constellation-canvas');
+        document.body.prepend(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        const resize = () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            createParticles();
+        };
+
+        const createParticles = () => {
+            particles = [];
+            const count = Math.floor(width * height / 15000); // 1 particle per 15k pixels
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2,
+                    alpha: Math.random() * 0.5 + 0.1
+                });
+            }
+        };
+
+        const animate = () => {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#FFD700';
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.1)';
+
+            particles.forEach((p, i) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0) p.x = width;
+                if (p.x > width) p.x = 0;
+                if (p.y < 0) p.y = height;
+                if (p.y > height) p.y = 0;
+
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Connect nearby particles
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
+        };
+
+        window.addEventListener('resize', resize);
+        resize();
+        animate();
+    }
+
+    initHolyCursor() {
+        // Only on desktop
+        if (window.matchMedia('(hover: none)').matches) return;
+
+        this.cursor = document.createElement('div');
+        this.cursor.classList.add('holy-cursor');
+        document.body.appendChild(this.cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            this.cursor.style.left = e.clientX + 'px';
+            this.cursor.style.top = e.clientY + 'px';
+
+            // Trail effect
+            if (Math.random() > 0.7) {
+                const trail = document.createElement('div');
+                trail.classList.add('cursor-trail');
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 500);
+            }
+        });
+
+        // Hover expansion
+        document.querySelectorAll('a, button, .card').forEach(el => {
+            el.addEventListener('mouseenter', () => this.cursor.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => this.cursor.classList.remove('hovering'));
+        });
+    }
+
+    initAudio() {
+        if (this.audioCtx) return;
+
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.audioCtx = new AudioContext();
+
+            // Add heavenly chime on buttons
+            document.querySelectorAll('button, a.btn, .nav-link').forEach(btn => {
+                btn.addEventListener('mouseenter', () => this.playChime(440 + Math.random() * 200, 0.1)); // A4 to high
+                btn.addEventListener('click', () => this.playChime(880, 0.2)); // A5
+            });
+
+            console.log('🎵 Heavenly Audio Initialized');
+        } catch (e) {
+            console.warn('Audio context not supported');
+        }
+    }
+
+    playChime(freq, vol) {
+        if (!this.audioCtx) return;
+
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0, this.audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(vol, this.audioCtx.currentTime + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 2);
+
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+
+        osc.start();
+        osc.stop(this.audioCtx.currentTime + 2);
+    }
+}
+
+// Button Effects - GOD MODE
 function initButtonEffects() {
-    const buttons = document.querySelectorAll('.btn');
+    const buttons = document.querySelectorAll('.btn, .book-nav-btn, .chapter-btn');
 
     buttons.forEach(button => {
         button.addEventListener('click', function (e) {
-            // Create ripple effect
+            // Create God Mode Ripple
             const ripple = document.createElement('span');
             const rect = this.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
@@ -311,9 +1779,30 @@ function initButtonEffects() {
             ripple.style.width = ripple.style.height = size + 'px';
             ripple.style.left = x + 'px';
             ripple.style.top = y + 'px';
-            ripple.classList.add('professional-ripple');
+            ripple.classList.add('god-mode-ripple'); // New class for premium effect
 
             this.appendChild(ripple);
+
+            // GOD MODE: Add Gold Particles
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('span');
+                particle.classList.add('gold-particle');
+
+                // Random positioning around click
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 50;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.left = (e.clientX - rect.left) + 'px';
+                particle.style.top = (e.clientY - rect.top) + 'px';
+
+                this.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 800);
+            }
 
             // Remove ripple after animation
             setTimeout(() => {
@@ -356,7 +1845,6 @@ function initAccessibility() {
     }
 }
 
-// Initialize Prayer Buttons specifically
 // Initialize Prayer Buttons specifically
 function initPrayerButtons() {
     // List of all major call-to-action buttons
