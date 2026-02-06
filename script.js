@@ -74,6 +74,11 @@ document.addEventListener('DOMContentLoaded', function () {
         window.soulGuidanceCrown = new CrownManager();
         // new VirtueManager(); already initialized above
 
+        // PHASE 101: Auto-Optimization
+        new PerformanceOptimizer();
+
+
+
         // Mark as initialized
         window.soulGuidanceButtons.initialized = true;
         console.log('✅ Soul Guidance Website Initialized Successfully');
@@ -2294,48 +2299,7 @@ class LectioManager {
 
 
 
-class SaintOracle {
-    constructor() {
-        this.card = document.getElementById('wisdom-card');
-        this.text = document.getElementById('wisdom-text');
-        this.author = document.getElementById('wisdom-author');
 
-        this.quotes = [
-            { text: "Our hearts are restless, until they can find rest in you.", author: "St. Augustine of Hippo" },
-            { text: "تأخرت في حبك، أيها الجمال القديم الجديد، تأخرت في حبك.", author: "القديس أغوسطينوس" },
-            { text: "Prayer is the place of refuge for every worry, a foundation for cheerfulness.", author: "St. John Chrysostom" },
-            { text: "الصلاة هي ميناء الهدوء للنفوس المضطربة.", author: "الذهبي الفم" },
-            { text: "Spread love everywhere you go. Let no one ever come to you without leaving better and happier.", author: "Mother Teresa" },
-            { text: "انشر الحـب أينما ذهبت. لا تدع أحدًا يأتي إليك دون أن يغادر أفضل وأسعد.", author: "الأم تريزا" },
-            { text: "To love is to will the good of the other.", author: "St. Thomas Aquinas" },
-            { text: "Preach the Gospel at all times. Use words if necessary.", author: "St. Francis of Assisi" },
-            { text: "بشّروا بالإنجيل في كل حين. استخدموا الكلمات إذا لزم الأمر.", author: "القديس فرنسيس الأسيزي" }
-        ];
-
-        this.init();
-    }
-
-    init() {
-        if (!this.card) return;
-
-        this.card.addEventListener('click', () => {
-            if (this.card.classList.contains('flipped')) {
-                // Reset if already flipped (optional: separate reset button or toggle)
-                this.card.classList.remove('flipped');
-                setTimeout(() => this.setNewQuote(), 300); // Change while hiding
-            } else {
-                this.setNewQuote();
-                this.card.classList.add('flipped');
-            }
-        });
-    }
-
-    setNewQuote() {
-        const idx = Math.floor(Math.random() * this.quotes.length);
-        this.text.innerText = `"${this.quotes[idx].text}"`;
-        this.author.innerText = `- ${this.quotes[idx].author} `;
-    }
-}
 
 class ContactManager {
     constructor() {
@@ -6781,3 +6745,121 @@ class BeatificVision {
         showNotification("It is finished.", "success");
     }
 }
+
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(registration => {
+                console.log('✅ Service Worker registered with scope:', registration.scope);
+            })
+            .catch(error => {
+                console.error('❌ Service Worker registration failed:', error);
+            });
+    });
+}
+
+/* --- PHASE 101: PERFORMANCE OPTIMIZER --- */
+class PerformanceOptimizer {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        console.log('? Starting Auto-Optimization...');
+        this.optimizeImages();
+        this.optimizeLinks();
+        this.enableSmoothScroll();
+    }
+
+    optimizeImages() {
+        const images = document.querySelectorAll('img:not([loading])');
+        images.forEach(img => {
+            img.loading = 'lazy';
+            img.style.transition = 'opacity 0.5s ease-in';
+        });
+    }
+
+    optimizeLinks() {
+        const externalLinks = document.querySelectorAll('a[href^="http"]');
+        externalLinks.forEach(link => {
+            if (!link.href.includes(window.location.hostname)) {
+                link.rel = 'noopener noreferrer';
+                link.target = '_blank';
+            }
+        });
+    }
+
+    enableSmoothScroll() {
+        document.documentElement.style.scrollBehavior = 'smooth';
+    }
+}
+
+/* --- PHASE 103: USER FEEDBACK INTEGRATION --- */
+class FeedbackManager {
+    constructor() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.init());
+        } else {
+            this.init();
+        }
+    }
+
+    init() {
+        this.createFeedbackButton();
+    }
+
+    createFeedbackButton() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-comment-dots"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '20px';
+        btn.style.bottom = '100px'; // Position above other buttons
+        btn.style.zIndex = '9999';
+        btn.title = 'Send Feedback';
+        btn.onclick = () => this.openFeedbackModal();
+        document.body.appendChild(btn);
+    }
+
+    openFeedbackModal() {
+        const modalHTML = `
+            <div id="feedback-modal" class="customization-modal" style="display:flex;">
+                <div class="modal-content glass-panel">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-comment-alt"></i> Share Your Thoughts</h3>
+                        <button class="close-btn" onclick="document.getElementById('feedback-modal').remove()"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Help us improve your spiritual journey.</p>
+                        <div class="star-rating" style="text-align:center; font-size: 2rem; color: #ffd700; margin: 1rem 0;">
+                            <i class="far fa-star" onclick="this.className='fas fa-star'" style="cursor:pointer"></i>
+                            <i class="far fa-star" onclick="this.className='fas fa-star'" style="cursor:pointer"></i>
+                            <i class="far fa-star" onclick="this.className='fas fa-star'" style="cursor:pointer"></i>
+                            <i class="far fa-star" onclick="this.className='fas fa-star'" style="cursor:pointer"></i>
+                            <i class="far fa-star" onclick="this.className='fas fa-star'" style="cursor:pointer"></i>
+                        </div>
+                        <textarea id="feedback-text" placeholder="Your message..." style="width:100%; height:100px; background:rgba(255,255,255,0.1); color:white; border:1px solid gold; padding:10px; border-radius:8px;"></textarea>
+                    </div>
+                    <div class="customization-actions">
+                        <button class="btn btn-primary" onclick="window.soulGuidanceFeedback.submit()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+
+    submit() {
+        const text = document.getElementById('feedback-text').value;
+        if (text) {
+            showNotification('Thank you for your feedback!', 'success');
+            document.getElementById('feedback-modal').remove();
+            // Simulate sending to server
+            console.log('Feedback submitted:', text);
+        } else {
+            showNotification('Please enter a message.', 'warning');
+        }
+    }
+}
+window.soulGuidanceFeedback = new FeedbackManager();
+

@@ -3788,3 +3788,63 @@ body {
  } 
   
  
+/* --- PHASE 101: PREMIUM GLASSMORPHISM --- */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(255, 215, 0, 0.2);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.glass-text {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    letter-spacing: 0.5px;
+}
+
+/* Optimization for Mobile */
+@media (max-width: 768px) {
+    .glass-panel {
+        backdrop-filter: blur(8px); /* Reduce blur for performance */
+    }
+}
+
+/* --- PHASE 102: MOBILE RESPONSIVENESS POLISH --- */
+@media (max-width: 768px) {
+    /* Improve Tap Targets */
+    button, .nav-link, .book-card {
+        min-height: 48px;
+        touch-action: manipulation;
+    }
+
+    /* Adjust Font Sizing */
+    html {
+        font-size: 14px;
+    }
+
+    /* Glassmorphism Mobile Fallback */
+    .glass-panel {
+        background: rgba(20, 20, 20, 0.9); /* Darker for readability */
+        backdrop-filter: none;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    /* Hero Text Scaling */
+    .hero-title {
+        font-size: 2.5rem !important;
+    }
+    
+    /* Ensure no horizontal overflow */
+    body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+}
