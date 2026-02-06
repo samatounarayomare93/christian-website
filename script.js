@@ -2292,142 +2292,7 @@ class LectioManager {
     }
 }
 
-class PrayerBoardManager {
-    constructor() {
-        this.savedPrayers = JSON.parse(localStorage.getItem('soulGuidance_savedPrayers')) || [];
-        this.isOpen = false;
-        this.init();
-    }
 
-    init() {
-        this.createSidebar();
-        this.createToggle();
-        this.injectSaveButtons();
-        this.renderSavedPrayers();
-    }
-
-    createSidebar() {
-        const sidebar = document.createElement('div');
-        sidebar.className = 'prayer-board-sidebar';
-        sidebar.innerHTML = `
-            <div class="board-header">
-                <h3 class="board-title"><i class="fas fa-bookmark"></i> My Prayer Journal</h3>
-                <button class="close-board-btn"><i class="fas fa-times"></i></button>
-            </div>
-            <div id="saved-prayers-list">
-                <!-- Prayers go here -->
-                <p style="color:var(--text-silver); text-align:center; margin-top:2rem;">No saved prayers yet.<br>Click "Save" on any prayer card.</p>
-            </div>
-        `;
-        document.body.appendChild(sidebar);
-
-        // Listeners
-        sidebar.querySelector('.close-board-btn').addEventListener('click', () => this.toggleBoard(false));
-    }
-
-    createToggle() {
-        const btn = document.createElement('button');
-        btn.className = 'prayer-board-toggle';
-        btn.innerHTML = '<i class="fas fa-book-open"></i> Journal';
-        btn.onclick = () => this.toggleBoard(true);
-        document.body.appendChild(btn);
-    }
-
-    toggleBoard(show) {
-        const sidebar = document.querySelector('.prayer-board-sidebar');
-        if (show) {
-            sidebar.classList.add('active');
-            this.renderSavedPrayers();
-        } else {
-            sidebar.classList.remove('active');
-        }
-    }
-
-    injectSaveButtons() {
-        document.querySelectorAll('.prayer-card, .card').forEach((card, index) => {
-            if (card.querySelector('.save-prayer-btn')) return;
-
-            const title = card.querySelector('h3, h4')?.innerText || `Prayer ${index + 1}`;
-            const btn = document.createElement('button');
-            btn.className = 'save-prayer-btn';
-            btn.innerHTML = '<i class="far fa-bookmark"></i> Save';
-            btn.onclick = (e) => {
-                e.stopPropagation();
-                this.savePrayer(title, card.innerText.substring(0, 100) + '...');
-            };
-            card.appendChild(btn);
-        });
-    }
-
-    savePrayer(title, preview) {
-        if (this.savedPrayers.some(p => p.title === title)) {
-            showNotification('Prayer already in journal!', 'info');
-            return;
-        }
-
-        this.savedPrayers.push({
-            id: Date.now(),
-            title,
-            preview,
-            date: new Date().toLocaleDateString(),
-            reflection: "" // New Journal Field
-        });
-        this.persist();
-        showNotification('Added to Prayer Journal', 'success');
-        this.toggleBoard(true);
-    }
-
-    deletePrayer(id) {
-        this.savedPrayers = this.savedPrayers.filter(p => p.id !== id);
-        this.persist();
-        this.renderSavedPrayers();
-    }
-
-    updateReflection(id, text) {
-        const prayer = this.savedPrayers.find(p => p.id === id);
-        if (prayer) {
-            prayer.reflection = text;
-            this.persist();
-        }
-    }
-
-    persist() {
-        localStorage.setItem('soulGuidance_savedPrayers', JSON.stringify(this.savedPrayers));
-    }
-
-    renderSavedPrayers() {
-        const list = document.getElementById('saved-prayers-list');
-        if (!list) return;
-
-        if (this.savedPrayers.length === 0) {
-            list.innerHTML = '<p style="color:var(--text-silver); text-align:center; margin-top:2rem;">Your journal is empty.<br>Save prayers to write reflections.</p>';
-            return;
-        }
-
-        list.innerHTML = this.savedPrayers.map(p => `
-            <div class="saved-prayer-card" id="p-card-${p.id}">
-                <h4 style="color:var(--primary-gold); margin-bottom:0.5rem; font-size:1.1rem;">${p.title}</h4>
-                <p style="font-size:0.9rem; color:var(--text-silver); margin-bottom:0.5rem;">${p.preview}</p>
-                
-                <!-- Journal Section -->
-                <div>
-                    <button class="journal-toggle-btn" onclick="document.getElementById('journal-${p.id}').style.display = document.getElementById('journal-${p.id}').style.display === 'block' ? 'none' : 'block'">
-                        <i class="fas fa-pen-nib"></i> Write Reflection
-                    </button>
-                    <textarea id="journal-${p.id}" class="journal-area" style="display:${p.reflection ? 'block' : 'none'}" placeholder="What is God saying to you through this prayer?..." 
-                    oninput="window.soulGuidancePrayerBoard.updateReflection(${p.id}, this.value)">${p.reflection || ''}</textarea>
-                </div>
-
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
-                    <small style="color:var(--primary-gold-dark);">${p.date}</small>
-                    <button class="delete-prayer-btn" onclick="window.soulGuidancePrayerBoard.deletePrayer(${p.id})">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    }
-}
 
 class SaintOracle {
     constructor() {
@@ -2468,7 +2333,7 @@ class SaintOracle {
     setNewQuote() {
         const idx = Math.floor(Math.random() * this.quotes.length);
         this.text.innerText = `"${this.quotes[idx].text}"`;
-        this.author.innerText = `- ${this.quotes[idx].author}`;
+        this.author.innerText = `- ${this.quotes[idx].author} `;
     }
 }
 
@@ -2511,13 +2376,13 @@ class ContactManager {
         const type = document.getElementById('req-type').value;
         const msg = document.getElementById('req-message').value;
 
-        const subject = encodeURIComponent(`🙏 PRAYER REQUEST: ${type}`);
+        const subject = encodeURIComponent(`🙏 PRAYER REQUEST: ${type} `);
         const body = encodeURIComponent(
             `Dear Soul Guidance Ministry,
 
-I submit this prayer intention with faith.
+    I submit this prayer intention with faith.
 
-TYPE: ${type}
+        TYPE: ${type}
 FROM: ${name}
 
 MESSAGE:
@@ -2526,7 +2391,7 @@ ${msg}
 "Lord, hear my prayer."`
         );
 
-        window.location.href = `mailto:soulguidances@hotmail.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:soulguidances @hotmail.com?subject = ${subject}& body=${body} `;
 
         this.close();
         showNotification("Prayer Request Prepared! Opening Email...", "success");
@@ -2734,8 +2599,8 @@ function initButtonEffects() {
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
 
-                particle.style.setProperty('--tx', `${tx}px`);
-                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--tx', `${tx} px`);
+                particle.style.setProperty('--ty', `${ty} px`);
                 particle.style.left = (e.clientX - rect.left) + 'px';
                 particle.style.top = (e.clientY - rect.top) + 'px';
 
@@ -2805,13 +2670,13 @@ function initPrayerButtons() {
 
             newBtn.addEventListener('click', function (e) {
                 e.preventDefault();
-                console.log(`✅ Button clicked: ${id}`);
+                console.log(`✅ Button clicked: ${id} `);
                 const type = id === 'transformation-btn' ? 'transformation' : 'maronite';
                 openPrayerModal(type);
             });
-            console.log(`✅ Attached listener to: ${id}`);
+            console.log(`✅ Attached listener to: ${id} `);
         } else {
-            console.warn(`⚠️ Button not found: ${id}`);
+            console.warn(`⚠️ Button not found: ${id} `);
         }
     });
 
@@ -2843,12 +2708,12 @@ function openPrayerModal(type = 'maronite') {
             textarea.value = `MARONITE PRAYER INTENTION REQUEST - طلب صلاة مارونية
 
 Dear Soul Guidance Maronite Community,
-عزيزتي جماعة إرشاد الروح المارونية،
+    عزيزتي جماعة إرشاد الروح المارونية،
 
 I humbly submit my prayer intentions to be included in our daily Maronite liturgies and traditional Eastern Christian prayers.
 
 PRAYER INTENTIONS - نيات الصلاة:
-□ For healing (physical, emotional, spiritual)
+□ For healing(physical, emotional, spiritual)
 □ For family members and loved ones  
 □ For guidance in life decisions
 □ For peace and comfort in difficult times
@@ -2859,19 +2724,19 @@ PRAYER INTENTIONS - نيات الصلاة:
 
 With faith and gratitude - بالإيمان والامتنان,
 
-[Your Full Name - اسمك الكامل]
-[Your Email Address - عنوان بريدك الإلكتروني]
+    [Your Full Name - اسمك الكامل]
+    [Your Email Address - عنوان بريدك الإلكتروني]
 [Your Location - موقعك]`;
         } else if (type === 'transformation' && textarea) {
             textarea.value = `LIFE TRANSFORMATION REQUEST - PRIORITY
 
 Dear Soul Guidance Ministry Team,
 
-I am ready to experience complete life transformation through Jesus Christ.
+    I am ready to experience complete life transformation through Jesus Christ.
 
 CURRENT LIFE SITUATION:
 □ Feeling lost and without purpose
-□ Struggling with depression/anxiety
+□ Struggling with depression / anxiety
 □ Relationship problems
 □ Financial difficulties
 □ Addiction or harmful habits
@@ -2891,8 +2756,8 @@ I believe in the power of Jesus Christ to transform lives and I am ready to expe
 
 In faith and expectation,
 
-[Your Full Name]
-[Your Phone Number]
+    [Your Full Name]
+    [Your Phone Number]
 [Your Email Address]
 [Your Location]`;
         }
@@ -2927,33 +2792,33 @@ function showNotification(message, type = 'info') {
 
     // Create notification element
     const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
+    notification.className = `notification notification - ${type} `;
     notification.innerHTML = `
-        <div class="notification-content">
+    < div class="notification-content" >
             <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
             <span>${message}</span>
             <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
                 <i class="fas fa-times"></i>
             </button>
-        </div>
+        </div >
     `;
 
     // Add styles
     notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        z-index: 10001;
-        background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        max-width: 400px;
-        word-wrap: break-word;
-    `;
+position: fixed;
+top: 100px;
+right: 20px;
+z - index: 10001;
+background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+color: white;
+padding: 1rem 1.5rem;
+border - radius: 10px;
+box - shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+transform: translateX(100 %);
+transition: transform 0.3s ease;
+max - width: 400px;
+word - wrap: break-word;
+`;
 
     // Add to page
     document.body.appendChild(notification);
@@ -2980,7 +2845,7 @@ function callNow() {
 function sendEmail() {
     const subject = encodeURIComponent('Inquiry from Soul Guidance Website');
     const body = encodeURIComponent('Hello Soul Guidance Team,\n\nI am interested in learning more about your ministry and services.\n\nPlease contact me at your earliest convenience.\n\nThank you!');
-    window.location.href = `mailto:soulguidances@hotmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:soulguidances @hotmail.com?subject = ${subject}& body=${body} `;
 }
 
 // Export functions for global access
@@ -3012,7 +2877,7 @@ function showPrayerSection(sectionId) {
         btn.classList.remove('active');
     });
 
-    const activeBtn = document.querySelector(`[data-section="${sectionId}"]`);
+    const activeBtn = document.querySelector(`[data - section= "${sectionId}"]`);
     if (activeBtn) {
         activeBtn.classList.add('active');
     }
@@ -3105,7 +2970,7 @@ function showChapter(chapterId) {
         chapter.style.display = 'block';
 
         // Add active to button
-        const btn = document.querySelector(`[onclick="showChapter('${chapterId}')"]`);
+        const btn = document.querySelector(`[onclick = "showChapter('${chapterId}')"]`);
         if (btn) btn.classList.add('active');
     }
 }
@@ -3187,7 +3052,7 @@ function showAnthonyChapter(chapterId) {
         chapter.style.display = 'block';
 
         // Add active to button
-        const btn = document.querySelector(`[onclick="showAnthonyChapter('${chapterId}')"]`);
+        const btn = document.querySelector(`[onclick = "showAnthonyChapter('${chapterId}')"]`);
         if (btn) btn.classList.add('active');
     }
 }
@@ -3268,7 +3133,7 @@ function showRosaryChapter(chapterId) {
         chapter.style.display = 'block';
 
         // Add active to button
-        const btn = document.querySelector(`[onclick="showRosaryChapter('${chapterId}')"]`);
+        const btn = document.querySelector(`[onclick = "showRosaryChapter('${chapterId}')"]`);
         if (btn) btn.classList.add('active');
     }
 }
@@ -3349,7 +3214,7 @@ function showWarfareChapter(chapterId) {
         chapter.style.display = 'block';
 
         // Add active to button
-        const btn = document.querySelector(`[onclick="showWarfareChapter('${chapterId}')"]`);
+        const btn = document.querySelector(`[onclick = "showWarfareChapter('${chapterId}')"]`);
         if (btn) btn.classList.add('active');
     }
 }
@@ -3396,15 +3261,15 @@ class ConstellationEngine {
     initCanvas() {
         this.canvas.id = 'firmament-canvas';
         this.canvas.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.6;
-        `;
+position: fixed;
+top: 0;
+left: 0;
+width: 100 %;
+height: 100 %;
+z - index: -1;
+pointer - events: none;
+opacity: 0.6;
+`;
         document.body.prepend(this.canvas);
         this.resize();
     }
@@ -3525,7 +3390,7 @@ class LiturgicalTime {
             timeName = "Compline (Night)";
         }
 
-        console.log(`🕰️ Liturgical Time: ${timeName}`);
+        console.log(`🕰️ Liturgical Time: ${timeName} `);
     }
 }
 
@@ -3588,14 +3453,14 @@ class PatronSaintMatcher {
         modal.className = 'shrine-window active'; // Reuse shrine styling for consistency
         modal.style.zIndex = '10002';
         modal.innerHTML = `
-            <div class="shrine-header">
+    < div class="shrine-header" >
                 <h3>رفيقك السماوي</h3>
                 <small>أجب لتكتشف شفيعك</small>
-            </div>
-            <div class="quiz-content" id="quiz-content">
-                <!-- Dynamic Question -->
-            </div>
-        `;
+            </div >
+    <div class="quiz-content" id="quiz-content">
+        <!-- Dynamic Question -->
+    </div>
+`;
         document.body.appendChild(modal);
         this.askQuestion(0, modal);
     }
@@ -3609,15 +3474,15 @@ class PatronSaintMatcher {
         const q = this.questions[index];
         const content = modal.querySelector('#quiz-content');
         content.innerHTML = `
-            <h4 style="color:var(--primary-gold); margin-bottom:1rem;">${q.text}</h4>
-            <div class="quiz-options">
-                ${q.options.map((opt, i) => `
+    < h4 style = "color:var(--primary-gold); margin-bottom:1rem;" > ${q.text}</h4 >
+        <div class="quiz-options">
+            ${q.options.map((opt, i) => `
                     <button class="quiz-btn" data-idx="${i}" style="width:100%; margin:0.5rem 0; padding:1rem; background:rgba(255,255,255,0.05); border:1px solid #444; color:white; border-radius:10px; cursor:pointer; transition:0.3s;">
                         ${opt.text}
                     </button>
                 `).join('')}
-            </div>
-        `;
+        </div>
+`;
 
         const btns = content.querySelectorAll('.quiz-btn');
         btns.forEach(btn => {
@@ -3637,7 +3502,7 @@ class PatronSaintMatcher {
 
         const content = modal.querySelector('#quiz-content');
         content.innerHTML = `
-            <div style="text-align:center; animation:fadeIn 1s;">
+    < div style = "text-align:center; animation:fadeIn 1s;" >
                 <i class="fas ${saint.img}" style="font-size:4rem; color:var(--primary-gold); margin-bottom:1rem;"></i>
                 <h3 style="color:white;">${saint.name}</h3>
                 <p style="color:var(--text-silver);">${saint.title}</p>
@@ -3647,13 +3512,13 @@ class PatronSaintMatcher {
                 <button id="close-quiz" style="padding:0.8rem 2rem; background:var(--primary-gold); border:none; border-radius:20px; font-weight:bold; cursor:pointer;">
                     قبول الصداقة
                 </button>
-            </div>
-        `;
+            </div >
+    `;
 
         modal.querySelector('#close-quiz').addEventListener('click', () => {
             modal.remove();
             if (window.soulGuidanceAudio) window.soulGuidanceAudio.playChime(600, 0.5);
-            showNotification(`شفيعك هو ${saint.name}`, "success");
+            showNotification(`شفيعك هو ${saint.name} `, "success");
         });
     }
 }
@@ -3669,7 +3534,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.style.textAlign = 'center';
         div.style.marginTop = '2rem';
-        div.innerHTML = `<button onclick="window.patronMatcher.startQuiz()" style="background:transparent; border:1px solid var(--text-silver); color:var(--text-silver); padding:0.5rem 1rem; border-radius:20px; cursor:pointer;">من هو شفيعي؟</button>`;
+        div.innerHTML = `< button onclick = "window.patronMatcher.startQuiz()" style = "background:transparent; border:1px solid var(--text-silver); color:var(--text-silver); padding:0.5rem 1rem; border-radius:20px; cursor:pointer;" > من هو شفيعي؟</button > `;
         footer.insertBefore(div, footer.firstChild);
     }
 });
@@ -3806,19 +3671,19 @@ class SilenceMode {
         btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
         btn.title = 'Enter Silence Mode';
         btn.style.cssText = `
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 10001;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s;
-        `;
+position: fixed;
+top: 20px;
+left: 20px;
+z - index: 10001;
+background: rgba(0, 0, 0, 0.5);
+border: 1px solid rgba(255, 255, 255, 0.2);
+color: white;
+width: 40px;
+height: 40px;
+border - radius: 50 %;
+cursor: pointer;
+transition: all 0.3s;
+`;
         document.body.appendChild(btn);
 
         btn.addEventListener('click', () => this.toggle());
@@ -3836,26 +3701,26 @@ class SilenceMode {
             // Inject CSS to hide distractions
             this.styleTag = document.createElement('style');
             this.styleTag.textContent = `
-                body > *:not(#silence-toggle):not(.cards-grid):not(.prayer-section) {
-                    opacity: 0.1;
-                    filter: blur(5px);
-                    transition: all 1s;
-                    pointer-events: none;
-                }
-                .cards-grid, .prayer-section, #prayers {
-                    opacity: 1 !important;
-                    filter: none !important;
-                    pointer-events: all !important;
-                    z-index: 10000;
-                    position: relative;
-                }
-                nav, footer, .hero, #divine-preloader, .shrine-trigger-btn, .sg-trigger-btn {
-                    display: none !important;
-                }
+body > *: not(#silence - toggle): not(.cards - grid): not(.prayer - section) {
+    opacity: 0.1;
+    filter: blur(5px);
+    transition: all 1s;
+    pointer - events: none;
+}
+                .cards - grid, .prayer - section, #prayers {
+    opacity: 1!important;
+    filter: none!important;
+    pointer - events: all!important;
+    z - index: 10000;
+    position: relative;
+}
+nav, footer, .hero, #divine - preloader, .shrine - trigger - btn, .sg - trigger - btn {
+    display: none!important;
+}
                 body {
-                    background: #050505 !important;
-                }
-            `;
+    background: #050505!important;
+}
+`;
             document.head.appendChild(this.styleTag);
 
             // Show toast
@@ -3891,16 +3756,16 @@ class DivineScroll {
         const bar = document.createElement('div');
         bar.id = 'divine-progress-bar';
         bar.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 4px;
-            background: linear-gradient(90deg, #FFD700, #4B0082, #FFD700);
-            z-index: 10001;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            transition: width 0.1s ease-out;
-        `;
+position: fixed;
+top: 0;
+left: 0;
+width: 0 %;
+height: 4px;
+background: linear - gradient(90deg, #FFD700, #4B0082, #FFD700);
+z - index: 10001;
+box - shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+transition: width 0.1s ease - out;
+`;
         document.body.appendChild(bar);
         this.bar = bar;
     }
@@ -4229,10 +4094,10 @@ class BiblicalMap {
         modal.className = 'shrine-window active';
         modal.style.zIndex = '12500';
         modal.innerHTML = `
-            <div class="shrine-header">
+    < div class="shrine-header" >
                 <h3>The Holy Land</h3>
                 <small>Journey with Him</small>
-            </div>
+            </div >
             <div style="position:relative; width:100%; height:400px; background:#eec; overflow:hidden; border-radius:10px; border:2px solid var(--primary-gold);">
                 <div style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0.3; background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Israel_relief_location_map.jpg/1200px-Israel_relief_location_map.jpg') no-repeat center/cover;"></div>
                 ${this.locations.map(loc => `
@@ -4242,7 +4107,7 @@ class BiblicalMap {
                 `).join('')}
             </div>
             <button onclick="this.parentElement.remove()" style="margin-top:1rem; width:100%; padding:1rem; background:transparent; border:none; color:#888; cursor:pointer;">Close Map</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -4274,7 +4139,7 @@ class SacredCalendar {
 
     applyTheme(season) {
         document.body.style.setProperty('--primary-purple-vivid', season.color);
-        console.log(`📅 Season: ${season.name}`);
+        console.log(`📅 Season: ${season.name} `);
     }
 }
 
@@ -4343,7 +4208,7 @@ class AppNavigation {
 
         tabs.forEach(t => {
             const btn = document.createElement('div');
-            btn.innerHTML = `<i class="fas ${t.icon}"></i>`;
+            btn.innerHTML = `< i class="fas ${t.icon}" ></i > `;
             btn.style.color = 'var(--text-silver)';
             btn.onclick = t.action;
             bar.appendChild(btn);
@@ -4543,7 +4408,7 @@ class GestureManager {
 
     showSwipeFeedback(direction) {
         const arrow = document.createElement('div');
-        arrow.className = `swipe-feedback swipe-${direction}`;
+        arrow.className = `swipe - feedback swipe - ${direction} `;
         arrow.innerHTML = direction === 'next' ? '<i class="fas fa-chevron-left"></i>' : '<i class="fas fa-chevron-right"></i>';
         document.body.appendChild(arrow);
         setTimeout(() => arrow.remove(), 600);
@@ -4582,20 +4447,20 @@ class InstallManager {
             btn.className = 'btn btn-sm btn-outline-gold';
             btn.innerHTML = '<i class="fas fa-download"></i> Install App';
             btn.style.cssText = `
-                position: fixed;
-                bottom: 80px;
-                left: 20px;
-                z-index: 9999;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-                display: block;
-                animation: fadeInUp 0.5s;
-                background: var(--primary-purple-void);
-                color: var(--primary-gold);
-                border: 1px solid var(--primary-gold);
-                padding: 10px 15px;
-                border-radius: 20px;
-                cursor: pointer;
-            `;
+position: fixed;
+bottom: 80px;
+left: 20px;
+z - index: 9999;
+box - shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+display: block;
+animation: fadeInUp 0.5s;
+background: var(--primary - purple - void);
+color: var(--primary - gold);
+border: 1px solid var(--primary - gold);
+padding: 10px 15px;
+border - radius: 20px;
+cursor: pointer;
+`;
             btn.onclick = () => this.promptInstall();
             document.body.appendChild(btn);
         }
@@ -4753,10 +4618,10 @@ class FastingTimer {
         modal.className = 'shrine-window active';
         modal.style.zIndex = '11000';
         modal.innerHTML = `
-            <div class="shrine-header">
+    < div class="shrine-header" >
                 <h3>Spiritual Fast</h3>
                 <small>Deny self, Spirit grows.</small>
-            </div>
+            </div >
             <div style="text-align:center; padding:2rem;">
                 <h2 id="fast-timer-display" style="font-family:'Cinzel'; color:var(--primary-gold); font-size:2.5rem; margin:1rem 0;">--:--</h2>
                 <div id="fast-controls">
@@ -4767,7 +4632,7 @@ class FastingTimer {
                 </div>
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; background:none; border:none; color:white;">✖</button>
-        `;
+`;
         document.body.appendChild(modal);
 
         if (this.startTime) this.updateDisplay(modal.querySelector('#fast-timer-display'));
@@ -4803,7 +4668,7 @@ class FastingTimer {
         const diff = Date.now() - this.startTime;
         const hours = Math.floor(diff / 3600000);
         const mins = Math.floor((diff % 3600000) / 60000);
-        el.textContent = `${hours}h ${mins}m`;
+        el.textContent = `${hours}h ${mins} m`;
     }
 }
 
@@ -4826,13 +4691,13 @@ class SpiritualJournal {
         modal.style.maxWidth = '600px';
         modal.style.zIndex = '11001';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Soul Journal</h3></div>
+    < div class="shrine-header" > <h3>Soul Journal</h3></div >
             <textarea id="journal-area" style="width:100%; height:300px; background:rgba(0,0,0,0.5); color:white; border:1px solid #555; padding:1rem; font-family:'Cinzel';">${saved}</textarea>
             <div style="display:flex; justify-content:space-between; margin-top:1rem;">
                 <button id="save-journal" class="btn btn-outline-gold">Save</button>
                 <button id="close-journal" class="btn btn-sm">Close</button>
             </div>
-        `;
+`;
         document.body.appendChild(modal);
 
         modal.querySelector('#save-journal').onclick = () => {
@@ -4888,10 +4753,10 @@ class ExamenAssistant {
         const step = this.steps[this.currentStep];
 
         modal.innerHTML = `
-            <div class="shrine-header">
+    < div class="shrine-header" >
                 <h3>Ignatian Examen</h3>
                 <small>Step ${this.currentStep + 1} of 5</small>
-            </div>
+            </div >
             <div style="padding:2rem; text-align:center;">
                 <h2 style="color:var(--primary-gold); margin-bottom:1rem;">${step.title}</h2>
                 <p style="font-size:1.2rem; line-height:1.6;">${step.text}</p>
@@ -4902,7 +4767,7 @@ class ExamenAssistant {
                     ${this.currentStep < 4 ? 'Next' : 'Finish'}
                 </button>
             </div>
-        `;
+`;
 
         document.getElementById('next-step-btn').onclick = () => {
             if (this.currentStep < 4) {
@@ -4990,23 +4855,23 @@ class VRChapel {
         const modal = document.createElement('div');
         modal.className = 'vr-overlay active';
         modal.style.cssText = `
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: black; z-index: 15000; perspective: 1000px;
-            overflow: hidden; cursor: grab;
-        `;
+position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+background: black; z - index: 15000; perspective: 1000px;
+overflow: hidden; cursor: grab;
+`;
 
         modal.innerHTML = `
-            <div id="vr-scene" style="width:100%; height:100%; transform-style:preserve-3d; transition:transform 0.1s;">
+    < div id = "vr-scene" style = "width:100%; height:100%; transform-style:preserve-3d; transition:transform 0.1s;" >
                 <div class="wall front" style="transform:translateZ(-500px)">This is the Holy of Holies</div>
                 <div class="wall left" style="transform:rotateY(90deg) translateZ(-500px)">Icons of Saints</div>
                 <div class="wall right" style="transform:rotateY(-90deg) translateZ(-500px)">Stained Glass Windows</div>
                 <div class="wall back" style="transform:rotateY(180deg) translateZ(-500px)">Entrance</div>
                 <div class="floor" style="transform:rotateX(90deg) translateZ(-500px)">Sacred Ground</div>
                 <div class="ceiling" style="transform:rotateX(-90deg) translateZ(-500px)">Heavenly Fresco</div>
-            </div>
+            </div >
             <button onclick="this.parentElement.remove()" style="position:absolute; top:20px; right:20px; z-index:15001;">Exit VR</button>
             <div style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); color:white;">Drag to Look Around</div>
-        `;
+`;
         document.body.appendChild(modal);
 
         // Simple Mouse Look
@@ -5114,10 +4979,10 @@ class BreathPrayer {
         modal.style.zIndex = '13000';
 
         modal.innerHTML = `
-            <div id="breath-circle" style="width:100px; height:100px; border-radius:50%; background:var(--primary-gold); box-shadow:0 0 50px var(--primary-gold); margin-bottom:2rem; transition: all 4s ease-in-out;"></div>
+    < div id = "breath-circle" style = "width:100px; height:100px; border-radius:50%; background:var(--primary-gold); box-shadow:0 0 50px var(--primary-gold); margin-bottom:2rem; transition: all 4s ease-in-out;" ></div >
             <h2 id="breath-text" style="color:white; font-family:'Cinzel'; transition: opacity 1s;">Breathe In...</h2>
             <button onclick="this.parentElement.remove()" style="margin-top:2rem; background:transparent; border:1px solid #555; color:#888;">End Prayer</button>
-        `;
+`;
         document.body.appendChild(modal);
 
         const circle = modal.querySelector('#breath-circle');
@@ -5165,14 +5030,14 @@ class IconGallery {
         modal.className = 'shrine-window active';
         modal.style.overflowY = 'auto';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Sacred Icons</h3></div>
+    < div class="shrine-header" > <h3>Sacred Icons</h3></div >
             <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:1rem; padding:1rem;">
                 ${this.icons.map(src => `
                     <div style="aspect-ratio:1; background:url('${src}') center/cover; border:2px solid #333; cursor:pointer; transition:transform 0.3s;" onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform='scale(1)'" onclick="window.open('${src}')"></div>
                 `).join('')}
             </div>
             <button onclick="this.parentElement.remove()" style="width:100%; padding:1rem;">Close Gallery</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -5184,22 +5049,22 @@ class StainedGlass {
         // Generative CSS Pattern
         const style = document.createElement('style');
         style.textContent = `
-            .stained-glass-bg {
-                background-color: transparent;
-                background-image: 
-                    linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-                    linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-                    linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-                    linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-                    linear-gradient(60deg, #77a 25%, transparent 25.5%, transparent 75%, #77a 75%, #77a), 
-                    linear-gradient(60deg, #77a 25%, transparent 25.5%, transparent 75%, #77a 75%, #77a);
-                background-size: 80px 140px;
-                background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
-                opacity: 0.1;
-                pointer-events: none;
-                position: fixed; top:0; left:0; width:100%; height:100%; z-index:-50;
-            }
-        `;
+    .stained - glass - bg {
+    background - color: transparent;
+    background - image:
+    linear - gradient(30deg, #445 12 %, transparent 12.5 %, transparent 87 %, #445 87.5 %, #445),
+        linear - gradient(150deg, #445 12 %, transparent 12.5 %, transparent 87 %, #445 87.5 %, #445),
+        linear - gradient(30deg, #445 12 %, transparent 12.5 %, transparent 87 %, #445 87.5 %, #445),
+        linear - gradient(150deg, #445 12 %, transparent 12.5 %, transparent 87 %, #445 87.5 %, #445),
+        linear - gradient(60deg, #77a 25 %, transparent 25.5 %, transparent 75 %, #77a 75 %, #77a),
+        linear - gradient(60deg, #77a 25 %, transparent 25.5 %, transparent 75 %, #77a 75 %, #77a);
+    background - size: 80px 140px;
+    background - position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+    opacity: 0.1;
+    pointer - events: none;
+    position: fixed; top: 0; left: 0; width: 100 %; height: 100 %; z - index: -50;
+}
+`;
         document.head.appendChild(style);
 
         const bg = document.createElement('div');
@@ -5260,7 +5125,7 @@ class SalvationTimeline {
         modal.className = 'shrine-window active';
         modal.style.width = '95%';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>History of Salvation</h3></div>
+    < div class="shrine-header" > <h3>History of Salvation</h3></div >
             <div class="timeline-container">
                 ${this.events.map(e => `
                     <div class="timeline-event">
@@ -5269,7 +5134,7 @@ class SalvationTimeline {
                 `).join('')}
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -5308,12 +5173,12 @@ class AISermon {
             const modal = document.createElement('div');
             modal.className = 'shrine-window active';
             modal.innerHTML = `
-                <div class="shrine-header"><h3>Daily Reflection</h3></div>
+    < div class="shrine-header" > <h3>Daily Reflection</h3></div >
                 <div class="scripture-block">
                     ${chosen}
                 </div>
                 <button onclick="this.parentElement.remove()" style="width:100%; padding:1rem;">Amen</button>
-            `;
+`;
             document.body.appendChild(modal);
         }, 1500);
     }
@@ -5368,7 +5233,7 @@ class VirtueTracker {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Soul Stats</h3></div>
+    < div class="shrine-header" > <h3>Soul Stats</h3></div >
             <div style="padding:1rem;">
                 ${Object.keys(this.virtues).map(v => `
                     <div class="virtue-stat">
@@ -5378,7 +5243,7 @@ class VirtueTracker {
                 `).join('')}
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
 
         window.incrementVirtue = (v, btn) => {
@@ -5396,8 +5261,8 @@ class HolyWater {
         document.addEventListener('click', (e) => {
             const ripple = document.createElement('div');
             ripple.className = 'ripple';
-            ripple.style.left = `${e.clientX}px`;
-            ripple.style.top = `${e.clientY}px`;
+            ripple.style.left = `${e.clientX} px`;
+            ripple.style.top = `${e.clientY} px`;
             document.body.appendChild(ripple);
 
             // Audio Effect
@@ -5539,7 +5404,7 @@ class ParableMode {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Parables of Christ</h3></div>
+    < div class="shrine-header" > <h3>Parables of Christ</h3></div >
             <div class="shrine-content">
                 ${this.parables.map(p => `
                     <div class="prayer-card" style="margin:1rem 0; cursor:pointer;" onclick="new ParableReader('${p.title}', '${p.text}')">
@@ -5548,7 +5413,7 @@ class ParableMode {
                 `).join('')}
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -5556,17 +5421,17 @@ class ParableMode {
 class ParableReader {
     constructor(title, text) {
         // Simple alert for now, full reader would be a modal overlay
-        showNotification(`Reading: ${title}`, "info");
+        showNotification(`Reading: ${title} `, "info");
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.style.zIndex = '12000';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>${title}</h3></div>
+    < div class="shrine-header" > <h3>${title}</h3></div >
             <div class="scripture-block">
                 ${text}
             </div>
             <button onclick="this.parentElement.remove()" style="width:100%; padding:1rem;">Close</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -5600,7 +5465,7 @@ class BeatitudesLadder {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Ladder of Beatitudes</h3></div>
+    < div class="shrine-header" > <h3>Ladder of Beatitudes</h3></div >
             <div style="padding:1rem; overflow-y:auto; max-height:400px;">
                 ${steps.map((s, i) => `
                     <div class="prayer-card" style="margin-bottom:1rem; opacity: ${(i + 1) / 8 + 0.2};">
@@ -5610,7 +5475,7 @@ class BeatitudesLadder {
                 `).reverse().join('')} <!-- Reverse to show ladder going up -->
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -5645,7 +5510,7 @@ class Decalogue {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Examination of Conscience</h3></div>
+    < div class="shrine-header" > <h3>Examination of Conscience</h3></div >
             <div style="padding:1rem;">
                 <p>Reflect on each commandment:</p>
                 <div style="max-height:300px; overflow-y:auto;">
@@ -5658,7 +5523,7 @@ class Decalogue {
                 <button onclick="showNotification('Act of Contrition Suggested', 'info')" style="width:100%; margin-top:10px; padding:8px;">Finish Examination</button>
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -5714,7 +5579,7 @@ class HymnLyrics {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Hymnbook</h3></div>
+    < div class="shrine-header" > <h3>Hymnbook</h3></div >
             <div style="padding:1rem;">
                 ${hymns.map(h => `
                     <details style="margin-bottom:1rem; background:rgba(0,0,0,0.3); padding:0.5rem; border-radius:5px;">
@@ -5724,7 +5589,7 @@ class HymnLyrics {
                 `).join('')}
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -5748,14 +5613,14 @@ class SinDestroyer {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Sin Destroyer</h3></div>
+    < div class="shrine-header" > <h3>Sin Destroyer</h3></div >
             <div style="padding:2rem; text-align:center;">
                 <p>Write your burden, sin, or worry below.</p>
                 <input type="text" id="sin-input" style="width:100%; padding:10px; margin:1rem 0; background:rgba(0,0,0,0.5); color:white; border:1px solid #555;" placeholder="Enter burden...">
                 <button id="burn-btn" class="btn btn-primary-gold" style="background:#800000; border-color:#800000;">Cast into Fire</button>
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
 
         modal.querySelector('#burn-btn').onclick = () => {
@@ -5791,7 +5656,7 @@ class GraceMeter {
     add(amount) {
         this.level = Math.min(100, this.level + amount);
         const fill = document.getElementById('grace-fill');
-        if (fill) fill.style.height = `${this.level}%`;
+        if (fill) fill.style.height = `${this.level}% `;
 
         if (this.level === 100) {
             showNotification("Full of Grace!", "success");
@@ -5830,11 +5695,11 @@ class AdorationMode {
         const view = document.createElement('div');
         view.className = 'monstrance-view';
         view.innerHTML = `
-            <div style="color:white; font-family:'Cinzel'; text-shadow:0 0 10px black;">
-                <h2>Adoremus in Aeternum</h2>
-            </div>
-            <button onclick="this.parentElement.remove()" style="margin-top:20px; background:rgba(0,0,0,0.5); color:white; border:1px solid white; padding:10px 20px; cursor:pointer;">Exit Sanctuary</button>
-        `;
+    < div style = "color:white; font-family:'Cinzel'; text-shadow:0 0 10px black;" >
+        <h2>Adoremus in Aeternum</h2>
+            </div >
+    <button onclick="this.parentElement.remove()" style="margin-top:20px; background:rgba(0,0,0,0.5); color:white; border:1px solid white; padding:10px 20px; cursor:pointer;">Exit Sanctuary</button>
+`;
         document.body.appendChild(view);
         showNotification("Silence... He is here.", "info");
     }
@@ -5881,7 +5746,7 @@ class StationsCross {
     updateView() {
         if (!this.modal) return;
         this.modal.innerHTML = `
-            <div class="shrine-header"><h3>Via Dolorosa</h3></div>
+    < div class="shrine-header" > <h3>Via Dolorosa</h3></div >
             <div style="padding:2rem; text-align:center;">
                 <h2 style="color:var(--primary-gold); font-family:'Cinzel'; margin-bottom:1rem;">Station ${this.index + 1}</h2>
                 <div style="font-size:1.5rem; margin-bottom:2rem;">${this.stations[this.index]}</div>
@@ -5894,7 +5759,7 @@ class StationsCross {
                 </div>
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
 
         // Event listeners for this modal instance
         document.addEventListener('st-next', () => {
@@ -5929,14 +5794,14 @@ class SevenSorrows {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Mater Dolorosa</h3></div>
+    < div class="shrine-header" > <h3>Mater Dolorosa</h3></div >
             <div style="padding:1rem;">
                 <ul>
                     ${sorrows.map(s => `<li style="margin-bottom:10px; padding:5px; border-bottom:1px solid #444;">${s}</li>`).join('')}
                 </ul>
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -5962,7 +5827,7 @@ class DivineMercy {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Divine Mercy Chaplet</h3></div>
+    < div class="shrine-header" > <h3>Divine Mercy Chaplet</h3></div >
             <div style="padding:2rem; text-align:center;">
                 <div id="dm-counter" style="font-size:4rem; color:#f00; font-family:'Cinzel'; margin-bottom:1rem;">0</div>
                 <p>For the sake of His sorrowful Passion...</p>
@@ -5970,7 +5835,7 @@ class DivineMercy {
                 <button id="dm-pray" class="btn btn-primary-gold" style="width:100%; margin-top:2rem;">Pray "Have Mercy"</button>
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
 
         const counter = modal.querySelector('#dm-counter');
@@ -6010,7 +5875,7 @@ class PrayerBouquet {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Prayer Bouquet</h3></div>
+    < div class="shrine-header" > <h3>Prayer Bouquet</h3></div >
             <div style="padding:1rem; text-align:center;">
                 <p>Select spiritual gifts to send:</p>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:left;">
@@ -6023,7 +5888,7 @@ class PrayerBouquet {
                 <button id="pb-send" class="btn btn-primary-gold" style="margin-top:1rem; width:100%;">Generte Card</button>
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
 
         modal.querySelector('#pb-send').onclick = () => {
@@ -6056,7 +5921,7 @@ class SpiritualWill {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>My Spiritual Testament</h3></div>
+    < div class= "shrine-header" > <h3>My Spiritual Testament</h3></div >
             <div class="legacy-form" style="padding:1rem;">
                 <label>I believe in...</label>
                 <textarea rows="3"></textarea>
@@ -6067,7 +5932,7 @@ class SpiritualWill {
                 <button onclick="showNotification('Saved to Eternal Memory (Local)', 'success')" style="width:100%; padding:10px;">Seal Testament</button>
             </div>
             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+`;
         document.body.appendChild(modal);
     }
 }
@@ -6102,16 +5967,16 @@ class MementoMori {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Memento Mori / Obituary</h3></div>
-            <div class="legacy-form" style="padding:1rem;">
-                <p>Imagine your life is over. How will you be remembered?</p>
-                <input type="text" id="mm-virtue" placeholder="Primary Virtue practiced...">
+    < div class="shrine-header" > <h3>Memento Mori / Obituary</h3></div >
+        <div class="legacy-form" style="padding:1rem;">
+            <p>Imagine your life is over. How will you be remembered?</p>
+            <input type="text" id="mm-virtue" placeholder="Primary Virtue practiced...">
                 <input type="text" id="mm-sin" placeholder="Primary Sin conquered...">
-                <textarea id="mm-bio" placeholder="Brief holy summary..." rows="3"></textarea>
-                <button onclick="showNotification('Obituary generated (Vision)', 'info')" style="width:100%; padding:10px; margin-top:10px;">Preview Eternity</button>
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                    <textarea id="mm-bio" placeholder="Brief holy summary..." rows="3"></textarea>
+                    <button onclick="showNotification('Obituary generated (Vision)', 'info')" style="width:100%; padding:10px; margin-top:10px;">Preview Eternity</button>
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6136,17 +6001,17 @@ class LastRites {
         modal.className = 'shrine-window active';
         modal.style.border = '2px solid red';
         modal.innerHTML = `
-            <div class="shrine-header" style="background:red;"><h3>EMERGENCY: DYING</h3></div>
-            <div style="padding:1rem;">
-                <ol>
-                    <li><strong>Call a Priest immediately.</strong></li>
-                    <li>Pray the Act of Contrition with the person.</li>
-                    <li>Say: "Jesus, Mary, Joseph, I give you my heart and my soul."</li>
-                    <li>Sprinkle Holy Water.</li>
-                </ol>
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <div class="shrine-header" style="background:red;"><h3>EMERGENCY: DYING</h3></div>
+                <div style="padding:1rem;">
+                    <ol>
+                        <li><strong>Call a Priest immediately.</strong></li>
+                        <li>Pray the Act of Contrition with the person.</li>
+                        <li>Say: "Jesus, Mary, Joseph, I give you my heart and my soul."</li>
+                        <li>Sprinkle Holy Water.</li>
+                    </ol>
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6169,25 +6034,25 @@ class FuneralPlan {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>My Funeral Liturgy</h3></div>
-            <div class="legacy-form" style="padding:1rem; overflow-y:auto; max-height:300px;">
-                <label>First Reading</label>
-                <select style="width:100%; margin-bottom:10px; color:black;">
-                    <option>Job 19:23-27</option>
-                    <option>Wisdom 3:1-9</option>
-                    <option>Isaiah 25:6-9</option>
-                </select>
-                <label>Gospel</label>
-                <select style="width:100%; margin-bottom:10px; color:black;">
-                    <option>Matt 5:1-12 (Beatitudes)</option>
-                    <option>John 11:17-27 (Lazarus)</option>
-                </select>
-                <label>Hymns (Comma separated)</label>
-                <textarea rows="2">On Eagle's Wings, I Am the Bread of Life</textarea>
-                <button onclick="showNotification('Funeral Wishes Saved', 'success')" style="width:100%; padding:10px;">Save Wishes</button>
-            </div>
-             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <div class="shrine-header"><h3>My Funeral Liturgy</h3></div>
+                <div class="legacy-form" style="padding:1rem; overflow-y:auto; max-height:300px;">
+                    <label>First Reading</label>
+                    <select style="width:100%; margin-bottom:10px; color:black;">
+                        <option>Job 19:23-27</option>
+                        <option>Wisdom 3:1-9</option>
+                        <option>Isaiah 25:6-9</option>
+                    </select>
+                    <label>Gospel</label>
+                    <select style="width:100%; margin-bottom:10px; color:black;">
+                        <option>Matt 5:1-12 (Beatitudes)</option>
+                        <option>John 11:17-27 (Lazarus)</option>
+                    </select>
+                    <label>Hymns (Comma separated)</label>
+                    <textarea rows="2">On Eagle's Wings, I Am the Bread of Life</textarea>
+                    <button onclick="showNotification('Funeral Wishes Saved', 'success')" style="width:100%; padding:10px;">Save Wishes</button>
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6329,18 +6194,18 @@ class NatureSounds {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Creation Cries</h3></div>
-            <div style="padding:1rem; text-align:center;">
-                <p>Listen to creation groaning for redemption (Rom 8:22).</p>
-                <div style="display:flex; justify-content:center; gap:10px; margin-top:1rem;">
-                    <button class="btn btn-secondary" onclick="showNotification('🎵 Wind Howling...', 'info')">Wind</button>
-                    <button class="btn btn-secondary" onclick="showNotification('🎵 Thunder Rolling...', 'info')">Thunder</button>
-                    <button class="btn btn-secondary" onclick="showNotification('🎵 River Rushing...', 'info')">River</button>
+                <div class="shrine-header"><h3>Creation Cries</h3></div>
+                <div style="padding:1rem; text-align:center;">
+                    <p>Listen to creation groaning for redemption (Rom 8:22).</p>
+                    <div style="display:flex; justify-content:center; gap:10px; margin-top:1rem;">
+                        <button class="btn btn-secondary" onclick="showNotification('🎵 Wind Howling...', 'info')">Wind</button>
+                        <button class="btn btn-secondary" onclick="showNotification('🎵 Thunder Rolling...', 'info')">Thunder</button>
+                        <button class="btn btn-secondary" onclick="showNotification('🎵 River Rushing...', 'info')">River</button>
+                    </div>
+                    <p style="font-size:0.8rem; margin-top:1rem; opacity:0.7;">(Audio synthesis simulated)</p>
                 </div>
-                <p style="font-size:0.8rem; margin-top:1rem; opacity:0.7;">(Audio synthesis simulated)</p>
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6373,12 +6238,12 @@ class DesertWisdom {
         modal.style.background = '#d2b48c'; // Tan/Sand color
         modal.style.color = '#3e2723';
         modal.innerHTML = `
-            <div class="shrine-header" style="background:#8d6e63; color:black;"><h3>Voice from the Desert</h3></div>
-            <div style="padding:2rem; font-family:'Courier New', monospace; font-weight:bold; font-size:1.1rem;">
-                "${quote}"
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; color:black;">X</button>
-        `;
+                <div class="shrine-header" style="background:#8d6e63; color:black;"><h3>Voice from the Desert</h3></div>
+                <div style="padding:2rem; font-family:'Courier New', monospace; font-weight:bold; font-size:1.1rem;">
+                    "${quote}"
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; color:black;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6402,16 +6267,16 @@ class SummaTree {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Summa Theologica</h3></div>
-            <div style="padding:1rem;">
-                <div class="tree-node"><strong>Part I: God</strong></div>
-                <div class="tree-node" style="margin-left:40px;">Q2: The Existence of God</div>
-                <div class="tree-node" style="margin-left:40px;">Q12: How God is Known by Us</div>
-                <div class="tree-node"><strong>Part II: Man</strong></div>
-                <div class="tree-node"><strong>Part III: Christ</strong></div>
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <div class="shrine-header"><h3>Summa Theologica</h3></div>
+                <div style="padding:1rem;">
+                    <div class="tree-node"><strong>Part I: God</strong></div>
+                    <div class="tree-node" style="margin-left:40px;">Q2: The Existence of God</div>
+                    <div class="tree-node" style="margin-left:40px;">Q12: How God is Known by Us</div>
+                    <div class="tree-node"><strong>Part II: Man</strong></div>
+                    <div class="tree-node"><strong>Part III: Christ</strong></div>
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6446,14 +6311,14 @@ class CatechismSearch {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Catechism Search</h3></div>
-            <div style="padding:1rem;">
-                <input type="text" id="ccc-input" placeholder="Search (e.g. Grace, Sin, Hope)..." style="width:100%; padding:10px; margin-bottom:10px; color:black;">
-                <button id="ccc-btn" class="btn btn-primary-gold" style="width:100%;">Search</button>
-                <div id="ccc-result" style="margin-top:1rem; padding:10px; background:rgba(255,255,255,0.1); border-radius:5px; min-height:50px;"></div>
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <div class="shrine-header"><h3>Catechism Search</h3></div>
+                <div style="padding:1rem;">
+                    <input type="text" id="ccc-input" placeholder="Search (e.g. Grace, Sin, Hope)..." style="width:100%; padding:10px; margin-bottom:10px; color:black;">
+                        <button id="ccc-btn" class="btn btn-primary-gold" style="width:100%;">Search</button>
+                        <div id="ccc-result" style="margin-top:1rem; padding:10px; background:rgba(255,255,255,0.1); border-radius:5px; min-height:50px;"></div>
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
 
         modal.querySelector('#ccc-btn').onclick = () => {
@@ -6488,17 +6353,17 @@ class EncyclicalReader {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Papal Encyclicals</h3></div>
-            <div style="padding:1rem;">
-                ${documents.map(d => `
+                <div class="shrine-header"><h3>Papal Encyclicals</h3></div>
+                <div style="padding:1rem;">
+                    ${documents.map(d => `
                     <div style="margin-bottom:10px; border-bottom:1px solid #444; padding-bottom:5px;">
                         <h4 style="color:var(--primary-gold); margin:0;">${d.t}</h4>
                         <p style="margin:0; font-size:0.9rem; opacity:0.8;">${d.d}</p>
                     </div>
                 `).join('')}
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6529,14 +6394,14 @@ class CouncilHistory {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Ecumenical Councils</h3></div>
-            <div style="padding:1rem;">
-                <ul style="padding-left:20px;">
-                    ${councils.map(c => `<li style="margin-bottom:8px;">${c}</li>`).join('')}
-                </ul>
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <div class="shrine-header"><h3>Ecumenical Councils</h3></div>
+                <div style="padding:1rem;">
+                    <ul style="padding-left:20px;">
+                        ${councils.map(c => `<li style="margin-bottom:8px;">${c}</li>`).join('')}
+                    </ul>
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6565,10 +6430,10 @@ class HeresyQuiz {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Heresy Detector</h3></div>
-            <div id="quiz-container" style="padding:1rem;"></div>
-             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <div class="shrine-header"><h3>Heresy Detector</h3></div>
+                <div id="quiz-container" style="padding:1rem;"></div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
 
         this.renderQuestion(modal.querySelector('#quiz-container'), 0);
@@ -6580,10 +6445,10 @@ class HeresyQuiz {
         }
         const q = this.questions[index];
         container.innerHTML = `
-            <p><strong>Statement:</strong> "${q.q}"</p>
-            <button class="btn btn-secondary" style="width:100%; margin-bottom:5px;" onclick="document.dispatchEvent(new CustomEvent('quiz-ans', {detail:{idx:${index}, choice:true}}))">Accept as Truth</button>
-            <button class="btn btn-secondary" style="width:100%;" onclick="document.dispatchEvent(new CustomEvent('quiz-ans', {detail:{idx:${index}, choice:false}}))">Condemn as Heresy</button>
-        `;
+                <p><strong>Statement:</strong> "${q.q}"</p>
+                <button class="btn btn-secondary" style="width:100%; margin-bottom:5px;" onclick="document.dispatchEvent(new CustomEvent('quiz-ans', {detail:{idx:${index}, choice:true}}))">Accept as Truth</button>
+                <button class="btn btn-secondary" style="width:100%;" onclick="document.dispatchEvent(new CustomEvent('quiz-ans', {detail:{idx:${index}, choice:false}}))">Condemn as Heresy</button>
+                `;
 
         // One-time listener for this step (hacky but works for instant prototype)
         const handler = (e) => {
@@ -6630,17 +6495,17 @@ class ApologeticsNinja {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Apologetics Ninja</h3></div>
-            <div style="padding:1rem;">
-                ${this.questions.map(qa => `
+                <div class="shrine-header"><h3>Apologetics Ninja</h3></div>
+                <div style="padding:1rem;">
+                    ${this.questions.map(qa => `
                     <div class="apologetics-card">
                         <h4 style="color:var(--primary-gold);">${qa.q}</h4>
                         <p>${qa.a}</p>
                     </div>
                 `).join('')}
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6668,14 +6533,14 @@ class EvangelismCards {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Evangelism Card</h3></div>
-            <div style="padding:2rem; text-align:center; background:linear-gradient(45deg, #1a1a1a, #333);">
-                <h2 style="color:var(--primary-gold); font-family:'Cinzel';">${v}</h2>
-                <p style="margin-top:1rem; opacity:0.7;">soulguidance.app</p>
-                <button class="btn btn-secondary" onclick="showNotification('Card Copied to Clipboard!', 'success')" style="margin-top:1rem;">Copy Image</button>
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <div class="shrine-header"><h3>Evangelism Card</h3></div>
+                <div style="padding:2rem; text-align:center; background:linear-gradient(45deg, #1a1a1a, #333);">
+                    <h2 style="color:var(--primary-gold); font-family:'Cinzel';">${v}</h2>
+                    <p style="margin-top:1rem; opacity:0.7;">soulguidance.app</p>
+                    <button class="btn btn-secondary" onclick="showNotification('Card Copied to Clipboard!', 'success')" style="margin-top:1rem;">Copy Image</button>
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6721,9 +6586,9 @@ class MerchMockup {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Merch Store</h3></div>
-            <div class="merch-grid" style="padding:1rem;">
-                ${items.map(i => `
+                <div class="shrine-header"><h3>Merch Store</h3></div>
+                <div class="merch-grid" style="padding:1rem;">
+                    ${items.map(i => `
                     <div class="merch-item">
                         <div style="height:100px; background:rgba(255,255,255,0.1); margin-bottom:10px; display:flex; align-items:center; justify-content:center;">[IMG]</div>
                         <h4>${i.n}</h4>
@@ -6731,9 +6596,9 @@ class MerchMockup {
                         <button onclick="showNotification('Added to Cart', 'success')" style="cursor:pointer; padding:5px; background:var(--primary-gold); border:none; color:black;">Add</button>
                     </div>
                 `).join('')}
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6779,19 +6644,19 @@ class AdminStats {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Kingdom Analytics</h3></div>
-            <div style="padding:2rem; text-align:center;">
-                <div style="font-size:2rem; color:var(--primary-gold);">${savings.toLocaleString()}</div>
-                <div style="margin-bottom:1rem;">Souls Edified</div>
-                <div style="font-size:2rem; color:#93C5FD;">${prayers.toLocaleString()}</div>
-                <div>Prayers Offered</div>
-                <div style="margin-top:2rem; height:10px; background:#333; border-radius:5px; overflow:hidden;">
-                    <div style="width:75%; height:100%; background:var(--gradient-gold);"></div>
+                <div class="shrine-header"><h3>Kingdom Analytics</h3></div>
+                <div style="padding:2rem; text-align:center;">
+                    <div style="font-size:2rem; color:var(--primary-gold);">${savings.toLocaleString()}</div>
+                    <div style="margin-bottom:1rem;">Souls Edified</div>
+                    <div style="font-size:2rem; color:#93C5FD;">${prayers.toLocaleString()}</div>
+                    <div>Prayers Offered</div>
+                    <div style="margin-top:2rem; height:10px; background:#333; border-radius:5px; overflow:hidden;">
+                        <div style="width:75%; height:100%; background:var(--gradient-gold);"></div>
+                    </div>
+                    <p style="font-size:0.8rem; margin-top:5px;">Global Sanctification Goal</p>
                 </div>
-                <p style="font-size:0.8rem; margin-top:5px;">Global Sanctification Goal</p>
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
     }
 }
@@ -6814,16 +6679,16 @@ class UserProfile {
         const modal = document.createElement('div');
         modal.className = 'shrine-window active';
         modal.innerHTML = `
-            <div class="shrine-header"><h3>Soul Profile</h3></div>
-            <div style="padding:1rem;">
-                <label>Name in Religion</label>
-                <input type="text" id="profile-name" value="${savedName}" style="width:100%; margin-bottom:1rem; color:black; padding:5px;">
-                <p><strong>Canonization Status:</strong> Servant of God</p>
-                <div style="height:5px; background:#444; width:100%; margin-bottom:1rem;"><div style="width:20%; background:white; height:100%;"></div></div>
-                <button id="profile-save" class="btn btn-primary-gold" style="width:100%;">Save Identity</button>
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-        `;
+                <div class="shrine-header"><h3>Soul Profile</h3></div>
+                <div style="padding:1rem;">
+                    <label>Name in Religion</label>
+                    <input type="text" id="profile-name" value="${savedName}" style="width:100%; margin-bottom:1rem; color:black; padding:5px;">
+                        <p><strong>Canonization Status:</strong> Servant of God</p>
+                        <div style="height:5px; background:#444; width:100%; margin-bottom:1rem;"><div style="width:20%; background:white; height:100%;"></div></div>
+                        <button id="profile-save" class="btn btn-primary-gold" style="width:100%;">Save Identity</button>
+                </div>
+                <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+                `;
         document.body.appendChild(modal);
 
         modal.querySelector('#profile-save').onclick = () => {
