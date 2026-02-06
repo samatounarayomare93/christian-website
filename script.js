@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
         new ScriptoriumManager();
         new VigilManager();
         window.soulGuidanceCrown = new CrownManager();
-        // new VirtueManager(); already initialized above
 
         // PHASE 101: Auto-Optimization
         new PerformanceOptimizer();
@@ -612,7 +611,27 @@ class RosaryTracker {
                 { en: "The Presentation", ar: "التقدمة" },
                 { en: "Finding Jesus in the Temple", ar: "وجود يسوع في الهيكل" }
             ],
-            // Add other mysteries as needed (Sorrowful, Glorious, Luminous)
+            sorrowful: [
+                { en: "The Agony in the Garden", ar: "النزاع في البستان" },
+                { en: "The Scourging at the Pillar", ar: "الجلد" },
+                { en: "The Crowning with Thorns", ar: "إكليل الشوك" },
+                { en: "The Carrying of the Cross", ar: "حمل الصليب" },
+                { en: "The Crucifixion", ar: "الصلب والموت" }
+            ],
+            glorious: [
+                { en: "The Resurrection", ar: "القيامة" },
+                { en: "The Ascension", ar: "الصعود" },
+                { en: "The Descent of the Holy Spirit", ar: "حلول الروح القدس" },
+                { en: "The Assumption", ar: "انتقال العذراء" },
+                { en: "The Coronation", ar: "تتويج العذراء" }
+            ],
+            luminous: [
+                { en: "The Baptism in the Jordan", ar: "معمودية يسوع" },
+                { en: "The Wedding at Cana", ar: "عرس قانا الجليل" },
+                { en: "The Proclamation of the Kingdom", ar: "إعلان ملكوت الله" },
+                { en: "The Transfiguration", ar: "التجلي" },
+                { en: "The Institution of the Eucharist", ar: "تأسيس القربان" }
+            ]
         };
         this.currentMysteryType = 'joyful';
         this.state = {
@@ -873,6 +892,84 @@ class SaintOracle {
         }
     }
 }
+
+/**
+ * Manages user profile data, including name and personalization settings.
+ * Persists data to localStorage to maintain state across sessions.
+ * @class ProfileManager
+ */
+class ProfileManager {
+    constructor() {
+        /** @type {string} The user's display name */
+        this.userName = localStorage.getItem('soulGuidance_userName') || '';
+        /** @type {string[]} Array of favored prayer IDs */
+        this.favorites = JSON.parse(localStorage.getItem('soulGuidance_favorites') || '[]');
+        this.init();
+    }
+
+    init() {
+        // Update greeting if user name is set
+        this.updateGreeting();
+    }
+
+    /**
+     * Sets the user's name and saves it to localStorage.
+     * @param {string} name - The name to set.
+     */
+    setUserName(name) {
+        this.userName = name;
+        localStorage.setItem('soulGuidance_userName', name);
+        this.updateGreeting();
+        showNotification(`Welcome, ${name}!`, 'success');
+    }
+
+    /**
+     * Toggles a prayer as a favorite and saves to localStorage.
+     * @param {string} prayerId - The ID of the prayer to toggle.
+     */
+    toggleFavorite(prayerId) {
+        const index = this.favorites.indexOf(prayerId);
+        if (index > -1) {
+            this.favorites.splice(index, 1);
+            showNotification('Removed from favorites', 'info');
+        } else {
+            this.favorites.push(prayerId);
+            showNotification('Added to favorites', 'success');
+        }
+        localStorage.setItem('soulGuidance_favorites', JSON.stringify(this.favorites));
+        // Potentially re-render UI elements that show favorites
+    }
+
+    /**
+     * Checks if a prayer is a favorite.
+     * @param {string} prayerId - The ID of the prayer to check.
+     * @returns {boolean} True if the prayer is a favorite, false otherwise.
+     */
+    isFavorite(prayerId) {
+        return this.favorites.includes(prayerId);
+    }
+
+    /**
+     * Updates the greeting message on the hero section with the user's name.
+     */
+    updateGreeting() {
+        if (!this.userName) return;
+
+        const heroTitle = document.querySelector('.hero-title span.text-gradient-gold');
+        if (heroTitle) {
+            // Securely set text content to prevent XSS
+            heroTitle.textContent = ''; // Clear
+            heroTitle.append(`Welcome, ${this.userName}`);
+
+            // Re-add the subtitle part if needed, or better yet, structureHTML safely
+            // But since the original was "Welcome, [Name]<br>Subtitle", let's reconstruct safely
+            const br = document.createElement('br');
+            const subtitle = document.createTextNode('بوابتك نحو الملكوت');
+            heroTitle.appendChild(br);
+            heroTitle.appendChild(subtitle);
+        }
+    }
+}
 class CandleManager {
     constructor() {
         this.litCandles = JSON.parse(localStorage.getItem('soulGuidance_litCandles')) || [];
@@ -991,62 +1088,116 @@ class LiturgicalCalendar {
     init() {
         const today = new Date();
         const season = this.getSeason(today);
+        const saint = this.getSaintOfTheDay(today);
 
-        // Update UI
+        // Update Season UI
         const badge = document.getElementById('season-text');
         if (badge) badge.innerText = season.name;
 
-        // Set Theme Attribute
-        if (season.code !== 'ordinary') {
-            document.documentElement.setAttribute('data-season', season.code);
-            console.log(`📅 Liturgical Season: ${season.name}`);
+        // Update Saint UI (if container exists, or append    updateGreeting() {
+        if (!this.userName) return;
+
+        const heroTitle = document.querySelector('.hero-title span.text-gradient-gold');
+        if (heroTitle) {
+            // Securely set text content to prevent XSS
+            heroTitle.textContent = ''; // Clear
+            heroTitle.append(`Welcome, ${this.userName}`);
+
+            // Re-add the subtitle part if needed, or better yet, structureHTML safely
+            // But since the original was "Welcome, [Name]<br>Subtitle", let's reconstruct safely
+            const br = document.createElement('br');
+            const subtitle = document.createTextNode('بوابتك نحو الملكوت');
+            heroTitle.appendChild(br);
+            heroTitle.appendChild(subtitle);
         }
+    } if(!document.getElementById('saint-badge')) {
+    const saintBadge = document.createElement('div');
+    saintBadge.id = 'saint-badge';
+    saintBadge.className = 'glass-panel animate__animated animate__fadeIn';
+    saintBadge.style.display = 'inline-block';
+    saintBadge.style.marginTop = '1rem';
+    saintBadge.style.padding = '0.5rem 1rem';
+    saintBadge.style.borderRadius = '20px';
+    saintBadge.style.border = '1px solid var(--primary-gold)';
+    saintBadge.innerHTML = `<i class="fas fa-halo"></i> Today's Saint: <strong>${saint}</strong>`;
+    heroSubtitle.after(saintBadge);
+}
+            }
+        }
+
+// Set Theme Attribute
+if (season.code !== 'ordinary') {
+    document.documentElement.setAttribute('data-season', season.code);
+    console.log(`📅 Liturgical Season: ${season.name}`);
+}
     }
 
-    getSeason(date) {
-        const year = date.getFullYear();
-        const easter = this.getEasterDate(year);
-        const ashWednesday = new Date(easter);
-        ashWednesday.setDate(easter.getDate() - 46);
+getSaintOfTheDay(date) {
+    const m = date.getMonth(); // 0-11
+    const d = date.getDate(); // 1-31
 
-        const pentecost = new Date(easter);
-        pentecost.setDate(easter.getDate() + 49);
+    // Mini Database of Saints (Eastern/Western Mix)
+    const saints = {
+        "0-17": "St. Anthony the Great (مار أنطونيوس الكبير)",
+        "1-9": "St. Maron (مار مارون)",
+        "2-19": "St. Joseph (عيد القديس يوسف)",
+        "4-22": "St. Rita of Cascia (القديسة ريتا)",
+        "6-24": "St. Charbel (عيد مار شربل)",
+        "7-15": "Assumption of Mary (عيد انتقال العذراء)",
+        "8-14": "Exaltation of the Cross (عيد الصليب)",
+        "9-4": "St. Francis of Assisi (مار فرنسيس)",
+        "10-22": "St. Cecilia (القديسة سيسيليا)",
+        "11-25": "Christmas (ميلاد الرب يسوع)"
+    };
 
-        const adventStart = this.getAdventStart(year);
-        const christmas = new Date(year, 11, 25);
+    const key = `${m}-${d}`;
+    return saints[key] || null; // Return null if no specific saint today
+}
 
-        // Check ranges
-        if (date >= ashWednesday && date < easter) return { name: "Lent - زمن الصوم", code: "lent" };
-        if (date >= easter && date <= pentecost) return { name: "Eastertide - زمن القيامة", code: "easter" }; // Gold default
-        if (date >= adventStart && date < christmas) return { name: "Advent - زمن المجيء", code: "advent" };
-        if (date.getMonth() === 11 && date.getDate() >= 25) return { name: "Christmas Season - زمن الميلاد", code: "easter" }; // Gold
+getSeason(date) {
+    const year = date.getFullYear();
+    const easter = this.getEasterDate(year);
+    const ashWednesday = new Date(easter);
+    ashWednesday.setDate(easter.getDate() - 46);
 
-        // Simple check for Fridays (Mini-Lent/Penance)
-        if (date.getDay() === 5) return { name: "Friday Penance - توبة الجمعة", code: "lent" };
+    const pentecost = new Date(easter);
+    pentecost.setDate(easter.getDate() + 49);
 
-        return { name: "Ordinary Time - الزمن العادي", code: "ordinary" };
-    }
+    const adventStart = this.getAdventStart(year);
+    const christmas = new Date(year, 11, 25);
 
-    getEasterDate(year) {
-        // Algorithm to calculate Western Easter
-        const f = Math.floor,
-            G = year % 19,
-            C = f(year / 100),
-            H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30,
-            I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11)),
-            J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7,
-            L = I - J,
-            month = 3 + f((L + 40) / 44),
-            day = L + 28 - 31 * f(month / 4);
+    // Check ranges
+    if (date >= ashWednesday && date < easter) return { name: "Lent - زمن الصوم", code: "lent" };
+    if (date >= easter && date <= pentecost) return { name: "Eastertide - زمن القيامة", code: "easter" }; // Gold default
+    if (date >= adventStart && date < christmas) return { name: "Advent - زمن المجيء", code: "advent" };
+    if (date.getMonth() === 11 && date.getDate() >= 25) return { name: "Christmas Season - زمن الميلاد", code: "easter" }; // Gold
 
-        return new Date(year, month - 1, day);
-    }
+    // Simple check for Fridays (Mini-Lent/Penance)
+    if (date.getDay() === 5) return { name: "Friday Penance - توبة الجمعة", code: "lent" };
 
-    getAdventStart(year) {
-        const date = new Date(year, 11, 25);
-        date.setDate(date.getDate() - date.getDay() - 22); // 4th Sunday before Christmas
-        return date;
-    }
+    return { name: "Ordinary Time - الزمن العادي", code: "ordinary" };
+}
+
+getEasterDate(year) {
+    // Algorithm to calculate Western Easter
+    const f = Math.floor,
+        G = year % 19,
+        C = f(year / 100),
+        H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30,
+        I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11)),
+        J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7,
+        L = I - J,
+        month = 3 + f((L + 40) / 44),
+        day = L + 28 - 31 * f(month / 4);
+
+    return new Date(year, month - 1, day);
+}
+
+getAdventStart(year) {
+    const date = new Date(year, 11, 25);
+    date.setDate(date.getDate() - date.getDay() - 22); // 4th Sunday before Christmas
+    return date;
+}
 }
 
 
@@ -6156,6 +6307,91 @@ class FractalZoom {
     }
 }
 
+class CandleManager {
+    constructor() {
+        this.litCandles = JSON.parse(localStorage.getItem('soulGuidance_litCandles')) || [];
+        this.init();
+    }
+
+    init() {
+        // Add "Light a Candle" floating button or link in navbar
+        this.createAccessPoint();
+    }
+
+    createAccessPoint() {
+        // For now, let's add it to the footer
+        const footer = document.querySelector('footer');
+        if (footer) {
+            const btn = document.createElement('button');
+            btn.className = 'btn-text';
+            btn.innerHTML = '<i class="fas fa-fire"></i> Light a Candle / أشعل شمعة';
+            btn.onclick = () => this.openShrine();
+            footer.appendChild(btn);
+        }
+    }
+
+    openShrine() {
+        // Create simple modal
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeIn';
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.zIndex = '100000';
+        modal.style.display = 'flex';
+        modal.style.flexDirection = 'column';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.style.background = 'rgba(0,0,0,0.9)';
+
+        modal.innerHTML = `
+            <h2 class="text-gradient-gold">Virtual Shrine / مزار افتراضي</h2>
+            <div id="candle-container" style="margin: 2rem;">
+                <div class="candle ${this.isLit() ? 'lit' : ''}" style="width: 50px; height: 150px; background: white; border-radius: 5px; position: relative;">
+                    <div class="flame" style="display: ${this.isLit() ? 'block' : 'none'}; width: 20px; height: 40px; background: orange; border-radius: 50% 50% 20% 20%; position: absolute; top: -30px; left: 15px; animation: flicker 1s infinite alternate; box-shadow: 0 0 20px orange;"></div>
+                    <div class="wick" style="width: 4px; height: 10px; background: black; position: absolute; top: -10px; left: 23px;"></div>
+                </div>
+            </div>
+            <button id="light-btn" class="glass-btn">${this.isLit() ? 'Reflect / تأمل' : 'Light Candle / أشعل'}</button>
+            <button id="close-shrine" class="btn-text" style="margin-top: 1rem;">Close / إغلاق</button>
+            <style>
+                @keyframes flicker {
+                    0% { transform: scale(1); opacity: 0.9; }
+                    100% { transform: scale(1.1); opacity: 1; }
+                }
+            </style>
+        `;
+
+        document.body.appendChild(modal);
+
+        modal.querySelector('#light-btn').onclick = () => {
+            if (!this.isLit()) {
+                this.lightCandle();
+                modal.querySelector('.flame').style.display = 'block';
+                modal.querySelector('#light-btn').innerText = 'Reflect / تأمل';
+            }
+        };
+
+        modal.querySelector('#close-shrine').onclick = () => modal.remove();
+    }
+
+    isLit() {
+        // Check if lit today
+        const today = new Date().toDateString();
+        return this.litCandles.includes(today);
+    }
+
+    lightCandle() {
+        const today = new Date().toDateString();
+        this.litCandles.push(today);
+        localStorage.setItem('soulGuidance_litCandles', JSON.stringify(this.litCandles));
+        showNotification("May this light guide your path.", "success");
+    }
+}
+
+new CandleManager();
 /* --- PHASE 83: CREATION CRIES --- */
 class NatureSounds {
     constructor() { this.init(); }
@@ -6961,8 +7197,146 @@ class RaptureManager {
     }
 }
 
+
+class PrayerRequestManager {
+    constructor() {
+        this.btn = document.getElementById('finalPrayerBtn');
+        this.init();
+    }
+
+    init() {
+        if (!this.btn) return;
+        this.btn.addEventListener('click', () => this.openModal());
+    }
+
+    openModal() {
+        // Create Modal Elements
+        const modal = document.createElement('div');
+        modal.className = 'modal active';
+        modal.style.display = 'flex';
+        modal.style.zIndex = '10000';
+
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 500px; text-align: center;">
+                <span class="close-modal" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                <h3 style="color: var(--primary-gold); margin-bottom: 1rem;">🙏 Prayer Request</h3>
+                <p>Share your intention. We will pray for you.</p>
+                <textarea id="prayer-text-input" placeholder="Type your prayer here..." style="width: 100%; height: 120px; margin: 1rem 0; padding: 1rem; border-radius: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--primary-gold);"></textarea>
+                <button id="submit-prayer-btn" class="btn btn-primary">Send Prayer</button>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Focus
+        setTimeout(() => document.getElementById('prayer-text-input').focus(), 100);
+
+        // Bind Submit
+        document.getElementById('submit-prayer-btn').addEventListener('click', () => {
+            const btn = document.getElementById('submit-prayer-btn');
+            const input = document.getElementById('prayer-text-input');
+
+            if (!input.value.trim()) {
+                input.style.borderColor = 'red';
+                return;
+            }
+
+            // Simulate Sending
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Amen';
+                btn.style.background = '#4CAF50';
+                btn.style.borderColor = '#4CAF50';
+
+                setTimeout(() => {
+                    modal.remove();
+                    this.showToast('Your prayer has been received. Amen.');
+                }, 1000);
+            }, 1500);
+        });
+
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
+    }
+
+    showToast(msg) {
+        const toast = document.createElement('div');
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.background = 'var(--primary-gold)';
+        toast.style.color = '#000';
+        toast.style.padding = '1rem 2rem';
+        toast.style.borderRadius = '50px';
+        toast.style.fontWeight = 'bold';
+        toast.style.zIndex = '10001';
+        toast.style.boxShadow = '0 0 20px rgba(255, 215, 0, 0.5)';
+        toast.innerText = msg;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    }
+}
+
+// Global Notification System
+window.showNotification = function (msg, type = 'success') {
+    const toast = document.createElement('div');
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px';
+    toast.style.left = '50%';
+    toast.style.transform = 'translateX(-50%)';
+
+    // Color coding
+    if (type === 'success') {
+        toast.style.background = 'var(--primary-gold)';
+        toast.style.color = '#000';
+    } else if (type === 'warning') {
+        toast.style.background = '#ff9800';
+        toast.style.color = '#000';
+    } else if (type === 'error') {
+        toast.style.background = '#f44336';
+        toast.style.color = '#fff';
+    } else {
+        toast.style.background = 'var(--primary-purple-deep)';
+        toast.style.color = '#fff';
+    }
+
+    toast.style.padding = '1rem 2rem';
+    toast.style.borderRadius = '50px';
+    toast.style.fontWeight = 'bold';
+    toast.style.zIndex = '10001';
+    toast.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    toast.innerText = msg;
+
+    document.body.appendChild(toast);
+
+    // Animate In
+    requestAnimationFrame(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(-10px)';
+    });
+
+    // Animate Out
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(0)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+};
+
 // Init New Modules
 document.addEventListener('DOMContentLoaded', () => {
     new MemoryTrainer();
     new RaptureManager();
+    new PrayerRequestManager();
 });

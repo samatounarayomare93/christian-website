@@ -1,0 +1,32 @@
+/* YELLOW KILLER CSS - The Nuclear Option */
+body,
+html {
+    background-color: #050010 !important;
+    /* Deep Purple Void */
+}
+
+section,
+footer,
+div,
+.contact,
+#contact,
+.contact-section {
+    background-color: transparent !important;
+}
+
+/* Re-apply specific backgrounds only to cards that need it */
+.contact-card {
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Ensure no gold bleed from ::before/::after */
+*::before,
+*::after {
+    box-shadow: none !important;
+}
+
+/* Fix specific known offenders if they exist */
+.section-badge {
+    background: rgba(255, 215, 0, 0.15) !important;
+    /* Keep badge gold but transparent */
+}
