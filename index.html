@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إرشاد الروح | Ultimate Soul Guidance</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
     <!-- Advanced SEO Meta Tags -->
     <meta name="description"
@@ -23,9 +24,18 @@
     <meta name="ICBM" content="33.8547, 35.8623">
 
     <!-- Website Verification -->
-    <!-- Website Verification -->
-    <!-- <meta name="google-site-verification" content="VERIFICATION_CODE"> -->
-    <!-- <meta name="msvalidate.01" content="VERIFICATION_CODE"> -->
+    <!-- <meta name="google-site-verification" content="Verification_Code" /> -->
+
+    <!-- Google Analytics 4 (GA4) - Uncomment and add your ID -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    -->
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -263,6 +273,7 @@
                                     onclick="window.soulGuidanceSanctuary.toggleTrack('rain')"><i
                                         class="fas fa-cloud-rain"></i></div>
                                 <input type="range" class="track-slider" min="0" max="100" value="0"
+                                    aria-label="Rain Volume"
                                     oninput="window.soulGuidanceSanctuary.setVolume('rain', this.value)">
                             </div>
                             <div class="mixer-track">
@@ -270,6 +281,7 @@
                                     onclick="window.soulGuidanceSanctuary.toggleTrack('chant')"><i
                                         class="fas fa-music"></i></div>
                                 <input type="range" class="track-slider" min="0" max="100" value="0"
+                                    aria-label="Chant Volume"
                                     oninput="window.soulGuidanceSanctuary.setVolume('chant', this.value)">
                             </div>
                             <div class="mixer-track">
@@ -277,6 +289,7 @@
                                     onclick="window.soulGuidanceSanctuary.toggleTrack('fire')"><i
                                         class="fas fa-fire-alt"></i></div>
                                 <input type="range" class="track-slider" min="0" max="100" value="0"
+                                    aria-label="Fire Volume"
                                     oninput="window.soulGuidanceSanctuary.setVolume('fire', this.value)">
                             </div>
                         </div>
@@ -1859,7 +1872,8 @@
 
 
 
-        <section class="section" id="contact">
+        <section class="section" id="contact"
+            style="background: linear-gradient(135deg, rgba(10, 10, 20, 0.95), rgba(30, 20, 40, 0.95)) !important;">
             <div class="container">
                 <div class="section-header" data-aos="fade-up">
                     <div class="section-badge">تواصل معنا</div>
@@ -1900,7 +1914,7 @@
         </section>
 
         <!-- CELESTIAL OBSERVATORY -->
-        <div id="observatory-section" data-aos="fade-up">
+        <section class="section" id="observatory-section" data-aos="fade-up">
             <div id="constellation-canvas-container">
                 <canvas id="constellation-canvas"></canvas>
             </div>
@@ -1910,22 +1924,23 @@
                 <p class="section-subtitle" style="text-shadow: 0 0 10px black;">Explore the Saints. Hover
                     over the stars.</p>
             </div>
-            <!-- VIRTUE & SILENCE -->
-            <div id="virtue-section" data-aos="fade-up">
-                <h2 class="section-title"><i class="fas fa-seedling"></i> Garden of Virtues</h2>
-                <p class="section-subtitle">Click a card to cultivate a virtue for today.</p>
+        </section>
 
-                <div class="virtue-grid" id="virtue-grid">
-                    <!-- Populated by JS -->
-                </div>
+        <!-- VIRTUE & SILENCE -->
+        <section class="section" id="virtue-section" data-aos="fade-up">
+            <h2 class="section-title"><i class="fas fa-seedling"></i> Garden of Virtues</h2>
+            <p class="section-subtitle">Click a card to cultivate a virtue for today.</p>
 
-                <div style="text-align: center; margin-top: 3rem;">
-                    <button class="btn btn-outline-gold" onclick="window.soulGuidanceSilence.enterSilence()">
-                        <i class="fas fa-volume-mute"></i> Enter the Chapel of Silence
-                    </button>
-                </div>
+            <div class="virtue-grid" id="virtue-grid">
+                <!-- Populated by JS -->
             </div>
-            </section>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="btn btn-outline-gold" onclick="window.soulGuidanceSilence.enterSilence()">
+                    <i class="fas fa-volume-mute"></i> Enter the Chapel of Silence
+                </button>
+            </div>
+        </section>
     </main>
 
     <!-- Silence Overlay -->

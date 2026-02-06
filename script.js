@@ -11,13 +11,15 @@ window.soulGuidanceButtons = {
 document.addEventListener('DOMContentLoaded', function () {
     // STARTUP BLOCKER
     window.isSiteLoading = true;
-    console.log('🔒 Startup Block Active: Prevented Popups');
+    // console.log('🔒 Startup Block Active: Prevented Popups');
     setTimeout(() => {
         window.isSiteLoading = false;
-        console.log('🔓 Startup Block Lifted: Popups allowed');
+        // console.log('🔓 Startup Block Lifted: Popups allowed');
     }, 5000);
 
-    console.log('🚀 DOM Content Loaded - Initializing website...');
+
+
+    // console.log('🚀 DOM Content Loaded - Initializing website...');
 
     try {
         // Initialize AOS if available
