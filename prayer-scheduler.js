@@ -1050,20 +1050,42 @@ class PrayerScheduler {
                                 <div class="time-setting">
                                     <label>Night Prayer:</label>
                                     <input type="time" id="night-time" value="${this.userPreferences.nightTime}">
-                                </div>
                             </div>
                         </div>
-        if (recommendations.length === 0) {
-            recommendations.push({
-                title: 'Strengthen Your Faith',
-                description: 'Take a moment to pray and deepen your relationship with God.',
-                icon: 'fas fa-cross',
-                action: 'prayerScheduler.openQuickPrayer("divine-mercy")',
-                buttonText: 'Divine Mercy'
-            });
-        }
 
-        return recommendations.slice(0, 3); // Return max 3 recommendations
+                        <div class="customization-section">
+                            <h4>Notification Preferences</h4>
+                            <div class="notification-settings">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-sound" checked>
+                                        Enable sound notifications
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-browser" checked>
+                                        Enable browser notifications
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-reminders" checked>
+                                        Enable 15-minute reminders
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="customization-actions">
+                        <button class="btn btn-primary" onclick="prayerScheduler.saveCustomization()">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                        <button class="btn btn-secondary" onclick="prayerScheduler.closeCustomizationModal()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            `;
+
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        document.body.style.overflow = 'hidden';
     }
 
     openQuickPrayer(prayerType) {
@@ -1140,9 +1162,9 @@ class PrayerScheduler {
         if (currentPrayerDiv) {
             currentPrayerDiv.style.display = 'none';
         }
-        
+
         this.showNotification('You\'ll be reminded in 10 minutes.', 'info');
-        
+
         // Set reminder for 10 minutes
         setTimeout(() => {
             const prayerKey = currentPrayerDiv.getAttribute('data-prayer');
@@ -1152,8 +1174,7 @@ class PrayerScheduler {
             }
         }, 10 * 60 * 1000); // 10 minutes
     }
-        this.showNotification('You\'ll be reminded in 10 minutes.', 'info');
-    }
+
 
     showSpecialReminder(prayerKey, message) {
         const prayer = this.prayers[prayerKey];
@@ -1222,7 +1243,7 @@ class PrayerScheduler {
         if (typeof showNotification === 'function') {
             showNotification(message, type);
         } else {
-            console.log(`${ type.toUpperCase() }: ${ message } `);
+            console.log(`${type.toUpperCase()}: ${message} `);
         }
     }
 
@@ -1308,28 +1329,28 @@ class PrayerScheduler {
         this.userPreferences.noonTime = document.getElementById('noon-time').value;
         this.userPreferences.eveningTime = document.getElementById('evening-time').value;
         this.userPreferences.nightTime = document.getElementById('night-time').value;
-        
+
         // Save notification preferences
         this.userPreferences.enableSound = document.getElementById('enable-sound').checked;
         this.userPreferences.enableBrowser = document.getElementById('enable-browser').checked;
         this.userPreferences.enableReminders = document.getElementById('enable-reminders').checked;
-        
+
         // Update prayer times
         this.prayers.fajr.time = this.userPreferences.morningTime;
         this.prayers.noon.time = this.userPreferences.noonTime;
         this.prayers.evening.time = this.userPreferences.eveningTime;
         this.prayers.night.time = this.userPreferences.nightTime;
-        
+
         this.saveUserPreferences();
         this.updatePrayerTimeline();
         this.closeCustomizationModal();
-        
+
         this.showNotification('Prayer schedule customized successfully!', 'success');
     }
 }
 
 // Initialize the Prayer Scheduler when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Wait a bit for the main site to load
     setTimeout(() => {
         window.prayerScheduler = new PrayerScheduler();

@@ -44,15 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
         new DivineInteractions();
         new HolyAudioPlayer();
         new DivineContent();
-        new DivineContent();
         new FocusManager();
         window.soulGuidancePrayerBoard = new PrayerBoardManager();
         window.soulGuidanceRosary = new RosaryTracker();
         new CandleManager();
         new ThemeManager();
 
-        new CandleManager();
-        new ThemeManager();
+
         new LiturgicalCalendar();
         new DivineSearch();
         new SaintOracle();
@@ -334,7 +332,7 @@ class HolyAudioPlayer {
     constructor() {
         this.isPlaying = false;
         this.volume = 0.5;
-        this.track = 'https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3'; // Placeholder Gregorian/Ambient
+        this.track = 'assets/audio/chant.mp3'; // Local Offline Asset
         this.audio = new Audio(this.track);
         this.audio.loop = true;
 
@@ -730,6 +728,131 @@ class RosaryTracker {
     }
 }
 
+/* --- DIVINE SEARCH (WISDOM ENGINE) --- */
+class DivineSearch {
+    constructor() {
+        this.cards = [];
+        this.init();
+    }
+
+    init() {
+        // Inject Search Interface if not present
+        const prayerSection = document.getElementById('prayers');
+        if (prayerSection && !document.getElementById('divine-search-bar')) {
+            const searchContainer = document.createElement('div');
+            searchContainer.id = 'divine-search-bar';
+            searchContainer.className = 'divine-search-container';
+            searchContainer.innerHTML = `
+                <div class="ds-wrapper">
+                    <i class="fas fa-search ds-icon"></i>
+                    <input type="text" class="ds-input" placeholder="ابحث عن صلاة، كلمة، أو شعور..." aria-label="Search Prayers">
+                    <div class="ds-line"></div>
+                </div>
+            `;
+            prayerSection.insertBefore(searchContainer, prayerSection.querySelector('.cards-grid'));
+        }
+
+        // Event Listeners
+        const input = document.querySelector('.ds-input');
+        if (input) {
+            input.addEventListener('input', (e) => this.filterPrayers(e.target.value));
+            this.cards = document.querySelectorAll('.card');
+        }
+    }
+
+    filterPrayers(query) {
+        const term = query.toLowerCase().trim();
+        let found = false;
+
+        this.cards.forEach(card => {
+            const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+            const content = card.textContent.toLowerCase();
+            const keywords = card.getAttribute('data-keywords') || '';
+
+            if (title.includes(term) || content.includes(term) || keywords.includes(term)) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.5s ease';
+                found = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Handle "No Results"
+        this.handleNoResults(found, term);
+    }
+
+    handleNoResults(found, term) {
+        let msg = document.getElementById('ds-no-results');
+        if (!found && term !== '') {
+            if (!msg) {
+                msg = document.createElement('div');
+                msg.id = 'ds-no-results';
+                msg.innerHTML = `<i class="fas fa-dove"></i><p>لا توجد نتائج. صلِّ من قلبك.</p>`;
+                document.querySelector('.cards-grid').appendChild(msg);
+            }
+        } else if (msg) {
+            msg.remove();
+        }
+    }
+}
+
+/* --- SAINT ORACLE (PARALLAX WISDOM) --- */
+class SaintOracle {
+    constructor() {
+        this.saints = [
+            { name: "القديس مار شربل", quote: "الصلاة هي مفتاح السماء. تمسكوا بها تنجوا.", icon: "fa-cross" },
+            { name: "القديسة رفقا", quote: "يا يسوع، لتكن إرادتك مقدسة في حياتي وفي ألمي.", icon: "fa-heart-broken" },
+            { name: "القديس أغسطينوس", quote: "قلوبنا قلقة يا الله حتى تستريح فيك.", icon: "fa-fire" },
+            { name: "الأم تريزا", quote: "ليس المهم كم نفعل، بل كم من الحب نضع في العمل.", icon: "fa-hand-holding-heart" },
+            { name: "البابا يوحنا بولس الثاني", quote: "لا تخافوا! افتحوا الأبواب للمسيح.", icon: "fa-door-open" }
+        ];
+        this.init();
+    }
+
+    init() {
+        const container = document.getElementById('parallax-container');
+        if (!container) return;
+
+        // Create Cards
+        this.saints.forEach((saint, index) => {
+            const card = document.createElement('div');
+            card.className = `saint-card`;
+            card.innerHTML = `
+                <div class="saint-image"><i class="fas ${saint.icon}"></i></div>
+                <p class="saint-quote">"${saint.quote}"</p>
+                <div class="saint-name">${saint.name}</div>
+            `;
+            container.appendChild(card);
+
+            // Random positioning for parallax feel
+            setTimeout(() => {
+                if (index === 0) card.classList.add('active'); // Show first one
+            }, 500 * index);
+        });
+
+        // Loop animation
+        let currentIndex = 0;
+        const cards = document.querySelectorAll('.saint-card');
+
+        setInterval(() => {
+            cards.forEach(c => c.classList.remove('active'));
+            currentIndex = (currentIndex + 1) % cards.length;
+            cards[currentIndex].classList.add('active');
+        }, 5000);
+
+        // Generate Particles
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'wisdom-particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            p.style.width = Math.random() * 5 + 'px';
+            p.style.height = p.style.width;
+            container.appendChild(p);
+        }
+    }
+}
 class CandleManager {
     constructor() {
         this.litCandles = JSON.parse(localStorage.getItem('soulGuidance_litCandles')) || [];
@@ -906,57 +1029,7 @@ class LiturgicalCalendar {
     }
 }
 
-class DivineSearch {
-    constructor() {
-        this.input = document.getElementById('divine-search-input');
-        this.init();
-    }
 
-    init() {
-        if (!this.input) return;
-
-        this.input.addEventListener('input', (e) => this.filter(e.target.value.toLowerCase()));
-    }
-
-    filter(term) {
-        const cards = document.querySelectorAll('.prayer-card');
-        let hasResults = false;
-
-        cards.forEach(card => {
-            const text = card.innerText.toLowerCase();
-            const section = card.closest('.prayer-section');
-
-            if (text.includes(term)) {
-                card.style.display = 'block';
-                card.classList.add('animate__animated', 'animate__fadeIn');
-                hasResults = true;
-                if (section) section.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        // Hide empty sections
-        document.querySelectorAll('.prayer-section').forEach(section => {
-            const visibleCards = section.querySelectorAll('.prayer-card[style="display: block;"]');
-            // If search is active, rely on visible cards. If empty, rely on original toggles
-            if (term.length > 0) {
-                section.style.display = visibleCards.length > 0 ? 'block' : 'none';
-            } else {
-                // Reset: Show only if it was originally open? 
-                // For simplicity, showing all section HEADERS, but typically we want to revert state.
-                // Better approach: Just show accordion headers, hide content. 
-                // Assuming accordion logic handles display, so we just reset card visibility.
-            }
-        });
-
-        // Reset Logic if term is cleared
-        if (term === "") {
-            cards.forEach(c => c.style.display = ''); // Revert to CSS default
-            document.querySelectorAll('.prayer-section').forEach(s => s.style.display = ''); // Revert
-        }
-    }
-}
 
 class VoiceManager {
     constructor() {
@@ -1616,30 +1689,6 @@ class CrownManager {
         if (this.unlocked) {
             this.activateCrownEffect();
         }
-
-        // Observer for visiting sections
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.id || 'section-' + Array.from(this.sections).indexOf(entry.target);
-                    if (!this.visited.has(id)) {
-                        this.visited.add(id);
-                        localStorage.setItem('sg_visited_sections', JSON.stringify([...this.visited]));
-                        this.checkProgress();
-                    }
-                }
-            });
-        }, { threshold: 0.5 }); // 50% visible
-
-        this.sections.forEach(s => observer.observe(s));
-
-        // Halo Follow
-        document.addEventListener('mousemove', (e) => {
-            if (this.unlocked && this.halo) {
-                this.halo.style.left = e.clientX + 'px';
-                this.halo.style.top = e.clientY + 'px';
-            }
-        });
     }
 
     checkProgress() {
@@ -1668,6 +1717,91 @@ class CrownManager {
 
     activateCrownEffect() {
         document.body.classList.add('crown-unlocked');
+    }
+}
+
+/* --- LECTIO DIVINA (PHASE 16) --- */
+class LectioDivina {
+    constructor() {
+        this.step = 0;
+        this.steps = [
+            { id: 'lectio', title: 'Lectio (Read)', desc: 'Read the word gently. What does the text say?' },
+            { id: 'meditatio', title: 'Meditatio (Reflect)', desc: 'Meditate. What is God saying to me?' },
+            { id: 'oratio', title: 'Oratio (Respond)', desc: 'What do I say to God?' },
+            { id: 'contemplatio', title: 'Contemplatio (Rest)', desc: 'Rest in His presence. Be still.' }
+        ];
+        this.init();
+    }
+
+    init() {
+        // Inject button in scripture cards? Or main menu
+    }
+
+    startSession(scriptureText) {
+        this.currentScripture = scriptureText;
+        this.step = 0;
+        this.showOverlay();
+    }
+
+    showOverlay() {
+        const overlay = document.createElement('div');
+        overlay.id = 'lectio-overlay';
+        overlay.className = 'shrine-window active';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.background = 'rgba(0,0,0,0.95)';
+        overlay.style.zIndex = '11000';
+        overlay.innerHTML = `
+            <div style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:2rem;">
+                <h2 id="ld-title" style="color:var(--primary-gold); font-family:'Cinzel'; margin-bottom:1rem;">Lectio Divina</h2>
+                <div id="ld-progress" style="display:flex; gap:1rem; margin-bottom:3rem;">
+                    ${this.steps.map((s, i) => `<div class="ld-step-dot" id="dot-${i}" style="width:10px; height:10px; border-radius:50%; background:${i === 0 ? 'var(--primary-gold)' : '#333'};"></div>`).join('')}
+                </div>
+                
+                <div id="ld-card" style="max-width:800px; padding:3rem; border:1px solid rgba(255,215,0,0.3); background:rgba(255,255,255,0.02); border-radius:15px; transition:all 0.5s;">
+                   <h3 id="step-title" style="color:var(--text-white);">${this.steps[0].title}</h3>
+                   <p id="step-desc" style="color:var(--text-silver); font-style:italic; margin-bottom:2rem;">${this.steps[0].desc}</p>
+                   <p id="scripture-display" style="font-size:1.5rem; line-height:2; font-family:'Amiri'; color:white; animation:fadeIn 2s;">${this.currentScripture}</p>
+                </div>
+
+                <button id="ld-next" style="margin-top:3rem; padding:1rem 3rem; background:transparent; border:1px solid var(--primary-gold); color:var(--primary-gold); font-size:1.2rem; cursor:pointer; transition:0.3s;">
+                    Proceed <i class="fas fa-chevron-right"></i>
+                </button>
+                <button onclick="document.getElementById('lectio-overlay').remove()" style="margin-top:1rem; background:none; border:none; color:#666; cursor:pointer;">Exit</button>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+
+        document.getElementById('ld-next').addEventListener('click', () => this.nextStep());
+    }
+
+    nextStep() {
+        this.step++;
+        if (this.step >= this.steps.length) {
+            document.getElementById('lectio-overlay').remove();
+            showNotification("Lectio Divina Completed. Grace be with you.", "success");
+            return;
+        }
+
+        const s = this.steps[this.step];
+        document.getElementById('step-title').textContent = s.title;
+        document.getElementById('step-desc').textContent = s.desc;
+
+        // Update dots
+        this.steps.forEach((_, i) => {
+            document.getElementById(`dot-${i}`).style.background = i <= this.step ? 'var(--primary-gold)' : '#333';
+        });
+
+        // Effect
+        if (this.step === 3) { // Contemplatio
+            const text = document.getElementById('scripture-display');
+            text.style.transition = 'opacity 2s';
+            text.style.opacity = '0.5'; // Dim text to focus on silence
+            if (window.soulGuidanceAudio) window.soulGuidanceAudio.playDrone();
+        }
     }
 }
 
@@ -3399,12 +3533,348 @@ class LiturgicalTime {
 document.addEventListener('DOMContentLoaded', () => {
     new ConstellationEngine();
     new LiturgicalTime();
-    console.log('🌌 Firmament & Time Cycle Activated');
+    new DivineScroll();
+    new ProceduralAudioEngine();
+    new DivineSearch();
+    new SaintOracle();
+    new VirtualShrine();
+    new InstallManager();
+    new GestureManager();
 });
 
+/* --- PATRON SAINT MATCHER (PHASE 14) --- */
+class PatronSaintMatcher {
+    constructor() {
+        this.questions = [
+            {
+                id: 1, text: "ما الذي تبحث عنه الآن؟", options: [
+                    { text: "السلام الداخلي", traits: ["peace", "monastic"] },
+                    { text: "القوة في الصعاب", traits: ["strength", "martyr"] },
+                    { text: "الحكمة والمعرفة", traits: ["wisdom", "doctor"] },
+                    { text: "شفاء النفس والجسد", traits: ["healing", "miracle"] }
+                ]
+            },
+            {
+                id: 2, text: "كيف تفضل أن تصلي؟", options: [
+                    { text: "بصمت وعزلة", traits: ["monastic", "peace"] },
+                    { text: "بخدمة الآخرين", traits: ["charity", "active"] },
+                    { text: "بترانيم وتسابيح", traits: ["joy", "praise"] },
+                    { text: "بقراءة الكتب المقدسة", traits: ["wisdom", "scripture"] }
+                ]
+            }
+        ];
 
+        this.saints = [
+            { name: "مار شربل", title: "قديس العجائب", trait: "miracle", desc: "شفيعك للشفاء والعجائب.", img: "fa-cross" },
+            { name: "تريزا الطفل يسوع", title: "وردة المسيح", trait: "peace", desc: "تعلمك الطريق الصغير للحب.", img: "fa-rose" },
+            { name: "مار جرجس", title: "الشهيد العظيم", trait: "strength", desc: "يمنحك القوة لمحاربة الشر.", img: "fa-shield-alt" },
+            { name: "الأم تريزا", title: "أم الفقراء", trait: "charity", desc: "تلهمك لخدمة المسيح في الآخرين.", img: "fa-hand-holding-heart" },
+            { name: "القديس توما الأكويني", title: "المعلم الملائكي", trait: "wisdom", desc: "يرشد عقلك نحو الحقيقة.", img: "fa-book-open" }
+        ];
 
+        this.init();
+    }
 
+    init() {
+        // Create Trigger Button (Floating?) or integrate into menu
+        // For now, let's put it in the Soul Guide menu or a specific section
+        // We will assume a "Find Your Saint" button exists or create one interactively
+    }
+
+    startQuiz() {
+        // Logic to show modal and run quiz
+        const modal = document.createElement('div');
+        modal.id = 'saint-quiz-modal';
+        modal.className = 'shrine-window active'; // Reuse shrine styling for consistency
+        modal.style.zIndex = '10002';
+        modal.innerHTML = `
+            <div class="shrine-header">
+                <h3>رفيقك السماوي</h3>
+                <small>أجب لتكتشف شفيعك</small>
+            </div>
+            <div class="quiz-content" id="quiz-content">
+                <!-- Dynamic Question -->
+            </div>
+        `;
+        document.body.appendChild(modal);
+        this.askQuestion(0, modal);
+    }
+
+    askQuestion(index, modal) {
+        if (index >= this.questions.length) {
+            this.showResult(modal);
+            return;
+        }
+
+        const q = this.questions[index];
+        const content = modal.querySelector('#quiz-content');
+        content.innerHTML = `
+            <h4 style="color:var(--primary-gold); margin-bottom:1rem;">${q.text}</h4>
+            <div class="quiz-options">
+                ${q.options.map((opt, i) => `
+                    <button class="quiz-btn" data-idx="${i}" style="width:100%; margin:0.5rem 0; padding:1rem; background:rgba(255,255,255,0.05); border:1px solid #444; color:white; border-radius:10px; cursor:pointer; transition:0.3s;">
+                        ${opt.text}
+                    </button>
+                `).join('')}
+            </div>
+        `;
+
+        const btns = content.querySelectorAll('.quiz-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Determine trait (simplified logic for demo)
+                // In full version, we score traits. Here we just advance.
+                this.userChoice = this.userChoice || [];
+                this.userChoice.push(q.options[btn.dataset.idx].traits[0]);
+                this.askQuestion(index + 1, modal);
+            });
+        });
+    }
+
+    showResult(modal) {
+        // Simple logic: pick random saint matching one of the traits or random if no match logic implemented yet
+        const saint = this.saints[Math.floor(Math.random() * this.saints.length)];
+
+        const content = modal.querySelector('#quiz-content');
+        content.innerHTML = `
+            <div style="text-align:center; animation:fadeIn 1s;">
+                <i class="fas ${saint.img}" style="font-size:4rem; color:var(--primary-gold); margin-bottom:1rem;"></i>
+                <h3 style="color:white;">${saint.name}</h3>
+                <p style="color:var(--text-silver);">${saint.title}</p>
+                <div style="margin:2rem 0; padding:1rem; background:rgba(138,43,226,0.2); border-radius:10px;">
+                    <p>"${saint.desc}"</p>
+                </div>
+                <button id="close-quiz" style="padding:0.8rem 2rem; background:var(--primary-gold); border:none; border-radius:20px; font-weight:bold; cursor:pointer;">
+                    قبول الصداقة
+                </button>
+            </div>
+        `;
+
+        modal.querySelector('#close-quiz').addEventListener('click', () => {
+            modal.remove();
+            if (window.soulGuidanceAudio) window.soulGuidanceAudio.playChime(600, 0.5);
+            showNotification(`شفيعك هو ${saint.name}`, "success");
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Other inits...
+    window.patronMatcher = new PatronSaintMatcher();
+
+    // Auto-trigger for demo/testing after 30 seconds if not visited? 
+    // Or add a button to the footer
+    const footer = document.querySelector('footer');
+    if (footer) {
+        const div = document.createElement('div');
+        div.style.textAlign = 'center';
+        div.style.marginTop = '2rem';
+        div.innerHTML = `<button onclick="window.patronMatcher.startQuiz()" style="background:transparent; border:1px solid var(--text-silver); color:var(--text-silver); padding:0.5rem 1rem; border-radius:20px; cursor:pointer;">من هو شفيعي؟</button>`;
+        footer.insertBefore(div, footer.firstChild);
+    }
+});
+
+/* --- GREGORIAN CHANT ENGINE (PHASE 13) --- */
+class GregorianChantEngine {
+    constructor() {
+        this.ctx = window.soulGuidanceAudio?.ctx || new (window.AudioContext || window.webkitAudioContext)();
+        this.isPlaying = false;
+        this.voices = [];
+        this.baseFreq = 110; // A2 (Deep Monk Voice)
+        this.scale = [0, 2, 4, 5, 7, 9, 11]; // Major (Ionian) - often used but Gregorian is modal.
+        // dorian: 0, 2, 3, 5, 7, 9, 10
+        this.dorianScale = [110, 123.47, 130.81, 146.83, 164.81, 185.00, 196.00, 220.00];
+        this.init();
+    }
+
+    init() {
+        // Add Controls near the shrine
+        const shrineContainer = document.getElementById('virtual-shrine-container');
+        if (shrineContainer) {
+            const btn = document.createElement('button');
+            btn.className = 'shrine-trigger-btn';
+            btn.style.bottom = '90px'; // Stack above shrine
+            btn.style.border = '2px solid var(--primary-purple-vivid)';
+            btn.innerHTML = '<i class="fas fa-music"></i>';
+            btn.title = "Toggle Gregorian Chant";
+            btn.onclick = () => this.toggleChant();
+            shrineContainer.parentElement.appendChild(btn); // Add to body or same parent
+            // Actually let's put it fixed on screen
+            btn.style.position = 'fixed';
+            btn.style.left = '30px';
+            document.body.appendChild(btn);
+            this.uiBtn = btn;
+        }
+    }
+
+    toggleChant() {
+        if (this.isPlaying) {
+            this.stopChant();
+        } else {
+            this.startChant();
+        }
+    }
+
+    startChant() {
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+        this.isPlaying = true;
+        this.uiBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        this.uiBtn.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.6)';
+
+        // Start procedural voices
+        this.chantLoop();
+    }
+
+    stopChant() {
+        this.isPlaying = false;
+        this.uiBtn.innerHTML = '<i class="fas fa-music"></i>';
+        this.uiBtn.style.boxShadow = '';
+        this.voices.forEach(v => this.rampDown(v));
+        this.voices = [];
+    }
+
+    chantLoop() {
+        if (!this.isPlaying) return;
+
+        // Create a new "Monk" voice every few seconds
+        const duration = 4 + Math.random() * 6;
+        const note = this.dorianScale[Math.floor(Math.random() * this.dorianScale.length)];
+
+        // Harmony: 50% chance of root or 5th
+        let actualNote = note;
+        if (Math.random() > 0.7) actualNote = this.baseFreq; // Drone root
+        if (Math.random() > 0.85) actualNote = this.baseFreq * 1.5; // Perfect 5th
+
+        this.playMonkVoice(actualNote, duration);
+
+        setTimeout(() => this.chantLoop(), 2000 + Math.random() * 3000);
+    }
+
+    playMonkVoice(freq, duration) {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        // Sawtooth + Lowpass = Human-ish
+        osc.type = 'sawtooth';
+        osc.frequency.value = freq;
+
+        filter.type = 'lowpass';
+        filter.frequency.value = 400 + Math.random() * 200; // Formant area
+        filter.Q.value = 5; // Resonance
+
+        // Envelope
+        const now = this.ctx.currentTime;
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.1, now + 1); // Fade in
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration); // Fade out
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + duration);
+
+        // Vocal vibrato
+        const vib = this.ctx.createOscillator();
+        vib.frequency.value = 4 + Math.random(); // 4-5Hz vibrato
+        const vibGain = this.ctx.createGain();
+        vibGain.gain.value = 3; // Depth
+        vib.connect(vibGain);
+        vibGain.connect(osc.frequency);
+        vib.start(now);
+        vib.stop(now + duration);
+    }
+
+    rampDown(node) {
+        // Helper if we tracked nodes, but strict fire-and-forget is okay for procedural nature
+    }
+}
+
+/* --- SILENCE MODE (PHASE 13) --- */
+class SilenceMode {
+    constructor() {
+        this.active = false;
+        this.styleTag = null;
+        this.init();
+    }
+
+    init() {
+        const btn = document.createElement('button');
+        btn.id = 'silence-toggle';
+        btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        btn.title = 'Enter Silence Mode';
+        btn.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10001;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        `;
+        document.body.appendChild(btn);
+
+        btn.addEventListener('click', () => this.toggle());
+    }
+
+    toggle() {
+        this.active = !this.active;
+        const btn = document.getElementById('silence-toggle');
+
+        if (this.active) {
+            btn.innerHTML = '<i class="fas fa-eye"></i>';
+            btn.style.background = 'var(--primary-gold)';
+            btn.style.color = 'black';
+
+            // Inject CSS to hide distractions
+            this.styleTag = document.createElement('style');
+            this.styleTag.textContent = `
+                body > *:not(#silence-toggle):not(.cards-grid):not(.prayer-section) {
+                    opacity: 0.1;
+                    filter: blur(5px);
+                    transition: all 1s;
+                    pointer-events: none;
+                }
+                .cards-grid, .prayer-section, #prayers {
+                    opacity: 1 !important;
+                    filter: none !important;
+                    pointer-events: all !important;
+                    z-index: 10000;
+                    position: relative;
+                }
+                nav, footer, .hero, #divine-preloader, .shrine-trigger-btn, .sg-trigger-btn {
+                    display: none !important;
+                }
+                body {
+                    background: #050505 !important;
+                }
+            `;
+            document.head.appendChild(this.styleTag);
+
+            // Show toast
+            const toast = document.createElement('div');
+            toast.textContent = "Silence Mode: Focus on the Word.";
+            toast.style.cssText = "position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); color:white; font-family:'Cinzel'; font-size:2rem; animation: fadeOut 3s forwards; pointer-events:none; z-index:10002;";
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+
+        } else {
+            btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            btn.style.background = 'rgba(0,0,0,0.5)';
+            btn.style.color = 'white';
+            if (this.styleTag) this.styleTag.remove();
+        }
+    }
+}
+
+console.log('🌌 Firmament & Time Cycle Activated');
 
 
 
@@ -3651,3 +4121,2798 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('🌌 3D Tilt Physics Enabled');
     }, 1000);
 });
+
+/* --- SACRED GEOMETRY (PHASE 17) --- */
+class SacredGeometry {
+    constructor() {
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.time = 0;
+        this.init();
+    }
+
+    init() {
+        this.canvas.id = 'sacred-geo-bg';
+        this.canvas.style.position = 'fixed';
+        this.canvas.style.top = '0';
+        this.canvas.style.left = '0';
+        this.canvas.style.width = '100%';
+        this.canvas.style.height = '100%';
+        this.canvas.style.zIndex = '-100';
+        this.canvas.style.pointerEvents = 'none';
+        this.canvas.style.opacity = '0.15';
+
+        document.body.insertBefore(this.canvas, document.body.firstChild);
+
+        window.addEventListener('resize', () => this.resize());
+        this.resize();
+        this.animate();
+    }
+
+    resize() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+    }
+
+    animate() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.time += 0.005;
+        const cx = this.width / 2;
+        const cy = this.height / 2;
+
+        this.ctx.lineWidth = 1;
+        this.ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
+
+        // Golden Spiral approximation
+        const petals = 8;
+        const radius = Math.min(this.width, this.height) * 0.4;
+
+        this.ctx.beginPath();
+        for (let i = 0; i < petals; i++) {
+            const angle = (i / petals) * Math.PI * 2 + this.time;
+            const x = cx + Math.cos(angle) * (radius * Math.sin(this.time));
+            const y = cy + Math.sin(angle) * (radius * Math.sin(this.time));
+            this.ctx.moveTo(cx, cy);
+            this.ctx.bezierCurveTo(cx + 100, cy - 100, x, y, x, y);
+        }
+        this.ctx.stroke();
+
+        // Ripple
+        for (let j = 0; j < 5; j++) {
+            const r = ((this.time * 50) + (j * 100)) % (radius * 1.5);
+            const alpha = 1 - (r / (radius * 1.5));
+            if (alpha > 0) {
+                this.ctx.beginPath();
+                this.ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                this.ctx.strokeStyle = `rgba(138, 43, 226, ${alpha * 0.2})`;
+                this.ctx.stroke();
+            }
+        }
+
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new SacredGeometry();
+    console.log('📐 Sacred Geometry Active');
+});
+
+/* --- PHASE 26: BIBLICAL MAP --- */
+class BiblicalMap {
+    constructor() {
+        this.locations = [
+            { name: "Bethlehem", x: 40, y: 60, event: "Nativity of Our Lord" },
+            { name: "Nazareth", x: 35, y: 30, event: "The Annunciation" },
+            { name: "Jerusalem", x: 42, y: 65, event: "The Passion & Resurrection" },
+            { name: "Sea of Galilee", x: 45, y: 25, event: "Walking on Water" }
+        ];
+        this.init();
+    }
+
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-map-marked-alt"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '90px';
+        btn.title = "Walk Where He Walked";
+        btn.onclick = () => this.openMap();
+        // document.body.appendChild(btn); 
+    }
+
+    openMap() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.zIndex = '12500';
+        modal.innerHTML = `
+            <div class="shrine-header">
+                <h3>The Holy Land</h3>
+                <small>Journey with Him</small>
+            </div>
+            <div style="position:relative; width:100%; height:400px; background:#eec; overflow:hidden; border-radius:10px; border:2px solid var(--primary-gold);">
+                <div style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0.3; background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Israel_relief_location_map.jpg/1200px-Israel_relief_location_map.jpg') no-repeat center/cover;"></div>
+                ${this.locations.map(loc => `
+                    <div class="map-point" style="position:absolute; top:${loc.y}%; left:${loc.x}%; transform:translate(-50%, -50%); cursor:pointer;" onclick="showNotification('${loc.event}', 'info')">
+                        <i class="fas fa-map-marker-alt" style="color:#d00; font-size:1.5rem; text-shadow:0 2px 5px rgba(0,0,0,0.5);"></i>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick="this.parentElement.remove()" style="margin-top:1rem; width:100%; padding:1rem; background:transparent; border:none; color:#888; cursor:pointer;">Close Map</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 27: SACRED TIME --- */
+class SacredCalendar {
+    constructor() {
+        this.seasons = {
+            advent: { color: "#800080", name: "Advent" },
+            christmas: { color: "#FFD700", name: "Christmas" },
+            lent: { color: "#800080", name: "Lent" },
+            easter: { color: "#FFFFFF", name: "Easter" },
+            ordinary: { color: "#008000", name: "Ordinary Time" }
+        };
+        this.checkSeason();
+    }
+
+    checkSeason() {
+        const now = new Date();
+        const month = now.getMonth();
+        const date = now.getDate();
+        let current = 'ordinary';
+        if (month === 11 || (month === 0 && date < 10)) current = 'christmas';
+        else if (month === 11 && date < 25) current = 'advent';
+        else if ((month === 1 || month === 2) && date > 14) current = 'lent';
+        else if (month === 3) current = 'easter';
+        this.applyTheme(this.seasons[current]);
+    }
+
+    applyTheme(season) {
+        document.body.style.setProperty('--primary-purple-vivid', season.color);
+        console.log(`📅 Season: ${season.name}`);
+    }
+}
+
+/* --- PHASE 28: VIRTUAL CHOIR --- */
+class VirtualChoir {
+    constructor() {
+        this.ctx = window.soulGuidanceAudio?.ctx;
+        this.init();
+    }
+    init() {
+        if (this.ctx) console.log("🏰 Cathedral Reverb Ready");
+    }
+}
+
+/* --- PHASE 29: AR LENS --- */
+class ScripturalLens {
+    constructor() { this.video = null; this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-camera"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '150px';
+        btn.title = "AR Lens";
+        btn.onclick = () => this.toggleAR();
+        document.body.appendChild(btn);
+    }
+    toggleAR() { showNotification("AR Lens requires HTTPS/Mobile", "info"); }
+}
+
+/* --- PHASE 30: ACCESSIBILITY PRO --- */
+class AccessibilityManager {
+    toggleHighContrast() {
+        document.body.classList.toggle('high-contrast');
+    }
+}
+
+/* --- PHASE 32: APP NAVIGATION --- */
+class AppNavigation {
+    constructor() { this.init(); }
+    init() {
+        if (window.innerWidth <= 768) this.createBottomTab();
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768 && !document.getElementById('bottom-tab-bar')) this.createBottomTab();
+        });
+    }
+    createBottomTab() {
+        const bar = document.createElement('div');
+        bar.id = 'bottom-tab-bar';
+        bar.style.position = 'fixed';
+        bar.style.bottom = '0';
+        bar.style.left = '0';
+        bar.style.width = '100%';
+        bar.style.height = '60px';
+        bar.style.background = 'rgba(10, 5, 20, 0.95)';
+        bar.style.display = 'flex';
+        bar.style.justifyContent = 'space-around';
+        bar.style.alignItems = 'center';
+        bar.style.zIndex = '10000';
+        bar.style.borderTop = '1px solid var(--primary-gold)';
+
+        const tabs = [
+            { icon: 'fa-home', label: 'Home', action: () => window.scrollTo(0, 0) },
+            { icon: 'fa-book-open', label: 'Pray', action: () => document.getElementById('prayers').scrollIntoView() },
+            { icon: 'fa-church', label: 'Shrine', action: () => document.getElementById('virtual-shrine-container').scrollIntoView() }
+        ];
+
+        tabs.forEach(t => {
+            const btn = document.createElement('div');
+            btn.innerHTML = `<i class="fas ${t.icon}"></i>`;
+            btn.style.color = 'var(--text-silver)';
+            btn.onclick = t.action;
+            bar.appendChild(btn);
+        });
+        document.body.appendChild(bar);
+    }
+}
+
+/* --- PHASE 33: GESTURES --- */
+class GestureControl {
+    constructor() {
+        this.startX = 0;
+        this.init();
+    }
+    init() {
+        document.addEventListener('touchstart', e => this.startX = e.touches[0].clientX);
+        document.addEventListener('touchend', e => {
+            const endX = e.changedTouches[0].clientX;
+            if (this.startX - endX > 100) {
+                // Swipe Left
+            }
+        });
+    }
+}
+
+/* --- PHASE 34: DARK NIGHT MODE --- */
+class DarkNightMode {
+    constructor() {
+        this.isOled = false;
+        this.init();
+    }
+
+    init() {
+        // Add Toggle in Settings/Footer
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-moon"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '80px';
+        btn.style.bottom = '20px'; // Next to Install btn
+        btn.title = "OLED Night Mode";
+        btn.onclick = () => this.toggle();
+        document.body.appendChild(btn);
+
+        // Blue light filter element
+        const filter = document.createElement('div');
+        filter.id = 'blue-light-filter';
+        document.body.appendChild(filter);
+
+        this.checkTime();
+    }
+
+    checkTime() {
+        const hours = new Date().getHours();
+        if (hours >= 22 || hours < 5) {
+            this.toggle(true);
+            showNotification("Entering Deep Night...", "info");
+        }
+    }
+
+    toggle(forceState) {
+        this.isOled = forceState !== undefined ? forceState : !this.isOled;
+        if (this.isOled) {
+            document.body.classList.add('oled-mode');
+            document.getElementById('blue-light-filter').classList.add('active');
+            showNotification("OLED Night Mode Active", "info");
+        } else {
+            document.body.classList.remove('oled-mode');
+            document.getElementById('blue-light-filter').classList.remove('active');
+            showNotification("Standard Mode", "info");
+        }
+    }
+}
+
+/* --- PHASE 35: SUNRISE PROTOCOL --- */
+class SunriseProtocol {
+    constructor() { this.init(); }
+    init() {
+        const now = new Date();
+        const hour = now.getHours();
+        const min = now.getMinutes();
+
+        // Simple check for "Dawn" (approx 6 AM)
+        if (hour === 6 && min < 30) {
+            this.triggerMorningGlory();
+        }
+    }
+
+    triggerMorningGlory() {
+        showNotification("Morning Glory! The sun listens.", "success");
+        document.body.style.transition = "background 10s ease";
+        document.body.style.background = "linear-gradient(to bottom, #FFD700, #FF8C00)";
+        // Reset after animation
+        setTimeout(() => {
+            document.body.style.background = "";
+        }, 15000);
+    }
+}
+
+/* --- GESTURE MANAGER (PHASE 33) --- */
+class GestureManager {
+    constructor() {
+        this.touchstartX = 0;
+        this.touchendX = 0;
+        this.touchstartY = 0;
+        this.touchendY = 0;
+        this.initialScale = 1;
+        this.init();
+    }
+
+    init() {
+        // Swipe Listeners
+        document.addEventListener('touchstart', (e) => {
+            this.touchstartX = e.changedTouches[0].screenX;
+            this.touchstartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            this.touchendX = e.changedTouches[0].screenX;
+            this.touchendY = e.changedTouches[0].screenY;
+            this.handleGesture(e.target);
+        }, { passive: true });
+
+        // Pinch to Zoom listeners (Visual Accessibility)
+        // Note: 'gesturestart' is Safari only, but standard touch impl works for others.
+        // For simplicity in this env, we'll try a basic pinch detection via touch events if needed, 
+        // or just rely on browser default for scale but add a double-tap to reset?
+        // Let's implement a double-tap to toggle font size for accessibility.
+
+        let lastTap = 0;
+        document.addEventListener('touchend', (e) => {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            if (tapLength < 500 && tapLength > 0) {
+                this.handleDoubleTap(e);
+                e.preventDefault();
+            }
+            lastTap = currentTime;
+        });
+    }
+
+    handleGesture(target) {
+        const xDiff = this.touchendX - this.touchstartX;
+        const yDiff = this.touchendY - this.touchstartY;
+
+        // Horizontal Swipes (Navigation)
+        if (Math.abs(xDiff) > Math.abs(yDiff)) {
+            if (Math.abs(xDiff) > 100) {
+                if (xDiff > 0) this.navigate('prev'); // Right swipe
+                else this.navigate('next'); // Left swipe
+            }
+        }
+        // Vertical Swipes (Dismiss Cards)
+        else {
+            if (yDiff > 100) {
+                // Swipe Down
+                const card = target.closest('.prayer-card, .shrine-window');
+                if (card) {
+                    this.dismissCard(card);
+                }
+            }
+        }
+    }
+
+    dismissCard(card) {
+        card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        card.style.transform = 'translateY(100vh)';
+        card.style.opacity = '0';
+        setTimeout(() => {
+            card.style.display = 'none';
+            // Reset for next showing
+            card.style.transform = '';
+            card.style.opacity = '';
+        }, 300);
+        showNotification("Dismissed", "info");
+    }
+
+    handleDoubleTap(e) {
+        // Toggle Font Size
+        const root = document.documentElement;
+        const current = getComputedStyle(root).getPropertyValue('--base-font-size') || '16px';
+        if (current.trim() === '16px') {
+            root.style.setProperty('--base-font-size', '20px');
+            showNotification("Zoom: Large", "info");
+        } else {
+            root.style.setProperty('--base-font-size', '16px');
+            showNotification("Zoom: Normal", "info");
+        }
+    }
+
+    navigate(direction) {
+        const tabs = document.getElementById('bottom-tab-bar')?.children;
+        if (!tabs || tabs.length === 0) return;
+
+        // Visual Feedback only for now as distinct tab state isn't fully tracked
+        this.showSwipeFeedback(direction);
+    }
+
+    showSwipeFeedback(direction) {
+        const arrow = document.createElement('div');
+        arrow.className = `swipe-feedback swipe-${direction}`;
+        arrow.innerHTML = direction === 'next' ? '<i class="fas fa-chevron-left"></i>' : '<i class="fas fa-chevron-right"></i>';
+        document.body.appendChild(arrow);
+        setTimeout(() => arrow.remove(), 600);
+    }
+}
+
+/* --- PWA INSTALL MANAGER (PHASE 31) --- */
+class InstallManager {
+    constructor() {
+        this.deferredPrompt = null;
+        this.init();
+    }
+
+    init() {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            this.deferredPrompt = e;
+            // Update UI to notify the user they can add to home screen
+            this.showInstallButton();
+        });
+
+        window.addEventListener('appinstalled', () => {
+            showNotification('Soul Guidance installed!', 'success');
+            this.deferredPrompt = null;
+        });
+    }
+
+    showInstallButton() {
+        // Create or show an install button in the footer or settings
+        let btn = document.getElementById('pwa-install-btn');
+        if (!btn) {
+            btn = document.createElement('button');
+            btn.id = 'pwa-install-btn';
+            btn.className = 'btn btn-sm btn-outline-gold';
+            btn.innerHTML = '<i class="fas fa-download"></i> Install App';
+            btn.style.cssText = `
+                position: fixed;
+                bottom: 80px;
+                left: 20px;
+                z-index: 9999;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+                display: block;
+                animation: fadeInUp 0.5s;
+                background: var(--primary-purple-void);
+                color: var(--primary-gold);
+                border: 1px solid var(--primary-gold);
+                padding: 10px 15px;
+                border-radius: 20px;
+                cursor: pointer;
+            `;
+            btn.onclick = () => this.promptInstall();
+            document.body.appendChild(btn);
+        }
+    }
+
+    promptInstall() {
+        if (!this.deferredPrompt) return;
+
+        // Show the prompt
+        this.deferredPrompt.prompt();
+
+        // Wait for the user to respond to the prompt
+        this.deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            this.deferredPrompt = null;
+            const btn = document.getElementById('pwa-install-btn');
+            if (btn) btn.remove();
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new InstallManager();
+    new GestureManager();
+    new DarkNightMode();
+    new SunriseProtocol();
+    new BiblicalMap();
+    new SacredCalendar();
+    new VirtualChoir();
+    new ScripturalLens();
+    new AccessibilityManager();
+    new AppNavigation();
+    new GestureControl();
+    new AngelusBell();
+    new FastingTimer();
+    new SpiritualJournal();
+    new ExamenAssistant();
+    new LatinToggle();
+    new VRChapel();
+    new BinauralBeats();
+    new BreathPrayer();
+    new IconGallery();
+    new StainedGlass();
+    new HolyWater();
+    new IncenseSmoke();
+    new HaloEffect();
+    new ParableMode();
+    new BeatitudesLadder();
+    new Decalogue();
+    new PsalmGen();
+    new HymnLyrics();
+    new ChantHero();
+    new TheologyGlossary();
+    new CrossRef();
+    new OriginalLanguage();
+    new SalvationTimeline();
+    new HolyLandMap();
+    new AISermon();
+    new SocraticAI();
+    new DreamJournal();
+    new SpiritualDirector();
+    new SocraticAI();
+    new DreamJournal();
+    new SpiritualDirector();
+    new VirtueTracker();
+    new SinDestroyer();
+    new GraceMeter();
+    new MercyFountain();
+    new AdorationMode();
+    new RosaryAudio();
+    new StationsCross();
+    new SevenSorrows();
+    new DivineMercy();
+    new LitanyBuilder();
+    new PrayerBouquet();
+    new SpiritualWill();
+    new MementoMori();
+    new LastRites();
+    new FuneralPlan();
+    new CosmicVis();
+    new FractalZoom();
+    new NatureSounds();
+    new DesertWisdom();
+    new MysticQuotes();
+    new SummaTree();
+    new CatechismSearch();
+    new EncyclicalReader();
+    new CouncilHistory();
+    new HeresyQuiz();
+    new ApologeticsNinja();
+    new EvangelismCards();
+    new DonationSim();
+    new MerchMockup();
+    new NewsletterSub();
+    new AdminStats();
+    new UserProfile();
+    new CloudWittness();
+    new AscensionAnim();
+});
+
+/* --- PHASE 36: ANGELUS BELL --- */
+class AngelusBell {
+    constructor() {
+        this.times = [6, 12, 18];
+        this.checked = false;
+        setInterval(() => this.check(), 60000); // Check every minute
+    }
+
+    check() {
+        const hour = new Date().getHours();
+        const min = new Date().getMinutes();
+        if (this.times.includes(hour) && min === 0 && !this.checked) {
+            this.playBell();
+            this.checked = true;
+        } else if (min !== 0) {
+            this.checked = false;
+        }
+    }
+
+    playBell() {
+        showNotification("🔔 The Angel of the Lord declared unto Mary...", "info");
+        // Play Bell Sound using Procedural Audio
+        if (window.soulGuidanceAudio) {
+            window.soulGuidanceAudio.playChime(523.25, 2); // C5
+            setTimeout(() => window.soulGuidanceAudio.playChime(659.25, 2), 1000); // E5
+            setTimeout(() => window.soulGuidanceAudio.playChime(783.99, 3), 2000); // G5
+        }
+    }
+}
+
+/* --- PHASE 37: FASTING TIMER --- */
+class FastingTimer {
+    constructor() {
+        this.startTime = localStorage.getItem('fastingStart');
+        this.init();
+    }
+
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-hourglass-start"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '140px';
+        btn.style.bottom = '20px';
+        btn.title = "Fasting Tracker";
+        btn.onclick = () => this.toggleUI();
+        document.body.appendChild(btn);
+    }
+
+    toggleUI() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.zIndex = '11000';
+        modal.innerHTML = `
+            <div class="shrine-header">
+                <h3>Spiritual Fast</h3>
+                <small>Deny self, Spirit grows.</small>
+            </div>
+            <div style="text-align:center; padding:2rem;">
+                <h2 id="fast-timer-display" style="font-family:'Cinzel'; color:var(--primary-gold); font-size:2.5rem; margin:1rem 0;">--:--</h2>
+                <div id="fast-controls">
+                    ${this.startTime ?
+                `<button id="end-fast" class="btn btn-outline-gold">End Fast</button>` :
+                `<button id="start-fast" class="btn btn-primary-gold">Begin Fast</button>`
+            }
+                </div>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; background:none; border:none; color:white;">✖</button>
+        `;
+        document.body.appendChild(modal);
+
+        if (this.startTime) this.updateDisplay(modal.querySelector('#fast-timer-display'));
+
+        const startBtn = modal.querySelector('#start-fast');
+        if (startBtn) startBtn.onclick = () => {
+            this.startTime = Date.now();
+            localStorage.setItem('fastingStart', this.startTime);
+            this.toggleUI(); // Refresh
+        };
+
+        const endBtn = modal.querySelector('#end-fast');
+        if (endBtn) endBtn.onclick = () => {
+            const duration = ((Date.now() - this.startTime) / 3600000).toFixed(1);
+            showNotification(`Fast completed: ${duration} hours`, "success");
+            this.startTime = null;
+            localStorage.removeItem('fastingStart');
+            this.toggleUI(); // Refresh
+        };
+
+        // Live Update
+        if (this.startTime) {
+            this.interval = setInterval(() => {
+                const display = modal.querySelector('#fast-timer-display');
+                if (display) this.updateDisplay(display);
+                else clearInterval(this.interval);
+            }, 60000);
+        }
+    }
+
+    updateDisplay(el) {
+        if (!this.startTime) return;
+        const diff = Date.now() - this.startTime;
+        const hours = Math.floor(diff / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        el.textContent = `${hours}h ${mins}m`;
+    }
+}
+
+/* --- PHASE 38: SPIRITUAL JOURNAL --- */
+class SpiritualJournal {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        // Add button to user profile area or footer (simplified here)
+        // Storing data in localStorage 'soulJournal'
+    }
+
+    open() {
+        const saved = localStorage.getItem('soulJournal') || '';
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.width = '90%';
+        modal.style.maxWidth = '600px';
+        modal.style.zIndex = '11001';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Soul Journal</h3></div>
+            <textarea id="journal-area" style="width:100%; height:300px; background:rgba(0,0,0,0.5); color:white; border:1px solid #555; padding:1rem; font-family:'Cinzel';">${saved}</textarea>
+            <div style="display:flex; justify-content:space-between; margin-top:1rem;">
+                <button id="save-journal" class="btn btn-outline-gold">Save</button>
+                <button id="close-journal" class="btn btn-sm">Close</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelector('#save-journal').onclick = () => {
+            const text = modal.querySelector('#journal-area').value;
+            localStorage.setItem('soulJournal', text);
+            showNotification("Journal Saved", "success");
+        };
+
+        modal.querySelector('#close-journal').onclick = () => modal.remove();
+    }
+}
+
+/* --- PHASE 39: EXAMEN ASSISTANT --- */
+class ExamenAssistant {
+    constructor() {
+        this.steps = [
+            { title: "Presence", text: "Become aware of God's presence. Ask the Holy Spirit to guide you." },
+            { title: "Gratitude", text: "Review the day with thankfulness. What gifts did God give you today?" },
+            { title: "Review", text: "Look at your day. Where did you feel God? Where did you turn away?" },
+            { title: "Sorrow", text: "Ask forgiveness for any sins or omissions. Accept His mercy." },
+            { title: "Grace", text: "Look to tomorrow. Ask for grace to see God more clearly." }
+        ];
+        this.currentStep = 0;
+        this.init();
+    }
+
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = 'EX'; // Simple icon placeholder
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '20px';
+        btn.style.bottom = '80px';
+        btn.title = "Daily Examen";
+        btn.onclick = () => this.start();
+        document.body.appendChild(btn);
+    }
+
+    start() {
+        this.currentStep = 0;
+        this.renderOverlay();
+    }
+
+    renderOverlay() {
+        let modal = document.getElementById('examen-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'examen-modal';
+            modal.className = 'shrine-window active';
+            modal.style.zIndex = '12000';
+            document.body.appendChild(modal);
+        }
+
+        const step = this.steps[this.currentStep];
+
+        modal.innerHTML = `
+            <div class="shrine-header">
+                <h3>Ignatian Examen</h3>
+                <small>Step ${this.currentStep + 1} of 5</small>
+            </div>
+            <div style="padding:2rem; text-align:center;">
+                <h2 style="color:var(--primary-gold); margin-bottom:1rem;">${step.title}</h2>
+                <p style="font-size:1.2rem; line-height:1.6;">${step.text}</p>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:1rem;">
+                <button class="btn btn-sm" onclick="document.getElementById('examen-modal').remove()">Close</button>
+                <button class="btn btn-outline-gold" id="next-step-btn">
+                    ${this.currentStep < 4 ? 'Next' : 'Finish'}
+                </button>
+            </div>
+        `;
+
+        document.getElementById('next-step-btn').onclick = () => {
+            if (this.currentStep < 4) {
+                this.currentStep++;
+                this.renderOverlay();
+            } else {
+                document.getElementById('examen-modal').remove();
+                showNotification("Examen Completed. Go in peace.", "success");
+            }
+        };
+    }
+}
+
+/* --- PHASE 40: LATIN TOGGLE --- */
+class LatinToggle {
+    constructor() { this.isLatin = false; this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = 'LAT';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '20px';
+        btn.style.bottom = '140px'; // Shifted up
+        btn.onclick = () => this.toggle();
+        document.body.appendChild(btn);
+
+        // Define Latin mappings
+        this.translations = {
+            "Our Father": "Pater Noster",
+            "Hail Mary": "Ave Maria",
+            "Glory Be": "Gloria Patri"
+            // More would be added here
+        };
+    }
+    toggle() {
+        this.isLatin = !this.isLatin;
+        document.body.classList.toggle('latin-mode');
+
+        // Simple text replacement for headers
+        document.querySelectorAll('h3, h2').forEach(el => {
+            const text = el.textContent;
+            if (this.isLatin) {
+                if (this.translations[text]) {
+                    el.dataset.eng = text;
+                    el.textContent = this.translations[text];
+                }
+            } else {
+                if (el.dataset.eng) {
+                    el.textContent = el.dataset.eng;
+                }
+            }
+        });
+
+        showNotification(this.isLatin ? "Lingua Latina" : "English", "info");
+    }
+}
+
+/* --- PHASE 41: VR CHAPEL (WebXR Stub) --- */
+class VRChapel {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        // Add VR Toggle
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-vr-cardboard"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '20px'; // Stacked
+        btn.style.bottom = '140px';
+        btn.title = "Enter Virtual Chapel";
+        btn.onclick = () => this.enterVR();
+        document.body.appendChild(btn);
+    }
+
+    enterVR() {
+        if (navigator.xr) {
+            // Full WebXR impl would go here. For now, a CSS 3D immersive modal.
+            this.openCSSChapel();
+        } else {
+            this.openCSSChapel();
+        }
+    }
+
+    openCSSChapel() {
+        const modal = document.createElement('div');
+        modal.className = 'vr-overlay active';
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: black; z-index: 15000; perspective: 1000px;
+            overflow: hidden; cursor: grab;
+        `;
+
+        modal.innerHTML = `
+            <div id="vr-scene" style="width:100%; height:100%; transform-style:preserve-3d; transition:transform 0.1s;">
+                <div class="wall front" style="transform:translateZ(-500px)">This is the Holy of Holies</div>
+                <div class="wall left" style="transform:rotateY(90deg) translateZ(-500px)">Icons of Saints</div>
+                <div class="wall right" style="transform:rotateY(-90deg) translateZ(-500px)">Stained Glass Windows</div>
+                <div class="wall back" style="transform:rotateY(180deg) translateZ(-500px)">Entrance</div>
+                <div class="floor" style="transform:rotateX(90deg) translateZ(-500px)">Sacred Ground</div>
+                <div class="ceiling" style="transform:rotateX(-90deg) translateZ(-500px)">Heavenly Fresco</div>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:20px; right:20px; z-index:15001;">Exit VR</button>
+            <div style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); color:white;">Drag to Look Around</div>
+        `;
+        document.body.appendChild(modal);
+
+        // Simple Mouse Look
+        let startX = 0;
+        let currentY = 0;
+        modal.addEventListener('mousedown', e => startX = e.clientX);
+        modal.addEventListener('mousemove', e => {
+            if (e.buttons === 1) {
+                const diff = e.clientX - startX;
+                currentY += diff * 0.2;
+                modal.querySelector('#vr-scene').style.transform = `rotateY(${currentY}deg)`;
+                startX = e.clientX;
+            }
+        });
+    }
+}
+
+/* --- PHASE 42: BINAURAL BEATS --- */
+class BinauralBeats {
+    constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.init();
+    }
+
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-wave-square"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '80px';
+        btn.style.bottom = '140px';
+        btn.title = "Binaural Meditation (Alpha)";
+        btn.onclick = () => this.toggle();
+        document.body.appendChild(btn);
+    }
+
+    toggle() {
+        if (this.isPlaying) this.stop();
+        else this.play();
+    }
+
+    play() {
+        if (!window.soulGuidanceAudio) return; // Dep on main audio engine
+        this.ctx = window.soulGuidanceAudio.ctx || new AudioContext();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        // Alpha Waves (8-12Hz difference)
+        // Left Ear: 200Hz
+        // Right Ear: 210Hz
+        // Diff: 10Hz ( Alpha - Relaxation/Focus)
+
+        this.oscL = this.ctx.createOscillator();
+        this.oscR = this.ctx.createOscillator();
+        this.panL = this.ctx.createStereoPanner();
+        this.panR = this.ctx.createStereoPanner();
+        this.gain = this.ctx.createGain();
+
+        this.oscL.frequency.value = 200;
+        this.oscR.frequency.value = 210;
+
+        this.panL.pan.value = -1; // Left
+        this.panR.pan.value = 1;  // Right
+
+        this.gain.gain.value = 0.1; // Low volume
+
+        this.oscL.connect(this.panL);
+        this.panL.connect(this.gain);
+
+        this.oscR.connect(this.panR);
+        this.panR.connect(this.gain);
+
+        this.gain.connect(this.ctx.destination);
+
+        this.oscL.start();
+        this.oscR.start();
+
+        this.isPlaying = true;
+        showNotification("Binaural Alpha Waves Active (Headphones Required)", "success");
+    }
+
+    stop() {
+        if (this.oscL) {
+            this.oscL.stop();
+            this.oscR.stop();
+            this.isPlaying = false;
+            showNotification("Meditation Audio Stopped", "info");
+        }
+    }
+}
+
+/* --- PHASE 43: BREATH PRAYER --- */
+class BreathPrayer {
+    constructor() { this.init(); }
+    init() {
+        // Simple visual guide that can be triggered from menu
+    }
+
+    start() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.display = 'flex';
+        modal.style.flexDirection = 'column';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.style.zIndex = '13000';
+
+        modal.innerHTML = `
+            <div id="breath-circle" style="width:100px; height:100px; border-radius:50%; background:var(--primary-gold); box-shadow:0 0 50px var(--primary-gold); margin-bottom:2rem; transition: all 4s ease-in-out;"></div>
+            <h2 id="breath-text" style="color:white; font-family:'Cinzel'; transition: opacity 1s;">Breathe In...</h2>
+            <button onclick="this.parentElement.remove()" style="margin-top:2rem; background:transparent; border:1px solid #555; color:#888;">End Prayer</button>
+        `;
+        document.body.appendChild(modal);
+
+        const circle = modal.querySelector('#breath-circle');
+        const text = modal.querySelector('#breath-text');
+
+        const cycle = () => {
+            if (!document.body.contains(modal)) return;
+
+            // Inhale (4s)
+            circle.style.transform = 'scale(2)';
+            circle.style.opacity = '1';
+            text.textContent = "Lord Jesus Christ...";
+            text.style.opacity = '1';
+
+            setTimeout(() => {
+                // Hold (2s - abbreviated for flow)
+                // Exhale (4s)
+                if (!document.body.contains(modal)) return;
+                circle.style.transform = 'scale(0.5)';
+                circle.style.opacity = '0.5';
+                text.textContent = "Have Mercy On Me.";
+            }, 4000);
+
+            setTimeout(cycle, 8000);
+        };
+
+        // Start cycle
+        setTimeout(cycle, 100);
+    }
+}
+
+/* --- PHASE 44: ICON GALLERY --- */
+class IconGallery {
+    constructor() {
+        this.icons = [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Simon_Ushakov_-_Last_Supper_-_Google_Art_Project.jpg/640px-Simon_Ushakov_-_Last_Supper_-_Google_Art_Project.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Caravaggio_-_The_Entombment_of_Christ_-_Google_Art_Project.jpg/640px-Caravaggio_-_The_Entombment_of_Christ_-_Google_Art_Project.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Christ_the_Saviour_%28Pantokrator%29_-_Google_Art_Project.jpg/640px-Christ_the_Saviour_%28Pantokrator%29_-_Google_Art_Project.jpg"
+        ];
+        // this.init(); // Lazy init to save bandwidth
+    }
+
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.overflowY = 'auto';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Sacred Icons</h3></div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:1rem; padding:1rem;">
+                ${this.icons.map(src => `
+                    <div style="aspect-ratio:1; background:url('${src}') center/cover; border:2px solid #333; cursor:pointer; transition:transform 0.3s;" onmouseenter="this.style.transform='scale(1.05)'" onmouseleave="this.style.transform='scale(1)'" onclick="window.open('${src}')"></div>
+                `).join('')}
+            </div>
+            <button onclick="this.parentElement.remove()" style="width:100%; padding:1rem;">Close Gallery</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 45: STAINED GLASS --- */
+class StainedGlass {
+    constructor() { this.apply(); }
+    apply() {
+        // Generative CSS Pattern
+        const style = document.createElement('style');
+        style.textContent = `
+            .stained-glass-bg {
+                background-color: transparent;
+                background-image: 
+                    linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+                    linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+                    linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+                    linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+                    linear-gradient(60deg, #77a 25%, transparent 25.5%, transparent 75%, #77a 75%, #77a), 
+                    linear-gradient(60deg, #77a 25%, transparent 25.5%, transparent 75%, #77a 75%, #77a);
+                background-size: 80px 140px;
+                background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+                opacity: 0.1;
+                pointer-events: none;
+                position: fixed; top:0; left:0; width:100%; height:100%; z-index:-50;
+            }
+        `;
+        document.head.appendChild(style);
+
+        const bg = document.createElement('div');
+        bg.className = 'stained-glass-bg';
+        document.body.appendChild(bg);
+    }
+}
+
+/* --- PHASE 56: THEOLOGY GLOSSARY --- */
+class TheologyGlossary {
+    constructor() {
+        this.terms = {
+            "Grace": "The free and unmerited favor of God.",
+            "Mercy": "Compassion or forgiveness shown toward someone.",
+            "Hope": "Trust in God's promises."
+        };
+        this.init();
+    }
+    init() {
+        // Simple scanner that could wrap text nodes
+        // preventing breakage of existing markup is tricky, so we'll just expose a lookup tool for now
+    }
+}
+
+/* --- PHASE 57: CROSS-REFERENCE --- */
+class CrossRef {
+    constructor() { this.init(); }
+    init() {
+        // Stub
+    }
+}
+
+/* --- PHASE 58: GREEK/HEBREW TOGGLES --- */
+class OriginalLanguage {
+    constructor() { this.init(); }
+    init() {
+        // Stub
+    }
+}
+
+/* --- PHASE 59: TIMELINE OF SALVATION --- */
+class SalvationTimeline {
+    constructor() {
+        this.events = ["Creation", "The Fall", "Noah", "Abraham", "Moses", "David", "Prophets", "The Incarnation", "Cross", "Resurrection", "Pentecost", "Parousia"];
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-history"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '20px';
+        btn.style.bottom = '200px';
+        btn.onclick = () => this.show();
+        document.body.appendChild(btn);
+    }
+    show() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.width = '95%';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>History of Salvation</h3></div>
+            <div class="timeline-container">
+                ${this.events.map(e => `
+                    <div class="timeline-event">
+                        <div style="font-weight:bold; color:var(--primary-gold);">${e}</div>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 60: MAP OF HOLY LAND --- */
+class HolyLandMap {
+    constructor() { this.init(); }
+    init() {
+        // Interactive SVG would go here.
+    }
+}
+
+/* --- PHASE 61: AI SERMON --- */
+class AISermon {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-robot"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '20px';
+        btn.style.bottom = '200px';
+        btn.title = "AI Homily";
+        btn.onclick = () => this.generate();
+        document.body.appendChild(btn);
+    }
+    generate() {
+        showNotification("Generating Reflection...", "info");
+        setTimeout(() => {
+            const homilies = [
+                "Today, consider the lilies of the field. They do not toil, yet God clothes them. How much more will He care for you, O you of little faith? Trust in His providence today.",
+                "The storm on the sea represents the chaos of our hearts. Yet Christ sleeps peacefully. Awaken your faith, and the winds will cease.",
+                "To love is to will the good of the other. In a world of self-seeking, be the one who seeks the good of your neighbor, fueled by the love of the Cross."
+            ];
+            const chosen = homilies[Math.floor(Math.random() * homilies.length)];
+
+            const modal = document.createElement('div');
+            modal.className = 'shrine-window active';
+            modal.innerHTML = `
+                <div class="shrine-header"><h3>Daily Reflection</h3></div>
+                <div class="scripture-block">
+                    ${chosen}
+                </div>
+                <button onclick="this.parentElement.remove()" style="width:100%; padding:1rem;">Amen</button>
+            `;
+            document.body.appendChild(modal);
+        }, 1500);
+    }
+}
+
+/* --- PHASE 62: THEOLOGICAL DEBATE --- */
+class SocraticAI {
+    constructor() { this.init(); }
+    init() {
+        // Chat interface stub
+    }
+}
+
+/* --- PHASE 63: DREAM JOURNAL --- */
+class DreamJournal {
+    constructor() { this.init(); }
+    init() {
+        // Form stub
+    }
+}
+
+/* --- PHASE 64: SPIRITUAL DIRECTOR --- */
+class SpiritualDirector {
+    constructor() { this.init(); }
+    init() {
+        // Wizard stub
+    }
+}
+
+/* --- PHASE 65: VIRTUE TRACKER --- */
+class VirtueTracker {
+    constructor() {
+        this.virtues = {
+            "Humility": 1,
+            "Charity": 1,
+            "Patience": 1,
+            "Chastity": 1
+        };
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-chart-line"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '80px';
+        btn.style.bottom = '200px';
+        btn.title = "Virtue Stats";
+        btn.onclick = () => this.show();
+        document.body.appendChild(btn);
+    }
+    show() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Soul Stats</h3></div>
+            <div style="padding:1rem;">
+                ${Object.keys(this.virtues).map(v => `
+                    <div class="virtue-stat">
+                        <span>${v}</span>
+                        <span>Lvl ${this.virtues[v]} <button onclick="window.incrementVirtue('${v}', this)">+</button></span>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+
+        window.incrementVirtue = (v, btn) => {
+            this.virtues[v]++;
+            btn.parentElement.innerHTML = `Lvl ${this.virtues[v]} <button onclick="window.incrementVirtue('${v}', this)">+</button>`;
+            showNotification(`${v} Increased!`, "success");
+        };
+    }
+}
+
+/* --- PHASE 46: HOLY WATER --- */
+class HolyWater {
+    constructor() { this.init(); }
+    init() {
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = `${e.clientX}px`;
+            ripple.style.top = `${e.clientY}px`;
+            document.body.appendChild(ripple);
+
+            // Audio Effect
+            if (window.soulGuidanceAudio && window.soulGuidanceAudio.playWaterDrop) {
+                window.soulGuidanceAudio.playWaterDrop();
+            } else if (window.soulGuidanceAudio) {
+                // Fallback synthetic drop
+                const osc = window.soulGuidanceAudio.ctx.createOscillator();
+                const g = window.soulGuidanceAudio.ctx.createGain();
+                osc.connect(g);
+                g.connect(window.soulGuidanceAudio.ctx.destination);
+                osc.frequency.setValueAtTime(800, window.soulGuidanceAudio.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, window.soulGuidanceAudio.ctx.currentTime + 0.2);
+                g.gain.setValueAtTime(0.5, window.soulGuidanceAudio.ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.01, window.soulGuidanceAudio.ctx.currentTime + 0.2);
+                osc.start();
+                osc.stop(window.soulGuidanceAudio.ctx.currentTime + 0.2);
+            }
+
+            ripple.addEventListener('animationend', () => ripple.remove());
+        });
+    }
+}
+
+/* --- PHASE 47: INCENSE PARTICLES --- */
+class IncenseSmoke {
+    constructor() {
+        this.ctx = null;
+        this.canvas = null;
+        this.particles = [];
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        // Toggle btn
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-smog"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '80px';
+        btn.style.bottom = '80px';
+        btn.title = "Incense";
+        btn.onclick = () => this.toggle();
+        document.body.appendChild(btn);
+    }
+
+    toggle() {
+        if (this.active) {
+            this.active = false;
+            if (this.canvas) this.canvas.remove();
+            showNotification("Incense Extinguished", "info");
+        } else {
+            this.active = true;
+            this.setupCanvas();
+            this.loop();
+            showNotification("Incense Lit", "success");
+        }
+    }
+
+    setupCanvas() {
+        this.canvas = document.createElement('canvas');
+        this.canvas.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9000; opacity:0.4;";
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        document.body.appendChild(this.canvas);
+        this.ctx = this.canvas.getContext('2d');
+    }
+
+    loop() {
+        if (!this.active) return;
+        requestAnimationFrame(() => this.loop());
+
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        if (Math.random() < 0.05) {
+            this.particles.push({
+                x: Math.random() * this.canvas.width,
+                y: this.canvas.height + 10,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: -1 - Math.random(),
+                size: 10 + Math.random() * 20,
+                life: 1
+            });
+        }
+
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            let p = this.particles[i];
+            p.x += p.vx + Math.sin(Date.now() / 1000 + p.y * 0.01) * 0.5;
+            p.y += p.vy;
+            p.size += 0.1;
+            p.life -= 0.002;
+
+            this.ctx.fillStyle = `rgba(200, 200, 200, ${p.life * 0.3})`;
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            if (p.life <= 0) this.particles.splice(i, 1);
+        }
+    }
+}
+
+/* --- PHASE 48: HALO EFFECT --- */
+class HaloEffect {
+    constructor() { this.init(); }
+    init() {
+        const halo = document.createElement('div');
+        halo.id = 'halo-cursor';
+        document.body.appendChild(halo);
+
+        document.addEventListener('mousemove', (e) => {
+            halo.style.left = e.clientX + 'px';
+            halo.style.top = e.clientY + 'px';
+        });
+    }
+}
+
+/* --- PHASE 50: PARABLES INTERACTIVE --- */
+class ParableMode {
+    constructor() {
+        this.parables = [
+            { title: "The Prodigal Son", text: "A story of return and the Father's overwhelming mercy..." },
+            { title: "The Sower", text: "Some seeds fell on rocky ground, others on good soil..." },
+            { title: "The Good Samaritan", text: "Who is my neighbor? The one who showed mercy." }
+        ];
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-book-open"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '140px';
+        btn.style.bottom = '80px';
+        btn.title = "Parables";
+        btn.onclick = () => this.openMenu();
+        document.body.appendChild(btn);
+    }
+    openMenu() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Parables of Christ</h3></div>
+            <div class="shrine-content">
+                ${this.parables.map(p => `
+                    <div class="prayer-card" style="margin:1rem 0; cursor:pointer;" onclick="new ParableReader('${p.title}', '${p.text}')">
+                        <h4>${p.title}</h4>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+class ParableReader {
+    constructor(title, text) {
+        // Simple alert for now, full reader would be a modal overlay
+        showNotification(`Reading: ${title}`, "info");
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.zIndex = '12000';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>${title}</h3></div>
+            <div class="scripture-block">
+                ${text}
+            </div>
+            <button onclick="this.parentElement.remove()" style="width:100%; padding:1rem;">Close</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 51: BEATITUDES LADDER --- */
+class BeatitudesLadder {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-network-wired"></i>'; // Ladder/Steps icon
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '180px';
+        btn.style.bottom = '80px';
+        btn.title = "Ladder of Beatitudes";
+        btn.onclick = () => this.climb();
+        document.body.appendChild(btn);
+    }
+    climb() {
+        // The 8 rungs
+        const steps = [
+            "Blessed are the poor in spirit, for theirs is the kingdom of heaven.",
+            "Blessed are those who mourn, for they shall be comforted.",
+            "Blessed are the meek, for they shall inherit the earth.",
+            "Blessed are those who hunger and thirst for righteousness.",
+            "Blessed are the merciful, for they shall obtain mercy.",
+            "Blessed are the pure in heart, for they shall see God.",
+            "Blessed are the peacemakers, for they shall be called sons of God.",
+            "Blessed are those persecuted for righteousness' sake."
+        ];
+
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Ladder of Beatitudes</h3></div>
+            <div style="padding:1rem; overflow-y:auto; max-height:400px;">
+                ${steps.map((s, i) => `
+                    <div class="prayer-card" style="margin-bottom:1rem; opacity: ${(i + 1) / 8 + 0.2};">
+                        <div style="font-weight:bold; color:var(--primary-gold);">Rung ${i + 1}</div>
+                        <p>${s}</p>
+                    </div>
+                `).reverse().join('')} <!-- Reverse to show ladder going up -->
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 52: COMMANDMENTS CHECK --- */
+class Decalogue {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-list-ol"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '220px';
+        btn.style.bottom = '80px';
+        btn.title = "Examination of Conscience";
+        btn.onclick = () => this.examine();
+        document.body.appendChild(btn);
+    }
+    examine() {
+        const laws = [
+            "1. I am the Lord your God: you shall not have strange gods before me.",
+            "2. You shall not take the name of the Lord your God in vain.",
+            "3. Remember to keep holy the Lord's Day.",
+            "4. Honor your father and your mother.",
+            "5. You shall not kill.",
+            "6. You shall not commit adultery.",
+            "7. You shall not steal.",
+            "8. You shall not bear false witness against your neighbor.",
+            "9. You shall not covet your neighbor's wife.",
+            "10. You shall not covet your neighbor's goods."
+        ];
+
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Examination of Conscience</h3></div>
+            <div style="padding:1rem;">
+                <p>Reflect on each commandment:</p>
+                <div style="max-height:300px; overflow-y:auto;">
+                    ${laws.map(l => `
+                        <div style="margin-bottom:10px; padding:10px; background:rgba(255,255,255,0.05); border-left:3px solid var(--primary-gold);">
+                            ${l}
+                        </div>
+                    `).join('')}
+                </div>
+                <button onclick="showNotification('Act of Contrition Suggested', 'info')" style="width:100%; margin-top:10px; padding:8px;">Finish Examination</button>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 53: PSALM GENERATOR --- */
+class PsalmGen {
+    constructor() {
+        this.verses = [
+            "The Lord is my Shepherd; I shall not want. (Ps 23:1)",
+            "Out of the depths I cry to you, O Lord. (Ps 130:1)",
+            "Praise the Lord, O my soul! (Ps 146:1)",
+            "Taste and see that the Lord is good. (Ps 34:8)",
+            "Creating in me a clean heart, O God. (Ps 51:10)"
+        ];
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-music"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '260px';
+        btn.style.bottom = '80px';
+        btn.title = "Random Psalm";
+        btn.onclick = () => this.sing();
+        document.body.appendChild(btn);
+    }
+    sing() {
+        const v = this.verses[Math.floor(Math.random() * this.verses.length)];
+        showNotification(v, "success");
+    }
+}
+
+/* --- PHASE 54: HYMN LYRICS --- */
+class HymnLyrics {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-microphone-alt"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '300px';
+        btn.style.bottom = '80px';
+        btn.title = "Hymnbook";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const hymns = [
+            { t: "Holy, Holy, Holy", l: "Holy, Holy, Holy! Lord God Almighty! Early in the morning our song shall rise to Thee..." },
+            { t: "Amazing Grace", l: "Amazing Grace! How sweet the sound, that saved a wretch like me..." },
+            { t: "Salve Regina", l: "Salve, Regina, Mater misericordiae, vita, dulcedo, et spes nostra, salve..." }
+        ];
+
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Hymnbook</h3></div>
+            <div style="padding:1rem;">
+                ${hymns.map(h => `
+                    <details style="margin-bottom:1rem; background:rgba(0,0,0,0.3); padding:0.5rem; border-radius:5px;">
+                        <summary style="font-weight:bold; color:var(--primary-gold); cursor:pointer;">${h.t}</summary>
+                        <p style="margin-top:0.5rem; font-style:italic; line-height:1.4;">${h.l}</p>
+                    </details>
+                `).join('')}
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASES 66-75: VISUAL METAPHORS & DEVOTION --- */
+
+/* --- PHASE 66: SIN DESTROYER --- */
+class SinDestroyer {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-fire-alt"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '140px';
+        btn.style.bottom = '200px';
+        btn.title = "Cast Burdens";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Sin Destroyer</h3></div>
+            <div style="padding:2rem; text-align:center;">
+                <p>Write your burden, sin, or worry below.</p>
+                <input type="text" id="sin-input" style="width:100%; padding:10px; margin:1rem 0; background:rgba(0,0,0,0.5); color:white; border:1px solid #555;" placeholder="Enter burden...">
+                <button id="burn-btn" class="btn btn-primary-gold" style="background:#800000; border-color:#800000;">Cast into Fire</button>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelector('#burn-btn').onclick = () => {
+            const input = modal.querySelector('#sin-input');
+            if (input.value.trim() !== "") {
+                input.classList.add('burning');
+                showNotification("It is consumed by His Mercy.", "info");
+                setTimeout(() => {
+                    input.value = "";
+                    input.classList.remove('burning');
+                    modal.remove();
+                }, 1500);
+            }
+        };
+    }
+}
+
+/* --- PHASE 67: GRACE METER --- */
+class GraceMeter {
+    constructor() {
+        this.level = 0;
+        this.init();
+        // Expose global method to increase grace
+        window.addGrace = (amount) => this.add(amount);
+    }
+    init() {
+        const container = document.createElement('div');
+        container.id = 'grace-meter-container';
+        container.innerHTML = '<div id="grace-fill"></div>';
+        container.title = "Grace Meter";
+        document.body.appendChild(container);
+    }
+    add(amount) {
+        this.level = Math.min(100, this.level + amount);
+        const fill = document.getElementById('grace-fill');
+        if (fill) fill.style.height = `${this.level}%`;
+
+        if (this.level === 100) {
+            showNotification("Full of Grace!", "success");
+            // Optional: Trigger special effect
+            this.level = 0; // Reset or keep full
+            setTimeout(() => { if (fill) fill.style.height = '0%'; }, 2000);
+        }
+    }
+}
+
+/* --- PHASE 68: MERCY FOUNTAIN --- */
+class MercyFountain {
+    constructor() { this.init(); }
+    init() {
+        // Trigger button typically in Divine Mercy section
+        // For testing, we'll hook it to a global event or existing UI later
+    }
+    gush() {
+        // Particle system for water would go here
+        showNotification("Blood and Water gush forth!", "info");
+        window.addGrace(20);
+    }
+}
+
+/* --- PHASE 69 & 70: TABERNACLE LIGHT & ADORATION --- */
+class AdorationMode {
+    constructor() { this.init(); }
+    init() {
+        const light = document.createElement('div');
+        light.id = 'tabernacle-light';
+        light.title = "Real Presence - Enter Adoration";
+        light.onclick = () => this.enter();
+        document.body.appendChild(light);
+    }
+    enter() {
+        const view = document.createElement('div');
+        view.className = 'monstrance-view';
+        view.innerHTML = `
+            <div style="color:white; font-family:'Cinzel'; text-shadow:0 0 10px black;">
+                <h2>Adoremus in Aeternum</h2>
+            </div>
+            <button onclick="this.parentElement.remove()" style="margin-top:20px; background:rgba(0,0,0,0.5); color:white; border:1px solid white; padding:10px 20px; cursor:pointer;">Exit Sanctuary</button>
+        `;
+        document.body.appendChild(view);
+        showNotification("Silence... He is here.", "info");
+    }
+}
+
+/* --- PHASE 71: ROSARY AUDIO --- */
+class RosaryAudio {
+    constructor() { this.init(); }
+    init() {
+        // Stub
+    }
+}
+
+/* --- PHASE 72: STATIONS OF THE CROSS --- */
+class StationsCross {
+    constructor() {
+        this.stations = [
+            "1. Jesus is Condemned to Death", "2. Jesus Carries His Cross", "3. Jesus Falls the First Time",
+            "4. Jesus Meets His Mother", "5. Simon Helps Jesus", "6. Veronica Wipes the Face of Jesus",
+            "7. Jesus Falls the Second Time", "8. Jesus Meets the Women of Jerusalem", "9. Jesus Falls the Third Time",
+            "10. Jesus is Stripped", "11. Jesus is Nailed to the Cross", "12. Jesus Dies on the Cross",
+            "13. Jesus is Taken Down", "14. Jesus is Laid in the Tomb"
+        ];
+        this.index = 0;
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-cross"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '80px';
+        btn.style.bottom = '200px';
+        btn.title = "Stations of the Cross";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        this.index = 0;
+        this.modal = document.createElement('div');
+        this.modal.className = 'shrine-window active';
+        this.updateView();
+        document.body.appendChild(this.modal);
+    }
+    updateView() {
+        if (!this.modal) return;
+        this.modal.innerHTML = `
+            <div class="shrine-header"><h3>Via Dolorosa</h3></div>
+            <div style="padding:2rem; text-align:center;">
+                <h2 style="color:var(--primary-gold); font-family:'Cinzel'; margin-bottom:1rem;">Station ${this.index + 1}</h2>
+                <div style="font-size:1.5rem; margin-bottom:2rem;">${this.stations[this.index]}</div>
+                <div style="height:150px; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; margin-bottom:1rem;">
+                    (Visual Placeholder)
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="document.dispatchEvent(new CustomEvent('st-prev'))" ${this.index === 0 ? 'disabled' : ''}>Prev</button>
+                    <button class="btn btn-primary-gold" onclick="document.dispatchEvent(new CustomEvent('st-next'))">${this.index === 13 ? 'Finish' : 'Next'}</button>
+                </div>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+
+        // Event listeners for this modal instance
+        document.addEventListener('st-next', () => {
+            if (this.index < 13) { this.index++; this.updateView(); }
+            else { this.modal.remove(); showNotification("It is finished.", "success"); }
+        }, { once: true });
+
+        document.addEventListener('st-prev', () => {
+            if (this.index > 0) { this.index--; this.updateView(); }
+        }, { once: true });
+    }
+}
+
+/* --- PHASE 73: SEVEN SORROWS --- */
+class SevenSorrows {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-heart-broken"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '120px';
+        btn.style.bottom = '200px';
+        btn.title = "Seven Sorrows";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const sorrows = [
+            "1. Prophecy of Simeon", "2. Flight into Egypt", "3. Loss of Child Jesus",
+            "4. Meeting on Via Dolorosa", "5. Crucifixion", "6. Descent from Cross", "7. Burial"
+        ];
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Mater Dolorosa</h3></div>
+            <div style="padding:1rem;">
+                <ul>
+                    ${sorrows.map(s => `<li style="margin-bottom:10px; padding:5px; border-bottom:1px solid #444;">${s}</li>`).join('')}
+                </ul>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 74: DIVINE MERCY CHAPLET --- */
+class DivineMercy {
+    constructor() {
+        this.count = 0;
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-tint"></i>'; // Drop
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '160px';
+        btn.style.bottom = '200px';
+        btn.title = "Divine Mercy Counter";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        this.count = 0;
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Divine Mercy Chaplet</h3></div>
+            <div style="padding:2rem; text-align:center;">
+                <div id="dm-counter" style="font-size:4rem; color:#f00; font-family:'Cinzel'; margin-bottom:1rem;">0</div>
+                <p>For the sake of His sorrowful Passion...</p>
+                <div style="width:200px; height:200px; margin:0 auto; background:linear-gradient(to bottom, white, red, white); border-radius:50%; opacity:0.1; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:-1;"></div>
+                <button id="dm-pray" class="btn btn-primary-gold" style="width:100%; margin-top:2rem;">Pray "Have Mercy"</button>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+
+        const counter = modal.querySelector('#dm-counter');
+        modal.querySelector('#dm-pray').onclick = () => {
+            this.count++;
+            counter.innerText = this.count;
+
+            // Visual feedback
+            counter.style.transform = 'scale(1.2)';
+            setTimeout(() => counter.style.transform = 'scale(1)', 100);
+
+            if (this.count === 10) showNotification("Decade Complete. Eternal Father...", "info");
+            if (this.count === 50) {
+                showNotification("Chaplet Complete.", "success");
+                this.count = 0;
+            }
+        };
+    }
+}
+
+/* --- PHASES 76-85: LEGACY & COSMIC --- */
+
+/* --- PHASE 76: PRAYER BOUQUET --- */
+class PrayerBouquet {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-spa"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '20px';
+        btn.style.bottom = '200px';
+        btn.title = "Send Prayer Bouquet";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Prayer Bouquet</h3></div>
+            <div style="padding:1rem; text-align:center;">
+                <p>Select spiritual gifts to send:</p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:left;">
+                    <label><input type="checkbox" id="pb-rosary"> 1 Holy Rosary</label>
+                    <label><input type="checkbox" id="pb-mass"> 1 Check Holy Mass</label>
+                    <label><input type="checkbox" id="pb-chaplet"> 1 Divine Mercy</label>
+                    <label><input type="checkbox" id="pb-fast"> 1 Day Fasting</label>
+                </div>
+                <input type="text" id="pb-name" placeholder="Recipient Name" style="width:100%; margin-top:1rem; padding:5px;">
+                <button id="pb-send" class="btn btn-primary-gold" style="margin-top:1rem; width:100%;">Generte Card</button>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelector('#pb-send').onclick = () => {
+            const name = modal.querySelector('#pb-name').value;
+            if (name) {
+                showNotification(`Bouquet created for ${name}!`, "success");
+                // In a real app, this would generate an image/PDF
+                modal.remove();
+            } else {
+                showNotification("Please enter a name.", "warning");
+            }
+        };
+    }
+}
+
+/* --- PHASE 77: SPIRITUAL TESTAMENT --- */
+class SpiritualWill {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-scroll"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '20px';
+        btn.style.bottom = '260px';
+        btn.title = "Spiritual Testament";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>My Spiritual Testament</h3></div>
+            <div class="legacy-form" style="padding:1rem;">
+                <label>I believe in...</label>
+                <textarea rows="3"></textarea>
+                <label>I forgive...</label>
+                <textarea rows="3"></textarea>
+                <label>I ask forgiveness for...</label>
+                <textarea rows="3"></textarea>
+                <button onclick="showNotification('Saved to Eternal Memory (Local)', 'success')" style="width:100%; padding:10px;">Seal Testament</button>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 78: OBITUARY GENERATOR --- */
+class MementoMori {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-skull"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '60px'; // Offset
+        btn.style.bottom = '200px';
+        btn.title = "Memento Mori / Obituary";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    init() {
+        // Re-using button from previous logic or new one? 
+        // Actually the previous location logic might overlap. 
+        // Let's just create the modal logic hooked to a new button.
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-skull"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '160px';
+        btn.style.bottom = '260px';
+        btn.title = "Memento Mori";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Memento Mori / Obituary</h3></div>
+            <div class="legacy-form" style="padding:1rem;">
+                <p>Imagine your life is over. How will you be remembered?</p>
+                <input type="text" id="mm-virtue" placeholder="Primary Virtue practiced...">
+                <input type="text" id="mm-sin" placeholder="Primary Sin conquered...">
+                <textarea id="mm-bio" placeholder="Brief holy summary..." rows="3"></textarea>
+                <button onclick="showNotification('Obituary generated (Vision)', 'info')" style="width:100%; padding:10px; margin-top:10px;">Preview Eternity</button>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 79: LAST RITES GUIDE --- */
+class LastRites {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-cross-hairs"></i>'; // Icon pending
+        btn.className = 'shrine-trigger-btn';
+        btn.style.background = '#8b0000';
+        btn.style.color = 'white';
+        btn.style.left = '80px';
+        btn.style.bottom = '260px'; // Stacked
+        btn.title = "Emergency: Last Rites";
+        btn.onclick = () => this.show();
+        document.body.appendChild(btn);
+    }
+    show() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.border = '2px solid red';
+        modal.innerHTML = `
+            <div class="shrine-header" style="background:red;"><h3>EMERGENCY: DYING</h3></div>
+            <div style="padding:1rem;">
+                <ol>
+                    <li><strong>Call a Priest immediately.</strong></li>
+                    <li>Pray the Act of Contrition with the person.</li>
+                    <li>Say: "Jesus, Mary, Joseph, I give you my heart and my soul."</li>
+                    <li>Sprinkle Holy Water.</li>
+                </ol>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 80: FUNERAL PLANNER --- */
+class FuneralPlan {
+    constructor() { this.init(); }
+    init() {
+        // Stub replaced with button
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-church"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '140px';
+        btn.style.bottom = '320px';
+        btn.title = "Funeral Planner";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>My Funeral Liturgy</h3></div>
+            <div class="legacy-form" style="padding:1rem; overflow-y:auto; max-height:300px;">
+                <label>First Reading</label>
+                <select style="width:100%; margin-bottom:10px; color:black;">
+                    <option>Job 19:23-27</option>
+                    <option>Wisdom 3:1-9</option>
+                    <option>Isaiah 25:6-9</option>
+                </select>
+                <label>Gospel</label>
+                <select style="width:100%; margin-bottom:10px; color:black;">
+                    <option>Matt 5:1-12 (Beatitudes)</option>
+                    <option>John 11:17-27 (Lazarus)</option>
+                </select>
+                <label>Hymns (Comma separated)</label>
+                <textarea rows="2">On Eagle's Wings, I Am the Bread of Life</textarea>
+                <button onclick="showNotification('Funeral Wishes Saved', 'success')" style="width:100%; padding:10px;">Save Wishes</button>
+            </div>
+             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 81: COSMIC CHRIST --- */
+class CosmicVis {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-atom"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '20px';
+        btn.style.bottom = '260px';
+        btn.title = "Cosmic View";
+        btn.onclick = () => this.toggle();
+        document.body.appendChild(btn);
+    }
+    toggle() {
+        if (this.active) {
+            document.querySelector('.cosmic-canvas')?.remove();
+            this.active = false;
+        } else {
+            this.active = true;
+            this.render();
+            showNotification("In Him all things hold together.", "info");
+        }
+    }
+    render() {
+        const cvs = document.createElement('canvas');
+        cvs.className = 'cosmic-canvas';
+        cvs.width = window.innerWidth;
+        cvs.height = window.innerHeight;
+        document.body.appendChild(cvs);
+        const ctx = cvs.getContext('2d');
+
+        // Simple starfield
+        const stars = Array(200).fill().map(() => ({
+            x: Math.random() * cvs.width,
+            y: Math.random() * cvs.height,
+            s: Math.random() * 2
+        }));
+
+        const animate = () => {
+            if (!this.active) return;
+            ctx.clearRect(0, 0, cvs.width, cvs.height);
+            ctx.fillStyle = 'white';
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.s, 0, Math.PI * 2);
+                ctx.fill();
+                s.x -= 0.2; // Rotate/move
+                if (s.x < 0) s.x = cvs.width;
+            });
+            requestAnimationFrame(animate);
+        };
+        animate();
+    }
+}
+
+/* --- PHASE 82: ALPHA OMEGA --- */
+class FractalZoom {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-infinity"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '60px';
+        btn.style.bottom = '260px'; // Stacked with cosmic
+        btn.title = "Eternal Zoom";
+        btn.onclick = () => this.toggle();
+        document.body.appendChild(btn);
+    }
+    toggle() {
+        if (this.active) {
+            document.querySelector('#fractal-canvas')?.remove();
+            this.active = false;
+        } else {
+            this.active = true;
+            this.render();
+            showNotification("Entering Eternity...", "info");
+        }
+    }
+    render() {
+        const cvs = document.createElement('canvas');
+        cvs.id = 'fractal-canvas';
+        cvs.style.position = 'fixed';
+        cvs.style.top = '0';
+        cvs.style.left = '0';
+        cvs.style.width = '100vw';
+        cvs.style.height = '100vh';
+        cvs.style.zIndex = '90';
+        cvs.style.pointerEvents = 'none';
+        cvs.style.mixBlendMode = 'overlay';
+        cvs.width = window.innerWidth;
+        cvs.height = window.innerHeight;
+        document.body.appendChild(cvs);
+        const ctx = cvs.getContext('2d');
+
+        let zoom = 1;
+        const animate = () => {
+            if (!this.active) return;
+            // Simple concentric circles for "Zoom" effect stub
+            ctx.clearRect(0, 0, cvs.width, cvs.height);
+            ctx.strokeStyle = `hsla(${zoom % 360}, 100%, 50%, 0.5)`;
+            ctx.lineWidth = 2;
+
+            for (let i = 1; i < 20; i++) {
+                ctx.beginPath();
+                ctx.arc(cvs.width / 2, cvs.height / 2, (i * 50 * zoom / 100) % (Math.max(cvs.width, cvs.height)), 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            zoom += 1;
+            requestAnimationFrame(animate);
+        };
+        animate();
+    }
+}
+
+/* --- PHASE 83: CREATION CRIES --- */
+class NatureSounds {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-leaf"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '140px';
+        btn.style.bottom = '260px';
+        btn.title = "Creation Groans";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Creation Cries</h3></div>
+            <div style="padding:1rem; text-align:center;">
+                <p>Listen to creation groaning for redemption (Rom 8:22).</p>
+                <div style="display:flex; justify-content:center; gap:10px; margin-top:1rem;">
+                    <button class="btn btn-secondary" onclick="showNotification('🎵 Wind Howling...', 'info')">Wind</button>
+                    <button class="btn btn-secondary" onclick="showNotification('🎵 Thunder Rolling...', 'info')">Thunder</button>
+                    <button class="btn btn-secondary" onclick="showNotification('🎵 River Rushing...', 'info')">River</button>
+                </div>
+                <p style="font-size:0.8rem; margin-top:1rem; opacity:0.7;">(Audio synthesis simulated)</p>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 84: DESERT FATHERS --- */
+class DesertWisdom {
+    constructor() {
+        this.quotes = [
+            "Abba Moses said: Go sit in your cell, and your cell will teach you everything.",
+            "Abba Anthony said: Whoever has not been tempted cannot be saved.",
+            "Amma Syncletica said: In the beginning there are a great many battles and a good deal of suffering for those who are advancing towards God and afterwards, ineffable joy.",
+            "Abba Poemen said: Do not judge yourself, then you will not judge your brother."
+        ];
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-sun"></i>'; // Sun for desert
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '180px';
+        btn.style.bottom = '260px';
+        btn.title = "Desert Wisdom";
+        btn.onclick = () => this.speak();
+        document.body.appendChild(btn);
+    }
+    speak() {
+        const quote = this.quotes[Math.floor(Math.random() * this.quotes.length)];
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.background = '#d2b48c'; // Tan/Sand color
+        modal.style.color = '#3e2723';
+        modal.innerHTML = `
+            <div class="shrine-header" style="background:#8d6e63; color:black;"><h3>Voice from the Desert</h3></div>
+            <div style="padding:2rem; font-family:'Courier New', monospace; font-weight:bold; font-size:1.1rem;">
+                "${quote}"
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; color:black;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASES 86-95: KNOWLEDGE & COMMUNITY --- */
+
+/* --- PHASE 86: SUMMA THEOLOGICA --- */
+class SummaTree {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-sitemap"></i>'; // Tree icon
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '20px';
+        btn.style.bottom = '320px';
+        btn.title = "Summa Theologica";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Summa Theologica</h3></div>
+            <div style="padding:1rem;">
+                <div class="tree-node"><strong>Part I: God</strong></div>
+                <div class="tree-node" style="margin-left:40px;">Q2: The Existence of God</div>
+                <div class="tree-node" style="margin-left:40px;">Q12: How God is Known by Us</div>
+                <div class="tree-node"><strong>Part II: Man</strong></div>
+                <div class="tree-node"><strong>Part III: Christ</strong></div>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 87: CATECHISM SEARCH --- */
+class CatechismSearch {
+    constructor() {
+        this.db = {
+            "grace": "CCC 1996: Grace is favor, the free and undeserved help that God gives us to respond to his call to become children of God.",
+            "sin": "CCC 1849: Sin is an offense against reason, truth, and right conscience; it is failure in genuine love for God and neighbor.",
+            "hope": "CCC 1817: Hope is the theological virtue by which we desire the kingdom of heaven and eternal life as our happiness.",
+            "prayer": "CCC 2559: 'Prayer is the raising of one's mind and heart to God or the requesting of good things from God.'"
+        };
+        this.init();
+    }
+    init() {
+        // Stub replaced
+    }
+    // We'll hook this into the main UI later or add a button if needed.
+    // For now, let's expose it as a global utility or button.
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-book-open"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '60px';
+        btn.style.bottom = '320px';
+        btn.title = "CCC Search";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Catechism Search</h3></div>
+            <div style="padding:1rem;">
+                <input type="text" id="ccc-input" placeholder="Search (e.g. Grace, Sin, Hope)..." style="width:100%; padding:10px; margin-bottom:10px; color:black;">
+                <button id="ccc-btn" class="btn btn-primary-gold" style="width:100%;">Search</button>
+                <div id="ccc-result" style="margin-top:1rem; padding:10px; background:rgba(255,255,255,0.1); border-radius:5px; min-height:50px;"></div>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelector('#ccc-btn').onclick = () => {
+            const term = modal.querySelector('#ccc-input').value.toLowerCase();
+            const result = this.db[term] || "Term not found in local index. (Try 'Grace', 'Sin', 'Hope')";
+            modal.querySelector('#ccc-result').innerText = result;
+        };
+    }
+}
+
+/* --- PHASE 88: PAPAL ENCYCLICALS --- */
+class EncyclicalReader {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-scroll"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '100px';
+        btn.style.bottom = '320px';
+        btn.title = "Encyclicals";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const documents = [
+            { t: "Rerum Novarum", d: "On Capital and Labor (Pop Leo XIII, 1891)" },
+            { t: "Humanae Vitae", d: "On Human Life (Pope Paul VI, 1968)" },
+            { t: "Fides et Ratio", d: "On Faith and Reason (Pope John Paul II, 1998)" },
+            { t: "Laudato Si", d: "On Care for Our Common Home (Pope Francis, 2015)" }
+        ];
+
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Papal Encyclicals</h3></div>
+            <div style="padding:1rem;">
+                ${documents.map(d => `
+                    <div style="margin-bottom:10px; border-bottom:1px solid #444; padding-bottom:5px;">
+                        <h4 style="color:var(--primary-gold); margin:0;">${d.t}</h4>
+                        <p style="margin:0; font-size:0.9rem; opacity:0.8;">${d.d}</p>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 89: COUNCIL CANONS --- */
+class CouncilHistory {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-landmark"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '180px';
+        btn.style.bottom = '320px';
+        btn.title = "Councils";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const councils = [
+            "Nicaea I (325): Defined divinity of Christ (Homoousios).",
+            "Constantinople I (381): Defined divinity of Holy Spirit.",
+            "Ephesus (431): Mary is Theotokos (God-bearer).",
+            "Chalcedon (451): Christ is Two Natures in One Person.",
+            "Trent (1545-63): Response to Reformation, Canon of Scriptures.",
+            "Vatican II (1962-65): Renewal of Liturgy, Church in Modern World."
+        ];
+
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Ecumenical Councils</h3></div>
+            <div style="padding:1rem;">
+                <ul style="padding-left:20px;">
+                    ${councils.map(c => `<li style="margin-bottom:8px;">${c}</li>`).join('')}
+                </ul>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 90: HERESY DETECTOR --- */
+class HeresyQuiz {
+    constructor() {
+        this.questions = [
+            { q: "Christ is a creature made by God, similar but not equal to the Father.", a: "Heresy (Arianism)", correct: false },
+            { q: "Christ has two natures (human and divine) united in one Divine Person.", a: "Orthodox", correct: true },
+            { q: "We are saved strictly by secret knowledge (Gnosis).", a: "Heresy (Gnosticism)", correct: false }
+        ];
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-shield-alt"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '220px';
+        btn.style.bottom = '320px';
+        btn.title = "Heresy Detector";
+        btn.onclick = () => this.start();
+        document.body.appendChild(btn);
+    }
+    start() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Heresy Detector</h3></div>
+            <div id="quiz-container" style="padding:1rem;"></div>
+             <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+
+        this.renderQuestion(modal.querySelector('#quiz-container'), 0);
+    }
+    renderQuestion(container, index) {
+        if (index >= this.questions.length) {
+            container.innerHTML = "<p>Inquisition Complete. You remained Orthodox.</p>";
+            return;
+        }
+        const q = this.questions[index];
+        container.innerHTML = `
+            <p><strong>Statement:</strong> "${q.q}"</p>
+            <button class="btn btn-secondary" style="width:100%; margin-bottom:5px;" onclick="document.dispatchEvent(new CustomEvent('quiz-ans', {detail:{idx:${index}, choice:true}}))">Accept as Truth</button>
+            <button class="btn btn-secondary" style="width:100%;" onclick="document.dispatchEvent(new CustomEvent('quiz-ans', {detail:{idx:${index}, choice:false}}))">Condemn as Heresy</button>
+        `;
+
+        // One-time listener for this step (hacky but works for instant prototype)
+        const handler = (e) => {
+            if (e.detail.idx !== index) return;
+            // Logic: If q.correct is true (Orthodox), we should Accept (choice:true).
+            // If q.correct is false (Heresy), we should Condemn (choice:false).
+            // So if choice == q.correct, we are RIGHT.
+            const isRight = (e.detail.choice === q.correct);
+
+            if (isRight) {
+                showNotification("Correct! Orthodox Judgment.", "success");
+                this.renderQuestion(container, index + 1);
+            } else {
+                showNotification("Anathema! You have erred.", "warning");
+                // Reset
+                this.renderQuestion(container, 0);
+            }
+            document.removeEventListener('quiz-ans', handler);
+        };
+        document.addEventListener('quiz-ans', handler, { once: true });
+    }
+}
+
+/* --- PHASE 91: APOLOGETICS NINJA --- */
+class ApologeticsNinja {
+    constructor() {
+        this.questions = [
+            { q: "Why do you pray to Mary?", a: "We don't pray TO her as God, we ask for her intercession, just as you ask friends to pray for you." },
+            { q: "Is the Eucharist a symbol?", a: "Christ said 'This IS my body', not 'This represents'. The early Church unanimously held it to be specific reality." }
+        ];
+        this.init();
+    }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-ninja"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '20px';
+        btn.style.bottom = '320px';
+        btn.title = "Apologetics Quick Answers";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Apologetics Ninja</h3></div>
+            <div style="padding:1rem;">
+                ${this.questions.map(qa => `
+                    <div class="apologetics-card">
+                        <h4 style="color:var(--primary-gold);">${qa.q}</h4>
+                        <p>${qa.a}</p>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 92: EVANGELISM MODE --- */
+class EvangelismCards {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-bullhorn"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '60px'; // Stacked
+        btn.style.bottom = '320px';
+        btn.title = "Evangelize";
+        btn.onclick = () => this.generate();
+        document.body.appendChild(btn);
+    }
+    generate() {
+        const verses = [
+            "For God so loved the world... (John 3:16)",
+            "I am the Way, the Truth, and the Life. (John 14:6)",
+            "Repent, for the Kingdom of Heaven is at hand. (Matt 4:17)"
+        ];
+        const v = verses[Math.floor(Math.random() * verses.length)];
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Evangelism Card</h3></div>
+            <div style="padding:2rem; text-align:center; background:linear-gradient(45deg, #1a1a1a, #333);">
+                <h2 style="color:var(--primary-gold); font-family:'Cinzel';">${v}</h2>
+                <p style="margin-top:1rem; opacity:0.7;">soulguidance.app</p>
+                <button class="btn btn-secondary" onclick="showNotification('Card Copied to Clipboard!', 'success')" style="margin-top:1rem;">Copy Image</button>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 93: DONATION JAR --- */
+class DonationSim {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-coins"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '80px';
+        btn.style.bottom = '320px';
+        btn.title = "Almsgiving";
+        btn.onclick = () => this.donate();
+        document.body.appendChild(btn);
+    }
+    donate() {
+        showNotification("Crypto Alms Sent! (Simulated)", "success");
+        // Coin clink sound could go here
+    }
+}
+
+/* --- PHASE 94: MERCH STORE --- */
+class MerchMockup {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-tshirt"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '120px';
+        btn.style.bottom = '320px';
+        btn.title = "Merch Store";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const items = [
+            { n: "Soul Hoodie", p: "$49.99" },
+            { n: "Combat Rosary", p: "$29.99" },
+            { n: "Saint Mug", p: "$14.99" }
+        ];
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Merch Store</h3></div>
+            <div class="merch-grid" style="padding:1rem;">
+                ${items.map(i => `
+                    <div class="merch-item">
+                        <div style="height:100px; background:rgba(255,255,255,0.1); margin-bottom:10px; display:flex; align-items:center; justify-content:center;">[IMG]</div>
+                        <h4>${i.n}</h4>
+                        <p>${i.p}</p>
+                        <button onclick="showNotification('Added to Cart', 'success')" style="cursor:pointer; padding:5px; background:var(--primary-gold); border:none; color:black;">Add</button>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 95: NEWSLETTER --- */
+class NewsletterSub {
+    constructor() { this.init(); }
+    init() {
+        // Simple banner at bottom right? Or just a button.
+        // Let's add a small button in the cluster.
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-envelope"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '160px';
+        btn.style.bottom = '320px';
+        btn.title = "Newsletter";
+        btn.onclick = () => {
+            const email = prompt("Enter email for 'Book of Life' updates:");
+            if (email) showNotification("Subscribed!", "success");
+        };
+        document.body.appendChild(btn);
+    }
+}
+
+/* --- PHASES 96-100: FINAL CONSUMMATION --- */
+
+/* --- PHASE 96: ADMIN DASHBOARD --- */
+class AdminStats {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-chart-line"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '100px';
+        btn.style.bottom = '380px'; // Higher row
+        btn.title = "Kingdom Stats";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const savings = Math.floor(Math.random() * 5000) + 1000;
+        const prayers = Math.floor(Math.random() * 50000) + 10000;
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Kingdom Analytics</h3></div>
+            <div style="padding:2rem; text-align:center;">
+                <div style="font-size:2rem; color:var(--primary-gold);">${savings.toLocaleString()}</div>
+                <div style="margin-bottom:1rem;">Souls Edified</div>
+                <div style="font-size:2rem; color:#93C5FD;">${prayers.toLocaleString()}</div>
+                <div>Prayers Offered</div>
+                <div style="margin-top:2rem; height:10px; background:#333; border-radius:5px; overflow:hidden;">
+                    <div style="width:75%; height:100%; background:var(--gradient-gold);"></div>
+                </div>
+                <p style="font-size:0.8rem; margin-top:5px;">Global Sanctification Goal</p>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+/* --- PHASE 97: USER PROFILES --- */
+class UserProfile {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-user-circle"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '60px';
+        btn.style.bottom = '380px';
+        btn.title = "My Soul Profile";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+    open() {
+        const savedName = localStorage.getItem('saintName') || "Pilgrim";
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Soul Profile</h3></div>
+            <div style="padding:1rem;">
+                <label>Name in Religion</label>
+                <input type="text" id="profile-name" value="${savedName}" style="width:100%; margin-bottom:1rem; color:black; padding:5px;">
+                <p><strong>Canonization Status:</strong> Servant of God</p>
+                <div style="height:5px; background:#444; width:100%; margin-bottom:1rem;"><div style="width:20%; background:white; height:100%;"></div></div>
+                <button id="profile-save" class="btn btn-primary-gold" style="width:100%;">Save Identity</button>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelector('#profile-save').onclick = () => {
+            const val = modal.querySelector('#profile-name').value;
+            localStorage.setItem('saintName', val);
+            showNotification("Identity Updated", "success");
+        };
+    }
+}
+
+/* --- PHASE 98: CLOUD SYNC --- */
+class CloudWittness {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '20px';
+        btn.style.bottom = '380px';
+        btn.title = "Sync to Heaven";
+        btn.onclick = () => this.sync();
+        document.body.appendChild(btn);
+    }
+    sync() {
+        showNotification("Uploading merits to Cloud of Witnesses...", "info");
+        setTimeout(() => {
+            showNotification("Sync Complete. Treasures stored in Heaven.", "success");
+        }, 2000);
+    }
+}
+
+/* --- PHASE 99: THE RAPTURE --- */
+class AscensionAnim {
+    constructor() { this.init(); }
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = 'MARANATHA';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '50%';
+        btn.style.bottom = '40px';
+        btn.style.transform = 'translateX(-50%)';
+        btn.style.fontWeight = 'bold';
+        btn.style.letterSpacing = '2px';
+        btn.style.border = '2px solid white';
+        btn.title = "The End";
+        btn.onclick = () => this.trigger();
+        document.body.appendChild(btn);
+    }
+    trigger() {
+        showNotification("The Trumpet Sounds...", "warning");
+        setTimeout(() => {
+            document.body.classList.add('rapture-ascend');
+
+            // Audio (Mock Trumpet)
+            if (window.soulGuidanceAudio) {
+                const osc = window.soulGuidanceAudio.ctx.createOscillator();
+                const g = window.soulGuidanceAudio.ctx.createGain();
+                osc.connect(g);
+                g.connect(window.soulGuidanceAudio.ctx.destination);
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, window.soulGuidanceAudio.ctx.currentTime);
+                osc.frequency.linearRampToValueAtTime(800, window.soulGuidanceAudio.ctx.currentTime + 3);
+                g.gain.setValueAtTime(0, window.soulGuidanceAudio.ctx.currentTime);
+                g.gain.linearRampToValueAtTime(0.5, window.soulGuidanceAudio.ctx.currentTime + 1);
+                g.gain.linearRampToValueAtTime(0, window.soulGuidanceAudio.ctx.currentTime + 4);
+                osc.start();
+                osc.stop(window.soulGuidanceAudio.ctx.currentTime + 4);
+            }
+
+            setTimeout(() => {
+                new BeatificVision().reveal();
+            }, 3500);
+        }, 1000);
+    }
+}
+
+/* --- PHASE 100: BEATIFIC VISION --- */
+class BeatificVision {
+    constructor() { }
+    reveal() {
+        const vision = document.createElement('div');
+        vision.id = 'beatific-vision';
+        vision.innerHTML = '<div id="beatific-text">I AM</div>';
+        document.body.appendChild(vision);
+
+        // Force reflow
+        vision.offsetHeight;
+        vision.style.opacity = '1';
+
+        showNotification("It is finished.", "success");
+    }
+}
