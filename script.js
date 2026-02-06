@@ -337,73 +337,86 @@ function initMultiStepForm() {
 
 class HolyAudioPlayer {
     constructor() {
+        this.tracks = {
+            chant: { src: 'assets/audio/chant.mp3', audio: null, vol: 0.5 },
+            rain: { src: 'assets/audio/rain.mp3', audio: null, vol: 0.3 },
+            wind: { src: 'assets/audio/wind.mp3', audio: null, vol: 0.2 }
+        };
         this.isPlaying = false;
-        this.volume = 0.5;
-        this.track = 'assets/audio/chant.mp3'; // Local Offline Asset
-        this.audio = new Audio(this.track);
-        this.audio.loop = true;
 
-        // UI Elements
+        // Initialize Audio Objects
+        Object.keys(this.tracks).forEach(key => {
+            const t = this.tracks[key];
+            t.audio = new Audio(t.src);
+            t.audio.loop = true;
+            t.audio.volume = t.vol;
+        });
+
         this.container = null;
-        this.playBtn = null;
-        this.muteBtn = null;
-
         this.init();
     }
 
     init() {
-        console.log('🎵 Initializing Holy Audio Player...');
+        console.log('🎵 Initializing Holy Audio Mixer...');
         this.createPlayerUI();
-        this.setupListeners();
     }
 
     createPlayerUI() {
+        const existing = document.querySelector('.holy-player-container');
+        if (existing) existing.remove();
+
         const div = document.createElement('div');
         div.className = 'holy-player-container active';
         div.innerHTML = `
-            <div class="holy-player">
-                <div class="player-controls">
-                    <button class="player-btn" id="playPauseBtn" aria-label="Play Ambient Music">
+            <div class="holy-player expanded">
+                <div class="player-header">
+                    <i class="fas fa-music"></i> Audio Sanctuary
+                    <button class="minimize-btn" onclick="this.closest('.holy-player').classList.toggle('minimized')">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+                <div class="player-controls-main">
+                    <button class="player-main-btn" id="masterPlayBtn">
                         <i class="fas fa-play"></i>
                     </button>
-                    <span class="player-track-info">Gregorian Chant - Anima Christi</span>
-                    <button class="player-btn" id="muteBtn" aria-label="Mute">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
+                </div>
+                <div class="mixer-channels">
+                    ${Object.keys(this.tracks).map(key => `
+                        <div class="mixer-channel">
+                            <span class="channel-label">${key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                            <input type="range" min="0" max="1" step="0.1" value="${this.tracks[key].vol}" 
+                                data-track="${key}" class="volume-slider">
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         `;
         document.body.appendChild(div);
 
-        this.container = div;
-        this.playBtn = div.querySelector('#playPauseBtn');
-        this.muteBtn = div.querySelector('#muteBtn');
+        // Listeners
+        div.querySelector('#masterPlayBtn').addEventListener('click', () => this.toggleMaster());
+        div.querySelectorAll('.volume-slider').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const key = e.target.dataset.track;
+                const val = parseFloat(e.target.value);
+                this.tracks[key].audio.volume = val;
+                this.tracks[key].vol = val;
+            });
+        });
     }
 
-    setupListeners() {
-        this.playBtn.addEventListener('click', () => this.togglePlay());
-        this.muteBtn.addEventListener('click', () => this.toggleMute());
-    }
-
-    togglePlay() {
+    toggleMaster() {
+        const btn = document.querySelector('#masterPlayBtn');
         if (this.isPlaying) {
-            this.audio.pause();
-            this.playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            Object.values(this.tracks).forEach(t => t.audio.pause());
+            btn.innerHTML = '<i class="fas fa-play"></i>';
             this.isPlaying = false;
         } else {
-            this.audio.play().catch(e => console.log('Audio autoplay blocked:', e));
-            this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            Object.values(this.tracks).forEach(t => {
+                if (t.vol > 0) t.audio.play().catch(e => console.warn('Audio play blocked', e));
+            });
+            btn.innerHTML = '<i class="fas fa-stop"></i>';
             this.isPlaying = true;
-        }
-    }
-
-    toggleMute() {
-        if (this.audio.muted) {
-            this.audio.muted = false;
-            this.muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-        } else {
-            this.audio.muted = true;
-            this.muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
         }
     }
 }
@@ -6700,7 +6713,7 @@ class AscensionAnim {
         btn.style.letterSpacing = '2px';
         btn.style.border = '2px solid white';
         btn.title = "The End";
-        btn.onclick = () => this.trigger();
+        // btn.onclick = () => this.trigger(); // DISABLED FOR LAUNCH
         document.body.appendChild(btn);
     }
     trigger() {
@@ -6865,3 +6878,91 @@ class FeedbackManager {
 }
 window.soulGuidanceFeedback = new FeedbackManager();
 
+
+
+// --- PHASE 2: SIN DESTROYER LOGIC ---
+// SinDestroyer removed - using existing implementation in Phase 66
+
+
+// --- PHASE 3: RAPTURE & MEMORY LOGIC ---
+class MemoryTrainer {
+    constructor() {
+        this.container = document.querySelector('.memory-trainer-container');
+        this.verseDisplay = document.querySelector('.memory-verse-display');
+        this.hideBtn = document.querySelector('#hide-words-btn');
+        this.resetBtn = document.querySelector('#reset-memory-btn');
+        this.words = [];
+        this.init();
+    }
+
+    init() {
+        if (!this.container || !this.verseDisplay) return;
+
+        // Prepare words
+        const text = this.verseDisplay.innerText.trim();
+        this.words = text.split(' ').map(w => `<span class="memory-word">${w}</span>`);
+        this.verseDisplay.innerHTML = this.words.join(' ');
+
+        if (this.hideBtn) this.hideBtn.addEventListener('click', () => this.hideRandom());
+        if (this.resetBtn) this.resetBtn.addEventListener('click', () => this.reset());
+    }
+
+    hideRandom() {
+        const visible = this.verseDisplay.querySelectorAll('.memory-word:not(.hidden)');
+        if (visible.length === 0) return;
+
+        // Hide 20% of remaining words
+        const count = Math.max(1, Math.floor(visible.length * 0.2));
+        for (let i = 0; i < count; i++) {
+            const randomIndex = Math.floor(Math.random() * visible.length);
+            visible[randomIndex].classList.add('hidden');
+        }
+    }
+
+    reset() {
+        this.verseDisplay.querySelectorAll('.memory-word').forEach(w => w.classList.remove('hidden'));
+    }
+}
+
+class RaptureManager {
+    constructor() {
+        this.btn = document.getElementById('maranatha-btn');
+        this.vision = document.getElementById('beatific-vision');
+        this.init();
+    }
+
+    init() {
+        if (!this.btn) return;
+        this.btn.addEventListener('click', () => this.ascend());
+    }
+
+    ascend() {
+        if (!confirm('Are you ready to ascend?')) return;
+
+        // 1. Audio Fade Out
+        if (window.holyAudio) window.holyAudio.toggleMaster(); // Stop mixer
+
+        // 2. Play Trumpet or Ascent Sound
+        const sound = new Audio('assets/audio/rapture.mp3');
+        sound.volume = 1.0;
+        sound.play().catch(console.warn);
+
+        // 3. Visual Transition
+        document.body.style.transition = 'opacity 3s ease';
+        document.body.style.opacity = '0';
+
+        setTimeout(() => {
+            if (this.vision) {
+                this.vision.style.display = 'flex';
+                this.vision.style.opacity = '1';
+                document.body.style.opacity = '1';
+            }
+        }, 3000);
+    }
+}
+
+// Init New Modules
+document.addEventListener('DOMContentLoaded', () => {
+    new MemoryTrainer();
+    new RaptureManager();
+});
