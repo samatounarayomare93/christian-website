@@ -114,6 +114,7 @@
     <link rel="stylesheet" href="soul_guide.css">
     <link rel="stylesheet" href="shrine.css">
     <link rel="stylesheet" href="saint_parallax.css">
+    <link rel="stylesheet" href="bible_engine.css">
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -169,7 +170,7 @@
 
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:;">
+        content="default-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
 
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -352,6 +353,12 @@
         </section>
 
         <!-- Testimonials Section -->
+        <section class="section" id="divine-word" style="background: var(--bg-secondary);">
+            <div class="container">
+                <div id="bible-engine-container"></div>
+            </div>
+        </section>
+
         <section class="section" id="testimonials"
             style="background: linear-gradient(135deg, rgba(75, 0, 130, 0.1) 0%, rgba(25, 25, 112, 0.1) 100%);">
             <div class="container">
@@ -1974,6 +1981,8 @@
     <script src="prayer-scheduler.js"></script>
     <script src="prayer-library.js"></script>
     <script src="prayer-book-script.js"></script>
+    <script src="assets/js/bible_data.js"></script>
+    <script src="assets/js/bible_engine.js"></script>
     <script src="script.js"></script>
 
     <link rel="stylesheet" href="yellow-killer.css">

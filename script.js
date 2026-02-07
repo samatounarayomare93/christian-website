@@ -1,4 +1,4 @@
-// PROFESSIONAL SOUL GUIDANCE WEBSITE JAVASCRIPT - ENTERPRISE GRADE
+﻿// PROFESSIONAL SOUL GUIDANCE WEBSITE JAVASCRIPT - ENTERPRISE GRADE
 
 // Global button state tracking
 window.soulGuidanceButtons = {
@@ -11,15 +11,15 @@ window.soulGuidanceButtons = {
 document.addEventListener('DOMContentLoaded', function () {
     // STARTUP BLOCKER
     window.isSiteLoading = true;
-    // console.log('🔒 Startup Block Active: Prevented Popups');
+    // console.log('ðŸ”’ Startup Block Active: Prevented Popups');
     setTimeout(() => {
         window.isSiteLoading = false;
-        // console.log('🔓 Startup Block Lifted: Popups allowed');
+        // console.log('ðŸ”“ Startup Block Lifted: Popups allowed');
     }, 5000);
 
 
 
-    // console.log('🚀 DOM Content Loaded - Initializing website...');
+    // console.log('ðŸš€ DOM Content Loaded - Initializing website...');
 
     try {
         // Initialize AOS if available
@@ -31,9 +31,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 once: true,
                 mirror: false
             });
-            console.log('✅ AOS initialized successfully');
+            console.log('âœ… AOS initialized successfully');
         } else {
-            console.warn('⚠️ AOS library not loaded - animations may not work');
+            console.warn('âš ï¸ AOS library not loaded - animations may not work');
         }
 
         // Initialize all functionality with error handling
@@ -82,10 +82,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Mark as initialized
         window.soulGuidanceButtons.initialized = true;
-        console.log('✅ Soul Guidance Website Initialized Successfully');
+        console.log('âœ… Soul Guidance Website Initialized Successfully');
 
     } catch (error) {
-        console.error('❌ Critical initialization error:', error);
+        console.error('âŒ Critical initialization error:', error);
         window.soulGuidanceButtons.errors.push(error);
     }
 });
@@ -356,7 +356,7 @@ class HolyAudioPlayer {
     }
 
     init() {
-        console.log('🎵 Initializing Holy Audio Mixer...');
+        console.log('ðŸŽµ Initializing Holy Audio Mixer...');
         this.createPlayerUI();
     }
 
@@ -432,7 +432,7 @@ class DivineContent {
     }
 
     init() {
-        console.log('📖 Initializing Divine Content...');
+        console.log('ðŸ“– Initializing Divine Content...');
         this.displayDailyVerse();
     }
 
@@ -605,32 +605,32 @@ class RosaryTracker {
         this.isOpen = false;
         this.mysteries = {
             joyful: [
-                { en: "The Annunciation", ar: "البشارة" },
-                { en: "The Visitation", ar: "الزيارة" },
-                { en: "The Nativity", ar: "الميلاد" },
-                { en: "The Presentation", ar: "التقدمة" },
-                { en: "Finding Jesus in the Temple", ar: "وجود يسوع في الهيكل" }
+                { en: "The Annunciation", ar: "Ø§Ù„Ø¨Ø´Ø§Ø±Ø©" },
+                { en: "The Visitation", ar: "Ø§Ù„Ø²ÙŠØ§Ø±Ø©" },
+                { en: "The Nativity", ar: "Ø§Ù„Ù…ÙŠÙ„Ø§Ø¯" },
+                { en: "The Presentation", ar: "Ø§Ù„ØªÙ‚Ø¯Ù…Ø©" },
+                { en: "Finding Jesus in the Temple", ar: "ÙˆØ¬ÙˆØ¯ ÙŠØ³ÙˆØ¹ ÙÙŠ Ø§Ù„Ù‡ÙŠÙƒÙ„" }
             ],
             sorrowful: [
-                { en: "The Agony in the Garden", ar: "النزاع في البستان" },
-                { en: "The Scourging at the Pillar", ar: "الجلد" },
-                { en: "The Crowning with Thorns", ar: "إكليل الشوك" },
-                { en: "The Carrying of the Cross", ar: "حمل الصليب" },
-                { en: "The Crucifixion", ar: "الصلب والموت" }
+                { en: "The Agony in the Garden", ar: "Ø§Ù„Ù†Ø²Ø§Ø¹ ÙÙŠ Ø§Ù„Ø¨Ø³ØªØ§Ù†" },
+                { en: "The Scourging at the Pillar", ar: "Ø§Ù„Ø¬Ù„Ø¯" },
+                { en: "The Crowning with Thorns", ar: "Ø¥ÙƒÙ„ÙŠÙ„ Ø§Ù„Ø´ÙˆÙƒ" },
+                { en: "The Carrying of the Cross", ar: "Ø­Ù…Ù„ Ø§Ù„ØµÙ„ÙŠØ¨" },
+                { en: "The Crucifixion", ar: "Ø§Ù„ØµÙ„Ø¨ ÙˆØ§Ù„Ù…ÙˆØª" }
             ],
             glorious: [
-                { en: "The Resurrection", ar: "القيامة" },
-                { en: "The Ascension", ar: "الصعود" },
-                { en: "The Descent of the Holy Spirit", ar: "حلول الروح القدس" },
-                { en: "The Assumption", ar: "انتقال العذراء" },
-                { en: "The Coronation", ar: "تتويج العذراء" }
+                { en: "The Resurrection", ar: "Ø§Ù„Ù‚ÙŠØ§Ù…Ø©" },
+                { en: "The Ascension", ar: "Ø§Ù„ØµØ¹ÙˆØ¯" },
+                { en: "The Descent of the Holy Spirit", ar: "Ø­Ù„ÙˆÙ„ Ø§Ù„Ø±ÙˆØ­ Ø§Ù„Ù‚Ø¯Ø³" },
+                { en: "The Assumption", ar: "Ø§Ù†ØªÙ‚Ø§Ù„ Ø§Ù„Ø¹Ø°Ø±Ø§Ø¡" },
+                { en: "The Coronation", ar: "ØªØªÙˆÙŠØ¬ Ø§Ù„Ø¹Ø°Ø±Ø§Ø¡" }
             ],
             luminous: [
-                { en: "The Baptism in the Jordan", ar: "معمودية يسوع" },
-                { en: "The Wedding at Cana", ar: "عرس قانا الجليل" },
-                { en: "The Proclamation of the Kingdom", ar: "إعلان ملكوت الله" },
-                { en: "The Transfiguration", ar: "التجلي" },
-                { en: "The Institution of the Eucharist", ar: "تأسيس القربان" }
+                { en: "The Baptism in the Jordan", ar: "Ù…Ø¹Ù…ÙˆØ¯ÙŠØ© ÙŠØ³ÙˆØ¹" },
+                { en: "The Wedding at Cana", ar: "Ø¹Ø±Ø³ Ù‚Ø§Ù†Ø§ Ø§Ù„Ø¬Ù„ÙŠÙ„" },
+                { en: "The Proclamation of the Kingdom", ar: "Ø¥Ø¹Ù„Ø§Ù† Ù…Ù„ÙƒÙˆØª Ø§Ù„Ù„Ù‡" },
+                { en: "The Transfiguration", ar: "Ø§Ù„ØªØ¬Ù„ÙŠ" },
+                { en: "The Institution of the Eucharist", ar: "ØªØ£Ø³ÙŠØ³ Ø§Ù„Ù‚Ø±Ø¨Ø§Ù†" }
             ]
         };
         this.currentMysteryType = 'joyful';
@@ -652,14 +652,14 @@ class RosaryTracker {
         div.className = 'rosary-tracker-overlay';
         div.innerHTML = `
             <div class="rosary-content">
-                <div class="current-mystery-badge">Joyful Mysteries - الأسرار الفرحة</div>
+                <div class="current-mystery-badge">Joyful Mysteries - Ø§Ù„Ø£Ø³Ø±Ø§Ø± Ø§Ù„ÙØ±Ø­Ø©</div>
                 <button class="close-rosary-btn">&times;</button>
                 
                 <div class="rosary-beads-display" id="rosary-beads"></div>
                 
                 <div class="rosary-text-display">
                     <h2 class="rosary-text-primary" id="rosary-en">Start the Rosary</h2>
-                    <h3 class="rosary-text-secondary" id="rosary-ar">ابدأ المسبحة</h3>
+                    <h3 class="rosary-text-secondary" id="rosary-ar">Ø§Ø¨Ø¯Ø£ Ø§Ù„Ù…Ø³Ø¨Ø­Ø©</h3>
                 </div>
 
                 <div class="rosary-controls">
@@ -711,13 +711,13 @@ class RosaryTracker {
         } else if (this.state.beadIndex === 0) {
             // Our Father
             enText = "Our Father";
-            arText = "أبانا الذي في السماوات";
+            arText = "Ø£Ø¨Ø§Ù†Ø§ Ø§Ù„Ø°ÙŠ ÙÙŠ Ø§Ù„Ø³Ù…Ø§ÙˆØ§Øª";
             beadHTML = `<div class="bead large completed"></div>`;
             for (let i = 0; i < 10; i++) beadHTML += `<div class="bead"></div>`;
         } else if (this.state.beadIndex >= 1 && this.state.beadIndex <= 10) {
             // Hail Mary
             enText = "Hail Mary";
-            arText = "السلام عليك يا مريم";
+            arText = "Ø§Ù„Ø³Ù„Ø§Ù… Ø¹Ù„ÙŠÙƒ ÙŠØ§ Ù…Ø±ÙŠÙ…";
             beadHTML = `<div class="bead large completed"></div>`;
             for (let i = 1; i <= 10; i++) {
                 const status = i < this.state.beadIndex ? 'completed' : (i === this.state.beadIndex ? 'active' : '');
@@ -726,7 +726,7 @@ class RosaryTracker {
         } else {
             // Glory Be
             enText = "Glory Be";
-            arText = "المجد للآب والابن والروح القدس";
+            arText = "Ø§Ù„Ù…Ø¬Ø¯ Ù„Ù„Ø¢Ø¨ ÙˆØ§Ù„Ø§Ø¨Ù† ÙˆØ§Ù„Ø±ÙˆØ­ Ø§Ù„Ù‚Ø¯Ø³";
             beadHTML = `<div class="bead large completed"></div>`;
             for (let i = 1; i <= 10; i++) beadHTML += `<div class="bead completed"></div>`;
         }
@@ -784,7 +784,7 @@ class DivineSearch {
             searchContainer.innerHTML = `
                 <div class="ds-wrapper">
                     <i class="fas fa-search ds-icon"></i>
-                    <input type="text" class="ds-input" placeholder="ابحث عن صلاة، كلمة، أو شعور..." aria-label="Search Prayers">
+                    <input type="text" class="ds-input" placeholder="Ø§Ø¨Ø­Ø« Ø¹Ù† ØµÙ„Ø§Ø©ØŒ ÙƒÙ„Ù…Ø©ØŒ Ø£Ùˆ Ø´Ø¹ÙˆØ±..." aria-label="Search Prayers">
                     <div class="ds-line"></div>
                 </div>
             `;
@@ -827,7 +827,7 @@ class DivineSearch {
             if (!msg) {
                 msg = document.createElement('div');
                 msg.id = 'ds-no-results';
-                msg.innerHTML = `<i class="fas fa-dove"></i><p>لا توجد نتائج. صلِّ من قلبك.</p>`;
+                msg.innerHTML = `<i class="fas fa-dove"></i><p>Ù„Ø§ ØªÙˆØ¬Ø¯ Ù†ØªØ§Ø¦Ø¬. ØµÙ„ÙÙ‘ Ù…Ù† Ù‚Ù„Ø¨Ùƒ.</p>`;
                 document.querySelector('.cards-grid').appendChild(msg);
             }
         } else if (msg) {
@@ -840,11 +840,11 @@ class DivineSearch {
 class SaintOracle {
     constructor() {
         this.saints = [
-            { name: "القديس مار شربل", quote: "الصلاة هي مفتاح السماء. تمسكوا بها تنجوا.", icon: "fa-cross" },
-            { name: "القديسة رفقا", quote: "يا يسوع، لتكن إرادتك مقدسة في حياتي وفي ألمي.", icon: "fa-heart-broken" },
-            { name: "القديس أغسطينوس", quote: "قلوبنا قلقة يا الله حتى تستريح فيك.", icon: "fa-fire" },
-            { name: "الأم تريزا", quote: "ليس المهم كم نفعل، بل كم من الحب نضع في العمل.", icon: "fa-hand-holding-heart" },
-            { name: "البابا يوحنا بولس الثاني", quote: "لا تخافوا! افتحوا الأبواب للمسيح.", icon: "fa-door-open" }
+            { name: "Ø§Ù„Ù‚Ø¯ÙŠØ³ Ù…Ø§Ø± Ø´Ø±Ø¨Ù„", quote: "Ø§Ù„ØµÙ„Ø§Ø© Ù‡ÙŠ Ù…ÙØªØ§Ø­ Ø§Ù„Ø³Ù…Ø§Ø¡. ØªÙ…Ø³ÙƒÙˆØ§ Ø¨Ù‡Ø§ ØªÙ†Ø¬ÙˆØ§.", icon: "fa-cross" },
+            { name: "Ø§Ù„Ù‚Ø¯ÙŠØ³Ø© Ø±ÙÙ‚Ø§", quote: "ÙŠØ§ ÙŠØ³ÙˆØ¹ØŒ Ù„ØªÙƒÙ† Ø¥Ø±Ø§Ø¯ØªÙƒ Ù…Ù‚Ø¯Ø³Ø© ÙÙŠ Ø­ÙŠØ§ØªÙŠ ÙˆÙÙŠ Ø£Ù„Ù…ÙŠ.", icon: "fa-heart-broken" },
+            { name: "Ø§Ù„Ù‚Ø¯ÙŠØ³ Ø£ØºØ³Ø·ÙŠÙ†ÙˆØ³", quote: "Ù‚Ù„ÙˆØ¨Ù†Ø§ Ù‚Ù„Ù‚Ø© ÙŠØ§ Ø§Ù„Ù„Ù‡ Ø­ØªÙ‰ ØªØ³ØªØ±ÙŠØ­ ÙÙŠÙƒ.", icon: "fa-fire" },
+            { name: "Ø§Ù„Ø£Ù… ØªØ±ÙŠØ²Ø§", quote: "Ù„ÙŠØ³ Ø§Ù„Ù…Ù‡Ù… ÙƒÙ… Ù†ÙØ¹Ù„ØŒ Ø¨Ù„ ÙƒÙ… Ù…Ù† Ø§Ù„Ø­Ø¨ Ù†Ø¶Ø¹ ÙÙŠ Ø§Ù„Ø¹Ù…Ù„.", icon: "fa-hand-holding-heart" },
+            { name: "Ø§Ù„Ø¨Ø§Ø¨Ø§ ÙŠÙˆØ­Ù†Ø§ Ø¨ÙˆÙ„Ø³ Ø§Ù„Ø«Ø§Ù†ÙŠ", quote: "Ù„Ø§ ØªØ®Ø§ÙÙˆØ§! Ø§ÙØªØ­ÙˆØ§ Ø§Ù„Ø£Ø¨ÙˆØ§Ø¨ Ù„Ù„Ù…Ø³ÙŠØ­.", icon: "fa-door-open" }
         ];
         this.init();
     }
@@ -964,7 +964,7 @@ class ProfileManager {
             // Re-add the subtitle part if needed, or better yet, structureHTML safely
             // But since the original was "Welcome, [Name]<br>Subtitle", let's reconstruct safely
             const br = document.createElement('br');
-            const subtitle = document.createTextNode('بوابتك نحو الملكوت');
+            const subtitle = document.createTextNode('Ø¨ÙˆØ§Ø¨ØªÙƒ Ù†Ø­Ùˆ Ø§Ù„Ù…Ù„ÙƒÙˆØª');
             heroTitle.appendChild(br);
             heroTitle.appendChild(subtitle);
         }
@@ -1094,110 +1094,94 @@ class LiturgicalCalendar {
         const badge = document.getElementById('season-text');
         if (badge) badge.innerText = season.name;
 
-        // Update Saint UI (if container exists, or append    updateGreeting() {
-        if (!this.userName) return;
-
-        const heroTitle = document.querySelector('.hero-title span.text-gradient-gold');
-        if (heroTitle) {
-            // Securely set text content to prevent XSS
-            heroTitle.textContent = ''; // Clear
-            heroTitle.append(`Welcome, ${this.userName}`);
-
-            // Re-add the subtitle part if needed, or better yet, structureHTML safely
-            // But since the original was "Welcome, [Name]<br>Subtitle", let's reconstruct safely
-            const br = document.createElement('br');
-            const subtitle = document.createTextNode('بوابتك نحو الملكوت');
-            heroTitle.appendChild(br);
-            heroTitle.appendChild(subtitle);
-        }
-    } if(!document.getElementById('saint-badge')) {
-    const saintBadge = document.createElement('div');
-    saintBadge.id = 'saint-badge';
-    saintBadge.className = 'glass-panel animate__animated animate__fadeIn';
-    saintBadge.style.display = 'inline-block';
-    saintBadge.style.marginTop = '1rem';
-    saintBadge.style.padding = '0.5rem 1rem';
-    saintBadge.style.borderRadius = '20px';
-    saintBadge.style.border = '1px solid var(--primary-gold)';
-    saintBadge.innerHTML = `<i class="fas fa-halo"></i> Today's Saint: <strong>${saint}</strong>`;
-    heroSubtitle.after(saintBadge);
-}
-            }
+        // Update Saint UI
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        if (heroSubtitle && saint && !document.getElementById('saint-badge')) {
+            const saintBadge = document.createElement('div');
+            saintBadge.id = 'saint-badge';
+            saintBadge.className = 'glass-panel animate__animated animate__fadeIn';
+            saintBadge.style.display = 'inline-block';
+            saintBadge.style.marginTop = '1rem';
+            saintBadge.style.padding = '0.5rem 1rem';
+            saintBadge.style.borderRadius = '20px';
+            saintBadge.style.border = '1px solid var(--primary-gold)';
+            saintBadge.innerHTML = `<i class="fas fa-halo"></i> Today's Saint: <strong>${saint}</strong>`;
+            heroSubtitle.after(saintBadge);
         }
 
-// Set Theme Attribute
-if (season.code !== 'ordinary') {
-    document.documentElement.setAttribute('data-season', season.code);
-    console.log(`📅 Liturgical Season: ${season.name}`);
-}
+        // Set Theme Attribute
+        if (season.code !== 'ordinary') {
+            document.documentElement.setAttribute('data-season', season.code);
+            console.log(`ðŸ“… Liturgical Season: ${season.name}`);
+        }
     }
 
-getSaintOfTheDay(date) {
-    const m = date.getMonth(); // 0-11
-    const d = date.getDate(); // 1-31
+    getSaintOfTheDay(date) {
+        const m = date.getMonth(); // 0-11
+        const d = date.getDate(); // 1-31
 
-    // Mini Database of Saints (Eastern/Western Mix)
-    const saints = {
-        "0-17": "St. Anthony the Great (مار أنطونيوس الكبير)",
-        "1-9": "St. Maron (مار مارون)",
-        "2-19": "St. Joseph (عيد القديس يوسف)",
-        "4-22": "St. Rita of Cascia (القديسة ريتا)",
-        "6-24": "St. Charbel (عيد مار شربل)",
-        "7-15": "Assumption of Mary (عيد انتقال العذراء)",
-        "8-14": "Exaltation of the Cross (عيد الصليب)",
-        "9-4": "St. Francis of Assisi (مار فرنسيس)",
-        "10-22": "St. Cecilia (القديسة سيسيليا)",
-        "11-25": "Christmas (ميلاد الرب يسوع)"
-    };
+        // Mini Database of Saints (Eastern/Western Mix)
+        const saints = {
+            "0-17": "St. Anthony the Great (Ù…Ø§Ø± Ø£Ù†Ø·ÙˆÙ†ÙŠÙˆØ³ Ø§Ù„ÙƒØ¨ÙŠØ±)",
+            "1-9": "St. Maron (Ù…Ø§Ø± Ù…Ø§Ø±ÙˆÙ†)",
+            "2-19": "St. Joseph (Ø¹ÙŠØ¯ Ø§Ù„Ù‚Ø¯ÙŠØ³ ÙŠÙˆØ³Ù)",
+            "4-22": "St. Rita of Cascia (Ø§Ù„Ù‚Ø¯ÙŠØ³Ø© Ø±ÙŠØªØ§)",
+            "6-24": "St. Charbel (Ø¹ÙŠØ¯ Ù…Ø§Ø± Ø´Ø±Ø¨Ù„)",
+            "7-15": "Assumption of Mary (Ø¹ÙŠØ¯ Ø§Ù†ØªÙ‚Ø§Ù„ Ø§Ù„Ø¹Ø°Ø±Ø§Ø¡)",
+            "8-14": "Exaltation of the Cross (Ø¹ÙŠØ¯ Ø§Ù„ØµÙ„ÙŠØ¨)",
+            "9-4": "St. Francis of Assisi (Ù…Ø§Ø± ÙØ±Ù†Ø³ÙŠØ³)",
+            "10-22": "St. Cecilia (Ø§Ù„Ù‚Ø¯ÙŠØ³Ø© Ø³ÙŠØ³ÙŠÙ„ÙŠØ§)",
+            "11-25": "Christmas (Ù…ÙŠÙ„Ø§Ø¯ Ø§Ù„Ø±Ø¨ ÙŠØ³ÙˆØ¹)"
+        };
 
-    const key = `${m}-${d}`;
-    return saints[key] || null; // Return null if no specific saint today
-}
+        const key = `${m}-${d}`;
+        return saints[key] || null; // Return null if no specific saint today
+    }
 
-getSeason(date) {
-    const year = date.getFullYear();
-    const easter = this.getEasterDate(year);
-    const ashWednesday = new Date(easter);
-    ashWednesday.setDate(easter.getDate() - 46);
+    getSeason(date) {
+        const year = date.getFullYear();
+        const easter = this.getEasterDate(year);
+        const ashWednesday = new Date(easter);
+        ashWednesday.setDate(easter.getDate() - 46);
 
-    const pentecost = new Date(easter);
-    pentecost.setDate(easter.getDate() + 49);
+        const pentecost = new Date(easter);
+        pentecost.setDate(easter.getDate() + 49);
 
-    const adventStart = this.getAdventStart(year);
-    const christmas = new Date(year, 11, 25);
+        const adventStart = this.getAdventStart(year);
+        const christmas = new Date(year, 11, 25);
 
-    // Check ranges
-    if (date >= ashWednesday && date < easter) return { name: "Lent - زمن الصوم", code: "lent" };
-    if (date >= easter && date <= pentecost) return { name: "Eastertide - زمن القيامة", code: "easter" }; // Gold default
-    if (date >= adventStart && date < christmas) return { name: "Advent - زمن المجيء", code: "advent" };
-    if (date.getMonth() === 11 && date.getDate() >= 25) return { name: "Christmas Season - زمن الميلاد", code: "easter" }; // Gold
+        // Check ranges
+        if (date >= ashWednesday && date < easter) return { name: "Lent - Ø²Ù…Ù† Ø§Ù„ØµÙˆÙ…", code: "lent" };
+        if (date >= easter && date <= pentecost) return { name: "Eastertide - Ø²Ù…Ù† Ø§Ù„Ù‚ÙŠØ§Ù…Ø©", code: "easter" }; // Gold default
+        if (date >= adventStart && date < christmas) return { name: "Advent - Ø²Ù…Ù† Ø§Ù„Ù…Ø¬ÙŠØ¡", code: "advent" };
+        if (date.getMonth() === 11 && date.getDate() >= 25) return { name: "Christmas Season - Ø²Ù…Ù† Ø§Ù„Ù…ÙŠÙ„Ø§Ø¯", code: "easter" }; // Gold
 
-    // Simple check for Fridays (Mini-Lent/Penance)
-    if (date.getDay() === 5) return { name: "Friday Penance - توبة الجمعة", code: "lent" };
+        // Simple check for Fridays (Mini-Lent/Penance)
+        if (date.getDay() === 5) return { name: "Friday Penance - ØªÙˆØ¨Ø© Ø§Ù„Ø¬Ù…Ø¹Ø©", code: "lent" };
 
-    return { name: "Ordinary Time - الزمن العادي", code: "ordinary" };
-}
+        return { name: "Ordinary Time - Ø§Ù„Ø²Ù…Ù† Ø§Ù„Ø¹Ø§Ø¯ÙŠ", code: "ordinary" };
+    }
 
-getEasterDate(year) {
-    // Algorithm to calculate Western Easter
-    const f = Math.floor,
-        G = year % 19,
-        C = f(year / 100),
-        H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30,
-        I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11)),
-        J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7,
-        L = I - J,
-        month = 3 + f((L + 40) / 44),
-        day = L + 28 - 31 * f(month / 4);
+    getEasterDate(year) {
+        // Algorithm to calculate Western Easter
+        const f = Math.floor,
+            G = year % 19,
+            C = f(year / 100),
+            H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30,
+            I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11)),
+            J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7,
+            L = I - J,
+            month = 3 + f((L + 40) / 44),
+            day = L + 28 - 31 * f(month / 4);
 
-    return new Date(year, month - 1, day);
-}
+        return new Date(year, month - 1, day);
+    }
 
-getAdventStart(year) {
-    const date = new Date(year, 11, 25);
-    date.setDate(date.getDate() - date.getDay() - 22); // 4th Sunday before Christmas
-    return date;
-}
+    getAdventStart(year) {
+        const date = new Date(year, 11, 25);
+        date.setDate(date.getDate() - date.getDay() - 22); // 4th Sunday before Christmas
+        return date;
+    }
 }
 
 
@@ -1537,7 +1521,7 @@ class ObservatoryManager {
             { name: "St. Teresa of Avila", quote: "Let nothing disturb you." },
             { name: "St. Francis", quote: "Make me an instrument of your peace." },
             { name: "St. Benedict", quote: "Ora et Labora." },
-            { name: "St. Thérèse of Lisieux", quote: "I will spend my heaven doing good on earth." },
+            { name: "St. ThÃ©rÃ¨se of Lisieux", quote: "I will spend my heaven doing good on earth." },
             { name: "St. John Paul II", quote: "Be not afraid!" },
             { name: "St. Thomas Aquinas", quote: "To love is to will the good of the other." }
         ];
@@ -2287,7 +2271,7 @@ class SoulManager {
         if (statVisits) statVisits.innerText = visits;
 
         // Simple streak simulator (Mock logic for demo)
-        if (streakEl) streakEl.innerHTML = `🔥 ${Math.min(visits, 999)} Visits`;
+        if (streakEl) streakEl.innerHTML = `ðŸ”¥ ${Math.min(visits, 999)} Visits`;
     }
 }
 
@@ -2433,7 +2417,7 @@ class LectioManager {
             btn.id = 'start-lectio-btn';
             btn.className = 'btn btn-sm btn-outline-gold';
             btn.style.marginTop = '1rem';
-            btn.innerHTML = '<i class="fas fa-spa"></i> Meditate on this Word / تأمل في الكلمة';
+            btn.innerHTML = '<i class="fas fa-spa"></i> Meditate on this Word / ØªØ£Ù…Ù„ ÙÙŠ Ø§Ù„ÙƒÙ„Ù…Ø©';
             btn.onclick = () => this.startSession();
 
             verseContainer.appendChild(document.createElement('br'));
@@ -2506,7 +2490,7 @@ class ContactManager {
         const type = document.getElementById('req-type').value;
         const msg = document.getElementById('req-message').value;
 
-        const subject = encodeURIComponent(`🙏 PRAYER REQUEST: ${type} `);
+        const subject = encodeURIComponent(`ðŸ™ PRAYER REQUEST: ${type} `);
         const body = encodeURIComponent(
             `Dear Soul Guidance Ministry,
 
@@ -2538,7 +2522,7 @@ class DivineInteractions {
     }
 
     init() {
-        console.log('✨ Initializing Divine Interactions (Phase 3)...');
+        console.log('âœ¨ Initializing Divine Interactions (Phase 3)...');
         this.initParallax();
         this.initConstellation();
         this.initHolyCursor();
@@ -2671,7 +2655,7 @@ class DivineInteractions {
                 btn.addEventListener('click', () => this.playChime(880, 0.2)); // A5
             });
 
-            console.log('🎵 Heavenly Audio Initialized');
+            console.log('ðŸŽµ Heavenly Audio Initialized');
         } catch (e) {
             console.warn('Audio context not supported');
         }
@@ -2789,7 +2773,7 @@ function initPrayerButtons() {
         'transformation-btn'
     ];
 
-    console.log('🔄 Initializing prayer buttons...');
+    console.log('ðŸ”„ Initializing prayer buttons...');
 
     buttonIds.forEach(id => {
         const btn = document.getElementById(id);
@@ -2800,13 +2784,13 @@ function initPrayerButtons() {
 
             newBtn.addEventListener('click', function (e) {
                 e.preventDefault();
-                console.log(`✅ Button clicked: ${id} `);
+                console.log(`âœ… Button clicked: ${id} `);
                 const type = id === 'transformation-btn' ? 'transformation' : 'maronite';
                 openPrayerModal(type);
             });
-            console.log(`✅ Attached listener to: ${id} `);
+            console.log(`âœ… Attached listener to: ${id} `);
         } else {
-            console.warn(`⚠️ Button not found: ${id} `);
+            console.warn(`âš ï¸ Button not found: ${id} `);
         }
     });
 
@@ -2822,7 +2806,7 @@ function initPrayerButtons() {
 // Modal Functions
 function openPrayerModal(type = 'maronite') {
     if (window.isSiteLoading) {
-        console.warn('⛔ Blocked startup popup attempt');
+        console.warn('â›” Blocked startup popup attempt');
         return;
     }
     console.log('Opening prayer modal...', type);
@@ -2835,28 +2819,28 @@ function openPrayerModal(type = 'maronite') {
         const textarea = modal.querySelector('textarea');
 
         if (type === 'maronite' && textarea) {
-            textarea.value = `MARONITE PRAYER INTENTION REQUEST - طلب صلاة مارونية
+            textarea.value = `MARONITE PRAYER INTENTION REQUEST - Ø·Ù„Ø¨ ØµÙ„Ø§Ø© Ù…Ø§Ø±ÙˆÙ†ÙŠØ©
 
 Dear Soul Guidance Maronite Community,
-    عزيزتي جماعة إرشاد الروح المارونية،
+    Ø¹Ø²ÙŠØ²ØªÙŠ Ø¬Ù…Ø§Ø¹Ø© Ø¥Ø±Ø´Ø§Ø¯ Ø§Ù„Ø±ÙˆØ­ Ø§Ù„Ù…Ø§Ø±ÙˆÙ†ÙŠØ©ØŒ
 
 I humbly submit my prayer intentions to be included in our daily Maronite liturgies and traditional Eastern Christian prayers.
 
-PRAYER INTENTIONS - نيات الصلاة:
-□ For healing(physical, emotional, spiritual)
-□ For family members and loved ones  
-□ For guidance in life decisions
-□ For peace and comfort in difficult times
-□ For spiritual growth and closer relationship with Christ
-□ For the intercession of Our Lady and the saints
-□ For the souls of the departed
-□ Other specific intentions: _______________
+PRAYER INTENTIONS - Ù†ÙŠØ§Øª Ø§Ù„ØµÙ„Ø§Ø©:
+â–¡ For healing(physical, emotional, spiritual)
+â–¡ For family members and loved ones  
+â–¡ For guidance in life decisions
+â–¡ For peace and comfort in difficult times
+â–¡ For spiritual growth and closer relationship with Christ
+â–¡ For the intercession of Our Lady and the saints
+â–¡ For the souls of the departed
+â–¡ Other specific intentions: _______________
 
-With faith and gratitude - بالإيمان والامتنان,
+With faith and gratitude - Ø¨Ø§Ù„Ø¥ÙŠÙ…Ø§Ù† ÙˆØ§Ù„Ø§Ù…ØªÙ†Ø§Ù†,
 
-    [Your Full Name - اسمك الكامل]
-    [Your Email Address - عنوان بريدك الإلكتروني]
-[Your Location - موقعك]`;
+    [Your Full Name - Ø§Ø³Ù…Ùƒ Ø§Ù„ÙƒØ§Ù…Ù„]
+    [Your Email Address - Ø¹Ù†ÙˆØ§Ù† Ø¨Ø±ÙŠØ¯Ùƒ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ]
+[Your Location - Ù…ÙˆÙ‚Ø¹Ùƒ]`;
         } else if (type === 'transformation' && textarea) {
             textarea.value = `LIFE TRANSFORMATION REQUEST - PRIORITY
 
@@ -2865,22 +2849,22 @@ Dear Soul Guidance Ministry Team,
     I am ready to experience complete life transformation through Jesus Christ.
 
 CURRENT LIFE SITUATION:
-□ Feeling lost and without purpose
-□ Struggling with depression / anxiety
-□ Relationship problems
-□ Financial difficulties
-□ Addiction or harmful habits
-□ Spiritual emptiness
-□ Other: _______________
+â–¡ Feeling lost and without purpose
+â–¡ Struggling with depression / anxiety
+â–¡ Relationship problems
+â–¡ Financial difficulties
+â–¡ Addiction or harmful habits
+â–¡ Spiritual emptiness
+â–¡ Other: _______________
 
 TRANSFORMATION GOALS:
-□ Find my divine purpose and calling
-□ Experience genuine joy and peace
-□ Build strong relationship with Jesus Christ
-□ Heal from past wounds and trauma
-□ Restore broken relationships
-□ Achieve financial breakthrough
-□ Break free from destructive patterns
+â–¡ Find my divine purpose and calling
+â–¡ Experience genuine joy and peace
+â–¡ Build strong relationship with Jesus Christ
+â–¡ Heal from past wounds and trauma
+â–¡ Restore broken relationships
+â–¡ Achieve financial breakthrough
+â–¡ Break free from destructive patterns
 
 I believe in the power of Jesus Christ to transform lives and I am ready to experience this miracle in my own life.
 
@@ -2985,7 +2969,7 @@ window.callNow = callNow;
 window.sendEmail = sendEmail;
 window.showNotification = showNotification;
 
-console.log('✅ Soul Guidance Website JavaScript loaded successfully!');
+console.log('âœ… Soul Guidance Website JavaScript loaded successfully!');
 
 
 // ========================================
@@ -2994,7 +2978,7 @@ console.log('✅ Soul Guidance Website JavaScript loaded successfully!');
 
 // Show Prayer Section Navigation
 function showPrayerSection(sectionId) {
-    console.log('📖 Showing prayer section:', sectionId);
+    console.log('ðŸ“– Showing prayer section:', sectionId);
 
     // Scroll to the prayer section
     const prayerSection = document.getElementById('prayer');
@@ -3017,7 +3001,7 @@ function showPrayerSection(sectionId) {
 
 // Divine Mercy Book Functions - FIXED for duplicate IDs
 function openDivineMercyBook() {
-    console.log('📖 Opening Divine Mercy Book');
+    console.log('ðŸ“– Opening Divine Mercy Book');
 
     // Use the correct ID directly
     const bookCover = document.getElementById('bookCover');
@@ -3042,10 +3026,10 @@ function openDivineMercyBook() {
             bookContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
 
-        showNotification('Divine Mercy Book opened! 📖', 'success');
-        console.log('✅ Divine Mercy Book opened successfully');
+        showNotification('Divine Mercy Book opened! ðŸ“–', 'success');
+        console.log('âœ… Divine Mercy Book opened successfully');
     } else {
-        console.error('❌ Book elements not found!');
+        console.error('âŒ Book elements not found!');
         console.error('bookCover:', bookCover);
         console.error('bookContent:', bookContent);
         showNotification('Error: Could not open book', 'error');
@@ -3053,7 +3037,7 @@ function openDivineMercyBook() {
 }
 
 function closeDivineMercyBook() {
-    console.log('📖 Closing Divine Mercy Book');
+    console.log('ðŸ“– Closing Divine Mercy Book');
 
     // Use the correct ID directly
     const bookCover = document.getElementById('bookCover');
@@ -3072,15 +3056,15 @@ function closeDivineMercyBook() {
         }, 100);
 
         showNotification('Divine Mercy Book closed', 'info');
-        console.log('✅ Divine Mercy Book closed successfully');
+        console.log('âœ… Divine Mercy Book closed successfully');
     } else {
-        console.error('❌ Book elements not found!');
+        console.error('âŒ Book elements not found!');
         showNotification('Error: Could not close book', 'error');
     }
 }
 
 function showChapter(chapterId) {
-    console.log('📖 Showing chapter:', chapterId);
+    console.log('ðŸ“– Showing chapter:', chapterId);
 
     // Hide all chapters
     document.querySelectorAll('.book-chapter').forEach(chapter => {
@@ -3107,7 +3091,7 @@ function showChapter(chapterId) {
 
 // Saint Anthony Book Functions - FIXED for duplicate IDs
 function openAnthonyBook() {
-    console.log('📖 Opening Saint Anthony Book');
+    console.log('ðŸ“– Opening Saint Anthony Book');
 
     // Use the correct ID directly
     const bookCover = document.getElementById('anthonyBookCover');
@@ -3131,16 +3115,16 @@ function openAnthonyBook() {
             bookContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
 
-        showNotification('Saint Anthony Book opened! 📖', 'success');
-        console.log('✅ Saint Anthony Book opened successfully');
+        showNotification('Saint Anthony Book opened! ðŸ“–', 'success');
+        console.log('âœ… Saint Anthony Book opened successfully');
     } else {
-        console.error('❌ Anthony book elements not found!');
+        console.error('âŒ Anthony book elements not found!');
         showNotification('Error: Could not open book', 'error');
     }
 }
 
 function closeAnthonyBook() {
-    console.log('📖 Closing Saint Anthony Book');
+    console.log('ðŸ“– Closing Saint Anthony Book');
 
     const bookCover = document.getElementById('anthonyBookCover');
     const bookContent = document.getElementById('anthonyBookContent');
@@ -3154,15 +3138,15 @@ function closeAnthonyBook() {
         }, 100);
 
         showNotification('Saint Anthony Book closed', 'info');
-        console.log('✅ Saint Anthony Book closed successfully');
+        console.log('âœ… Saint Anthony Book closed successfully');
     } else {
-        console.error('❌ Anthony book elements not found!');
+        console.error('âŒ Anthony book elements not found!');
         showNotification('Error: Could not close book', 'error');
     }
 }
 
 function showAnthonyChapter(chapterId) {
-    console.log('📖 Showing Anthony chapter:', chapterId);
+    console.log('ðŸ“– Showing Anthony chapter:', chapterId);
 
     // Hide all Anthony chapters
     document.querySelectorAll('#anthonyBookContent .book-chapter').forEach(chapter => {
@@ -3189,7 +3173,7 @@ function showAnthonyChapter(chapterId) {
 
 // Holy Rosary Book Functions - FIXED for duplicate IDs
 function openRosaryBook() {
-    console.log('📖 Opening Holy Rosary Book');
+    console.log('ðŸ“– Opening Holy Rosary Book');
 
     const bookCover = document.getElementById('rosaryBookCover');
     const bookContent = document.getElementById('rosaryBookContent');
@@ -3212,16 +3196,16 @@ function openRosaryBook() {
             bookContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
 
-        showNotification('Holy Rosary Book opened! 📖', 'success');
-        console.log('✅ Holy Rosary Book opened successfully');
+        showNotification('Holy Rosary Book opened! ðŸ“–', 'success');
+        console.log('âœ… Holy Rosary Book opened successfully');
     } else {
-        console.error('❌ Rosary book elements not found!');
+        console.error('âŒ Rosary book elements not found!');
         showNotification('Error: Could not open book', 'error');
     }
 }
 
 function closeRosaryBook() {
-    console.log('📖 Closing Holy Rosary Book');
+    console.log('ðŸ“– Closing Holy Rosary Book');
 
     const bookCover = document.getElementById('rosaryBookCover');
     const bookContent = document.getElementById('rosaryBookContent');
@@ -3235,15 +3219,15 @@ function closeRosaryBook() {
         }, 100);
 
         showNotification('Holy Rosary Book closed', 'info');
-        console.log('✅ Holy Rosary Book closed successfully');
+        console.log('âœ… Holy Rosary Book closed successfully');
     } else {
-        console.error('❌ Rosary book elements not found!');
+        console.error('âŒ Rosary book elements not found!');
         showNotification('Error: Could not close book', 'error');
     }
 }
 
 function showRosaryChapter(chapterId) {
-    console.log('📖 Showing Rosary chapter:', chapterId);
+    console.log('ðŸ“– Showing Rosary chapter:', chapterId);
 
     // Hide all Rosary chapters
     document.querySelectorAll('#rosaryBookContent .book-chapter').forEach(chapter => {
@@ -3270,7 +3254,7 @@ function showRosaryChapter(chapterId) {
 
 // Spiritual Warfare Book Functions - FIXED for duplicate IDs
 function openWarfareBook() {
-    console.log('📖 Opening Spiritual Warfare Book');
+    console.log('ðŸ“– Opening Spiritual Warfare Book');
 
     const bookCover = document.getElementById('warfareBookCover');
     const bookContent = document.getElementById('warfareBookContent');
@@ -3293,16 +3277,16 @@ function openWarfareBook() {
             bookContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
 
-        showNotification('Spiritual Warfare Book opened! ⚔️', 'success');
-        console.log('✅ Spiritual Warfare Book opened successfully');
+        showNotification('Spiritual Warfare Book opened! âš”ï¸', 'success');
+        console.log('âœ… Spiritual Warfare Book opened successfully');
     } else {
-        console.error('❌ Warfare book elements not found!');
+        console.error('âŒ Warfare book elements not found!');
         showNotification('Error: Could not open book', 'error');
     }
 }
 
 function closeWarfareBook() {
-    console.log('📖 Closing Spiritual Warfare Book');
+    console.log('ðŸ“– Closing Spiritual Warfare Book');
 
     const bookCover = document.getElementById('warfareBookCover');
     const bookContent = document.getElementById('warfareBookContent');
@@ -3316,15 +3300,15 @@ function closeWarfareBook() {
         }, 100);
 
         showNotification('Spiritual Warfare Book closed', 'info');
-        console.log('✅ Spiritual Warfare Book closed successfully');
+        console.log('âœ… Spiritual Warfare Book closed successfully');
     } else {
-        console.error('❌ Warfare book elements not found!');
+        console.error('âŒ Warfare book elements not found!');
         showNotification('Error: Could not close book', 'error');
     }
 }
 
 function showWarfareChapter(chapterId) {
-    console.log('⚔️ Showing Warfare chapter:', chapterId);
+    console.log('âš”ï¸ Showing Warfare chapter:', chapterId);
 
     // Hide all Warfare chapters
     document.querySelectorAll('#warfareBookContent .book-chapter').forEach(chapter => {
@@ -3364,7 +3348,7 @@ window.openWarfareBook = openWarfareBook;
 window.closeWarfareBook = closeWarfareBook;
 window.showWarfareChapter = showWarfareChapter;
 
-console.log('✅ All prayer book functions loaded successfully!');
+console.log('âœ… All prayer book functions loaded successfully!');
 
 /* --- HOLY PARTICLE SYSTEM (SUPERINTELLIGENCE VISUAL) --- */
 /* --- CONSTELLATION ENGINE (THE FIRMAMENT) --- */
@@ -3520,7 +3504,7 @@ class LiturgicalTime {
             timeName = "Compline (Night)";
         }
 
-        console.log(`🕰️ Liturgical Time: ${timeName} `);
+        console.log(`ðŸ•°ï¸ Liturgical Time: ${timeName} `);
     }
 }
 
@@ -3542,29 +3526,29 @@ class PatronSaintMatcher {
     constructor() {
         this.questions = [
             {
-                id: 1, text: "ما الذي تبحث عنه الآن؟", options: [
-                    { text: "السلام الداخلي", traits: ["peace", "monastic"] },
-                    { text: "القوة في الصعاب", traits: ["strength", "martyr"] },
-                    { text: "الحكمة والمعرفة", traits: ["wisdom", "doctor"] },
-                    { text: "شفاء النفس والجسد", traits: ["healing", "miracle"] }
+                id: 1, text: "Ù…Ø§ Ø§Ù„Ø°ÙŠ ØªØ¨Ø­Ø« Ø¹Ù†Ù‡ Ø§Ù„Ø¢Ù†ØŸ", options: [
+                    { text: "Ø§Ù„Ø³Ù„Ø§Ù… Ø§Ù„Ø¯Ø§Ø®Ù„ÙŠ", traits: ["peace", "monastic"] },
+                    { text: "Ø§Ù„Ù‚ÙˆØ© ÙÙŠ Ø§Ù„ØµØ¹Ø§Ø¨", traits: ["strength", "martyr"] },
+                    { text: "Ø§Ù„Ø­ÙƒÙ…Ø© ÙˆØ§Ù„Ù…Ø¹Ø±ÙØ©", traits: ["wisdom", "doctor"] },
+                    { text: "Ø´ÙØ§Ø¡ Ø§Ù„Ù†ÙØ³ ÙˆØ§Ù„Ø¬Ø³Ø¯", traits: ["healing", "miracle"] }
                 ]
             },
             {
-                id: 2, text: "كيف تفضل أن تصلي؟", options: [
-                    { text: "بصمت وعزلة", traits: ["monastic", "peace"] },
-                    { text: "بخدمة الآخرين", traits: ["charity", "active"] },
-                    { text: "بترانيم وتسابيح", traits: ["joy", "praise"] },
-                    { text: "بقراءة الكتب المقدسة", traits: ["wisdom", "scripture"] }
+                id: 2, text: "ÙƒÙŠÙ ØªÙØ¶Ù„ Ø£Ù† ØªØµÙ„ÙŠØŸ", options: [
+                    { text: "Ø¨ØµÙ…Øª ÙˆØ¹Ø²Ù„Ø©", traits: ["monastic", "peace"] },
+                    { text: "Ø¨Ø®Ø¯Ù…Ø© Ø§Ù„Ø¢Ø®Ø±ÙŠÙ†", traits: ["charity", "active"] },
+                    { text: "Ø¨ØªØ±Ø§Ù†ÙŠÙ… ÙˆØªØ³Ø§Ø¨ÙŠØ­", traits: ["joy", "praise"] },
+                    { text: "Ø¨Ù‚Ø±Ø§Ø¡Ø© Ø§Ù„ÙƒØªØ¨ Ø§Ù„Ù…Ù‚Ø¯Ø³Ø©", traits: ["wisdom", "scripture"] }
                 ]
             }
         ];
 
         this.saints = [
-            { name: "مار شربل", title: "قديس العجائب", trait: "miracle", desc: "شفيعك للشفاء والعجائب.", img: "fa-cross" },
-            { name: "تريزا الطفل يسوع", title: "وردة المسيح", trait: "peace", desc: "تعلمك الطريق الصغير للحب.", img: "fa-rose" },
-            { name: "مار جرجس", title: "الشهيد العظيم", trait: "strength", desc: "يمنحك القوة لمحاربة الشر.", img: "fa-shield-alt" },
-            { name: "الأم تريزا", title: "أم الفقراء", trait: "charity", desc: "تلهمك لخدمة المسيح في الآخرين.", img: "fa-hand-holding-heart" },
-            { name: "القديس توما الأكويني", title: "المعلم الملائكي", trait: "wisdom", desc: "يرشد عقلك نحو الحقيقة.", img: "fa-book-open" }
+            { name: "Ù…Ø§Ø± Ø´Ø±Ø¨Ù„", title: "Ù‚Ø¯ÙŠØ³ Ø§Ù„Ø¹Ø¬Ø§Ø¦Ø¨", trait: "miracle", desc: "Ø´ÙÙŠØ¹Ùƒ Ù„Ù„Ø´ÙØ§Ø¡ ÙˆØ§Ù„Ø¹Ø¬Ø§Ø¦Ø¨.", img: "fa-cross" },
+            { name: "ØªØ±ÙŠØ²Ø§ Ø§Ù„Ø·ÙÙ„ ÙŠØ³ÙˆØ¹", title: "ÙˆØ±Ø¯Ø© Ø§Ù„Ù…Ø³ÙŠØ­", trait: "peace", desc: "ØªØ¹Ù„Ù…Ùƒ Ø§Ù„Ø·Ø±ÙŠÙ‚ Ø§Ù„ØµØºÙŠØ± Ù„Ù„Ø­Ø¨.", img: "fa-rose" },
+            { name: "Ù…Ø§Ø± Ø¬Ø±Ø¬Ø³", title: "Ø§Ù„Ø´Ù‡ÙŠØ¯ Ø§Ù„Ø¹Ø¸ÙŠÙ…", trait: "strength", desc: "ÙŠÙ…Ù†Ø­Ùƒ Ø§Ù„Ù‚ÙˆØ© Ù„Ù…Ø­Ø§Ø±Ø¨Ø© Ø§Ù„Ø´Ø±.", img: "fa-shield-alt" },
+            { name: "Ø§Ù„Ø£Ù… ØªØ±ÙŠØ²Ø§", title: "Ø£Ù… Ø§Ù„ÙÙ‚Ø±Ø§Ø¡", trait: "charity", desc: "ØªÙ„Ù‡Ù…Ùƒ Ù„Ø®Ø¯Ù…Ø© Ø§Ù„Ù…Ø³ÙŠØ­ ÙÙŠ Ø§Ù„Ø¢Ø®Ø±ÙŠÙ†.", img: "fa-hand-holding-heart" },
+            { name: "Ø§Ù„Ù‚Ø¯ÙŠØ³ ØªÙˆÙ…Ø§ Ø§Ù„Ø£ÙƒÙˆÙŠÙ†ÙŠ", title: "Ø§Ù„Ù…Ø¹Ù„Ù… Ø§Ù„Ù…Ù„Ø§Ø¦ÙƒÙŠ", trait: "wisdom", desc: "ÙŠØ±Ø´Ø¯ Ø¹Ù‚Ù„Ùƒ Ù†Ø­Ùˆ Ø§Ù„Ø­Ù‚ÙŠÙ‚Ø©.", img: "fa-book-open" }
         ];
 
         this.init();
@@ -3584,8 +3568,8 @@ class PatronSaintMatcher {
         modal.style.zIndex = '10002';
         modal.innerHTML = `
     < div class="shrine-header" >
-                <h3>رفيقك السماوي</h3>
-                <small>أجب لتكتشف شفيعك</small>
+                <h3>Ø±ÙÙŠÙ‚Ùƒ Ø§Ù„Ø³Ù…Ø§ÙˆÙŠ</h3>
+                <small>Ø£Ø¬Ø¨ Ù„ØªÙƒØªØ´Ù Ø´ÙÙŠØ¹Ùƒ</small>
             </div >
     <div class="quiz-content" id="quiz-content">
         <!-- Dynamic Question -->
@@ -3640,7 +3624,7 @@ class PatronSaintMatcher {
                     <p>"${saint.desc}"</p>
                 </div>
                 <button id="close-quiz" style="padding:0.8rem 2rem; background:var(--primary-gold); border:none; border-radius:20px; font-weight:bold; cursor:pointer;">
-                    قبول الصداقة
+                    Ù‚Ø¨ÙˆÙ„ Ø§Ù„ØµØ¯Ø§Ù‚Ø©
                 </button>
             </div >
     `;
@@ -3648,7 +3632,7 @@ class PatronSaintMatcher {
         modal.querySelector('#close-quiz').addEventListener('click', () => {
             modal.remove();
             if (window.soulGuidanceAudio) window.soulGuidanceAudio.playChime(600, 0.5);
-            showNotification(`شفيعك هو ${saint.name} `, "success");
+            showNotification(`Ø´ÙÙŠØ¹Ùƒ Ù‡Ùˆ ${saint.name} `, "success");
         });
     }
 }
@@ -3664,7 +3648,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.style.textAlign = 'center';
         div.style.marginTop = '2rem';
-        div.innerHTML = `< button onclick = "window.patronMatcher.startQuiz()" style = "background:transparent; border:1px solid var(--text-silver); color:var(--text-silver); padding:0.5rem 1rem; border-radius:20px; cursor:pointer;" > من هو شفيعي؟</button > `;
+        div.innerHTML = `< button onclick = "window.patronMatcher.startQuiz()" style = "background:transparent; border:1px solid var(--text-silver); color:var(--text-silver); padding:0.5rem 1rem; border-radius:20px; cursor:pointer;" > Ù…Ù† Ù‡Ùˆ Ø´ÙÙŠØ¹ÙŠØŸ</button > `;
         footer.insertBefore(div, footer.firstChild);
     }
 });
@@ -3869,7 +3853,7 @@ nav, footer, .hero, #divine - preloader, .shrine - trigger - btn, .sg - trigger 
     }
 }
 
-console.log('🌌 Firmament & Time Cycle Activated');
+console.log('ðŸŒŒ Firmament & Time Cycle Activated');
 
 
 
@@ -4113,7 +4097,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Wait for other elements to render
     setTimeout(() => {
         new TiltEffect();
-        console.log('🌌 3D Tilt Physics Enabled');
+        console.log('ðŸŒŒ 3D Tilt Physics Enabled');
     }, 1000);
 });
 
@@ -4194,7 +4178,7 @@ class SacredGeometry {
 
 document.addEventListener('DOMContentLoaded', () => {
     new SacredGeometry();
-    console.log('📐 Sacred Geometry Active');
+    console.log('ðŸ“ Sacred Geometry Active');
 });
 
 /* --- PHASE 26: BIBLICAL MAP --- */
@@ -4269,7 +4253,7 @@ class SacredCalendar {
 
     applyTheme(season) {
         document.body.style.setProperty('--primary-purple-vivid', season.color);
-        console.log(`📅 Season: ${season.name} `);
+        console.log(`ðŸ“… Season: ${season.name} `);
     }
 }
 
@@ -4280,7 +4264,7 @@ class VirtualChoir {
         this.init();
     }
     init() {
-        if (this.ctx) console.log("🏰 Cathedral Reverb Ready");
+        if (this.ctx) console.log("ðŸ° Cathedral Reverb Ready");
     }
 }
 
@@ -4715,7 +4699,7 @@ class AngelusBell {
     }
 
     playBell() {
-        showNotification("🔔 The Angel of the Lord declared unto Mary...", "info");
+        showNotification("ðŸ”” The Angel of the Lord declared unto Mary...", "info");
         // Play Bell Sound using Procedural Audio
         if (window.soulGuidanceAudio) {
             window.soulGuidanceAudio.playChime(523.25, 2); // C5
@@ -4761,7 +4745,7 @@ class FastingTimer {
             }
                 </div>
             </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; background:none; border:none; color:white;">✖</button>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; background:none; border:none; color:white;">âœ–</button>
 `;
         document.body.appendChild(modal);
 
@@ -6307,91 +6291,7 @@ class FractalZoom {
     }
 }
 
-class CandleManager {
-    constructor() {
-        this.litCandles = JSON.parse(localStorage.getItem('soulGuidance_litCandles')) || [];
-        this.init();
-    }
 
-    init() {
-        // Add "Light a Candle" floating button or link in navbar
-        this.createAccessPoint();
-    }
-
-    createAccessPoint() {
-        // For now, let's add it to the footer
-        const footer = document.querySelector('footer');
-        if (footer) {
-            const btn = document.createElement('button');
-            btn.className = 'btn-text';
-            btn.innerHTML = '<i class="fas fa-fire"></i> Light a Candle / أشعل شمعة';
-            btn.onclick = () => this.openShrine();
-            footer.appendChild(btn);
-        }
-    }
-
-    openShrine() {
-        // Create simple modal
-        const modal = document.createElement('div');
-        modal.className = 'glass-panel animate__animated animate__fadeIn';
-        modal.style.position = 'fixed';
-        modal.style.top = '0';
-        modal.style.left = '0';
-        modal.style.width = '100%';
-        modal.style.height = '100%';
-        modal.style.zIndex = '100000';
-        modal.style.display = 'flex';
-        modal.style.flexDirection = 'column';
-        modal.style.alignItems = 'center';
-        modal.style.justifyContent = 'center';
-        modal.style.background = 'rgba(0,0,0,0.9)';
-
-        modal.innerHTML = `
-            <h2 class="text-gradient-gold">Virtual Shrine / مزار افتراضي</h2>
-            <div id="candle-container" style="margin: 2rem;">
-                <div class="candle ${this.isLit() ? 'lit' : ''}" style="width: 50px; height: 150px; background: white; border-radius: 5px; position: relative;">
-                    <div class="flame" style="display: ${this.isLit() ? 'block' : 'none'}; width: 20px; height: 40px; background: orange; border-radius: 50% 50% 20% 20%; position: absolute; top: -30px; left: 15px; animation: flicker 1s infinite alternate; box-shadow: 0 0 20px orange;"></div>
-                    <div class="wick" style="width: 4px; height: 10px; background: black; position: absolute; top: -10px; left: 23px;"></div>
-                </div>
-            </div>
-            <button id="light-btn" class="glass-btn">${this.isLit() ? 'Reflect / تأمل' : 'Light Candle / أشعل'}</button>
-            <button id="close-shrine" class="btn-text" style="margin-top: 1rem;">Close / إغلاق</button>
-            <style>
-                @keyframes flicker {
-                    0% { transform: scale(1); opacity: 0.9; }
-                    100% { transform: scale(1.1); opacity: 1; }
-                }
-            </style>
-        `;
-
-        document.body.appendChild(modal);
-
-        modal.querySelector('#light-btn').onclick = () => {
-            if (!this.isLit()) {
-                this.lightCandle();
-                modal.querySelector('.flame').style.display = 'block';
-                modal.querySelector('#light-btn').innerText = 'Reflect / تأمل';
-            }
-        };
-
-        modal.querySelector('#close-shrine').onclick = () => modal.remove();
-    }
-
-    isLit() {
-        // Check if lit today
-        const today = new Date().toDateString();
-        return this.litCandles.includes(today);
-    }
-
-    lightCandle() {
-        const today = new Date().toDateString();
-        this.litCandles.push(today);
-        localStorage.setItem('soulGuidance_litCandles', JSON.stringify(this.litCandles));
-        showNotification("May this light guide your path.", "success");
-    }
-}
-
-new CandleManager();
 /* --- PHASE 83: CREATION CRIES --- */
 class NatureSounds {
     constructor() { this.init(); }
@@ -6413,9 +6313,9 @@ class NatureSounds {
                 <div style="padding:1rem; text-align:center;">
                     <p>Listen to creation groaning for redemption (Rom 8:22).</p>
                     <div style="display:flex; justify-content:center; gap:10px; margin-top:1rem;">
-                        <button class="btn btn-secondary" onclick="showNotification('🎵 Wind Howling...', 'info')">Wind</button>
-                        <button class="btn btn-secondary" onclick="showNotification('🎵 Thunder Rolling...', 'info')">Thunder</button>
-                        <button class="btn btn-secondary" onclick="showNotification('🎵 River Rushing...', 'info')">River</button>
+                        <button class="btn btn-secondary" onclick="showNotification('ðŸŽµ Wind Howling...', 'info')">Wind</button>
+                        <button class="btn btn-secondary" onclick="showNotification('ðŸŽµ Thunder Rolling...', 'info')">Thunder</button>
+                        <button class="btn btn-secondary" onclick="showNotification('ðŸŽµ River Rushing...', 'info')">River</button>
                     </div>
                     <p style="font-size:0.8rem; margin-top:1rem; opacity:0.7;">(Audio synthesis simulated)</p>
                 </div>
@@ -7002,10 +6902,10 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
             .then(registration => {
-                console.log('✅ Service Worker registered with scope:', registration.scope);
+                console.log('âœ… Service Worker registered with scope:', registration.scope);
             })
             .catch(error => {
-                console.error('❌ Service Worker registration failed:', error);
+                console.error('âŒ Service Worker registration failed:', error);
             });
     });
 }
@@ -7219,7 +7119,7 @@ class PrayerRequestManager {
         modal.innerHTML = `
             <div class="modal-content" style="max-width: 500px; text-align: center;">
                 <span class="close-modal" onclick="this.parentElement.parentElement.remove()">&times;</span>
-                <h3 style="color: var(--primary-gold); margin-bottom: 1rem;">🙏 Prayer Request</h3>
+                <h3 style="color: var(--primary-gold); margin-bottom: 1rem;">ðŸ™ Prayer Request</h3>
                 <p>Share your intention. We will pray for you.</p>
                 <textarea id="prayer-text-input" placeholder="Type your prayer here..." style="width: 100%; height: 120px; margin: 1rem 0; padding: 1rem; border-radius: 10px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--primary-gold);"></textarea>
                 <button id="submit-prayer-btn" class="btn btn-primary">Send Prayer</button>
@@ -7340,3 +7240,8 @@ document.addEventListener('DOMContentLoaded', () => {
     new RaptureManager();
     new PrayerRequestManager();
 });
+
+// Stub classes to prevent crash errors
+class SacredRhythms { constructor() { console.log('placeholder: SacredRhythms initialized'); } }
+class VirtualShrine { constructor() { console.log('placeholder: VirtualShrine initialized'); } }
+class ChantHero { constructor() { console.log('placeholder: ChantHero initialized'); } }

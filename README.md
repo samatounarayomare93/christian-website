@@ -7,6 +7,7 @@ A "Superintelligence-Grade" Progressive Web App (PWA) designed for spiritual con
 - **Virtual Shrine**: Light virtual candles with real-time flame animation (`CandleManager`).
 - **Liturgical Audio**: Ambient Gregorian chants with cross-fading controls (`AudioManager`).
 - **AI Spiritual Advisor**: "Saint Oracle" provides mood-based scripture guidance.
+- **Divine Bible Engine**: Context-aware scripture generator based on emotional state (`DivineBibleEngine`).
 - **Prayer Wall**: Infinite scrolling feed of community intentions (`PrayerWallManager`).
 - **Offline Resilience**: Fully functional offline via Service Worker + "Emergency Prayer Kit".
 - **Gamification**: Earn "Virtue Badges" and track spiritual streaks.
