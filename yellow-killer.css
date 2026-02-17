@@ -1,0 +1,14 @@
+/* Yellow Killer - Override unwanted bootstrap/theme defaults */
+.btn-warning,
+.bg-warning,
+.text-warning {
+    background-color: var(--primary-gold) !important;
+    color: black !important;
+    border-color: var(--primary-gold) !important;
+}
+
+/* Ensure no yellow bleed */
+* {
+    --bs-warning: var(--primary-gold) !important;
+    --bs-yellow: var(--primary-gold) !important;
+}
