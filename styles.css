@@ -1098,7 +1098,7 @@ body {
         transition: left 0.3s ease;
         box-shadow: var(--shadow-enterprise);
         -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
     }
 
     .nav-links.active {
@@ -3822,7 +3822,7 @@ body {
     background: red;
     border-radius: 50%;
     box-shadow: 0 0 10px red;
-    animation: pulse-red 2s infinite;
+    /* animation: pulse-red 2s infinite; REMOVED */
     cursor: pointer;
     z-index: 9000;
 
@@ -4004,7 +4004,7 @@ body {
     font-size: 5rem;
     color: #ffd700;
     text-shadow: 0 0 20px #ffd700, 0 0 50px #fff;
-    animation: pulse-divine 4s infinite alternate;
+    /* animation: pulse-divine 4s infinite alternate; REMOVED */
 
 }
 
@@ -4055,7 +4055,7 @@ body {
 @media (max-width: 768px) {
     .glass-panel {
         -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
         /* Reduce blur for performance */
     }
 }
@@ -4081,7 +4081,7 @@ body {
         background: rgba(20, 20, 20, 0.9);
         /* Darker for readability */
         -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: none;
+        backdrop-filter: none;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
 
@@ -4138,4 +4138,3 @@ body {
     background: none !important;
     background-color: transparent !important;
 }
-

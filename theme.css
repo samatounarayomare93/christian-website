@@ -3,11 +3,13 @@
 
 :root {
     /* --- COLOR SYSTEM: CELESTIAL & ROYAL (ULTIMATE UPGRADE) --- */
-    --primary-gold: #FFD700;
-    --primary-gold-dim: #D4AF37;
-    --primary-gold-light: #FFF8DC;
-    --primary-gold-dark: #B8860B;
-    --primary-gold-glow: rgba(255, 215, 0, 0.6);
+    /* --- COLOR SYSTEM: CELESTIAL & ROYAL (ULTIMATE UPGRADE) --- */
+    --primary-gold: rgba(255, 215, 0, 0.0);
+    /* Was #FFD700 - Now Transparent */
+    --primary-gold-dim: rgba(212, 175, 55, 0.3);
+    --primary-gold-light: rgba(255, 248, 220, 0.1);
+    --primary-gold-dark: rgba(184, 134, 11, 0.3);
+    --primary-gold-glow: rgba(255, 215, 0, 0.05);
 
     /* Deep Cosmic Void - Richer and darker */
     --primary-purple-void: #050010;
@@ -32,7 +34,8 @@
 
     /* --- GRADIENTS: DIVINE LIGHT --- */
     --gradient-void: radial-gradient(circle at 50% 50%, #1a052a 0%, #050010 100%);
-    --gradient-royal-gold: linear-gradient(135deg, #CFB53B 0%, #FFD700 25%, #E6C200 50%, #FFD700 75%, #C5A000 100%);
+    /* Nuked Gold Gradient -> Now Premium Glass */
+    --gradient-royal-gold: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
     --gradient-luxury-dark: linear-gradient(180deg, rgba(10, 5, 20, 0.98) 0%, rgba(5, 0, 10, 1) 100%);
     --gradient-glass-premium: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
 

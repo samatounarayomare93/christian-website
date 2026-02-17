@@ -1,32 +1,70 @@
-/* YELLOW KILLER CSS - The Nuclear Option */
-body,
-html {
-    background-color: #050010 !important;
-    /* Deep Purple Void */
+/* YELLOW KILLER CSS - The Nuclear Option V3 */
+/* TARGET: DESTROY ALL YELLOW BACKGROUNDS */
+
+:root {
+    /* Redefine the variables used for backgrounds to be transparent/glass */
+    --primary-gold-glow: rgba(255, 255, 255, 0.05) !important;
+    --gradient-gold: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+    --gradient-royal-gold: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+
+    /* Keep text gold if needed, but ensure backgrounds don't use it */
+    --bg-gold-replacement: rgba(255, 255, 255, 0.05);
 }
 
+/* Force specific classes to have glass backgrounds */
+.book-cover,
+.section-badge,
+.highlight,
+.contact-card,
+.glass-panel,
+.card,
+.timeline-item,
+.timeline-content,
+.timeline-content::before,
+.timeline-content::after,
+.book-cover::before,
+.book-cover::after,
+.highlight::before,
+.highlight::after,
+[style*="background"] {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-image: none !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 215, 0, 0.2) !important;
+}
+
+/* Universal Rule REMOVED due to collateral damage */
+/* Targeted overrides below are sufficient combined with theme.css changes */
+
+/* Re-apply Glass to container-like elements */
 section,
-footer,
-div,
-.contact,
-#contact,
-.contact-section {
-    background-color: transparent !important;
-}
-
-/* Re-apply specific backgrounds only to cards that need it */
+.card,
+.glass-panel,
+.book-cover,
+.modal-content,
+.timeline-content,
 .contact-card {
-    background: rgba(255, 255, 255, 0.12) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 215, 0, 0.2) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Ensure no gold bleed from ::before/::after */
-*::before,
-*::after {
-    box-shadow: none !important;
+/* BORDERS AND TEXT CAN STAY GOLD - IT LOOKS "PREMIUM" */
+/* Reset the Universal Nuker for these properties */
+
+/* Specific fix for the inline-style cards */
+div[style*="rgba(255, 215, 0"],
+div[style*="rgba(255,215,0"],
+div[style*="#FFD700"] {
+    background: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Fix specific known offenders if they exist */
-.section-badge {
-    background: rgba(255, 215, 0, 0.15) !important;
-    /* Keep badge gold but transparent */
+/* Ensure highlights are text-only */
+.highlight {
+    background: transparent !important;
+    color: #FFD700 !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
