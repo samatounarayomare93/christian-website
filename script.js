@@ -36,6 +36,12 @@ class SystemMonitor {
     }
 
     reportError(msg) {
+        if (msg.includes('Tracking Prevention') ||
+            msg.includes('internal resource') ||
+            msg.includes('Failed to load') ||
+            msg.includes('ServiceWorker') ||
+            msg.includes('Extension context') ||
+            msg.includes('BLOCKED_BY_CLIENT')) return;
         this.errors.push(msg);
         this.status.innerHTML = `â—  ${this.errors.length} Errors Detected`;
         this.status.style.color = '#f00';
@@ -53,6 +59,20 @@ class SystemMonitor {
         this.log.style.display = this.log.style.display === 'none' ? 'block' : 'none';
     }
 }
+
+// Global safe storage wrapper (prevents QuotaExceededError crash)
+try {
+    const originalSetItem = localStorage.setItem;
+    const originalGetItem = localStorage.getItem;
+    localStorage.setItem = function (key, value) {
+        try { originalSetItem.call(localStorage, key, value); }
+        catch (e) { console.warn('LocalStorage Quota Exceeded/Error', e); }
+    };
+    localStorage.getItem = function (key) {
+        try { return originalGetItem.call(localStorage, key); }
+        catch (e) { return null; }
+    };
+} catch (e) { console.error('LocalStorage unavailable'); }
 
 // Global button state tracking
 window.soulGuidanceButtons = {
@@ -117,6 +137,16 @@ document.addEventListener('DOMContentLoaded', function () {
         try { window.soulGuidancePrayerBoard = new PrayerBoardManager(); } catch (e) { console.error('PrayerBoard failed', e); }
         try { window.soulGuidanceRosary = new RosaryTracker(); } catch (e) { console.error('RosaryTracker failed', e); }
         safeInit(CandleManager, 'CandleManager');
+
+        // --- SAFE STORAGE HELPERS ---
+        const safeStorage = {
+            getItem: (key) => {
+                try { return localStorage.getItem(key); } catch (e) { return null; }
+            },
+            setItem: (key, val) => {
+                try { localStorage.setItem(key, val); } catch (e) { console.warn('Storage Full:', e); }
+            }
+        };
 
         // --- PHASE 122: GARDEN MANAGER ---
         class GardenManager {
