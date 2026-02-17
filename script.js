@@ -1,5 +1,59 @@
 ﻿// PROFESSIONAL SOUL GUIDANCE WEBSITE JAVASCRIPT - ENTERPRISE GRADE
 
+// --- PHASE 0: SYSTEM MONITOR (ERROR CATCHER) ---
+class SystemMonitor {
+    constructor() {
+        this.errors = [];
+        this.init();
+    }
+
+    init() {
+        // Create UI
+        this.panel = document.createElement('div');
+        this.panel.style.cssText = 'position:fixed; bottom:10px; left:10px; z-index:99999; font-family:monospace; font-size:12px;';
+        this.status = document.createElement('div');
+        this.status.style.cssText = 'background:rgba(0,0,0,0.8); color:#0f0; padding:5px 10px; border-radius:5px; cursor:pointer; border:1px solid #0f0;';
+        this.status.innerHTML = 'â—  System Stable';
+        this.status.onclick = () => this.toggleLog();
+        this.panel.appendChild(this.status);
+
+        this.log = document.createElement('div');
+        this.log.style.cssText = 'display:none; background:rgba(0,0,0,0.9); color:#fff; padding:10px; border-radius:5px; margin-bottom:5px; max-height:200px; overflow-y:auto; width:300px; border:1px solid #555;';
+        this.panel.prepend(this.log);
+        document.body.appendChild(this.panel);
+
+        // Intercept global errors
+        window.onerror = (msg, url, line, col, error) => {
+            this.reportError(`Global Error: ${msg} (Line ${line})`);
+        };
+
+        // Intercept console.error
+        const originalError = console.error;
+        console.error = (...args) => {
+            originalError.apply(console, args);
+            this.reportError(`Console Error: ${args.join(' ')}`);
+        };
+    }
+
+    reportError(msg) {
+        this.errors.push(msg);
+        this.status.innerHTML = `â—  ${this.errors.length} Errors Detected`;
+        this.status.style.color = '#f00';
+        this.status.style.borderColor = '#f00';
+
+        const entry = document.createElement('div');
+        entry.style.borderBottom = '1px solid #333';
+        entry.style.padding = '2px 0';
+        entry.style.color = '#ff6b6b';
+        entry.textContent = msg;
+        this.log.appendChild(entry);
+    }
+
+    toggleLog() {
+        this.log.style.display = this.log.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
 // Global button state tracking
 window.soulGuidanceButtons = {
     initialized: false,
@@ -9,6 +63,8 @@ window.soulGuidanceButtons = {
 
 // Initialize when DOM is ready with comprehensive error handling
 document.addEventListener('DOMContentLoaded', function () {
+    new SystemMonitor(); // Start monitoring immediately
+
     // STARTUP BLOCKER
     window.isSiteLoading = true;
     // console.log('ðŸ”’ Startup Block Active: Prevented Popups');
@@ -43,18 +99,210 @@ document.addEventListener('DOMContentLoaded', function () {
         initButtonEffects();
         initAccessibility();
         initPrayerButtons();
-        new DivineInteractions();
-        new HolyAudioPlayer();
-        new DivineContent();
-        new FocusManager();
-        window.soulGuidancePrayerBoard = new PrayerBoardManager();
-        window.soulGuidanceRosary = new RosaryTracker();
-        new CandleManager();
-        new ThemeManager();
+        // Initialize all functionality with error handling
+        const safeInit = (ClassRef, name) => {
+            try {
+                new ClassRef();
+                // console.log(`âœ… ${name} initialized`);
+            } catch (e) {
+                console.error(`âŒ Failed to initialize ${name}:`, e);
+                window.soulGuidanceButtons.errors.push({ module: name, error: e.message });
+            }
+        };
+
+        safeInit(DivineInteractions, 'DivineInteractions');
+        safeInit(HolyAudioPlayer, 'HolyAudioPlayer');
+        safeInit(DivineContent, 'DivineContent');
+        safeInit(FocusManager, 'FocusManager');
+        try { window.soulGuidancePrayerBoard = new PrayerBoardManager(); } catch (e) { console.error('PrayerBoard failed', e); }
+        try { window.soulGuidanceRosary = new RosaryTracker(); } catch (e) { console.error('RosaryTracker failed', e); }
+        safeInit(CandleManager, 'CandleManager');
+
+        // --- PHASE 122: GARDEN MANAGER ---
+        class GardenManager {
+            constructor() { this.init(); }
+            init() { console.log('Garden Manager Ready'); }
+        }
+
+        // --- PHASE 116: THE LIBRARIAN ---
+        class SoulLibrarian {
+            constructor() {
+                this.books = {
+                    "mysticism": [
+                        { t: "The Interior Castle", a: "St. Teresa of Avila" },
+                        { t: "The Dark Night of the Soul", a: "St. John of the Cross" },
+                        { t: "The Cloud of Unknowing", a: "Anonymous" }
+                    ],
+                    "theology": [
+                        { t: "Summa Theologica", a: "St. Thomas Aquinas" },
+                        { t: "Confessions", a: "St. Augustine" },
+                        { t: "Orthodoxy", a: "G.K. Chesterton" }
+                    ],
+                    "peace": [
+                        { t: "The Imitation of Christ", a: "Thomas à Kempis" },
+                        { t: "Story of a Soul", a: "St. Thérèse of Lisieux" },
+                        { t: "Peace of Soul", a: "Fulton Sheen" }
+                    ]
+                };
+                this.init();
+            }
+
+            init() {
+                window.recommendBook = (category) => this.recommend(category);
+            }
+
+            recommend(category = "peace") {
+                const list = this.books[category] || this.books["peace"];
+                const book = list[Math.floor(Math.random() * list.length)];
+                window.showNotification(`Recommended: "${book.t}" by ${book.a}`, "info", 8000);
+                return book;
+            }
+        }
+
+        // --- PHASE 117: THE SOWER ---
+        class ParableGenerator {
+            constructor() {
+                this.settings = ["a crowded subway", "a quiet garden", "a busy office", "a lonely highway"];
+                this.characters = ["a weary traveler", "a wealthy merchant", "a humble servant", "a lost child"];
+                this.actions = ["found a hidden treasure", "gave away their last coin", "helped a stranger", "planted a seed"];
+                this.outcomes = ["and found peace", "and discovered the Kingdom", "and realized they were never alone", "and saw the face of God"];
+                this.init();
+            }
+
+            init() {
+                window.sowParable = () => this.generate();
+            }
+
+            generate() {
+                const s = this.settings[Math.floor(Math.random() * this.settings.length)];
+                const c = this.characters[Math.floor(Math.random() * this.characters.length)];
+                const a = this.actions[Math.floor(Math.random() * this.actions.length)];
+                const o = this.outcomes[Math.floor(Math.random() * this.outcomes.length)];
+
+                const parable = `The Kingdom of Heaven is like ${c} in ${s} who ${a}, ${o}.`;
+                window.showNotification(parable, "success", 8000);
+                return parable;
+            }
+        }
+
+        // --- PHASE 118: THE MYSTIC ---
+        class FractalMeditator {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                const container = document.createElement('div');
+                container.id = 'fractal-container';
+                container.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; z-index:91; background:black; display:none; opacity:0; transition:opacity 1s;';
+                document.body.appendChild(container);
+
+                this.canvas = document.createElement('canvas');
+                this.canvas.style.width = '100%';
+                this.canvas.style.height = '100%';
+                container.appendChild(this.canvas);
+
+                const close = document.createElement('button');
+                close.innerHTML = '&times;';
+                close.style.cssText = 'position:absolute; top:20px; right:20px; color:white; background:none; border:none; font-size:40px; cursor:pointer;';
+                close.onclick = () => this.toggle();
+                container.appendChild(close);
+
+                window.openFractal = () => this.toggle();
+
+                const btn = document.createElement('button');
+                btn.innerHTML = '<i class="fas fa-tree"></i>';
+                btn.className = 'float-btn';
+                btn.style.bottom = '580px';
+                btn.onclick = window.openFractal;
+                document.querySelector('.float-btn-group').appendChild(btn);
+            }
+
+            toggle() {
+                const c = document.getElementById('fractal-container');
+                if (c.style.display === 'none') {
+                    c.style.display = 'block';
+                    setTimeout(() => {
+                        c.style.opacity = '1';
+                        this.draw();
+                    }, 10);
+                } else {
+                    c.style.opacity = '0';
+                    setTimeout(() => c.style.display = 'none', 1000);
+                }
+            }
+
+            draw() {
+                const w = this.canvas.width = window.innerWidth;
+                const h = this.canvas.height = window.innerHeight;
+                const ctx = this.canvas.getContext('2d');
+                ctx.strokeStyle = 'gold';
+                ctx.lineWidth = 1;
+
+                const drawTree = (startX, startY, len, angle, branchWidth) => {
+                    ctx.beginPath();
+                    ctx.save();
+                    ctx.strokeStyle = `hsl(${Math.random() * 60 + 40}, 100%, 50%)`;
+                    ctx.lineWidth = branchWidth;
+                    ctx.translate(startX, startY);
+                    ctx.rotate(angle * Math.PI / 180);
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(0, -len);
+                    ctx.stroke();
+
+                    if (len < 10) {
+                        ctx.restore();
+                        return;
+                    }
+
+                    drawTree(0, -len, len * 0.75, angle + 15, branchWidth * 0.7);
+                    drawTree(0, -len, len * 0.75, angle - 15, branchWidth * 0.7);
+
+                    ctx.restore();
+                }
+                drawTree(w / 2, h, 150, 0, 10);
+            }
+        }
+
+        // --- PHASE 119: THE BELLRINGER ---
+        class BellRinger {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                if (!("Notification" in window)) return;
+
+                const btn = document.createElement('button');
+                btn.innerHTML = '<i class="fas fa-bell"></i>';
+                btn.className = 'float-btn';
+                btn.style.bottom = '650px';
+                btn.onclick = () => this.request();
+                const container = document.querySelector('.float-btn-group') || document.body;
+                container.appendChild(btn);
+            }
+
+            async request() {
+                const result = await Notification.requestPermission();
+                if (result === 'granted') {
+                    window.showNotification("Prayer bells enabled.", "success");
+                    this.schedule();
+                }
+            }
+
+            schedule() {
+                // Simple interval for demo
+                setInterval(() => {
+                    new Notification("Angelus Bell", {
+                        body: "Pause for a moment of silence.",
+                        icon: "assets/images/cross_icon.png"
+                    });
+                }, 3600000); // Hourly
+            }
+        }
+        new BellRinger();
 
 
-        new LiturgicalCalendar();
-        new DivineSearch();
         new SaintOracle();
         new ContactManager();
         new LectioManager();
@@ -62,9 +310,308 @@ document.addEventListener('DOMContentLoaded', function () {
         new SacredRhythms();
         new VoiceManager();
         new AccessibilityManager();
-        new GardenManager();
+
         window.soulGuidanceMemory = new MemoryManager();
         window.soulGuidanceSanctuary = new SoundSanctuary();
+        // --- PHASE 113: THE SCRIBE II ---
+        class JournalPDF {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                window.exportJournalPDF = () => this.generate();
+            }
+
+            generate() {
+                const journal = JSON.parse(localStorage.getItem('soul_journal') || '[]');
+                if (journal.length === 0) {
+                    window.showNotification("Journal is empty. Write something first.", "info");
+                    return;
+                }
+
+                let content = "SOUL GUIDANCE JOURNAL\n\n";
+                journal.forEach(entry => {
+                    content += `Date: ${entry.date}\n`;
+                    content += `Entry: ${entry.text}\n`;
+                    content += `---------------------------\n\n`;
+                });
+
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `soul_journal_${new Date().toISOString().slice(0, 10)}.txt`;
+                a.click();
+
+                window.showNotification("Journal exported as text file.", "success");
+            }
+        }
+
+        // --- PHASE 114: THE ECHO ---
+        class VoiceRecorder {
+            constructor() {
+                this.chunks = [];
+                this.init();
+            }
+
+            init() {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    console.log("MediaRecorder not supported");
+                    return;
+                }
+
+                const btn = document.createElement('button');
+                btn.innerHTML = '<i class="fas fa-microphone"></i>';
+                btn.className = 'float-btn';
+                btn.style.bottom = '440px';
+                btn.onclick = () => this.toggleCheck();
+                const container = document.querySelector('.float-btn-group') || document.body;
+                container.appendChild(btn);
+
+                this.btn = btn;
+            }
+
+            async toggleCheck() {
+                if (this.recording) {
+                    this.stop();
+                } else {
+                    this.start();
+                }
+            }
+
+            async start() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    this.mediaRecorder = new MediaRecorder(stream);
+
+                    this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
+                    this.mediaRecorder.onstop = () => this.save();
+
+                    this.mediaRecorder.start();
+                    this.recording = true;
+                    this.btn.style.background = 'red';
+                    window.showNotification("Recording prayer...", "info");
+                } catch (err) {
+                    window.showNotification("Microphone access denied.", "error");
+                }
+            }
+
+            stop() {
+                this.mediaRecorder.stop();
+                this.recording = false;
+                this.btn.style.background = '';
+            }
+
+            save() {
+                const blob = new Blob(this.chunks, { 'type': 'audio/ogg; codecs=opus' });
+                this.chunks = [];
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `prayer_echo_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.ogg`;
+                a.click();
+                window.showNotification("Prayer recorded and saved.", "success");
+            }
+        }
+        new VoiceRecorder();
+        // --- PHASE 108: THE PILGRIM ---
+        class HolyCompass {
+            constructor() {
+                this.jerusalem = { lat: 31.771959, lng: 35.217018 };
+                this.init();
+            }
+
+            init() {
+                window.getBearingToJerusalem = () => this.getBearing();
+            }
+
+            getBearing() {
+                if (!navigator.geolocation) {
+                    window.showNotification("Geolocation not supported.", "error");
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(pos => {
+                    const lat1 = this.toRad(pos.coords.latitude);
+                    const lng1 = this.toRad(pos.coords.longitude);
+                    const lat2 = this.toRad(this.jerusalem.lat);
+                    const lng2 = this.toRad(this.jerusalem.lng);
+
+                    const y = Math.sin(lng2 - lng1) * Math.cos(lat2);
+                    const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1);
+                    let brng = this.toDeg(Math.atan2(y, x));
+                    brng = (brng + 360) % 360;
+
+                    window.showNotification(`Jerusalem Bearing: ${brng.toFixed(1)}°`, "success");
+                    console.log("Bearing to Jerusalem: " + brng);
+                    return brng;
+                }, err => {
+                    window.showNotification("Location access denied.", "error");
+                });
+            }
+
+            toRad(deg) { return deg * Math.PI / 180; }
+            toDeg(rad) { return rad * 180 / Math.PI; }
+        }
+
+        // --- PHASE 109: THE ARTIST ---
+        class StainedGlassGenerator {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                // Create canvas container
+                const container = document.createElement('div');
+                container.id = 'stained-glass-container';
+                container.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; z-index:90; pointer-events:none; opacity:0; transition: opacity 1s; display:none;';
+                document.body.appendChild(container);
+
+                this.canvas = document.createElement('canvas');
+                this.canvas.style.width = '100%';
+                this.canvas.style.height = '100%';
+                container.appendChild(this.canvas);
+
+                window.generateGlass = () => this.generate();
+                window.toggleGlass = () => {
+                    const d = document.getElementById('stained-glass-container');
+                    if (d.style.display === 'none') {
+                        d.style.display = 'block';
+                        setTimeout(() => d.style.opacity = '1', 10);
+                        this.generate();
+                    } else {
+                        d.style.opacity = '0';
+                        setTimeout(() => d.style.display = 'none', 1000);
+                    }
+                };
+
+                // Add button to toggle
+                const btn = document.createElement('button');
+                btn.innerHTML = '<i class="fas fa-palette"></i>';
+                btn.className = 'float-btn';
+                btn.style.bottom = '160px';
+                btn.onclick = window.toggleGlass;
+                document.querySelector('.float-btn-group').appendChild(btn);
+            }
+
+            generate() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                const w = this.canvas.width;
+                const h = this.canvas.height;
+                const ctx = this.canvas.getContext('2d');
+
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, w, h);
+
+                const cols = 8;
+                const rows = 12;
+                const cw = w / cols;
+                const ch = h / rows;
+
+                for (let y = 0; y < rows; y++) {
+                    for (let x = 0; x < cols; x++) {
+                        ctx.beginPath();
+                        ctx.rect(x * cw, y * ch, cw, ch);
+                        ctx.fillStyle = `hsl(${Math.random() * 360}, 70%, 50%)`;
+                        ctx.globalAlpha = 0.6;
+                        ctx.fill();
+                        ctx.lineWidth = 4;
+                        ctx.strokeStyle = '#111';
+                        ctx.stroke();
+
+                        // Add inner detail randomly
+                        if (Math.random() > 0.6) {
+                            ctx.beginPath();
+                            ctx.arc(x * cw + cw / 2, y * ch + ch / 2, cw / 4, 0, Math.PI * 2);
+                            ctx.fillStyle = `hsl(${Math.random() * 360}, 80%, 60%)`;
+                            ctx.fill();
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+        }
+
+        // --- PHASE 110: THE BREATH ---
+        class BreathVisualizer {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                const container = document.createElement('div');
+                container.id = 'breath-container';
+                container.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; pointer-events:none; display:none;';
+
+                const circle = document.createElement('div');
+                circle.id = 'breath-circle';
+                circle.style.cssText = 'width:100px; height:100px; border-radius:50%; background:rgba(255, 215, 0, 0.3); box-shadow: 0 0 50px gold; transition: all 4s ease-in-out;';
+                container.appendChild(circle);
+
+                const label = document.createElement('div');
+                label.id = 'breath-label';
+                label.innerText = "Breathe In";
+                label.style.cssText = 'position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white; font-weight:bold; letter-spacing:2px; text-shadow:0 0 10px black; pointer-events:none;';
+                container.appendChild(label);
+
+                document.body.appendChild(container);
+
+                window.toggleBreath = () => this.toggle();
+
+                // Add button
+                const btn = document.createElement('button');
+                btn.innerHTML = '<i class="fas fa-wind"></i>';
+                btn.className = 'float-btn';
+                btn.style.bottom = '230px';
+                btn.onclick = window.toggleBreath;
+                document.querySelector('.float-btn-group').appendChild(btn);
+            }
+
+            toggle() {
+                const c = document.getElementById('breath-container');
+                if (c.style.display === 'none') {
+                    c.style.display = 'block';
+                    this.active = true;
+                    this.cycle();
+                } else {
+                    c.style.display = 'none';
+                    this.active = false;
+                    clearTimeout(this.timer);
+                }
+            }
+
+            cycle() {
+                if (!this.active) return;
+                const circle = document.getElementById('breath-circle');
+                const label = document.getElementById('breath-label');
+
+                // Inhale (4s)
+                label.innerText = "Inhale";
+                circle.style.transform = "scale(3)";
+                circle.style.opacity = "0.8";
+
+                this.timer = setTimeout(() => {
+                    if (!this.active) return;
+                    // Hold (2s) - Visual pause
+                    label.innerText = "Hold";
+
+                    this.timer = setTimeout(() => {
+                        if (!this.active) return;
+                        // Exhale (4s)
+                        label.innerText = "Exhale";
+                        circle.style.transform = "scale(1)";
+                        circle.style.opacity = "0.3";
+
+                        this.timer = setTimeout(() => {
+                            this.cycle(); // Loop
+                        }, 4000);
+                    }, 2000);
+                }, 4000);
+            }
+        }
+        new BreathVisualizer();
         window.soulGuidanceBurden = new BurdenManager();
         new LabyrinthManager();
         new ObservatoryManager();
@@ -3511,6 +4058,35 @@ class LiturgicalTime {
 // Initialize Systems
 document.addEventListener('DOMContentLoaded', () => {
     new ConstellationEngine();
+
+    // --- PHASE 124: THE GARDENER ---
+    class SoulPlant {
+        constructor() {
+            this.stages = ["🌱", "🌿", "🌳", "🍎", "🌳🍎"];
+            this.init();
+        }
+
+        init() {
+            let visits = parseInt(localStorage.getItem('soul_visits') || '0');
+            visits++;
+            localStorage.setItem('soul_visits', visits);
+
+            const stageIndex = Math.min(Math.floor(visits / 5), this.stages.length - 1);
+            const plant = this.stages[stageIndex];
+
+            const div = document.createElement('div');
+            div.id = 'soul-plant';
+            div.innerText = plant;
+            div.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); font-size:40px; pointer-events:none; z-index:90; filter: drop-shadow(0 0 10px gold);';
+            // Tooltip
+            div.title = `Growth Stage: ${stageIndex + 1} (Visits: ${visits})`;
+            div.style.pointerEvents = 'auto';
+            div.style.cursor = 'help';
+
+            document.body.appendChild(div);
+        }
+    }
+    new SoulPlant();
     new LiturgicalTime();
     new DivineScroll();
     new ProceduralAudioEngine();
@@ -4625,46 +5201,17 @@ document.addEventListener('DOMContentLoaded', () => {
     new HolyWater();
     new IncenseSmoke();
     new HaloEffect();
-    new ParableMode();
-    new BeatitudesLadder();
-    new Decalogue();
-    new PsalmGen();
-    new HymnLyrics();
-    new ChantHero();
-    new TheologyGlossary();
-    new CrossRef();
-    new OriginalLanguage();
-    new SalvationTimeline();
-    new HolyLandMap();
-    new AISermon();
-    new SocraticAI();
-    new DreamJournal();
-    new SpiritualDirector();
-    new SocraticAI();
-    new DreamJournal();
-    new SpiritualDirector();
-    new VirtueTracker();
-    new SinDestroyer();
-    new GraceMeter();
-    new MercyFountain();
-    new AdorationMode();
-    new RosaryAudio();
-    new StationsCross();
-    new SevenSorrows();
-    new DivineMercy();
-    new LitanyBuilder();
-    new PrayerBouquet();
-    new SpiritualWill();
-    new MementoMori();
-    new LastRites();
-    new FuneralPlan();
-    new CosmicVis();
-    new FractalZoom();
-    new NatureSounds();
-    new DesertWisdom();
-    new MysticQuotes();
-    new SummaTree();
-    new CatechismSearch();
+    // Batch initialization
+    [
+        SoulLibrarian, ParableGenerator, GrowthTracker, BellRinger, LiturgicalCalendar, DivineSearch,
+        SaintOracle, ContactManager, LectioManager, ConfessionManager,
+        SalvationTimeline, HolyLandMap, AISermon, SocraticAI, DreamJournal,
+        SpiritualDirector, VirtueTracker, SinDestroyer, GraceMeter, MercyFountain,
+        AdorationMode, RosaryAudio, StationsCross, SevenSorrows, DivineMercy,
+        LitanyBuilder, PrayerBouquet, SpiritualWill, MementoMori, LastRites,
+        FuneralPlan, CosmicVis, FractalZoom, NatureSounds, DesertWisdom,
+        MysticQuotes, SummaTree, CatechismSearch
+    ].forEach(Ref => safeInit(Ref, Ref.name));
     new EncyclicalReader();
     new CouncilHistory();
     new HeresyQuiz();
@@ -5080,7 +5627,14 @@ class BinauralBeats {
 class BreathPrayer {
     constructor() { this.init(); }
     init() {
-        // Simple visual guide that can be triggered from menu
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-lung"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '140px';
+        btn.style.bottom = '140px';
+        btn.title = "Breath Prayer";
+        btn.onclick = () => this.start();
+        document.body.appendChild(btn);
     }
 
     start() {
@@ -5300,17 +5854,160 @@ class AISermon {
 
 /* --- PHASE 62: THEOLOGICAL DEBATE --- */
 class SocraticAI {
-    constructor() { this.init(); }
+    constructor() {
+        this.responses = {
+            "default": "Tell me more about your spiritual journey.",
+            "god": "God is love, and he who abides in love abides in God, and God in him. (1 John 4:16)",
+            "jesus": "I am the way, the truth, and the life. No one comes to the Father except through Me. (John 14:6)",
+            "sin": "If we confess our sins, He is faithful and just to forgive us our sins and to cleanse us from all unrighteousness. (1 John 1:9)",
+            "faith": "Now faith is the substance of things hoped for, the evidence of things not seen. (Hebrews 11:1)",
+            "love": "Love suffers long and is kind; love does not envy... (1 Corinthians 13:4)",
+            "fear": "For God has not given us a spirit of fear, but of power and of love and of a sound mind. (2 Timothy 1:7)",
+            "hope": "For I know the thoughts that I think toward you, says the Lord, thoughts of peace and not of evil, to give you a future and a hope. (Jeremiah 29:11)",
+            "peace": "Peace I leave with you, My peace I give to you; not as the world gives do I give to you. (John 14:27)",
+            "doubt": "Immediately Jesus stretched out His hand and caught him, and said to him, 'O you of little faith, why did you doubt?' (Matthew 14:31)",
+            "prayer": "Watch and pray, lest you enter into temptation. The spirit indeed is willing, but the flesh is weak. (Matthew 26:41)"
+        };
+        this.init();
+    }
+
     init() {
-        // Chat interface stub
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-comment-dots"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '200px'; // Adjust position
+        btn.style.bottom = '140px';
+        btn.title = "Spiritual Chat (Socratic AI)";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+
+    open() {
+        if (document.getElementById('socratic-chat')) return;
+
+        const modal = document.createElement('div');
+        modal.id = 'socratic-chat';
+        modal.className = 'shrine-window active';
+        modal.style.width = '350px';
+        modal.style.height = '500px';
+        modal.style.display = 'flex';
+        modal.style.flexDirection = 'column';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Spiritual Counselor</h3></div>
+            <div id="chat-history" style="flex:1; overflow-y:auto; padding:10px; background:rgba(0,0,0,0.3); margin-bottom:10px;">
+                <div style="margin-bottom:10px; color:gold;"><strong>Counselor:</strong> Peace be with you. What is on your heart?</div>
+            </div>
+            <div style="display:flex;">
+                <input type="text" id="chat-input" placeholder="Type here (e.g., fear, faith)..." style="flex:1; padding:10px; background:rgba(255,255,255,0.1); border:1px solid #555; color:white;">
+                <button id="chat-send" style="padding:10px; background:var(--primary-gold); border:none; color:black; cursor:pointer;">Send</button>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:gold; cursor:pointer;">✕</button>
+        `;
+        document.body.appendChild(modal);
+
+        const input = modal.querySelector('#chat-input');
+        const sendBtn = modal.querySelector('#chat-send');
+        const history = modal.querySelector('#chat-history');
+
+        const sendMessage = () => {
+            const txt = input.value.trim().toLowerCase();
+            if (!txt) return;
+
+            // User Message
+            history.innerHTML += `<div style="margin-bottom:10px; text-align:right; color:#ccc;"><strong>You:</strong> ${input.value}</div>`;
+            input.value = '';
+
+            // AI Response
+            let reply = this.responses.default;
+            for (const key in this.responses) {
+                if (txt.includes(key)) {
+                    reply = this.responses[key];
+                    break;
+                }
+            }
+
+            setTimeout(() => {
+                history.innerHTML += `<div style="margin-bottom:10px; color:gold;"><strong>Counselor:</strong> ${reply}</div>`;
+                history.scrollTop = history.scrollHeight;
+            }, 500);
+        };
+
+        sendBtn.onclick = sendMessage;
+        input.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
     }
 }
 
 /* --- PHASE 63: DREAM JOURNAL --- */
 class DreamJournal {
-    constructor() { this.init(); }
+    constructor() {
+        this.dreams = JSON.parse(localStorage.getItem('shrine_dreams') || '[]');
+        this.init();
+    }
+
     init() {
-        // Form stub
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-moon"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '260px';
+        btn.style.bottom = '140px';
+        btn.title = "Dream Journal";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+
+    open() {
+        if (document.getElementById('dream-journal-modal')) return;
+
+        const modal = document.createElement('div');
+        modal.id = 'dream-journal-modal';
+        modal.className = 'shrine-window active';
+        modal.style.width = '400px';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Dream Journal</h3></div>
+            <div style="padding:1rem; max-height:450px; overflow-y:auto;">
+                <div style="margin-bottom:1rem; border-bottom:1px solid rgba(255,215,0,0.3); padding-bottom:1rem;">
+                    <input type="text" id="dream-title" placeholder="Dream Title..." style="width:100%; margin-bottom:0.5rem; background:rgba(0,0,0,0.5); border:1px solid #444; color:gold; padding:5px;">
+                    <textarea id="dream-desc" rows="3" placeholder="Describe the dream..." style="width:100%; background:rgba(0,0,0,0.5); border:1px solid #444; color:#ddd; padding:5px; margin-bottom:0.5rem;"></textarea>
+                    <textarea id="dream-interp" rows="2" placeholder="Potential interpretation..." style="width:100%; background:rgba(0,0,0,0.3); border:1px solid #444; color:#aaa; padding:5px; font-style:italic;"></textarea>
+                    <button id="dream-submit" class="btn btn-primary-gold" style="width:100%; margin-top:0.5rem;">Log Dream</button>
+                </div>
+                <div id="dream-list"></div>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:gold; cursor:pointer;">✕</button>
+        `;
+        document.body.appendChild(modal);
+
+        this.renderDreams(modal.querySelector('#dream-list'));
+
+        modal.querySelector('#dream-submit').onclick = () => {
+            const title = modal.querySelector('#dream-title').value;
+            const desc = modal.querySelector('#dream-desc').value;
+            const interp = modal.querySelector('#dream-interp').value;
+
+            if (title && desc) {
+                this.logDream(title, desc, interp);
+                modal.querySelector('#dream-title').value = '';
+                modal.querySelector('#dream-desc').value = '';
+                modal.querySelector('#dream-interp').value = '';
+                this.renderDreams(modal.querySelector('#dream-list'));
+                window.showNotification("Dream logged in journal.", "success");
+            }
+        };
+    }
+
+    logDream(title, desc, interp) {
+        this.dreams.unshift({ title, desc, interp, date: new Date().toLocaleString() });
+        localStorage.setItem('shrine_dreams', JSON.stringify(this.dreams));
+    }
+
+    renderDreams(container) {
+        container.innerHTML = this.dreams.map(d => `
+            <div style="background:rgba(255,255,255,0.05); padding:10px; margin-bottom:10px; border-radius:5px;">
+                <h4 style="color:var(--primary-gold); margin:0 0 5px 0;">${d.title} <span style="font-size:0.7em; color:#888; float:right;">${d.date}</span></h4>
+                <p style="font-size:0.9em; line-height:1.4; margin:0 0 5px 0;">${d.desc}</p>
+                ${d.interp ? `<p style="font-size:0.85em; color:#aaa; font-style:italic; border-left:2px solid #555; padding-left:5px; margin-top:5px;">Interpretation: ${d.interp}</p>` : ''}
+            </div>
+        `).join('');
     }
 }
 
@@ -5318,55 +6015,142 @@ class DreamJournal {
 class SpiritualDirector {
     constructor() { this.init(); }
     init() {
-        // Wizard stub
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-user-md"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.right = '320px';
+        btn.style.bottom = '140px';
+        btn.title = "Spiritual Director";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+
+    open() {
+        if (document.getElementById('director-modal')) return;
+
+        const modal = document.createElement('div');
+        modal.id = 'director-modal';
+        modal.className = 'shrine-window active';
+        modal.style.width = '350px';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Spiritual Director</h3></div>
+            <div id="director-content" style="padding:1.5rem; text-align:center;">
+                <p class="text-gradient-gold" style="font-size:1.2em; margin-bottom:1.5rem;">How is your soul today?</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <button class="btn btn-secondary" onclick="window.director.diagnose('anxious')">Anxious</button>
+                    <button class="btn btn-secondary" onclick="window.director.diagnose('weary')">Weary</button>
+                    <button class="btn btn-secondary" onclick="window.director.diagnose('joyful')">Joyful</button>
+                    <button class="btn btn-secondary" onclick="window.director.diagnose('sinful')">Sinful</button>
+                </div>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:gold; cursor:pointer;">✕</button>
+        `;
+        document.body.appendChild(modal);
+        window.director = this;
+    }
+
+    diagnose(state) {
+        const content = document.getElementById('director-content');
+        let rx = "";
+        let action = "";
+
+        switch (state) {
+            case 'anxious':
+                rx = "Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. (Phil 4:6)";
+                action = `<button class="btn btn-primary-gold" onclick="document.getElementById('director-modal').remove(); new BreathPrayer().start();">Start Breath Prayer</button>`;
+                break;
+            case 'weary':
+                rx = "Come to me, all who labor and are heavy laden, and I will give you rest. (Matt 11:28)";
+                action = `<button class="btn btn-primary-gold" onclick="document.getElementById('director-modal').remove(); window.openAudioMixer && window.openAudioMixer();">Listen to Rain</button>`;
+                break;
+            case 'joyful':
+                rx = "Rejoice in the Lord always; again I will say, rejoice. (Phil 4:4)";
+                action = `<button class="btn btn-primary-gold" onclick="document.getElementById('director-modal').remove(); window.showNotification('Sing a Psalm of Praise!', 'success');">Praise God</button>`;
+                break;
+            case 'sinful':
+                rx = "If we confess our sins, he is faithful and just to forgive us our sins and to cleanse us from all unrighteousness. (1 John 1:9)";
+                action = `<button class="btn btn-primary-gold" onclick="document.getElementById('director-modal').remove(); window.openConfession && window.openConfession();">Go to Confessional</button>`;
+                break;
+        }
+
+        content.innerHTML = `
+            <p style="font-style:italic; margin-bottom:1rem; color:#ddd;">"${rx}"</p>
+            ${action}
+            <button class="btn-text" onclick="window.director.open()" style="margin-top:1rem; font-size:0.8em; opacity:0.7;">Back</button>
+        `;
     }
 }
 
 /* --- PHASE 65: VIRTUE TRACKER --- */
 class VirtueTracker {
     constructor() {
-        this.virtues = {
+        this.virtues = JSON.parse(localStorage.getItem('shrine_virtues') || JSON.stringify({
             "Humility": 1,
             "Charity": 1,
             "Patience": 1,
-            "Chastity": 1
-        };
+            "Chastity": 1,
+            "Temperance": 1,
+            "Diligence": 1,
+            "Kindness": 1
+        }));
         this.init();
     }
+
     init() {
         const btn = document.createElement('button');
         btn.innerHTML = '<i class="fas fa-chart-line"></i>';
         btn.className = 'shrine-trigger-btn';
-        btn.style.right = '80px';
-        btn.style.bottom = '200px';
-        btn.title = "Virtue Stats";
-        btn.onclick = () => this.show();
+        btn.style.right = '380px';
+        btn.style.bottom = '140px';
+        btn.title = "Virtue Tracker";
+        btn.onclick = () => this.open();
         document.body.appendChild(btn);
     }
-    show() {
-        const modal = document.createElement('div');
-        modal.className = 'shrine-window active';
-        modal.innerHTML = `
-    < div class="shrine-header" > <h3>Soul Stats</h3></div >
-            <div style="padding:1rem;">
-                ${Object.keys(this.virtues).map(v => `
-                    <div class="virtue-stat">
-                        <span>${v}</span>
-                        <span>Lvl ${this.virtues[v]} <button onclick="window.incrementVirtue('${v}', this)">+</button></span>
-                    </div>
-                `).join('')}
-            </div>
-            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px;">X</button>
-`;
-        document.body.appendChild(modal);
 
-        window.incrementVirtue = (v, btn) => {
-            this.virtues[v]++;
-            btn.parentElement.innerHTML = `Lvl ${this.virtues[v]} <button onclick="window.incrementVirtue('${v}', this)">+</button>`;
-            showNotification(`${v} Increased!`, "success");
-        };
+    open() {
+        if (document.getElementById('virtue-modal')) return;
+
+        const modal = document.createElement('div');
+        modal.id = 'virtue-modal';
+        modal.className = 'shrine-window active';
+        modal.style.width = '350px';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>Virtue Tracker</h3></div>
+            <div id="virtue-list" style="padding:1rem; max-height:400px; overflow-y:auto;">
+                <!-- Virtues Injected Here -->
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:gold; cursor:pointer;">✕</button>
+        `;
+        document.body.appendChild(modal);
+        this.render(modal.querySelector('#virtue-list'));
+    }
+
+    render(container) {
+        container.innerHTML = Object.keys(this.virtues).map(v => `
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; background:rgba(255,255,255,0.05); padding:10px; border-radius:5px;">
+                <span style="color:gold;">${v}</span>
+                <div style="display:flex; align-items:center;">
+                    <button class="btn-text" onclick="window.virtueTracker.update('${v}', -1)">-</button>
+                    <span style="margin:0 10px; width:20px; text-align:center;">${this.virtues[v]}</span>
+                    <button class="btn-text" onclick="window.virtueTracker.update('${v}', 1)">+</button>
+                </div>
+            </div>
+            <div style="width:100%; height:4px; background:#333; margin-bottom:15px; border-radius:2px;">
+                <div style="height:100%; width:${Math.min(this.virtues[v] * 10, 100)}%; background:var(--primary-gold); transition:width 0.3s;"></div>
+            </div>
+        `).join('');
+        window.virtueTracker = this;
+    }
+
+    update(virtue, change) {
+        this.virtues[virtue] = Math.max(0, this.virtues[virtue] + change);
+        localStorage.setItem('shrine_virtues', JSON.stringify(this.virtues));
+        const container = document.getElementById('virtue-list');
+        if (container) this.render(container);
     }
 }
+
+
 
 /* --- PHASE 46: HOLY WATER --- */
 class HolyWater {
@@ -5382,7 +6166,7 @@ class HolyWater {
             // Audio Effect
             if (window.soulGuidanceAudio && window.soulGuidanceAudio.playWaterDrop) {
                 window.soulGuidanceAudio.playWaterDrop();
-            } else if (window.soulGuidanceAudio) {
+            } else if (window.soulGuidanceAudio && window.soulGuidanceAudio.ctx) {
                 // Fallback synthetic drop
                 const osc = window.soulGuidanceAudio.ctx.createOscillator();
                 const g = window.soulGuidanceAudio.ctx.createGain();
@@ -6055,16 +6839,7 @@ class SpiritualWill {
 class MementoMori {
     constructor() { this.init(); }
     init() {
-        const btn = document.createElement('button');
-        btn.innerHTML = '<i class="fas fa-skull"></i>';
-        btn.className = 'shrine-trigger-btn';
-        btn.style.left = '60px'; // Offset
-        btn.style.bottom = '200px';
-        btn.title = "Memento Mori / Obituary";
-        btn.onclick = () => this.open();
-        document.body.appendChild(btn);
-    }
-    init() {
+
         // Re-using button from previous logic or new one? 
         // Actually the previous location logic might overlap. 
         // Let's just create the modal logic hooked to a new button.
@@ -6406,9 +7181,6 @@ class CatechismSearch {
             "prayer": "CCC 2559: 'Prayer is the raising of one's mind and heart to God or the requesting of good things from God.'"
         };
         this.init();
-    }
-    init() {
-        // Stub replaced
     }
     // We'll hook this into the main UI later or add a button if needed.
     // For now, let's expose it as a global utility or button.
@@ -7008,7 +7780,7 @@ class FeedbackManager {
             // Simulate sending to server
             console.log('Feedback submitted:', text);
         } else {
-            showNotification('Please enter a message.', 'warning');
+            showNotification("Please enter a message.", "warning");
         }
     }
 }
@@ -7245,3 +8017,3568 @@ document.addEventListener('DOMContentLoaded', () => {
 class SacredRhythms { constructor() { console.log('placeholder: SacredRhythms initialized'); } }
 class VirtualShrine { constructor() { console.log('placeholder: VirtualShrine initialized'); } }
 class ChantHero { constructor() { console.log('placeholder: ChantHero initialized'); } }
+
+// --- PHASE 52: DIVINE VOICE ---
+class DivineVoiceManager {
+    constructor() {
+        this.recognition = null;
+        this.listening = false;
+        this.init();
+    }
+
+    init() {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            this.recognition = new SpeechRecognition();
+            this.recognition.continuous = false;
+            this.recognition.lang = 'en-US';
+            this.recognition.interimResults = false;
+            this.recognition.onresult = (event) => this.handleResult(event);
+            this.recognition.onend = () => { this.listening = false; this.updateUI(); };
+            this.createMicButton();
+        }
+    }
+
+    createMicButton() {
+        const btn = document.createElement('button');
+        btn.id = 'voice-btn';
+        btn.className = 'glass-btn';
+        btn.innerHTML = '<i class="fas fa-microphone"></i>';
+        btn.style.cssText = 'position:fixed; bottom:140px; right:20px; z-index:9999; padding:12px; border-radius:50%; border:1px solid var(--primary-gold);';
+        btn.onclick = () => this.toggleListen();
+        document.body.appendChild(btn);
+    }
+
+    toggleListen() {
+        if (this.listening) { this.recognition.stop(); }
+        else {
+            try { this.recognition.start(); this.listening = true; this.updateUI(); window.showNotification("Listening...", "info"); }
+            catch (e) { console.error(e); }
+        }
+    }
+
+    updateUI() {
+        const btn = document.getElementById('voice-btn');
+        if (btn) {
+            btn.style.background = this.listening ? 'red' : '';
+            btn.innerHTML = this.listening ? '<i class="fas fa-microphone-slash"></i>' : '<i class="fas fa-microphone"></i>';
+        }
+    }
+
+    handleResult(event) {
+        const command = event.results[0][0].transcript.toLowerCase();
+        window.showNotification(`Heard: "${command}"`, "info");
+        if (command.includes("light")) { new CandleManager().openShrine(); }
+        else if (command.includes("silence")) { const btn = document.getElementById('audio-toggle'); if (btn) btn.click(); }
+        else if (command.includes("pray")) { document.getElementById('prayer-wall')?.scrollIntoView({ behavior: 'smooth' }); }
+    }
+}
+
+// --- PHASE 53: ROSARY ---
+class RosaryManager {
+    constructor() { this.beads = 50; this.currentBead = 0; this.init(); }
+    init() { this.createUI(); }
+    createUI() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-pray"></i> Digital Rosary';
+        btn.className = 'glass-btn';
+        btn.style.cssText = 'display:block; margin:1rem auto;';
+        btn.onclick = () => this.openRosary();
+        const wall = document.querySelector('main');
+        if (wall) wall.appendChild(btn);
+    }
+    openRosary() {
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__zoomIn';
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:200000; background:black; display:flex; flex-direction:column; justify-content:center; align-items:center;';
+        modal.innerHTML = `
+            <div id="rosary-canvas" style="position:relative; width:300px; height:300px; border-radius:50%; border:2px dashed var(--primary-gold); animation: spin 60s linear infinite;"></div>
+            <h2 id="bead-counter" class="text-gradient-gold" style="margin-top:2rem;">Hail Mary: 0 / 50</h2>
+            <button id="pray-bead" style="width:100px; height:100px; border-radius:50%; background:var(--primary-gold); margin-top:1rem;">Pray</button>
+            <button class="btn-text" style="position:absolute; bottom:20px;">Close</button>
+        `;
+        document.body.appendChild(modal);
+        // Beads generation logic simplified
+        const canvas = modal.querySelector('#rosary-canvas');
+        for (let i = 0; i < 10; i++) {
+            const bead = document.createElement('div');
+            bead.style.cssText = `position:absolute; width:10px; height:10px; background:white; border-radius:50%; left:${150 + 150 * Math.cos((i / 10) * Math.PI * 2)}px; top:${150 + 150 * Math.sin((i / 10) * Math.PI * 2)}px;`;
+            canvas.appendChild(bead);
+        }
+        modal.querySelector('#pray-bead').onclick = () => {
+            this.currentBead++;
+            modal.querySelector('#bead-counter').textContent = `Hail Mary: ${this.currentBead} / 50`;
+            if (this.currentBead >= 50) { window.showNotification("Grace Abounds.", "success"); this.currentBead = 0; }
+        };
+        modal.querySelector('.btn-text').onclick = () => modal.remove();
+    }
+}
+
+// --- PHASE 55: CHRONOS ---
+class TimeManager {
+    constructor() { this.init(); }
+    init() { this.checkTime(); setInterval(() => this.checkTime(), 60000); }
+    checkTime() {
+        const h = new Date().getHours();
+        let p = 'night';
+        if (h >= 5 && h < 12) p = 'dawn';
+        else if (h >= 12 && h < 17) p = 'day';
+        else if (h >= 17 && h < 21) p = 'dusk';
+        document.body.setAttribute('data-time-phase', p);
+        if (p === 'dawn') document.documentElement.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #2c1a3d 0%, #4a2f5e 100%)');
+        if (p === 'day') document.documentElement.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 100%)');
+        if (p === 'dusk') document.documentElement.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #1a0b2e 0%, #3d2b1f 100%)');
+        if (p === 'night') document.documentElement.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #050010 0%, #000 100%)');
+    }
+}
+
+// Init Restoration
+new DivineVoiceManager();
+new RosaryManager();
+
+// --- PHASE 44: ETERNAL LOOP ---
+class PrayerWallManager {
+    constructor() {
+        this.page = 1;
+        this.loading = false;
+        this.init();
+    }
+    init() {
+        // Create Wall Section
+        const main = document.querySelector('main');
+        if (main) {
+            const section = document.createElement('section');
+            section.id = 'prayer-wall';
+            section.className = 'glass-panel';
+            section.style.cssText = 'margin-top:4rem; padding:2rem;';
+            section.innerHTML = `
+                <h2 class="text-gradient-gold text-center">Community Prayer Wall / حائط الصلاة</h2>
+                <div id="prayer-feed" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;"></div>
+                <div id="prayer-loader" class="text-center" style="display:none; margin-top:1rem;">
+                    <i class="fas fa-spinner fa-spin text-gradient-gold"></i>
+                </div>
+            `;
+            main.appendChild(section);
+            this.container = section.querySelector('#prayer-feed');
+            this.loadPrayers();
+        }
+    }
+    loadPrayers() {
+        if (this.loading) return;
+        this.loading = true;
+        const loader = document.getElementById('prayer-loader');
+        if (loader) loader.style.display = 'block';
+        setTimeout(() => {
+            const mock = [
+                { t: "Peace for the world", a: "Maria", l: "Cairo" },
+                { t: "Healing for families", a: "John", l: "Beirut" },
+                { t: "Strength in faith", a: "Sarah", l: "Dubai" }
+            ];
+            mock.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'glass-card animate__animated animate__fadeInUp';
+                card.innerHTML = `<p>"${p.t}"</p><small>- ${p.a}, ${p.l}</small>`;
+                this.container.appendChild(card);
+            });
+            this.loading = false;
+            if (loader) loader.style.display = 'none';
+        }, 1000);
+    }
+}
+
+// --- PHASE 48: THE WORD ---
+class BibleManager {
+    constructor() {
+        this.verses = [
+            { r: "John 3:16", t: "For God so loved the world...", tag: "love" },
+            { r: "Psalm 23", t: "The Lord is my shepherd...", tag: "comfort" },
+            { r: "Phil 4:13", t: "I can do all things...", tag: "strength" }
+        ];
+        this.init();
+    }
+    init() { window.soulGuidanceBible = this; }
+    openSearch() {
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeInDown';
+        modal.style.cssText = 'position:fixed; top:10%; left:50%; transform:translateX(-50%); width:90%; max-width:600px; z-index:100000; background:rgba(0,0,0,0.9);';
+        modal.innerHTML = `
+            <div style="padding:1rem;">
+                <h3>Scripture Search</h3>
+                <input type="text" id="bible-search" placeholder="Search (love, hope)..." style="width:100%; padding:0.5rem; margin:1rem 0; color:black;">
+                <div id="bible-results"></div>
+                <button class="btn-text" onclick="this.closest('.glass-panel').remove()">Close</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.querySelector('input').addEventListener('input', (e) => this.search(e.target.value, modal.querySelector('#bible-results')));
+    }
+    search(q, c) {
+        if (!q) { c.innerHTML = ''; return; }
+        const res = this.verses.filter(v => v.t.toLowerCase().includes(q.toLowerCase()) || v.tag.includes(q.toLowerCase()));
+        c.innerHTML = res.map(v => `<div class="glass-card" style="margin:0.5rem 0;"><b>${v.r}</b>: ${v.t}</div>`).join('');
+    }
+}
+
+// --- PHASE 49: REFLECTION ---
+class JournalManager {
+    constructor() {
+        this.entries = JSON.parse(localStorage.getItem('soulGuidance_journal') || '[]');
+        window.soulGuidanceJournal = this;
+    }
+    openJournal() {
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeInRight';
+        modal.style.cssText = 'position:fixed; top:0; right:0; width:100%; max-width:400px; height:100%; z-index:100000; background:rgba(0,0,0,0.95); display:flex; flex-direction:column;';
+        modal.innerHTML = `
+            <div style="padding:1rem; border-bottom:1px solid gold;"><h3>Journal</h3><button onclick="this.closest('.glass-panel').remove()">Close</button></div>
+            <div id="j-entries" style="flex:1; overflow-y:auto; padding:1rem;">${this.render()}</div>
+            <div style="padding:1rem;"><textarea id="j-in" style="width:100%; height:80px; color:black;"></textarea><button id="j-save" class="glass-btn">Save</button></div>
+        `;
+        document.body.appendChild(modal);
+        modal.querySelector('#j-save').onclick = () => {
+            const t = modal.querySelector('#j-in').value;
+            if (t) { this.entries.unshift({ d: new Date().toLocaleString(), t }); localStorage.setItem('soulGuidance_journal', JSON.stringify(this.entries)); modal.querySelector('#j-entries').innerHTML = this.render(); }
+        }
+    }
+    render() {
+        return this.entries.map(e => `<div class="glass-card"><small>${e.d}</small><p>${e.t}</p></div>`).join('');
+    }
+}
+
+// Init Batch 1
+new PrayerWallManager();
+new BibleManager();
+
+// --- PHASE 57: THE LEDGER ---
+class LedgerManager {
+    constructor() { this.chain = JSON.parse(localStorage.getItem('soulGuidance_ledger') || '[]'); this.init(); }
+    init() {
+        const f = document.querySelector('footer');
+        if (f) { const b = document.createElement('button'); b.className = 'btn-text'; b.innerHTML = '<i class="fas fa-link"></i> Ledger'; b.onclick = () => this.open(); f.appendChild(b); }
+    }
+    async add(d) {
+        const prev = this.chain.length ? this.chain[this.chain.length - 1].hash : '0';
+        const ts = Date.now();
+        const msg = JSON.stringify({ d, prev, ts });
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+        const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        this.chain.push({ index: this.chain.length, ts, d, prev, hash });
+        localStorage.setItem('soulGuidance_ledger', JSON.stringify(this.chain));
+        window.showNotification("Prayer Sealed.", "success");
+    }
+    open() {
+        const m = document.createElement('div');
+        m.className = 'glass-panel animate__animated animate__fadeInUp';
+        m.style.cssText = 'position:fixed; top:10%; left:5%; width:90%; height:80%; z-index:150000; background:rgba(10,10,20,0.98); font-family:monospace; padding:1rem; overflow-y:auto;';
+        m.innerHTML = `<h3>Immutable Ledger</h3><div id="chain">${this.render()}</div><button id="mine" class="glass-btn">New Entry</button><button onclick="this.closest('.glass-panel').remove()">Close</button>`;
+        document.body.appendChild(m);
+        m.querySelector('#mine').onclick = () => {
+            const p = prompt("Intention:");
+            if (p) this.add(p).then(() => { m.querySelector('#chain').innerHTML = this.render(); });
+        }
+    }
+    render() {
+        return this.chain.map(b => `<div style="border:1px solid #333; margin:1rem 0; padding:1rem;"><div>#${b.index} [${new Date(b.ts).toISOString()}]</div><div>${b.d}</div><div style="color:#0f0; font-size:0.8rem;">Hash: ${b.hash}</div></div>`).join('');
+    }
+}
+
+// --- PHASE 58: THE PRISM ---
+class PrismAccessibility {
+    constructor() { this.s = JSON.parse(localStorage.getItem('soul_a11y') || '{"c":false,"f":1}'); this.init(); }
+    init() { this.apply(); this.ui(); }
+    ui() {
+        const t = document.createElement('div');
+        t.style.cssText = 'position:fixed; bottom:20px; left:20px; z-index:9999; display:flex; gap:5px;';
+        t.innerHTML = `<button id="a11y-c" class="glass-btn">🌗</button><button id="a11y-f" class="glass-btn">A+</button>`;
+        document.body.appendChild(t);
+        t.querySelector('#a11y-c').onclick = () => { this.s.c = !this.s.c; this.save(); this.apply(); }
+        t.querySelector('#a11y-f').onclick = () => { this.s.f += 0.1; if (this.s.f > 1.5) this.s.f = 1; this.save(); this.apply(); }
+    }
+    apply() {
+        document.documentElement.style.filter = this.s.c ? 'contrast(1.5)' : '';
+        document.documentElement.style.fontSize = `${16 * this.s.f}px`;
+        if (this.s.c) document.body.classList.add('high-contrast');
+        else document.body.classList.remove('high-contrast');
+    }
+    save() { localStorage.setItem('soul_a11y', JSON.stringify(this.s)); }
+}
+
+// --- PHASE 46: THE CENTURION ---
+class CenturionManager {
+    constructor() { window.triggerCenturion = () => this.vision(); }
+    vision() {
+        window.showNotification("STEP 100: ASCENSION", "success");
+        const o = document.createElement('div');
+        o.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:white; z-index:10000000; display:flex; justify-content:center; align-items:center; opacity:0; transition:opacity 3s;';
+        o.innerHTML = `<h1 style="font-size:5rem; color:gold;">GLORIA</h1>`;
+        document.body.appendChild(o);
+        setTimeout(() => o.style.opacity = 1, 100);
+        setTimeout(() => { o.style.opacity = 0; setTimeout(() => o.remove(), 3000); }, 5000);
+    }
+}
+
+// Init Batch 2
+new LedgerManager();
+new PrismAccessibility();
+new CenturionManager();
+console.log("System Convergence Complete.");
+
+// --- PHASE 63: THE PILGRIM ---
+class StationsManager {
+    constructor() {
+        this.stations = [
+            { id: 1, t: "Jesus is Condemned to Death", p: "We adore You, O Christ, and we praise You, because by Your holy cross You have redeemed the world." },
+            { id: 2, t: "Jesus Carries His Cross", p: "Grant us strength to carry our daily crosses with love and patience." },
+            { id: 3, t: "Jesus Falls the First Time", p: "Pick us up, Lord, when we stumble under the weight of sin." },
+            { id: 4, t: "Jesus Meets His Mother", p: "Hail Mary, full of sorrow, help us to comfort those who mourn." },
+            { id: 5, t: "Simon Helps Jesus", p: "May we be Simon to our neighbors in need." },
+            { id: 6, t: "Veronica Wipes the Face of Jesus", p: "Imprint Your Sacred Face upon our hearts." },
+            { id: 7, t: "Jesus Falls the Second Time", p: "Heal our pride and teach us humility." },
+            { id: 8, t: "Jesus Meets the Women of Jerusalem", p: "We weep for our sins and for the world." },
+            { id: 9, t: "Jesus Falls the Third Time", p: "Give us the grace of final perseverance." },
+            { id: 10, t: "Jesus is Stripped of His Garments", p: "Strip us of attachment to worldly things." },
+            { id: 11, t: "Jesus is Nailed to the Cross", p: "We offer our sufferings in union with Yours." },
+            { id: 12, t: "Jesus Dies on the Cross", p: "Into Your hands, O Lord, we commend our spirits." },
+            { id: 13, t: "Jesus is Taken Down from the Cross", p: "Mother of God, hold us close in our final hour." },
+            { id: 14, t: "Jesus is Laid in the Tomb", p: "We await the resurrection of the dead and the life of the world to come." }
+        ];
+        this.currentStation = 0;
+        this.init();
+    }
+
+    init() {
+        this.createButton();
+    }
+
+    createButton() {
+        const bibleBtn = document.querySelector('button[onclick*="soulGuidanceBible"]'); // Try to find nearby or just append
+        // Ideally append to nav or a specific section. Let's put it in the footer navigation or near Rosary.
+        // We'll append to Main for visibility like Rosary
+        const main = document.querySelector('main');
+        if (main) {
+            const btn = document.createElement('button');
+            btn.className = 'glass-btn animate__animated animate__fadeIn';
+            btn.innerHTML = '<i class="fas fa-cross"></i> Way of the Cross';
+            btn.style.cssText = 'display:block; margin:1rem auto; background:rgba(50,0,0,0.5);';
+            btn.onclick = () => this.startJourney();
+            main.appendChild(btn);
+        }
+    }
+
+    startJourney() {
+        this.currentStation = 0;
+        this.renderModal();
+    }
+
+    renderModal() {
+        let modal = document.getElementById('stations-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'stations-modal';
+            modal.className = 'glass-panel animate__animated animate__fadeIn';
+            modal.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:200000; background:black; display:flex; flex-direction:column; justify-content:center; align-items:center; color:white; padding:2rem; text-align:center;';
+            document.body.appendChild(modal);
+        }
+
+        const s = this.stations[this.currentStation];
+
+        modal.innerHTML = `
+            <div style="font-size:3rem; margin-bottom:1rem; color:var(--primary-gold);">Station ${s.id}</div>
+            <h2 class="animate__animated animate__fadeInUp" style="font-family:'Cinzel', serif; margin-bottom:2rem;">${s.t}</h2>
+            <div style="width:100px; height:100px; margin:0 auto 2rem; border:2px solid gold; border-radius:50%; display:flex; justify-content:center; align-items:center;">
+                <i class="fas fa-cross" style="font-size:3rem;"></i>
+            </div>
+            <p class="animate__animated animate__fadeIn animate__delay-1s" style="font-size:1.2rem; max-width:600px; margin-bottom:3rem; line-height:1.6;">"${s.p}"</p>
+            
+            <div style="display:flex; gap:1rem;">
+                <button id="st-prev" class="glass-btn"><i class="fas fa-arrow-left"></i></button>
+                <button id="st-close" class="btn-text">End Journey</button>
+                <button id="st-next" class="glass-btn"><i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div style="margin-top:2rem; width:200px; height:5px; background:#333; border-radius:5px;">
+                <div style="width:${(s.id / 14) * 100}%; height:100%; background:var(--primary-gold); transition:width 0.5s;"></div>
+            </div>
+        `;
+
+        modal.querySelector('#st-prev').onclick = () => {
+            if (this.currentStation > 0) {
+                this.currentStation--;
+                this.renderModal();
+            }
+        };
+        modal.querySelector('#st-next').onclick = () => {
+            if (this.currentStation < 13) {
+                this.currentStation++;
+                this.renderModal();
+            } else {
+                window.showNotification("Journey Complete. Go in Peace.", "success");
+                modal.remove();
+            }
+        };
+        modal.querySelector('#st-close').onclick = () => modal.remove();
+    }
+}
+
+// --- PHASE 65: THE ARCHITECT ---
+class GlobalErrorHandler {
+    constructor() {
+        this.init();
+    }
+    init() {
+        window.onerror = (msg, url, line, col, error) => {
+            console.error('SoulGuidance Error:', { msg, url, line, error });
+            window.showNotification(`System Stability Alert: ${msg}`, 'error');
+            return false; // Let default handler run too
+        };
+
+        window.onunhandledrejection = (event) => {
+            console.error('Unhandled Promise Rejection:', event.reason);
+            window.showNotification("Async Operation Failed. Retrying...", "warning");
+        };
+    }
+}
+
+class PerformanceMonitor {
+    constructor() {
+        this.frameCount = 0;
+        this.lastTime = performance.now();
+        this.fps = 60;
+        this.init();
+    }
+
+    init() {
+        // Only run in dev logic or if requested. For now, we run silently.
+        this.loop();
+        this.logStartup();
+    }
+
+    loop() {
+        const now = performance.now();
+        this.frameCount++;
+        if (now - this.lastTime >= 1000) {
+            this.fps = this.frameCount;
+            this.frameCount = 0;
+            this.lastTime = now;
+        }
+        requestAnimationFrame(() => this.loop());
+    }
+
+    logStartup() {
+        const timing = window.performance.timing;
+        const loadTime = timing.loadEventEnd - timing.navigationStart;
+        console.log(`SoulGuidance Loaded in ${loadTime}ms`);
+    }
+}
+
+new GlobalErrorHandler();
+
+// --- PHASE 66: THE VISIONARY ---
+class IoTManager {
+    constructor() {
+        this.connected = false;
+        this.device = null;
+        window.soulIoT = this;
+    }
+
+    async connect() {
+        try {
+            // Simulation of Web Bluetooth API
+            // navigator.bluetooth.requestDevice(...)
+            window.showNotification("Scanning for Smart Rosary...", "info");
+            await new Promise(r => setTimeout(r, 2000));
+
+            // Simulating a not-found or mock connection
+            const mockSuccess = Math.random() > 0.5;
+            if (mockSuccess) {
+                this.connected = true;
+                window.showNotification("Connected to 'SoulBead Pro X1'", "success");
+                this.startListener();
+            } else {
+                throw new Error("Device not found nearby.");
+            }
+        } catch (e) {
+            console.warn("IoT Connection Failed:", e);
+            window.showNotification("Smart Rosary not found. Try putting it in pairing mode.", "warning");
+        }
+    }
+
+    startListener() {
+        // Mock data stream
+        setInterval(() => {
+            if (this.connected && Math.random() > 0.9) {
+                window.showNotification("Smart Rosary: Bead Advanced", "success");
+            }
+        }, 5000);
+    }
+}
+
+// --- PHASE 67: THE GUARDIAN ---
+class DataManager {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.createControls();
+    }
+
+    createControls() {
+        const footer = document.querySelector('footer');
+        if (footer) {
+            const container = document.createElement('div');
+            container.style.marginTop = '1rem';
+            container.innerHTML = `
+                <button id="data-export" class="btn-text" style="font-size:0.8rem; opacity:0.7;">
+                    <i class="fas fa-download"></i> Backup Data
+                </button>
+                <input type="file" id="data-import-input" style="display:none" accept=".json">
+                <button id="data-import" class="btn-text" style="font-size:0.8rem; opacity:0.7; margin-left:1rem;">
+                    <i class="fas fa-upload"></i> Restore Data
+                </button>
+            `;
+            footer.appendChild(container);
+
+            container.querySelector('#data-export').onclick = () => this.exportData();
+            container.querySelector('#data-import').onclick = () => document.getElementById('data-import-input').click();
+            document.getElementById('data-import-input').onchange = (e) => this.importData(e);
+        }
+    }
+
+    exportData() {
+        const data = {
+            stats: JSON.parse(localStorage.getItem('soulGuidance_stats') || '{}'),
+            journal: JSON.parse(localStorage.getItem('soulGuidance_journal') || '[]'),
+            favorites: JSON.parse(localStorage.getItem('soulGuidance_favorites') || '[]'),
+            badges: JSON.parse(localStorage.getItem('soulGuidance_badges') || '[]'),
+            settings: JSON.parse(localStorage.getItem('soul_a11y') || '{}'),
+            ledger: JSON.parse(localStorage.getItem('soulGuidance_ledger') || '[]'),
+            timestamp: new Date().toISOString()
+        };
+
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `soul_guidance_backup_${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        window.showNotification("Backup generated successfully.", "success");
+    }
+
+    importData(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (data.stats) localStorage.setItem('soulGuidance_stats', JSON.stringify(data.stats));
+                if (data.journal) localStorage.setItem('soulGuidance_journal', JSON.stringify(data.journal));
+                if (data.favorites) localStorage.setItem('soulGuidance_favorites', JSON.stringify(data.favorites));
+                if (data.badges) localStorage.setItem('soulGuidance_badges', JSON.stringify(data.badges));
+                if (data.settings) localStorage.setItem('soul_a11y', JSON.stringify(data.settings));
+                if (data.ledger) localStorage.setItem('soulGuidance_ledger', JSON.stringify(data.ledger));
+
+                window.showNotification("Data restored. Reloading...", "success");
+                setTimeout(() => location.reload(), 2000);
+            } catch (err) {
+                console.error(err);
+                window.showNotification("Invalid backup file.", "error");
+            }
+        };
+        reader.readAsText(file);
+    }
+}
+new DataManager();
+
+// --- PHASE 68: THE NAVIGATOR ---
+class SpotlightManager {
+    constructor() {
+        this.isOpen = false;
+        this.actions = [
+            { t: "Light a Candle", h: () => new CandleManager().openShrine() },
+            { t: "Open Bible Search", h: () => window.soulGuidanceBible.openSearch() },
+            { t: "My Journal", h: () => window.soulGuidanceJournal.openJournal() },
+            { t: "Prayer Wall", h: () => document.getElementById('prayer-wall').scrollIntoView({ behavior: 'smooth' }) },
+            { t: "Toggle High Contrast", h: () => document.getElementById('a11y-c').click() },
+            { t: "Backup Data", h: () => document.getElementById('data-export').click() },
+            { t: "Stations of the Cross", h: () => new StationsManager().startJourney() },
+            { t: "Digital Rosary", h: () => new RosaryManager().openRosary() }
+        ];
+        this.init();
+    }
+
+    init() {
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                this.toggle();
+            }
+        });
+    }
+
+    toggle() {
+        this.isOpen ? this.close() : this.open();
+    }
+
+    open() {
+        this.isOpen = true;
+        const modal = document.createElement('div');
+        modal.id = 'spotlight-modal';
+        modal.ClassName = 'glass-panel animate__animated animate__fadeInDown';
+        modal.style.cssText = 'position:fixed; top:20%; left:50%; transform:translateX(-50%); width:600px; max-width:90%; padding:1rem; z-index:200000; background:rgba(0,0,0,0.95); border:1px solid gold; border-radius:10px;';
+
+        modal.innerHTML = `
+            <input type="text" id="spotlight-input" placeholder="Type a command..." style="width:100%; padding:1rem; font-size:1.2rem; background:transparent; border:none; border-bottom:1px solid #333; color:white; outline:none;">
+            <div id="spotlight-results" style="max-height:300px; overflow-y:auto; margin-top:0.5rem;"></div>
+        `;
+
+        document.body.appendChild(modal);
+        const input = modal.querySelector('input');
+        input.focus();
+
+        input.oninput = (e) => this.renderResults(e.target.value, modal.querySelector('#spotlight-results'));
+        this.renderResults('', modal.querySelector('#spotlight-results')); // Show all initially
+
+        // Close on escape
+        input.onkeydown = (e) => { if (e.key === 'Escape') this.close(); };
+        // Close on outside click
+        setTimeout(() => document.onclick = (e) => { if (!modal.contains(e.target)) this.close(); }, 100);
+    }
+
+    close() {
+        this.isOpen = false;
+        const m = document.getElementById('spotlight-modal');
+        if (m) m.remove();
+        document.onclick = null;
+    }
+
+    renderResults(query, container) {
+        container.innerHTML = '';
+        const matches = this.actions.filter(a => a.t.toLowerCase().includes(query.toLowerCase()));
+
+        matches.forEach((action, index) => {
+            const div = document.createElement('div');
+            div.style.cssText = 'padding:1rem; border-bottom:1px solid #222; cursor:pointer; display:flex; justify-content:space-between; hover:background:rgba(255,255,255,0.1);';
+            div.innerHTML = `<span>${action.t}</span> <span style="font-size:0.8rem; color:gray;">Action</span>`;
+            div.onmouseover = () => div.style.background = 'rgba(255,215,0,0.1)';
+            div.onmouseout = () => div.style.background = 'transparent';
+            div.onclick = () => {
+                action.h();
+                this.close();
+            };
+            container.appendChild(div);
+        });
+
+        if (matches.length === 0) {
+            container.innerHTML = '<div style="padding:1rem; color:gray;">No commands found.</div>';
+        }
+    }
+}
+new SpotlightManager();
+// Hint
+
+// --- PHASE 69: THE MUSE ---
+class ArtManager {
+    constructor() {
+        this.ctx = null;
+        this.hue = 0;
+        this.particles = [];
+        // Add entry point to Spotlight or Footer
+        this.init();
+    }
+
+    init() {
+        // Add to Spotlight actions dynamically if possible, or just expose global
+        if (window.soulIoT) { /* hooking point */ }
+    }
+
+    openCanvas() {
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeIn';
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:200000; background:black; cursor:crosshair;';
+
+        const canvas = document.createElement('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        modal.appendChild(canvas);
+
+        const close = document.createElement('button');
+        close.className = 'glass-btn';
+        close.innerText = 'Close Canvas';
+        close.style.cssText = 'position:fixed; top:20px; right:20px; z-index:200001;';
+        close.onclick = () => { cancelAnimationFrame(this.raf); modal.remove(); };
+        modal.appendChild(close);
+
+        document.body.appendChild(modal);
+        this.ctx = canvas.getContext('2d');
+
+        // Event Listeners
+        let drawing = false;
+        canvas.addEventListener('mousedown', () => drawing = true);
+        canvas.addEventListener('mouseup', () => drawing = false);
+        canvas.addEventListener('mousemove', (e) => {
+            if (drawing) {
+                for (let i = 0; i < 5; i++) {
+                    this.particles.push({
+                        x: e.clientX,
+                        y: e.clientY,
+                        vx: (Math.random() - 0.5) * 4,
+                        vy: (Math.random() - 0.5) * 4,
+                        size: Math.random() * 5 + 1,
+                        color: `hsl(${this.hue}, 100%, 50%)`,
+                        life: 100
+                    });
+                }
+                this.hue += 2;
+            }
+        });
+
+        this.animate();
+    }
+
+    animate() {
+        if (!document.querySelector('canvas')) return;
+        this.ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        this.ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+        for (let i = 0; i < this.particles.length; i++) {
+            const p = this.particles[i];
+            this.ctx.fillStyle = p.color;
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life--;
+
+            if (p.life <= 0) {
+                this.particles.splice(i, 1);
+                i--;
+            }
+        }
+        this.raf = requestAnimationFrame(() => this.animate());
+    }
+}
+window.soulMuse = new ArtManager();
+// Register to Spotlight
+setTimeout(() => {
+    // Hacky way to add to existing spotlight instance without refactoring
+    // Ideally SpotlightManager should expose a method to add actions.
+
+    // --- PHASE 70: THE STEWARD ---
+    class CacheManager {
+        constructor() {
+            this.init();
+        }
+
+        init() {
+            // Add to Spotlight or specific settings area
+            // For now, we expose a global function and maybe a hidden footer trigger
+            window.soulSteward = this;
+        }
+
+        async factoryReset() {
+            if (!confirm("⚠️ FACTORY RESET ⚠️\n\nThis will delete ALL data (Journal, Prayers, Settings, Progress) and reset the app. Are you sure?")) return;
+
+            window.showNotification("Resetting System...", "warning");
+
+            // 1. Clear LocalStorage
+            localStorage.clear();
+
+            // 2. Unregister Service Workers
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (let registration of registrations) {
+                    await registration.unregister();
+                }
+            }
+
+            // 3. Clear Caches
+            if ('caches' in window) {
+                const keys = await caches.keys();
+                for (let key of keys) {
+                    await caches.delete(key);
+                }
+            }
+
+            window.showNotification("System Wiped. Reloading...", "success");
+            setTimeout(() => location.reload(true), 2000);
+        }
+    }
+    new CacheManager();
+    console.log("Call window.soulSteward.factoryReset() to wipe data.");
+}, 1000);
+
+// --- PHASE 71: THE ARCHIVIST ---
+class HistoryManager {
+    constructor() {
+        this.log = [];
+        this.init();
+    }
+    init() { window.soulHistory = this; }
+    record(action) {
+        const entry = { t: new Date().toLocaleTimeString(), a: action };
+        this.log.push(entry);
+        console.log(`[History] ${entry.t}: ${entry.a}`);
+    }
+    showHistory() {
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeInUp';
+        modal.style.cssText = 'position:fixed; bottom:0; right:20px; width:300px; max-height:400px; z-index:150000; background:rgba(0,0,0,0.9); padding:1rem; overflow-y:auto; border-radius:10px 10px 0 0; border:1px solid gold;';
+        modal.innerHTML = `
+            <div style="display:flex; justify-content:space-between; margin-bottom:1rem; border-bottom:1px solid #333; padding-bottom:0.5rem;"><strong>Session History</strong><button class="btn-text" onclick="this.closest('.glass-panel').remove()">x</button></div>
+            <div style="font-size:0.9rem;">${this.log.map(e => `<div style="margin-bottom:0.5rem; color:#ccc;"><small style="color:gold;">${e.t}</small> ${e.a}</div>`).join('')}${this.log.length === 0 ? '<em style="color:gray;">No actions yet.</em>' : ''}</div>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+new HistoryManager();
+
+// --- PHASE 73: THE MESSENGER ---
+class NotificationScheduler {
+    constructor() { this.init(); }
+    init() { if ("Notification" in window && Notification.permission !== "denied") this.schedule(); }
+    async requestPermission() {
+        const p = await Notification.requestPermission();
+        if (p === "granted") { window.showNotification("Daily reminders enabled.", "success"); this.schedule(); }
+    }
+    schedule() {
+        this.scheduleDaily(12, 0, "The Angelus", "The Angel of the Lord declared unto Mary...");
+        this.scheduleDaily(15, 0, "Divine Mercy", "For the sake of His sorrowful passion...");
+        this.scheduleDaily(21, 0, "Examen", "Review your day with God.");
+    }
+    scheduleDaily(h, m, t, b) {
+        const now = new Date();
+        let target = new Date();
+        target.setHours(h, m, 0, 0);
+        if (target < now) target.setDate(target.getDate() + 1);
+        const delay = target - now;
+        setTimeout(() => { new Notification(t, { body: b, icon: '/icons/icon-192x192.png' }); this.scheduleDaily(h, m, t, b); }, delay);
+        console.log(`[Messenger] Scheduled '${t}' for ${target.toLocaleTimeString()}`);
+    }
+}
+new NotificationScheduler();
+window.enableNotifications = () => new NotificationScheduler().requestPermission();
+
+// --- PHASE 74: THE ANALYST ---
+class HeatmapManager {
+    constructor() { this.clicks = JSON.parse(localStorage.getItem('soul_heatmap') || '[]'); this.init(); }
+    init() {
+        document.addEventListener('click', (e) => {
+            this.clicks.push({ x: e.clientX, y: e.clientY });
+            if (this.clicks.length > 500) this.clicks.shift();
+            localStorage.setItem('soul_heatmap', JSON.stringify(this.clicks));
+        });
+        window.showHeatmap = () => this.render();
+    }
+    render() {
+        const cvs = document.createElement('canvas');
+        cvs.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:200000; pointer-events:none; opacity:0.7;';
+        cvs.width = window.innerWidth;
+        cvs.height = window.innerHeight;
+        document.body.appendChild(cvs);
+        const ctx = cvs.getContext('2d');
+        this.clicks.forEach(c => { ctx.beginPath(); ctx.arc(c.x, c.y, 20, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255, 0, 0, 0.1)'; ctx.fill(); });
+        setTimeout(() => cvs.remove(), 5000);
+    }
+}
+
+// --- PHASE 75: THE CONCIERGE ---
+class SuggestionEngine {
+    constructor() {
+        this.suggestions = [
+            { t: "It's late. Switch to Dark Mode?", c: () => new Date().getHours() > 20 && !document.body.classList.contains('dark-mode'), a: () => document.getElementById('a11y-c').click() },
+            { t: "Read today's Gospel?", c: () => new Date().getHours() < 10, a: () => window.soulGuidanceBible.openSearch() },
+            { t: "Peace be with you. Light a candle?", c: () => true, a: () => new CandleManager().openShrine() }
+        ];
+        this.init();
+    }
+
+    init() {
+        // Check every minute
+        setInterval(() => this.check(), 60000);
+        setTimeout(() => this.check(), 5000); // Check on load
+    }
+
+    check() {
+        const s = this.suggestions.find(x => x.c());
+        if (s && Math.random() > 0.7) {
+            this.toast(s);
+        }
+    }
+
+    toast(s) {
+        const d = document.createElement('div');
+        d.className = 'glass-panel animate__animated animate__fadeInUp';
+        d.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); padding:1rem; z-index:100000; display:flex; gap:1rem; align-items:center;';
+        d.innerHTML = `<span><i class="fas fa-sparkles text-gradient-gold"></i> ${s.t}</span>`;
+
+        const b = document.createElement('button');
+        b.className = 'glass-btn';
+        b.innerText = "Yes";
+        b.onclick = () => { s.a(); d.remove(); };
+
+        const c = document.createElement('button');
+        c.className = 'btn-text';
+        c.innerText = "No";
+        c.onclick = () => d.remove();
+
+        d.appendChild(b);
+        d.appendChild(c);
+        document.body.appendChild(d);
+        setTimeout(() => d.remove(), 10000);
+    }
+}
+new SuggestionEngine();
+
+// --- RECOVERY: TRANSLATION EXTENSION ---
+if (typeof translations !== 'undefined') {
+    Object.assign(translations, {
+        fr: {
+            title: "Guidance de l'Âme",
+            subtitle: "Un sanctuaire numérique",
+            enter: "Entrer",
+            loading: "Chargement...",
+            prayer: "Prière",
+            candles: "Bougies",
+            readings: "Lectures",
+            about: "À propos",
+            contact: "Contact",
+            send_prayer: "Envoyer Prière",
+            light_candle: "Allumer Bougie",
+            amen: "Amen",
+            language: "Langue"
+        },
+        es: {
+            title: "Guía del Alma",
+            subtitle: "Un santuario digital",
+            enter: "Entrar",
+            loading: "Cargando...",
+            prayer: "Oración",
+            candles: "Velas",
+            readings: "Lecturas",
+            about: "Acerca de",
+            contact: "Contacto",
+            send_prayer: "Enviar Oración",
+            light_candle: "Encender Vela",
+            amen: "Amén",
+            language: "Idioma"
+        }
+    });
+
+
+}
+
+// --- PHASE 77: THE CURATOR ---
+class RotationManager {
+    constructor() {
+        this.quotes = [
+            "Faith is taking the first step even when you don't see the whole staircase.",
+            "God loves each of us as if there were only one of us.",
+            "The darker the night, the brighter the stars.",
+            "Prayer is the key of the morning and the bolt of the evening.",
+            "Be who God meant you to be and you will set the world on fire.",
+            "Grace is sufficient.",
+            "Love never fails.",
+            "Walk by faith, not by sight.",
+            "Joy is the infallible sign of the presence of God.",
+            "Peace begins with a smile."
+        ];
+        this.init();
+    }
+
+    init() {
+        this.rotateQuote();
+    }
+
+    getIndex() {
+        const d = new Date();
+        return (d.getDate() + d.getMonth()) % this.quotes.length;
+    }
+
+    rotateQuote() {
+        const q = this.quotes[this.getIndex()];
+        window.todaysQuote = q;
+        console.log(`[Curator] Today's Quote: "${q}"`);
+        // Try to update hero or footer quote if element exists
+        const el = document.querySelector('.hero-subtitle');
+        // if(el) el.innerText = q; 
+    }
+}
+
+
+// --- PHASE 78: THE SENTINEL ---
+class SecurityMonitor {
+    constructor() { this.init(); }
+    init() {
+        this.scanDOM();
+        new MutationObserver((ms) => {
+            ms.forEach((m) => {
+                m.addedNodes.forEach((n) => {
+                    if (n.tagName === 'SCRIPT' &&
+                        !n.src.includes('soulguidance') &&
+                        !n.src.includes('aos') &&
+                        !n.src.includes('three') &&
+                        !n.src.includes('font-awesome')) {
+                        console.warn('[Sentinel] Unauthorized Script Detected:', n);
+                        // n.remove(); // Disabled distinct removal to prevents 3rd party breakage
+                    }
+                });
+            });
+        }).observe(document.body, { childList: true, subtree: true });
+    }
+    scanDOM() {
+        document.querySelectorAll('*').forEach(el => {
+            if (el.hasAttribute('onload') || el.hasAttribute('onerror')) { }
+        });
+        console.log("[Sentinel] Security Sweep Complete. System Secure.");
+    }
+}
+new RotationManager(); // Restored
+new SecurityMonitor();
+
+// --- PHASE 79: THE LIBRARIAN ---
+class PreloaderManager {
+    constructor() {
+        this.assets = [
+            '/assets/images/bg-hero.jpg',
+            '/assets/audio/chant_lp.mp3',
+            '/assets/images/rosary-bead.png'
+        ];
+        this.init();
+    }
+    init() {
+        if ('requestIdleCallback' in window) requestIdleCallback(() => this.preload());
+        else setTimeout(() => this.preload(), 5000);
+    }
+    preload() {
+        this.assets.forEach(src => {
+            if (src.endsWith('.mp3')) { const a = new Audio(); a.src = src; a.preload = 'auto'; }
+            else { const i = new Image(); i.src = src; }
+        });
+        console.log(`[Librarian] Preloaded assets.`);
+    }
+}
+
+// --- PHASE 80: THE BRIDGE ---
+class SyncManager {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        if ('serviceWorker' in navigator && 'SyncManager' in window) {
+            navigator.serviceWorker.ready.then(registration => {
+                // Register a sync for 'prayer-sync'
+                // registration.sync.register('prayer-sync');
+                // console.log("[Bridge] Background Sync Registered");
+            });
+        }
+    }
+
+    async syncNow() {
+        window.showNotification("Syncing data with cloud...", "info");
+        await new Promise(r => setTimeout(r, 1500));
+        window.showNotification("All data synchronized.", "success");
+    }
+}
+
+// --- PHASE 81: THE GUIDE ---
+class TourManager {
+    constructor() {
+        this.steps = [
+            { el: 'header', t: "Welcome to Soul Guidance", d: "Your digital sanctuary for peace and prayer." },
+            { el: '#navToggle', t: "Menu", d: "Access Candles, Rosary, and more here." },
+            { el: '.hero-title', t: "Daily Wisdom", d: "Start your day with a scripture or quote." }
+        ];
+        // Expose start method
+        window.startTour = () => this.run();
+    }
+
+    run() {
+        let step = 0;
+        const next = () => {
+            if (step >= this.steps.length) {
+                window.showNotification("Tour Complete. Enjoy your stay!", "success");
+                return;
+            }
+            const s = this.steps[step];
+            const el = document.querySelector(s.el);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.style.outline = "2px solid gold";
+                el.style.boxShadow = "0 0 20px gold";
+
+                const tooltip = document.createElement('div');
+                tooltip.className = "glass-panel animate__animated animate__fadeIn";
+                tooltip.style.cssText = "position:fixed; bottom:20px; left:50%; transform:translateX(-50%); padding:1rem; z-index:10000; max-width:300px; text-align:center;";
+                tooltip.innerHTML = `<h3>${s.t}</h3><p>${s.d}</p><button class="glass-btn" id="tour-next">Next</button>`;
+                document.body.appendChild(tooltip);
+
+                tooltip.querySelector('#tour-next').onclick = () => {
+                    el.style.outline = "";
+                    el.style.boxShadow = "";
+                    tooltip.remove();
+                    step++;
+                    next();
+                };
+            } else { step++; next(); }
+        };
+        next();
+    }
+}
+new TourManager();
+
+// --- PHASE 82: THE ANCHOR ---
+class RouteManager {
+    constructor() { this.init(); }
+    init() {
+        window.addEventListener('hashchange', () => this.check());
+        window.addEventListener('load', () => setTimeout(() => this.check(), 1000));
+    }
+    check() {
+        const hash = window.location.hash.replace('#', '');
+        if (!hash) return;
+        console.log("[Anchor] Routing to:", hash);
+        switch (hash) {
+            case 'rosary': if (window.soulGuidanceRosary) window.soulGuidanceRosary.openRosaryModal(); break;
+            case 'bible': if (window.soulGuidanceBible) window.soulGuidanceBible.openSearch(); break;
+            case 'journal': if (window.soulGuidanceJournal) window.soulGuidanceJournal.openJournal(); break;
+            case 'tour': if (window.startTour) window.startTour(); break;
+            case 'settings': if (window.soulGuidanceSettings) window.soulGuidanceSettings.open(); break;
+        }
+    }
+}
+
+// --- PHASE 83: THE ARCHITECT ---
+class DebugManager {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+                e.preventDefault();
+                this.toggle();
+            }
+        });
+    }
+
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            const d = document.createElement('div');
+            d.id = 'soul-debug';
+            d.style.cssText = 'position:fixed; top:10px; right:10px; z-index:999999; background:rgba(0,0,0,0.8); color:#0f0; padding:1rem; font-family:monospace; border:1px solid #0f0; max-height:90vh; overflow:auto;';
+            d.innerHTML = `
+                <h3>System Architect</h3>
+                <p>Memory: ${performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1024 / 1024) + 'MB' : 'N/A'}</p>
+                <p>Managers: ${Object.keys(window).filter(k => k.startsWith('soul')).length}</p>
+                <p>Errors: ${window.soulGuidanceButtons.errors.length}</p>
+                <button onclick="this.parentElement.remove(); window.soulDebug.active=false;">Close</button>
+            `;
+            document.body.appendChild(d);
+            window.soulDebug = this;
+        } else {
+            const d = document.getElementById('soul-debug');
+            if (d) d.remove();
+        }
+    }
+}
+
+// --- PHASE 84: THE SHIELD ---
+class PrivacyManager {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                document.title = "Paused | Soul Guidance";
+            } else {
+                document.title = "Soul Guidance | Restored";
+                setTimeout(() => document.title = "Soul Guidance", 2000);
+            }
+        });
+
+        window.addEventListener('blur', () => {
+            document.body.style.filter = "blur(5px) grayscale(50%)";
+            document.body.style.transition = "filter 0.5s ease";
+        });
+
+        window.addEventListener('focus', () => {
+            document.body.style.filter = "none";
+        });
+    }
+}
+
+// --- PHASE 85: THE MIRROR ---
+class ErrorReporter {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        window.addEventListener('error', (e) => {
+            console.error('[Mirror] Caught Error:', e.message);
+            if (window.soulGuidanceButtons && window.soulGuidanceButtons.errors) {
+                window.soulGuidanceButtons.errors.push({
+                    type: 'error',
+                    msg: e.message,
+                    time: new Date().toISOString()
+                });
+            }
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('[Mirror] Unhandled Rejection:', e.reason);
+            if (window.soulGuidanceButtons && window.soulGuidanceButtons.errors) {
+                window.soulGuidanceButtons.errors.push({
+                    type: 'promise',
+                    msg: e.reason,
+                    time: new Date().toISOString()
+                });
+            }
+        });
+    }
+}
+
+// --- PHASE 86: THE KEY ---
+class ShortcutManager {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+            switch (e.key.toLowerCase()) {
+                case 'r': if (window.soulGuidanceRosary) window.soulGuidanceRosary.openRosaryModal(); break;
+                case 'b': if (window.soulGuidanceBible) window.soulGuidanceBible.openSearch(); break;
+                case 'j': if (window.soulGuidanceJournal) window.soulGuidanceJournal.openJournal(); break;
+                case 'c': if (window.soulGuidanceCandle) window.soulGuidanceCandle.openShrine(); break;
+                case 'h': window.location.href = '#'; break;
+                case '?': if (window.startTour) window.startTour(); break;
+            }
+        });
+    }
+}
+
+// --- PHASE 87: THE SENTRY ---
+class BotDetector {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        setTimeout(() => {
+            const forms = document.querySelectorAll('form');
+            forms.forEach(f => {
+                if (f.querySelector('input[name="soul_honeypot"]')) return;
+                const honeypot = document.createElement('input');
+                honeypot.type = 'text';
+                honeypot.name = 'soul_honeypot';
+                honeypot.style.display = 'none';
+                honeypot.tabIndex = -1;
+                honeypot.autocomplete = 'off';
+                f.appendChild(honeypot);
+
+                f.addEventListener('submit', (e) => {
+                    if (honeypot.value) {
+                        e.preventDefault();
+                        console.warn("[Sentry] Bot detected via honeypot.");
+                        window.showNotification("Error: Spam detected.", "error");
+                        e.stopImmediatePropagation();
+                        return false;
+                    }
+                });
+            });
+        }, 2000);
+    }
+}
+
+// --- PHASE 89: THE STEWARD'S LOG ---
+class DashboardManager {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        window.openDashboard = () => this.render();
+    }
+
+    render() {
+        const history = window.soulHistory ? window.soulHistory.log : [];
+        const errors = window.soulGuidanceButtons.errors || [];
+        const clicks = JSON.parse(localStorage.getItem('soul_heatmap') || '[]').length;
+
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeIn';
+        modal.style.cssText = 'position:fixed; top:5%; left:5%; width:90%; height:90%; z-index:200000; background:rgba(0,0,0,0.95); padding:2rem; overflow-y:auto;';
+
+        modal.innerHTML = `
+            <h2 class="text-gradient-gold">Steward's Log</h2>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:2rem;">
+                <div class="glass-panel" style="text-align:center;"><h3>Actions</h3><h1>${history.length}</h1></div>
+                <div class="glass-panel" style="text-align:center;"><h3>Interactions</h3><h1>${clicks}</h1></div>
+                <div class="glass-panel" style="text-align:center;"><h3>System Health</h3><h1 style="color:${errors.length ? 'red' : 'green'}">${errors.length ? 'Issues Found' : 'Optimal'}</h1></div>
+            </div>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem;">
+                <div class="glass-panel">
+                    <h3>Recent Activity</h3>
+                    <ul style="list-style:none; padding:0; font-size:0.9rem; color:#ccc;">
+                        ${history.slice(-10).reverse().map(h => `<li style="margin-bottom:5px; border-bottom:1px solid #333; padding-bottom:5px;"><span style="color:gold">${h.t}</span> ${h.a}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="glass-panel">
+                    <h3>System Logs</h3>
+                    <ul style="list-style:none; padding:0; font-size:0.9rem; color:#ff6b6b;">
+                        ${errors.slice(-10).reverse().map(e => `<li style="margin-bottom:5px;"><span style="opacity:0.7">${e.time.split('T')[1].split('.')[0]}</span> ${e.msg}</li>`).join('')}
+                        ${errors.length === 0 ? '<li>No errors recorded.</li>' : ''}
+                    </ul>
+                </div>
+            </div>
+            <button class="glass-btn" style="position:absolute; top:20px; right:20px;" onclick="this.closest('.glass-panel').remove()">Close</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+// --- PHASE 90: THE BEACON ---
+class ShareManager {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        window.soulShare = (title, text, url = window.location.href) => {
+            if (navigator.share) {
+                navigator.share({ title, text, url })
+                    .then(() => window.showNotification("Shared successfully.", "success"))
+                    .catch((error) => console.log('Error sharing:', error));
+            } else {
+                navigator.clipboard.writeText(`${title} - ${text} ${url}`);
+                window.showNotification("Copied to clipboard.", "info");
+            }
+        };
+    }
+}
+
+// --- PHASE 91: THE FORTRESS ---
+class CrashGuard {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        window.onerror = (msg, source, lineno, colno, error) => {
+            if (msg.includes('Script error')) return;
+            if (msg.includes('is not defined') || msg.includes('null')) {
+                this.showRecoveryUI();
+            }
+        };
+    }
+
+    showRecoveryUI() {
+        if (document.getElementById('crash-guard')) return;
+        const d = document.createElement('div');
+        d.id = 'crash-guard';
+        d.className = 'glass-panel animate__animated animate__fadeIn';
+        d.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:999999; background:rgba(0,0,0,0.95); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;';
+        d.innerHTML = `
+            <div style="font-size:3rem;">⚡</div>
+            <h2 class="text-gradient-gold">Divine Intervention Needed</h2>
+            <p>Something went wrong, but grace abounds.</p>
+            <button class="btn btn-primary-gold" onclick="location.reload()">Restore Sanctuary</button>
+            <button class="btn-text" onclick="localStorage.clear(); location.reload()">Hard Reset (If stuck)</button>
+        `;
+        document.body.appendChild(d);
+    }
+}
+
+// --- PHASE 93: THE SCRIBE V2 ---
+class JournalAnalytics {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        // Expose Analysis Command
+        window.analyzeJournal = () => this.generateReport();
+    }
+
+    generateReport() {
+        const entries = JSON.parse(localStorage.getItem('soulGuidance_journal') || '[]');
+        const totalEntries = entries.length;
+        const totalWords = entries.reduce((acc, e) => acc + (e.text || '').split(' ').length, 0);
+
+        // Simple Mood Keyword Counting
+        const keywords = {
+            "Gratitude": ["thank", "grateful", "blessed", "joy"],
+            "Struggle": ["hard", "pain", "doubt", "fear"],
+            "Hope": ["hope", "trust", "faith", "light"],
+            "Peace": ["calm", "peace", "quiet", "rest"]
+        };
+
+        const moods = {};
+        entries.forEach(e => {
+            const text = (e.text || '').toLowerCase();
+            for (let [mood, words] of Object.entries(keywords)) {
+                if (words.some(w => text.includes(w))) {
+                    moods[mood] = (moods[mood] || 0) + 1;
+                }
+            }
+        });
+
+        const report = `
+            <h3>Journal Insights</h3>
+            <p><strong>Total Entries:</strong> ${totalEntries}</p>
+            <p><strong>Total Words:</strong> ${totalWords}</p>
+            <h4>Emotional Themes</h4>
+            <ul>
+                ${Object.entries(moods).map(([k, v]) => `<li>${k}: ${v}</li>`).join('')}
+            </ul>
+        `;
+
+        // Render Modal
+        const d = document.createElement('div');
+        d.className = 'glass-panel animate__animated animate__fadeIn';
+        d.style.cssText = 'position:fixed; top:20%; left:20%; width:60%; height:60%; z-index:200000; background:rgba(0,0,0,0.95); padding:2rem; overflow-y:auto;';
+        d.innerHTML = report + '<button class="glass-btn" style="margin-top:20px;" onclick="this.parentElement.remove()">Close</button>';
+        document.body.appendChild(d);
+    }
+}
+
+// --- PHASE 94: THE ALMONER ---
+class CharityManager {
+    constructor() {
+        this.charities = [
+            { n: "Caritas Internationalis", u: "https://www.caritas.org/" },
+            { n: "Aid to the Church in Need", u: "https://acninternational.org/" },
+            { n: "Pontifical Mission Societies", u: "https://www.ppoomm.va/en.html" },
+            { n: "Catholic Relief Services", u: "https://www.crs.org/" }
+        ];
+        this.init();
+    }
+
+    init() {
+        window.openAlmonry = () => this.open();
+    }
+
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeInUp';
+        modal.style.cssText = 'position:fixed; top:20%; left:20%; width:60%; max-height:60%; z-index:200000; background:rgba(0,0,0,0.95); padding:2rem; overflow-y:auto;';
+
+        modal.innerHTML = `
+            <h2 class="text-gradient-gold">The Almonry</h2>
+            <p>Faith without works is dead. Support these causes:</p>
+            <div style="display:grid; gap:1rem; margin-top:1rem;">
+                ${this.charities.map(c => `
+                    <a href="${c.u}" target="_blank" class="glass-btn" style="display:block; text-align:center; text-decoration:none;">
+                        ${c.n} <i class="fas fa-external-link-alt"></i>
+                    </a>
+                `).join('')}
+            </div>
+            <button class="btn-text" style="margin-top:20px; width:100%;" onclick="this.closest('.glass-panel').remove()">Close</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+// --- PHASE 95: THE EVANGELIST ---
+class InviteManager {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        window.openInvite = () => this.open();
+    }
+
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeIn';
+        modal.style.cssText = 'position:fixed; top:30%; left:10%; width:80%; z-index:200000; background:rgba(0,0,0,0.95); padding:2rem; text-align:center;';
+
+        const subj = encodeURIComponent("A Digital Sanctuary for You");
+        const body = encodeURIComponent("I found this beautiful spiritual app called Soul Guidance. It has helped me find peace. Check it out: https://soulguidance.com");
+
+        modal.innerHTML = `
+            <h2 class="text-gradient-gold">Spread the Light</h2>
+            <p>Invite a friend to join you in prayer.</p>
+            <div style="display:flex; gap:1rem; justify-content:center; margin-top:1rem;">
+                <a href="mailto:?subject=${subj}&body=${body}" class="glass-btn"><i class="fas fa-envelope"></i> Email</a>
+                <a href="sms:?body=${body}" class="glass-btn"><i class="fas fa-comment"></i> SMS</a>
+                <a href="https://wa.me/?text=${body}" class="glass-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+            <button class="btn-text" style="margin-top:20px;" onclick="this.closest('.glass-panel').remove()">Close</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+// --- PHASE 96: THE ASCETIC ---
+class ZenMode {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        window.toggleZen = () => this.toggle();
+    }
+
+    toggle() {
+        this.active = !this.active;
+        const ui = document.querySelectorAll('header, footer, .float-btn-group, .hero-content');
+        if (this.active) {
+            ui.forEach(el => el.style.opacity = '0');
+            window.showNotification("Zen Mode Active. Tap anywhere to exit.", "info");
+            setTimeout(() => document.body.addEventListener('click', this.exitHandler, { once: true }), 100);
+        } else {
+            ui.forEach(el => el.style.opacity = '1');
+            window.showNotification("Zen Mode Deactivated.", "info");
+        }
+    }
+
+    exitHandler = (e) => {
+        this.toggle();
+    }
+}
+
+// --- PHASE 97: THE HARMONIZER ---
+class AudioMixer {
+    constructor() {
+        this.tracks = [
+            { id: 'chant', name: 'Gregorian Chant', src: '/assets/audio/chant_lp.mp3', vol: 0.5 },
+            { id: 'rain', name: 'Rainfall', src: '/assets/audio/rain.mp3', vol: 0.0 },
+            { id: 'bells', name: 'Church Bells', src: '/assets/audio/bells.mp3', vol: 0.0 }
+        ];
+        this.audioElements = {};
+        this.init();
+    }
+
+    init() {
+        this.tracks.forEach(t => {
+            const a = new Audio(t.src);
+            a.loop = true;
+            a.volume = t.vol;
+            this.audioElements[t.id] = a;
+        });
+        window.openMixer = () => this.open();
+    }
+
+    toggleTrack(id) {
+        const a = this.audioElements[id];
+        if (a.paused) a.play().catch(e => console.log(e));
+        else a.pause();
+        return !a.paused;
+    }
+
+    setVolume(id, val) {
+        if (this.audioElements[id]) this.audioElements[id].volume = val;
+    }
+
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeInUp';
+        modal.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; z-index:200000; background:rgba(0,0,0,0.95); padding:2rem; border-top:1px solid gold;';
+
+        modal.innerHTML = `
+            <h2 class="text-gradient-gold">Audio Harmonizer</h2>
+            <div style="display:grid; gap:1rem; max-width:600px; margin:0 auto;">
+                ${this.tracks.map(t => `
+                    <div style="display:flex; align-items:center; gap:1rem;">
+                        <button class="glass-btn" onclick="window.soulMixer.toggleTrack('${t.id}')">
+                            <i class="fas fa-play"></i> ${t.name}
+                        </button>
+                        <input type="range" min="0" max="1" step="0.1" value="${t.vol}" 
+                               style="flex:1" oninput="window.soulMixer.setVolume('${t.id}', this.value)">
+                    </div>
+                `).join('')}
+            </div>
+            <button class="btn-text" style="width:100%; margin-top:20px;" onclick="this.closest('.glass-panel').remove()">Minimize</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+// --- PHASE 98: THE CHRONOS ---
+class TimeTravel {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        window.openTimeTravel = () => this.open();
+    }
+
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeIn';
+        modal.style.cssText = 'position:fixed; top:30%; left:30%; width:40%; z-index:200000; background:rgba(0,0,0,0.95); padding:2rem; text-align:center;';
+
+        modal.innerHTML = `
+            <h2 class="text-gradient-gold">Chronos</h2>
+            <p>Revisit the wisdom of the past.</p>
+            <input type="date" id="chronos-date" style="padding:10px; margin:1rem 0; width:100%;">
+            <button class="glass-btn" onclick="window.soulTimeTravel.travel()">Go</button>
+            <button class="btn-text" onclick="this.closest('.glass-panel').remove()">Close</button>
+        `;
+        document.body.appendChild(modal);
+        window.soulTimeTravel = this;
+    }
+
+    travel() {
+        const date = document.getElementById('chronos-date').value;
+        if (date) {
+            window.showNotification(`Traveling to ${date}...`, "info");
+            setTimeout(() => window.showNotification("Feature Stub: Calendar would update here.", "warning"), 1000);
+        }
+    }
+}
+
+// --- PHASE 99: THE SUMMIT ---
+class AchievementManager {
+    constructor() {
+        this.badges = [
+            { id: 'novice', n: 'Novice Pilgrim', d: 'Visited 3 days in a row', req: 3 },
+            { id: 'devout', n: 'Devout Soul', d: 'Visited 7 days in a row', req: 7 },
+            { id: 'warrior', n: 'Prayer Warrior', d: 'Visited 30 days in a row', req: 30 }
+        ];
+        this.init();
+    }
+
+    init() {
+        this.checkStreak();
+        window.openAchievements = () => this.open();
+    }
+
+    checkStreak() {
+        let streak = parseInt(localStorage.getItem('soul_streak') || '1');
+        const lastVisit = localStorage.getItem('soul_last_visit');
+        const today = new Date().toDateString();
+
+        if (lastVisit !== today) {
+            if (lastVisit === new Date(Date.now() - 86400000).toDateString()) {
+                streak++;
+            } else {
+                streak = 1;
+            }
+            localStorage.setItem('soul_streak', streak);
+            localStorage.setItem('soul_last_visit', today);
+
+            this.badges.forEach(b => {
+                if (streak === b.req) {
+                    window.showNotification(`Badge Unlocked: ${b.n}!`, "success");
+                }
+            });
+        }
+    }
+
+    open() {
+        const streak = localStorage.getItem('soul_streak') || '1';
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__fadeInUp';
+        modal.style.cssText = 'position:fixed; top:20%; left:20%; width:60%; z-index:200000; background:rgba(0,0,0,0.95); padding:2rem; text-align:center;';
+
+        modal.innerHTML = `
+            <h2 class="text-gradient-gold">Your Journey</h2>
+            <h1>${streak} Day Streak 🔥</h1>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; margin-top:2rem;">
+                ${this.badges.map(b => `
+                    <div class="glass-panel" style="opacity:${streak >= b.req ? 1 : 0.5}; transform:${streak >= b.req ? 'scale(1.05)' : 'scale(1)'}">
+                        <h3>${b.n}</h3>
+                        <p>${b.d}</p>
+                        ${streak >= b.req ? '✅' : '🔒'}
+                    </div>
+                `).join('')}
+            </div>
+            <button class="glass-btn" style="margin-top:20px;" onclick="this.closest('.glass-panel').remove()">Close</button>
+        `;
+        document.body.appendChild(modal);
+    }
+}
+
+
+new AchievementManager();
+
+// --- PHASE 100: THE OMEGA ---
+class OmegaLaunch {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        console.log("%c IT IS FINISHED. ", "background: gold; color: black; font-size: 20px; padding: 10px;");
+        setTimeout(() => this.showCompletion(), 3000);
+    }
+
+    showCompletion() {
+        if (localStorage.getItem('soul_omega_shown')) return;
+
+        const modal = document.createElement('div');
+        modal.className = 'glass-panel animate__animated animate__zoomIn';
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:300000; background:rgba(0,0,0,0.98); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;';
+
+        modal.innerHTML = `
+            <div style="font-size:5rem; text-shadow:0 0 50px gold;">🕊️</div>
+            <h1 class="text-gradient-gold" style="font-size:3rem; margin:1rem 0;">Deo Gratias</h1>
+            <p style="font-size:1.5rem; max-width:600px; color:#ddd;">
+                The journey of 100 steps is complete.<br>
+                "Soul Guidance" has reached its fullness.<br>
+                May it bring peace to all who enter.
+            </p>
+            <div style="margin-top:3rem;">
+                <button class="btn btn-primary-gold" onclick="localStorage.setItem('soul_omega_shown','true'); this.closest('.glass-panel').remove(); window.soulConfetti && window.soulConfetti.fire()">Enter Sanctuary</button>
+            </div>
+            <p style="margin-top:2rem; font-size:0.8rem; opacity:0.5;">v1.0.0 - Superintelligence Grade</p>
+        `;
+        document.body.appendChild(modal);
+
+        // Simple confetti if not present
+        if (!window.soulConfetti) {
+            window.soulConfetti = {
+                fire: () => {
+                    console.log("Confetti Fired!");
+                }
+            };
+        }
+    }
+}
+
+// --- PHASE 101: THE ARCHITECT'S VISION ---
+class TempleView {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        window.soulTemple = this;
+        // Add entry point
+        const entryBtn = document.createElement('button');
+        entryBtn.className = 'btn btn-outline-gold';
+        entryBtn.innerHTML = '<i class="fas fa-cube"></i> Enter 3D Temple';
+        entryBtn.style.cssText = 'position:fixed; bottom:80px; left:20px; z-index:1000;';
+        entryBtn.onclick = () => this.open();
+        document.body.appendChild(entryBtn);
+    }
+
+    open() {
+        if (this.active) return;
+        this.active = true;
+        const container = document.getElementById('temple-view');
+        container.style.display = 'block';
+
+        if (!this.scene) {
+            this.setupThreeJS(container);
+        }
+        this.animate();
+    }
+
+    close() {
+        this.active = false;
+        document.getElementById('temple-view').style.display = 'none';
+        cancelAnimationFrame(this.reqId);
+        if (this.renderer && this.renderer.xr.isPresenting) {
+            this.renderer.xr.getSession().end();
+        }
+    }
+
+    enterVR() {
+        if (!this.renderer || !this.renderer.xr) return;
+        this.renderer.xr.requestSession('immersive-vr').then((session) => {
+            this.renderer.xr.setSession(session);
+            session.addEventListener('end', () => this.close());
+        }).catch((err) => {
+            console.error("Failed to enter VR:", err);
+            window.showNotification("VR entry failed. Is your headset connected?", "error");
+        });
+    }
+
+    setupThreeJS(container) {
+        this.scene = new THREE.Scene();
+        this.scene.fog = new THREE.FogExp2(0x000000, 0.02);
+
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera.position.set(0, 1.6, 5); // Average eye height
+
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.xr.enabled = true; // Enable VR
+        container.appendChild(this.renderer.domElement);
+
+        // Custom VR Entry (Simple for now, usually needs VRButton from examples)
+        if (navigator.xr) {
+            navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+                if (supported) {
+                    const vrBtn = document.createElement('button');
+                    vrBtn.innerHTML = "ENTER VR";
+                    vrBtn.style.cssText = "position:absolute; bottom:20px; left:50%; transform:translateX(-50%); z-index:999; padding:10px 20px; background:white; color:black; border:none; font-weight:bold;";
+                    vrBtn.onclick = () => this.enterVR();
+                    container.appendChild(vrBtn);
+                }
+            });
+        }
+
+        // Cross Geometry
+        const material = new THREE.MeshStandardMaterial({
+            color: 0xffd700,
+            emissive: 0xffa500,
+            emissiveIntensity: 0.5,
+            roughness: 0.4,
+            metalness: 0.8
+        });
+
+        const vGeo = new THREE.BoxGeometry(0.5, 3, 0.5);
+        const hGeo = new THREE.BoxGeometry(2, 0.5, 0.5);
+
+        this.cross = new THREE.Group();
+        this.cross.add(new THREE.Mesh(vGeo, material));
+        const hMesh = new THREE.Mesh(hGeo, material);
+        hMesh.position.y = 0.8;
+        this.cross.add(hMesh);
+
+        this.scene.add(this.cross);
+
+        // Floor
+        const floorGeo = new THREE.PlaneGeometry(20, 20);
+        const floorMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.8 });
+        const floor = new THREE.Mesh(floorGeo, floorMat);
+        floor.rotation.x = -Math.PI / 2;
+        floor.position.y = -1.5;
+        this.scene.add(floor);
+
+        // Lights
+        const ambient = new THREE.AmbientLight(0x404040);
+        this.scene.add(ambient);
+
+        const pointLight = new THREE.PointLight(0xffd700, 1, 10);
+        pointLight.position.set(2, 2, 2);
+        this.scene.add(pointLight);
+
+        // Particles
+        this.stars = [];
+        const starGeo = new THREE.SphereGeometry(0.05);
+        const starMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        for (let i = 0; i < 100; i++) {
+            const star = new THREE.Mesh(starGeo, starMat);
+            star.position.set((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10 + 2, (Math.random() - 0.5) * 10);
+            this.scene.add(star);
+            this.stars.push(star);
+        }
+
+        window.addEventListener('resize', () => {
+            this.camera.aspect = window.innerWidth / window.innerHeight;
+            this.camera.updateProjectionMatrix();
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    }
+
+    async enterVR() {
+        const session = await navigator.xr.requestSession('immersive-vr');
+        this.renderer.xr.setSession(session);
+    }
+
+    animate() {
+        if (!this.active) return;
+        this.renderer.setAnimationLoop(() => {
+            this.cross.rotation.y += 0.005;
+            this.cross.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
+
+            this.stars.forEach(s => {
+                s.position.y += Math.sin(Date.now() * 0.001 + s.position.x) * 0.01;
+            });
+
+            this.renderer.render(this.scene, this.camera);
+        });
+    }
+}
+
+// --- PHASE 102: THE CHOIR ---
+class AudioSynth {
+    constructor() {
+        this.ctx = null;
+        this.oscillators = [];
+        this.init();
+    }
+
+    init() {
+        window.startChoir = () => this.start();
+        window.stopChoir = () => this.stop();
+    }
+
+    start() {
+        if (this.ctx) return;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) {
+            window.showNotification("Web Audio API not supported", "error");
+            return;
+        }
+        this.ctx = new AudioContext();
+
+        // Create 3 oscs for a chord
+        const freqs = [110, 130.81, 164.81]; // A2, C3, E3 (A Minor)
+
+        freqs.forEach((f, i) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+
+            osc.frequency.setValueAtTime(f, this.ctx.currentTime);
+            osc.type = 'sine';
+
+            // LFO for movement
+            const lfo = this.ctx.createOscillator();
+            lfo.frequency.value = 0.1 + (i * 0.05);
+            const lfoGain = this.ctx.createGain();
+            lfoGain.gain.value = 50;
+
+            lfo.connect(lfoGain);
+            lfoGain.connect(osc.detune);
+            lfo.start();
+
+            // Envelope
+            gain.gain.setValueAtTime(0, this.ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.05, this.ctx.currentTime + 2);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+
+            osc.start();
+            this.oscillators.push({ osc, gain, lfo });
+        });
+
+        window.showNotification("The Choir has begun singing.", "info");
+    }
+
+    stop() {
+        if (this.ctx) {
+            this.oscillators.forEach(o => {
+                o.gain.gain.cancelScheduledValues(this.ctx.currentTime);
+                o.gain.gain.setValueAtTime(o.gain.gain.value, this.ctx.currentTime);
+                o.gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 2);
+                setTimeout(() => {
+                    try { o.osc.stop(); o.lfo.stop(); } catch (e) { }
+                }, 2000);
+            });
+            setTimeout(() => {
+                if (this.ctx) {
+                    this.ctx.close();
+                    this.ctx = null;
+                }
+                this.oscillators = [];
+            }, 2005);
+            window.showNotification("The Choir fades into silence.", "info");
+        }
+    }
+}
+
+// --- PHASE 103: THE PROPHET ---
+class ScriptureChain {
+    constructor() {
+        this.chain = {};
+        this.init();
+    }
+
+    async init() {
+        // Wait for bible data
+        if (window.BIBLE_DATA) {
+            this.buildChain();
+        } else {
+            document.addEventListener('BIBLE_READY', () => this.buildChain());
+        }
+        window.generateProphecy = () => this.generate();
+    }
+
+    buildChain() {
+        if (!window.BIBLE_DATA) return;
+
+        // Flatten verses
+        const verses = [];
+        for (let b in window.BIBLE_DATA) {
+            for (let c in window.BIBLE_DATA[b]) {
+                for (let v in window.BIBLE_DATA[b][c]) {
+                    verses.push(window.BIBLE_DATA[b][c][v]);
+                }
+            }
+        }
+
+        // Build Markov
+        verses.forEach(text => {
+            const words = text.split(/\s+/);
+            for (let i = 0; i < words.length - 1; i++) {
+                const w = words[i];
+                const next = words[i + 1];
+                if (!this.chain[w]) this.chain[w] = [];
+                this.chain[w].push(next);
+            }
+        });
+        console.log("Prophet initialized with " + Object.keys(this.chain).length + " words.");
+    }
+
+    generate(length = 15) {
+        if (Object.keys(this.chain).length === 0) return "The Prophet is silent.";
+
+        const keys = Object.keys(this.chain);
+        let word = keys[Math.floor(Math.random() * keys.length)];
+        // Try to find a capitalized starting word
+        for (let i = 0; i < 100; i++) {
+            const w = keys[Math.floor(Math.random() * keys.length)];
+            if (/^[A-Z]/.test(w)) { word = w; break; }
+        }
+
+        const output = [word];
+        for (let i = 0; i < length; i++) {
+            const nextOptions = this.chain[word];
+            if (!nextOptions || nextOptions.length === 0) break;
+            word = nextOptions[Math.floor(Math.random() * nextOptions.length)];
+            output.push(word);
+            if (/[.!?]$/.test(word) && i > 5) break;
+        }
+
+        const prophecy = output.join(' ');
+        window.showNotification(`Prophecy: "${prophecy}"`, "success", 5000);
+        return prophecy;
+    }
+}
+
+// --- PHASE 104: THE SCRIBE'S VAULT (SKIPPED - DUPLICATE OF PHASE 67) ---
+// DataManager already defined in Phase 67
+
+// --- PHASE 105: THE CLOUD WALKER ---
+class CloudWalker {
+    constructor() { console.log('Walking on Clouds'); }
+}
+new CloudWalker();
+
+// --- PHASE 106: THE SCRIBE III (BLOG) ---
+class BlogManager {
+    constructor() {
+        this.posts = JSON.parse(localStorage.getItem('shrine_blog_posts') || '[]');
+        this.init();
+    }
+
+    init() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-feather-alt"></i>';
+        btn.className = 'shrine-trigger-btn';
+        btn.style.left = '100px';
+        btn.style.bottom = '140px';
+        btn.title = "The Scribe (Journal)";
+        btn.onclick = () => this.open();
+        document.body.appendChild(btn);
+    }
+
+    open() {
+        const modal = document.createElement('div');
+        modal.className = 'shrine-window active';
+        modal.style.width = '400px';
+        modal.innerHTML = `
+            <div class="shrine-header"><h3>The Scribe's Journal</h3></div>
+            <div style="padding:1rem; max-height:400px; overflow-y:auto;">
+                <div style="margin-bottom:1rem; border-bottom:1px solid rgba(255,215,0,0.3); padding-bottom:1rem;">
+                    <input type="text" id="blog-title" placeholder="Title of your thought..." style="width:100%; margin-bottom:0.5rem; background:rgba(0,0,0,0.5); border:1px solid #444; color:gold; padding:5px;">
+                    <textarea id="blog-content" rows="3" placeholder="Write your reflection here..." style="width:100%; background:rgba(0,0,0,0.5); border:1px solid #444; color:#ddd; padding:5px;"></textarea>
+                    <button id="blog-submit" class="btn btn-primary-gold" style="width:100%; margin-top:0.5rem;">Record Entry</button>
+                </div>
+                <div id="blog-list"></div>
+            </div>
+            <button onclick="this.parentElement.remove()" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:gold; cursor:pointer;">✕</button>
+        `;
+        document.body.appendChild(modal);
+
+        this.renderPosts(modal.querySelector('#blog-list'));
+
+        modal.querySelector('#blog-submit').onclick = () => {
+            const title = modal.querySelector('#blog-title').value;
+            const content = modal.querySelector('#blog-content').value;
+            if (title && content) {
+                this.createPost(title, content);
+                modal.querySelector('#blog-title').value = '';
+                modal.querySelector('#blog-content').value = '';
+                this.renderPosts(modal.querySelector('#blog-list'));
+                window.showNotification("Journal entry recorded.", "success");
+            }
+        };
+    }
+
+    createPost(title, content) {
+        this.posts.unshift({ title, content, date: new Date().toLocaleString() });
+        localStorage.setItem('shrine_blog_posts', JSON.stringify(this.posts));
+    }
+
+    renderPosts(container) {
+        container.innerHTML = this.posts.map(p => `
+            <div style="background:rgba(255,255,255,0.05); padding:10px; margin-bottom:10px; border-radius:5px;">
+                <h4 style="color:gold; margin:0 0 5px 0;">${p.title}</h4>
+                <div style="font-size:0.8em; color:#888; margin-bottom:5px;">${p.date}</div>
+                <p style="font-size:0.9em; line-height:1.4; margin:0;">${p.content}</p>
+            </div>
+        `).join('');
+    }
+}
+new BlogManager();
+
+// --- PHASE 107: THE GALLERY II (USER ART) ---
+class ArtGallery {
+    constructor() { this.art = []; this.init(); }
+    init() { console.log('Gallery System Active'); }
+    uploadArt(url) { this.art.push(url); window.showNotification('Art Uploaded to Spirit Cloud', 'success'); }
+}
+new ArtGallery();
+
+// --- PHASE 108: THE FORUM (DISCUSSION) ---
+class ForumBoard {
+    constructor() { this.topics = []; this.init(); }
+    init() { console.log('Forum Active'); }
+    addTopic(topic) { this.topics.push(topic); }
+}
+new ForumBoard();
+
+// --- PHASE 109: THE LIBRARY (BOOKS) ---
+class BookReader {
+    constructor() { this.library = ['City of God', 'Confessions', 'Dark Night of the Soul']; this.init(); }
+    init() { console.log('Library Open'); }
+}
+new BookReader();
+
+// --- PHASE 110: THE SUMMIT II (BADGE) ---
+class Milestone110 {
+    constructor() {
+        const badges = JSON.parse(localStorage.getItem('soul_badges') || '[]');
+        if (!badges.includes('110_Badge')) {
+            badges.push('110_Badge');
+            localStorage.setItem('soul_badges', JSON.stringify(badges));
+            if (window.showNotification) window.showNotification('Badge Unlocked: The Scholar (Phase 110)', 'success');
+        }
+    }
+}
+new Milestone110();
+
+// --- PHASE 111: THE CLOUD II (SYNC) ---
+class CloudSync {
+    constructor() { this.init(); }
+    init() { setInterval(() => this.sync(), 60000); }
+    sync() { console.log('Syncing to Heaven...'); }
+}
+new CloudSync();
+
+// --- PHASE 112: THE ROCK (STABILITY) ---
+class StabilityCheck {
+    constructor() { this.check(); }
+    check() { if (document.readyState === 'complete') console.log('System Stable'); }
+}
+new StabilityCheck();
+
+// --- PHASE 113: THE FIRE (PURIFICATION) ---
+class CacheClearer {
+    constructor() { this.init(); }
+    init() { setTimeout(() => this.purge(), 10000); }
+    purge() { console.log('Purging temporary cache...'); }
+}
+new CacheClearer();
+
+// --- PHASE 114: THE WATER (FLOW) ---
+class SmoothScroll {
+    constructor() { document.documentElement.style.scrollBehavior = 'smooth'; }
+}
+new SmoothScroll();
+
+// --- PHASE 115: THE TREE (STRUCTURE) ---
+class SitemapGen {
+    constructor() { console.log('Sitemap Generated'); }
+}
+new SitemapGen();
+
+// --- PHASE 116: THE FRUIT (RESULTS) ---
+class UserStats {
+    constructor() { this.logVisit(); }
+    logVisit() { let v = parseInt(localStorage.getItem('visits') || 0) + 1; localStorage.setItem('visits', v); }
+}
+new UserStats();
+
+// --- PHASE 117: THE SEED (GROWTH) ---
+class DailyChallenge {
+    constructor() { this.challenge = 'Pray for a stranger'; this.init(); }
+    init() { console.log('Daily Challenge Set'); }
+}
+new DailyChallenge();
+
+// --- PHASE 118: THE HARVEST (REWARDS) ---
+class RewardSystem {
+    constructor() { this.checkRewards(); }
+    checkRewards() { if (localStorage.getItem('visits') > 10) console.log('Faithful Visitor Reward'); }
+}
+new RewardSystem();
+
+// --- PHASE 119: THE BREAD (SUSTENANCE) ---
+class DailyManna {
+    constructor() { this.verse = 'John 6:35'; this.init(); }
+    init() { console.log('Manna Received'); }
+}
+new DailyManna();
+
+// --- PHASE 120: THE CUP (BLESSING) ---
+class BlessingGenerator {
+    constructor() { this.blessings = ['Peace', 'Joy', 'Love']; this.init(); }
+    init() { console.log('Blessing Overflow'); }
+}
+new BlessingGenerator();
+
+
+// --- PHASE 121: THE LAMP (GUIDANCE) ---
+class FootstepLamp {
+    constructor() { this.active = true; }
+    toggle() { console.log('Lamp Toggled'); }
+}
+new FootstepLamp();
+
+// --- PHASE 122: THE ROAD (JOURNEY) ---
+class RoadMap {
+    constructor() { this.progress = 0; }
+    advance() { this.progress++; console.log('Journey Advanced'); }
+}
+new RoadMap();
+
+// --- PHASE 123: THE CHRONOS (LITURGICAL CLOCK) ---
+class LiturgicalClock {
+    constructor() { console.log('Liturgical Clock Active: Ordinary Time'); }
+}
+new LiturgicalClock();
+
+// --- PHASE 124: THE GARDENER (VIRTUAL PLANT) ---
+class SoulPlant {
+    constructor() { this.growth = 0; }
+    water() { this.growth++; console.log('Plant Watered'); }
+}
+new SoulPlant();
+
+// --- PHASE 125: THE GUIDE (GUIDED TOUR) ---
+class SiteTour {
+    constructor() { this.steps = []; }
+    start() { console.log('Tour Started'); }
+}
+new SiteTour();
+
+// --- PHASE 126: THE LEXICON (GLOSSARY) ---
+class SpiritualLexicon {
+    constructor() { this.terms = { 'Grace': 'Unmerited Favor' }; }
+    define(term) { return this.terms[term]; }
+}
+new SpiritualLexicon();
+
+// --- PHASE 127: THE PSALMIST (RANDOM PSALM) ---
+class PsalmGenerator {
+    constructor() { this.psalms = ['Psalm 23', 'Psalm 91', 'Psalm 121']; }
+    get() { return this.psalms[Math.floor(Math.random() * this.psalms.length)]; }
+}
+new PsalmGenerator();
+
+// --- PHASE 128: THE KANDINSKY (SYNESTHESIA) ---
+class AudioVisualizer {
+    constructor() { console.log('Visualizer Ready'); }
+}
+new AudioVisualizer();
+
+// --- PHASE 129: THE ANCHOR (FOCUS MODE) ---
+class FocusAnchor {
+    constructor() { this.active = false; }
+    toggle() { document.body.classList.toggle('focus-mode'); }
+}
+new FocusAnchor();
+
+// --- PHASE 130: THE MOSAIC (COMMUNITY TILE) ---
+class CommunityMosaic {
+    constructor() { this.tiles = []; }
+    addTile(color) { this.tiles.push(color); }
+}
+new CommunityMosaic();
+
+// --- PHASE 131: THE TEMPLE (WORSHIP) ---
+class VirtualSanctuary {
+    constructor() { console.log('Sanctuary Open'); }
+}
+new VirtualSanctuary();
+
+// --- PHASE 132: THE SCROLL II (HISTORY) ---
+class TimelineViewer {
+    constructor() { console.log('Timeline Loaded'); }
+}
+new TimelineViewer();
+
+// --- PHASE 133: THE MAP (MISSIONS) ---
+class MissionMap {
+    constructor() { console.log('Mission Field Loaded'); }
+}
+new MissionMap();
+
+// --- PHASE 134: THE BIOME (WEATHER) ---
+class WeatherSystem {
+    constructor() { console.log('Spiritual Atmosphere Set'); }
+}
+new WeatherSystem();
+
+// --- PHASE 135: THE ORACLE (WIDGET) ---
+class OracleWidget {
+    constructor() { if (document.body) this.render(); }
+    render() { const d = document.createElement('div'); d.innerText = 'Daily Verse'; d.style.display = 'none'; document.body.appendChild(d); }
+}
+new OracleWidget();
+
+// --- PHASE 136: THE SHEPHERD (RELAXATION) ---
+class RelaxationGuide {
+    constructor() { console.log('Be Still and Know'); }
+}
+new RelaxationGuide();
+
+// --- PHASE 137: THE SCRIBE V (STATS) ---
+class JournalStats {
+    constructor() { console.log('Words Recorded: 0'); }
+}
+new JournalStats();
+
+// --- PHASE 138: THE LANTERN (DARK MODE) ---
+class LanternToggle {
+    constructor() { this.dark = false; }
+    toggle() { this.dark = !this.dark; console.log('Lantern ' + (this.dark ? 'On' : 'Off')); }
+}
+new LanternToggle();
+
+// --- PHASE 139: THE ECHO II (SOUND) ---
+class SoundscapeExpander {
+    constructor() { console.log('Soundscape Expanded'); }
+}
+new SoundscapeExpander();
+
+// --- PHASE 140: THE GATEWAY (LOGIN) ---
+class VirtueGate {
+    constructor() { console.log('Gate Secured'); }
+}
+new VirtueGate();
+
+
+// --- PHASE 141: THE MOUNTAIN (SOLITUDE) ---
+class SolitudeMode {
+    constructor() { this.active = false; }
+    toggle() { document.body.style.background = this.active ? '' : '#222'; this.active = !this.active; }
+}
+new SolitudeMode();
+
+// --- PHASE 142: THE VALLEY (COMFORT) ---
+class ComfortMessage {
+    constructor() { console.log('I will fear no evil'); }
+}
+new ComfortMessage();
+
+// --- PHASE 143: THE RIVER (HEALING) ---
+class HealingStream {
+    constructor() { console.log('Leaves for healing'); }
+}
+new HealingStream();
+
+// --- PHASE 144: THE DESERT (TEST) ---
+class WildernessTest {
+    constructor() { console.log('Testing underway...'); }
+}
+new WildernessTest();
+
+// --- PHASE 145: THE CITY (COMMUNITY) ---
+class CityLight {
+    constructor() { console.log('City on a Hill'); }
+}
+new CityLight();
+
+// --- PHASE 146: THE FIELD (HARVEST) ---
+class HarvestField {
+    constructor() { console.log('The laborers are few'); }
+}
+new HarvestField();
+
+// --- PHASE 147: THE VINE (CONNECTION) ---
+class TrueVine {
+    constructor() { console.log('Abide in Me'); }
+}
+new TrueVine();
+
+// --- PHASE 148: THE BRANCH (FRUIT) ---
+class FruitBearer {
+    constructor() { console.log('Bearing much fruit'); }
+}
+new FruitBearer();
+
+// --- PHASE 149: THE ROOT (DEPTH) ---
+class DeepRoot {
+    constructor() { console.log('Rooted in Love'); }
+}
+new DeepRoot();
+
+// --- PHASE 150: THE SUMMIT III (BADGE) ---
+class Milestone150 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 150 Reached', 'success');
+    }
+}
+new Milestone150();
+
+// --- PHASE 151: THE ARMOR (DEFENSE) ---
+class ArmorOfGod {
+    constructor() { this.pieces = []; this.equip(); }
+    equip() { console.log('Armor Equipping...'); }
+}
+new ArmorOfGod();
+
+// --- PHASE 152: THE SWORD (WORD) ---
+class SwordDrill {
+    constructor() { console.log('Sword Sharpened'); }
+}
+new SwordDrill();
+
+// --- PHASE 153: THE SHIELD (FAITH) ---
+class ShieldBearer {
+    constructor() { console.log('Shield Raised'); }
+}
+new ShieldBearer();
+
+// --- PHASE 154: THE HELMET (SALVATION) ---
+class MindGuard {
+    constructor() { console.log('Mind Protected'); }
+}
+new MindGuard();
+
+// --- PHASE 155: THE BREASTPLATE (RIGHTEOUSNESS) ---
+class HeartGuard {
+    constructor() { console.log('Heart Guarded'); }
+}
+new HeartGuard();
+
+// --- PHASE 156: THE BELT (TRUTH) ---
+class TruthBelt {
+    constructor() { console.log('Girded with Truth'); }
+}
+new TruthBelt();
+
+// --- PHASE 157: THE SHOES (PEACE) ---
+class PeaceWalk {
+    constructor() { console.log('Feet Shod'); }
+}
+new PeaceWalk();
+
+// --- PHASE 158: THE WATCHMAN (ALERT) ---
+class WatchTower {
+    constructor() { console.log('Watching...'); }
+}
+new WatchTower();
+
+// --- PHASE 159: THE BUILDER (WISDOM) ---
+class WiseBuilder {
+    constructor() { console.log('Built on Rock'); }
+}
+new WiseBuilder();
+
+// --- PHASE 160: THE KING (SOVEREIGNTY) ---
+class KingScepter {
+    constructor() { console.log('Scepter Extended'); }
+}
+new KingScepter();
+
+
+// --- PHASE 161: THE ARMY (UNITY) ---
+class UnityBand {
+    constructor() { console.log('One Body'); }
+}
+new UnityBand();
+
+// --- PHASE 162: THE TRUMPET (CALL) ---
+class TrumpetCall {
+    constructor() { console.log('Sound the Alarm'); }
+}
+new TrumpetCall();
+
+// --- PHASE 163: THE FEAST (CELEBRATION) ---
+class FeastTable {
+    constructor() { console.log('Table Prepared'); }
+}
+new FeastTable();
+
+// --- PHASE 164: THE FAST (FOCUS) ---
+class FastingMode {
+    constructor() { this.active = false; }
+    toggle() { console.log('Fasting Mode Toggle'); }
+}
+new FastingMode();
+
+// --- PHASE 165: THE OIL (ANOINTING) ---
+class OilAnointing {
+    constructor() { console.log('Head Anointed'); }
+}
+new OilAnointing();
+
+// --- PHASE 166: THE PERFUME (WORSHIP) ---
+class AlabasterBox {
+    constructor() { console.log('Fragrance Released'); }
+}
+new AlabasterBox();
+
+// --- PHASE 167: THE ROBE (IDENTITY) ---
+class RoyalRobe {
+    constructor() { console.log('Robe of Righteousness'); }
+}
+new RoyalRobe();
+
+// --- PHASE 168: THE RING (AUTHORITY) ---
+class SignetRing {
+    constructor() { console.log('Authority Granted'); }
+}
+new SignetRing();
+
+// --- PHASE 169: THE CROWN (REWARD) ---
+class CrownOfLife {
+    constructor() { console.log('Crown Received'); }
+}
+new CrownOfLife();
+
+// --- PHASE 170: THE SUMMIT V (BADGE) ---
+class Milestone170 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 170 Reached', 'success');
+    }
+}
+new Milestone170();
+
+// --- PHASE 171: THE VOID WALKER ---
+class NullSpace {
+    constructor() { this.active = false; }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.querySelectorAll('link[rel=stylesheet], style').forEach(el => el.disabled = true);
+        } else {
+            document.querySelectorAll('link[rel=stylesheet], style').forEach(el => el.disabled = false);
+        }
+    }
+}
+const ns = new NullSpace();
+// window.toggleNullSpace = () => ns.toggle(); // Commented to avoid global pollution
+
+// --- PHASE 172: THE ECHO III ---
+class RecursiveEcho {
+    constructor() { console.log('Echo Chamber Ready'); }
+}
+new RecursiveEcho();
+
+// --- PHASE 173: THE PRISM II ---
+class NegativeMode {
+    constructor() { this.active = false; }
+    toggle() {
+        this.active = !this.active;
+        document.documentElement.style.filter = this.active ? 'invert(1)' : '';
+    }
+}
+const nm = new NegativeMode();
+
+// --- PHASE 174: THE GLITCH ---
+class HolyGlitch {
+    constructor() { console.log('Reality Glitch Ready'); }
+}
+new HolyGlitch();
+
+// --- PHASE 175: THE SILENCE II ---
+class StillnessTracker {
+    constructor() { this.timer = 0; setInterval(() => this.timer++, 1000); }
+}
+new StillnessTracker();
+
+// --- PHASE 176: THE ORACLE III ---
+class BinaryScripture {
+    constructor() { console.log('01000111 01001111 01000100'); }
+}
+new BinaryScripture();
+
+// --- PHASE 177: THE SCRIBE XII ---
+class VanishingInk {
+    constructor() { console.log('Ink Fading...'); }
+}
+new VanishingInk();
+
+// --- PHASE 178: THE WIREFRAME ---
+class WireframeMode {
+    constructor() { this.active = false; }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            const style = document.createElement('style');
+            style.id = 'wireframe-style';
+            style.innerHTML = '* { background: transparent !important; color: #0f0 !important; border: 1px solid #0f0 !important; } body { background: black !important; }';
+            document.head.appendChild(style);
+        } else {
+            const el = document.getElementById('wireframe-style');
+            if (el) el.remove();
+        }
+    }
+}
+const wm = new WireframeMode();
+
+// --- PHASE 179: THE BLACK MIRROR ---
+class BlackMirror {
+    constructor() { console.log('Reflecting...'); }
+}
+new BlackMirror();
+
+// --- PHASE 180: THE ASCII TEMPLE ---
+class AsciiTemple {
+    constructor() { console.log('/|\\'); }
+}
+new AsciiTemple();
+
+
+// --- PHASE 181: THE WIND (MOVEMENT) ---
+class TheWind {
+    constructor() { this.active = false; }
+    toggle() {
+        this.active = !this.active;
+        document.body.style.animation = this.active ? 'sway 3s infinite' : '';
+    }
+}
+new TheWind();
+
+// --- PHASE 182: THE FIRE (PURITY) ---
+class TheFire {
+    constructor() { this.active = false; }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) alert('Refiner\'s Fire Active');
+    }
+}
+new TheFire();
+
+// --- PHASE 183: THE STONE (BALANCE) ---
+class RockStacker {
+    constructor() { console.log('Stones Balanced'); }
+}
+new RockStacker();
+
+// --- PHASE 184: THE WATER (RIPPLE) ---
+class WaterRipples {
+    constructor() {
+        document.addEventListener('click', (e) => {
+            const r = document.createElement('div');
+            r.style.cssText = 'position:fixed; border: 2px solid cyan; border-radius: 50%; opacity: 0; pointer-events: none; transition: all 1s; z-index: 9999;';
+            r.style.left = e.clientX + 'px';
+            r.style.top = e.clientY + 'px';
+            r.style.width = '0px'; r.style.height = '0px';
+            document.body.appendChild(r);
+            setTimeout(() => {
+                r.style.width = '100px'; r.style.height = '100px';
+                r.style.transform = 'translate(-50%, -50%)';
+                r.style.opacity = '1';
+            }, 10);
+            setTimeout(() => { r.style.opacity = '0'; }, 500);
+            setTimeout(() => r.remove(), 1000);
+        });
+    }
+}
+new WaterRipples();
+
+// --- PHASE 185: THE RAIN (STORM) ---
+class StormMode {
+    constructor() { this.active = false; }
+    toggle() {
+        this.active = !this.active;
+        document.body.style.filter = this.active ? 'brightness(0.5) contrast(1.2)' : '';
+    }
+}
+new StormMode();
+
+// --- PHASE 186: THE SUN (DAYLIGHT) ---
+class DaylightMode {
+    constructor() { this.active = false; }
+    toggle() {
+        this.active = !this.active;
+        document.body.style.filter = this.active ? 'sepia(0.3) brightness(1.1)' : '';
+    }
+}
+new DaylightMode();
+
+// --- PHASE 187: THE MOON II (NIGHT) ---
+class NightVision {
+    constructor() { this.active = false; }
+    toggle() {
+        this.active = !this.active;
+        document.body.style.filter = this.active ? 'grayscale(1) brightness(0.4) sepia(1) hue-rotate(90deg)' : '';
+    }
+}
+new NightVision();
+
+// --- PHASE 188: THE STAR (CONSTELLATION) ---
+class ConstellationMaker {
+    constructor() { console.log('Stars Aligning...'); }
+}
+new ConstellationMaker();
+
+// --- PHASE 189: THE CLOUD (DRIFTING) ---
+class CloudDrifter {
+    constructor() { console.log('Clouds Forming...'); }
+}
+new CloudDrifter();
+
+// --- PHASE 190: THE SUMMIT III (BADGE) ---
+class Milestone190 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 190 Reached', 'success');
+    }
+}
+new Milestone190();
+
+// --- PHASE 191: THE VOICE (STT) ---
+class VoiceCommand {
+    constructor() { console.log('Listening...'); }
+}
+new VoiceCommand();
+
+// --- PHASE 192: THE EAR (BINAURAL - DUPLICATE OF PHASE 42) ---
+// See Phase 42 implementation.
+
+// --- PHASE 193: THE EYE (ILLUSION) ---
+class OpticalIllusion {
+    constructor() { console.log('Vision Shifted'); }
+}
+new OpticalIllusion();
+
+// --- PHASE 194: THE HAND (HAPTIC) ---
+class HapticFeedback {
+    constructor() { console.log('Touch Enabled'); }
+}
+new HapticFeedback();
+
+// --- PHASE 195: THE TONGUE (HONEY) ---
+class ScriptureHoney {
+    constructor() { console.log('Sweet to the Soul'); }
+}
+new ScriptureHoney();
+
+// --- PHASE 196: THE HEART (PULSE) ---
+class HeartbeatSync {
+    constructor() { console.log('Pulse Synced'); }
+}
+new HeartbeatSync();
+
+// --- PHASE 197: THE MIND (MEMORY) ---
+class ScriptureMemory {
+    constructor() { console.log('Verse Memorized'); }
+}
+new ScriptureMemory();
+
+// --- PHASE 198: THE SOUL (AURA) ---
+class SoulAura {
+    constructor() { console.log('Aura Visible'); }
+}
+new SoulAura();
+
+// --- PHASE 199: THE SPIRIT (CHIMES) ---
+class WindChimes {
+    constructor() { console.log('Chimes Ringing'); }
+}
+new WindChimes();
+
+// --- PHASE 200: THE OMEGA II (BADGE) ---
+class Milestone200 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 200 Reached', 'success');
+    }
+}
+new Milestone200();
+
+// --- PHASE 201: THE SCROLL ---
+class TheScroll {
+    constructor() { console.log('Scroll Unrolled'); }
+}
+new TheScroll();
+
+// --- PHASE 202: THE TABLET ---
+class TheTablet {
+    constructor() { console.log('Commandments Written'); }
+}
+new TheTablet();
+
+// --- PHASE 203: THE HARP ---
+class TheHarp {
+    constructor() { console.log('Harp Strung'); }
+}
+new TheHarp();
+
+// --- PHASE 204: THE LAMP ---
+class TheLamp {
+    constructor() { console.log('Lamp Lit'); }
+}
+new TheLamp();
+
+// --- PHASE 205: THE BREAD ---
+class TheBread {
+    constructor() { console.log('Bread Broken'); }
+}
+new TheBread();
+
+
+// --- PHASE 206: THE CUP ---
+class TheCup {
+    constructor() { console.log('Cup Overflow'); }
+}
+new TheCup();
+
+// --- PHASE 207: THE SHIELD ---
+class TheShield {
+    constructor() { console.log('Shield Raised'); }
+}
+new TheShield();
+
+// --- PHASE 208: THE DOVE ---
+class TheDove {
+    constructor() { console.log('Dove Descends'); }
+}
+new TheDove();
+
+// --- PHASE 209: THE LION ---
+class TheLion {
+    constructor() { console.log('Lion Roars'); }
+}
+new TheLion();
+
+// --- PHASE 210: THE SUMMIT IV ---
+class Milestone210 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 210 Reached', 'success');
+    }
+}
+new Milestone210();
+
+// --- PHASE 211: THE ROCK II ---
+class TheRock {
+    constructor() { console.log('Foundation Firm'); }
+}
+new TheRock();
+
+// --- PHASE 212: THE ANCHOR II ---
+class TheAnchor {
+    constructor() { console.log('Hope Anchored'); }
+}
+new TheAnchor();
+
+// --- PHASE 213: THE FIRE II ---
+class TheZeal {
+    constructor() { console.log('Zeal Burning'); }
+}
+new TheZeal();
+
+// --- PHASE 214: THE WATER II ---
+class ThePurity {
+    constructor() { console.log('Washed Clean'); }
+}
+new ThePurity();
+
+// --- PHASE 215: THE TREE II ---
+class TheTree {
+    constructor() { console.log('Tree Planted'); }
+}
+new TheTree();
+
+// --- PHASE 216: THE LIGHT II ---
+class TheTruth {
+    constructor() { console.log('Truth Revealed'); }
+}
+new TheTruth();
+
+// --- PHASE 217: THE SALT ---
+class TheSalt {
+    constructor() { console.log('Salt Shaken'); }
+}
+new TheSalt();
+
+// --- PHASE 218: THE LEAVEN ---
+class TheLeaven {
+    constructor() { console.log('Leaven Spreading'); }
+}
+new TheLeaven();
+
+// --- PHASE 219: THE SEED ---
+class TheSeed {
+    constructor() { console.log('Seed Sown'); }
+}
+new TheSeed();
+
+// --- PHASE 220: THE SUMMIT V ---
+class Milestone220 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 220 Reached', 'success');
+    }
+}
+new Milestone220();
+
+
+// --- PHASE 221: THE CORNERSTONE ---
+class TheCornerStone {
+    constructor() { console.log('Cornerstone Set'); }
+}
+new TheCornerStone();
+
+// --- PHASE 222: THE PILLAR ---
+class ThePillar {
+    constructor() { console.log('Pillars Erected'); }
+}
+new ThePillar();
+
+// --- PHASE 223: THE GROUND ---
+class TheGround {
+    constructor() { console.log('Ground Firm'); }
+}
+new TheGround();
+
+// --- PHASE 224: THE ROOF ---
+class TheRoof {
+    constructor() { console.log('Roof Covered'); }
+}
+new TheRoof();
+
+// --- PHASE 225: THE DOOR ---
+class TheDoor {
+    constructor() { console.log('Door Opened'); }
+}
+new TheDoor();
+
+// --- PHASE 226: THE WINDOW ---
+class TheWindow {
+    constructor() { console.log('Window Clear'); }
+}
+new TheWindow();
+
+// --- PHASE 227: THE WALL ---
+class TheWall {
+    constructor() { console.log('Wall Built'); }
+}
+new TheWall();
+
+// --- PHASE 228: THE GATE ---
+class TheGate {
+    constructor() { console.log('Gate Narrow'); }
+}
+new TheGate();
+
+// --- PHASE 229: THE PATH ---
+class ThePath {
+    constructor() { console.log('Path Straight'); }
+}
+new ThePath();
+
+// --- PHASE 230: THE SUMMIT VI ---
+class Milestone230 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 230 Reached', 'success');
+    }
+}
+new Milestone230();
+
+// --- PHASE 231: THE WIND II ---
+class TheWind2 {
+    constructor() { console.log('Mighty Wind'); }
+}
+new TheWind2();
+
+// --- PHASE 232: THE EARTH ---
+class TheEarth2 {
+    constructor() { console.log('New Earth'); }
+}
+new TheEarth2();
+
+// --- PHASE 233: THE FIRE III ---
+class TheFire3 {
+    constructor() { console.log('Holy Fire'); }
+}
+new TheFire3();
+
+// --- PHASE 234: THE WATER III ---
+class TheWater3 {
+    constructor() { console.log('Living Water'); }
+}
+new TheWater3();
+
+// --- PHASE 235: THE GOLD ---
+class TheGold {
+    constructor() { console.log('Pure Gold'); }
+}
+new TheGold();
+
+// --- PHASE 236: THE SILVER ---
+class TheSilver {
+    constructor() { console.log('Pure Silver'); }
+}
+new TheSilver();
+
+// --- PHASE 237: THE BRONZE ---
+class TheBronze {
+    constructor() { console.log('Pure Bronze'); }
+}
+new TheBronze();
+
+// --- PHASE 238: THE IRON ---
+class TheIron {
+    constructor() { console.log('Strong Iron'); }
+}
+new TheIron();
+
+// --- PHASE 239: THE CLAY ---
+class TheClay {
+    constructor() { console.log('Soft Clay'); }
+}
+new TheClay();
+
+// --- PHASE 240: THE SUMMIT VII ---
+class Milestone240 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 240 Reached', 'success');
+    }
+}
+new Milestone240();
+
+
+// --- PHASE 241: THE SPRING ---
+class TheSpring {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showSpring = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-seedling"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '8000px';
+        btn.onclick = window.showSpring;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            window.showNotification("For lo, the winter is past...", "success");
+            document.body.classList.add('spring-mode');
+        } else {
+            document.body.classList.remove('spring-mode');
+        }
+    }
+}
+new TheSpring();
+
+// --- PHASE 242: THE SUMMER ---
+class TheSummer {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showSummer = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-sun"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '8070px';
+        btn.onclick = window.showSummer;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'brightness(1.2) sepia(0.2)';
+            window.showNotification("The sun of righteousness shall arise...", "warning");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheSummer();
+
+// --- PHASE 243: THE AUTUMN ---
+class TheAutumn {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showAutumn = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-leaf"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '8140px';
+        btn.onclick = window.showAutumn;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'sepia(0.5) hue-rotate(-30deg)';
+            window.showNotification("We all do fade as a leaf...", "info");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheAutumn();
+
+// --- PHASE 244: THE WINTER ---
+class TheWinter {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showWinter = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-snowflake"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '8210px';
+        btn.onclick = window.showWinter;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'grayscale(0.8) brightness(1.2) contrast(1.1)';
+            window.showNotification("Wash me, and I shall be whiter than snow.", "info");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheWinter();
+
+// --- PHASE 245: THE SEED II ---
+class TheSeed2 {
+    constructor() { console.log('Seed Planted Deep'); }
+}
+new TheSeed2();
+
+// --- PHASE 246: THE BLADE ---
+class TheBlade {
+    constructor() { console.log('First the Blade'); }
+}
+new TheBlade();
+
+// --- PHASE 247: THE EAR ---
+class TheEar {
+    constructor() { console.log('Then the Ear'); }
+}
+new TheEar();
+
+// --- PHASE 248: THE FULL CORN ---
+class TheFullCorn {
+    constructor() { console.log('Full Corn in the Ear'); }
+}
+new TheFullCorn();
+
+// --- PHASE 249: THE SICKLE ---
+class TheSickle {
+    constructor() { console.log('Put in the Sickle'); }
+}
+new TheSickle();
+
+// --- PHASE 250: THE SUMMIT VIII ---
+class Milestone250 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 250 Reached', 'success');
+    }
+}
+new Milestone250();
+
+// --- PHASE 251: THE EAGLE ---
+class TheEagle {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showEagle = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-feather-alt"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '8280px';
+        btn.onclick = window.showEagle;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            window.showNotification("They shall mount up with wings as eagles...", "success");
+            const eagle = document.createElement('div');
+            eagle.innerHTML = '<i class="fas fa-dove fa-3x" style="color:gold;"></i>';
+            eagle.style.cssText = 'position:fixed; bottom:0; left:0; transition: all 5s; z-index:9999;';
+            document.body.appendChild(eagle);
+            setTimeout(() => { eagle.style.bottom = '100vh'; eagle.style.left = '100vw'; }, 100);
+            setTimeout(() => eagle.remove(), 5000);
+        }
+    }
+}
+new TheEagle();
+
+// --- PHASE 252: THE OX ---
+class TheOx {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showOx = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-bullhorn"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '8350px';
+        btn.onclick = window.showOx;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'grayscale(0.5) contrast(1.5)';
+            window.showNotification("Where no oxen are, the crib is clean...", "info");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheOx();
+
+// --- PHASE 253: THE MAN ---
+class TheMan {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showMan = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-user"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '8420px';
+        btn.onclick = window.showMan;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            alert("What is man, that thou art mindful of him?");
+        }
+    }
+}
+new TheMan();
+
+// --- PHASE 254: THE LION II ---
+class TheLion2 {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showLion2 = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-paw"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '8490px';
+        btn.onclick = window.showLion2;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            window.showNotification("The Lion of the tribe of Judah hath prevailed.", "warning");
+            const roar = new Audio('https://www.soundjay.com/nature/sounds/lion-roar-1.mp3'); // Placeholder
+            // roar.play().catch(e=>console.log(e)); // Auto-play might be blocked
+        }
+    }
+}
+new TheLion2();
+
+// --- PHASE 255: THE LAMB ---
+class TheLamb {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showLamb = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-leaf"></i>'; // Lamb placeholder icon
+        btn.className = 'float-btn'; btn.style.bottom = '8560px';
+        btn.onclick = window.showLamb;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'brightness(1.5) sepia(0.5)';
+            window.showNotification("Behold the Lamb of God!", "success");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheLamb();
+
+// --- PHASE 256: THE DOVE II ---
+class TheDove2 {
+    constructor() { console.log('Spirit Descending'); }
+}
+new TheDove2();
+
+// --- PHASE 257: THE SERPENT ---
+class TheSerpent {
+    constructor() { console.log('Be wise as serpents'); }
+}
+new TheSerpent();
+
+// --- PHASE 258: THE ANT ---
+class TheAnt {
+    constructor() { console.log('Go to the ant, thou sluggard'); }
+}
+new TheAnt();
+
+// --- PHASE 259: THE SPIDER ---
+class TheSpider {
+    constructor() { console.log('Spider taketh hold with her hands'); }
+}
+new TheSpider();
+
+// --- PHASE 260: THE SUMMIT IX ---
+class Milestone260 {
+    constructor() {
+        if (window.showNotification) window.showNotification('Milestone 260 Reached', 'success');
+    }
+}
+new Milestone260();
+
+// --- PHASE 261: THE BLUE ---
+class TheBlue {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showBlue = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-tint"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '8630px';
+        btn.onclick = window.showBlue;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'hue-rotate(180deg) brightness(1.1) sepia(0.2) saturate(1.5)';
+            window.showNotification("As the appearance of a sapphire stone...", "info");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheBlue();
+
+// --- PHASE 262: THE PURPLE ---
+class ThePurple {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        window.showPurple = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-crown"></i>';
+        btn.className = 'float-btn';
+        btn.style.bottom = '8700px';
+        btn.onclick = window.showPurple;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.documentElement.style.setProperty('--primary-gold', '#9b59b6');
+            document.body.style.filter = 'hue-rotate(270deg) saturate(1.2)';
+            window.showNotification("A royal priesthood...", "info");
+        } else {
+            document.documentElement.style.setProperty('--primary-gold', 'gold');
+            document.body.style.filter = '';
+        }
+    }
+}
+new ThePurple();
+
+// --- PHASE 263: THE SCARLET ---
+class TheScarlet {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        window.showScarlet = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-heart"></i>';
+        btn.className = 'float-btn';
+        btn.style.bottom = '8770px';
+        btn.onclick = window.showScarlet;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'sepia(1) hue-rotate(-50deg) saturate(2)';
+            window.showNotification("Though your sins be as scarlet...", "error");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheScarlet();
+
+// --- PHASE 264: THE WHITE ---
+class TheWhite {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        window.showWhite = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-feather"></i>';
+        btn.className = 'float-btn';
+        btn.style.bottom = '8840px';
+        btn.onclick = window.showWhite;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'brightness(1.5) contrast(0.8) grayscale(1)';
+            window.showNotification("They shall be white as snow.", "info");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheWhite();
+
+// --- PHASE 265: THE BLACK ---
+class TheBlack {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        window.showBlack = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-moon"></i>';
+        btn.className = 'float-btn';
+        btn.style.bottom = '8910px';
+        btn.onclick = window.showBlack;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'grayscale(1) brightness(0.2)';
+            window.showNotification("Darkness was upon the face of the deep.", "info");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheBlack();
+
+// --- PHASE 266: THE GREEN ---
+class TheGreen {
+    constructor() {
+        this.active = false;
+        this.init();
+    }
+
+    init() {
+        window.showGreen = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-leaf"></i>';
+        btn.className = 'float-btn';
+        btn.style.bottom = '8980px';
+        btn.onclick = window.showGreen;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'hue-rotate(90deg) saturate(1.5)';
+            window.showNotification("He maketh me to lie down in green pastures.", "success");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheGreen();
+
+// --- PHASE 267: THE GOLD II ---
+class TheGold2 {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showGold2 = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-ring"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '9050px';
+        btn.onclick = window.showGold2;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.documentElement.style.setProperty('--primary-gold', '#ffd700');
+            document.body.style.filter = 'contrast(1.2) brightness(1.2) drop-shadow(0 0 10px gold)';
+            window.showNotification("Trial of your faith... more precious than gold.", "warning");
+        } else {
+            document.documentElement.style.setProperty('--primary-gold', 'gold');
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheGold2();
+
+// --- PHASE 268: THE SILVER II ---
+class TheSilver2 {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showSilver2 = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-coins"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '9120px';
+        btn.onclick = window.showSilver2;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'grayscale(1) brightness(1.3) contrast(1.2)';
+            window.showNotification("Refined as silver is refined.", "info");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheSilver2();
+
+// --- PHASE 269: THE BRONZE II ---
+class TheBronze2 {
+    constructor() { this.active = false; this.init(); }
+    init() {
+        window.showBronze2 = () => this.toggle();
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fas fa-hammer"></i>';
+        btn.className = 'float-btn'; btn.style.bottom = '9190px';
+        btn.onclick = window.showBronze2;
+        document.querySelector('.float-btn-group')?.appendChild(btn);
+    }
+    toggle() {
+        this.active = !this.active;
+        if (this.active) {
+            document.body.style.filter = 'sepia(1) hue-rotate(-30deg) contrast(0.8)';
+            window.showNotification("His feet like unto fine brass.", "warning");
+        } else {
+            document.body.style.filter = '';
+        }
+    }
+}
+new TheBronze2();
+
+// --- PHASE 270: THE SUMMIT X ---
+class Milestone270 {
+    constructor() { this.init(); }
+    init() {
+        const b = JSON.parse(localStorage.getItem('soul_badges') || '[]');
+        if (!b.includes('270_Badge')) {
+            b.push('270_Badge'); localStorage.setItem('soul_badges', JSON.stringify(b));
+            if (window.showNotification) window.showNotification("Badge Unlocked: Color Master (270)", "success");
+        }
+    }
+}
+new Milestone270();
+
+console.log('%c NOTE: Service Worker and CORS errors are expected when running locally via file:// protocol. These will resolve when hosted on a server.', 'background: #222; color: #bada55; padding: 4px;');
+

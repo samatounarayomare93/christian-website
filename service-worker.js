@@ -1,19 +1,18 @@
-const CACHE_NAME = 'soul-guidance-v1';
+const CACHE_NAME = 'soul-guidance-v2';
 const ASSETS_TO_CACHE = [
-    '/',
-    '/index.html',
-    '/emergency-kit.html',
-    '/styles.css',
-    '/theme.css',
-    '/script.js',
-    '/prayer-book-script.js',
-    '/prayer-library.js',
-    '/prayer-scheduler.js',
-    '/assets/images/favicon.svg',
-    '/assets/audio/chant_loop.mp3', // Pre-cache existing
+    './',
+    './index.html',
+    './script.js',
+    './prayer-book-script.js',
+    './prayer-library.js',
+    './prayer-scheduler.js',
+    './assets/js/bible_data.js',
+    './assets/js/bible_engine.js',
+    './yellow-killer.css',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
     'https://unpkg.com/aos@2.3.1/dist/aos.css',
-    'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'
+    'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'
 ];
 
 // Install Event
