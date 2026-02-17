@@ -1,0 +1,48 @@
+{
+  "name": "soul-guidance",
+  "version": "2.0.0",
+  "description": "A comprehensive spiritual platform for guidance and prayer - منصة روحية شاملة للإرشاد والصلاة",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=3000 --open=index.html",
+    "build": "npm run minify:js && npm run minify:css",
+    "minify:js": "terser script.js -o script.min.js --compress --mangle",
+    "minify:css": "cleancss -o styles.min.css styles.css theme.css",
+    "lint": "eslint script.js",
+    "format": "prettier --write \"**/*.{js,css,html,md}\"",
+    "test": "echo \"No tests yet\" && exit 0",
+    "clean": "powershell -ExecutionPolicy Bypass -File CLEANUP_SCRIPT.ps1"
+  },
+  "keywords": [
+    "spiritual",
+    "prayer",
+    "christian",
+    "guidance",
+    "pwa",
+    "offline",
+    "bilingual",
+    "arabic",
+    "english"
+  ],
+  "author": "Soul Guidance Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/soul-guidance.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/soul-guidance/issues"
+  },
+  "homepage": "https://soulguidance.com",
+  "devDependencies": {
+    "clean-css-cli": "^5.6.2",
+    "eslint": "^8.50.0",
+    "live-server": "^1.2.2",
+    "prettier": "^3.0.3",
+    "terser": "^5.20.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
